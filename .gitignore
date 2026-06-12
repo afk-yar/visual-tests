@@ -10,3 +10,8 @@ Desktop.ini
 # Logs / temp
 *.log
 *.tmp
+
+# Playwright MCP scratch output (скриншоты, снапшоты, логи консоли)
+.playwright-mcp/
+# Скриншоты Playwright, упавшие в корень рабочей папки
+/*.png
