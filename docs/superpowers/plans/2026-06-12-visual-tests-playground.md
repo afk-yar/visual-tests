@@ -440,7 +440,11 @@ body {
 2. `browser_console_messages` → ошибок быть не должно (favicon 404 — допустимо).
 3. `browser_take_screenshot` (filename `.playwright-mcp/dp-1.png`) — виден двухзвенный маятник: пивот сверху по центру, два стержня, два груза.
 4. `browser_wait_for` ~1.5 c, затем `browser_take_screenshot` (`.playwright-mcp/dp-2.png`).
-Expected: на втором кадре поза маятника изменилась и появился бирюзовый след нижнего груза — анимация идёт.
+5. **Проверка `file://` — ЖЁСТКИЙ критерий** (standalone демка должна открываться двойным кликом):
+   - Сначала пробуем `browser_navigate` → `file:///E:/_Проекты/pet/visual-tests/demos/double-pendulum/opus-4.8/index.html`; если Playwright блокирует `file://` — fallback на `Start-Process`.
+   - Fallback: `powershell -NoProfile -Command "Start-Process 'file:///E:/_Проекты/pet/visual-tests/demos/double-pendulum/opus-4.8/index.html'"` + визуальное подтверждение: маятник анимируется, кнопки/ползунки работают, ошибок нет. (Прямая страница, sandbox ни при чём — проверяем, что `pendulum.js`/`app.js` грузятся обычными `<script>` на `file://`.)
+   - Если не работает — СТОП и эскалация (как в Task 3 Step 8 п. 5), не молчаливый даунгрейд.
+Expected: на сервере анимация идёт (второй кадр отличается, есть след); на `file://` standalone демка тоже работает. Провал `file://` = СТОП.
 
 - [ ] **Step 5: Коммит**
 
@@ -558,9 +562,12 @@ Expected: FAIL — `Cannot find module './shell.js'`.
     if (!sel) return;
     for (const s of sel.task.solutions) {
       const seg = document.createElement('a');
-      seg.className = 'segment' + (s.slug === sel.solution.slug ? ' active' : '');
+      const isActive = s.slug === sel.solution.slug;
+      seg.className = 'segment' + (isActive ? ' active' : '');
       seg.href = '#' + sel.task.id + '/' + s.slug;
       seg.textContent = s.model;
+      seg.setAttribute('role', 'tab');
+      seg.setAttribute('aria-selected', isActive ? 'true' : 'false');
       switchEl.appendChild(seg);
     }
     frameEl.src = sel.solution.dir + 'index.html';
@@ -614,7 +621,13 @@ window.TASKS = [
 }
 ```
 
-2. В правиле `.prompt-panel summary` оставить `cursor: default;` как в эталоне — но добавить интерактивность спойлеру не требуется (нативный `<details>` уже работает); правку не делаем. (Пункт-напоминание: класс-имена в `shell.js` уже совпадают с эталоном — `task-link/task-name/task-tags/active`, `segments/segment/active`, `model-toolbar/model-label`, `viewer/iframe-chrome/frame-label`, `prompt-panel`.)
+2. Добавить правило, чтобы сегменты-ссылки (`<a class="segment">`) не были подчёркнуты — иначе вид разойдётся с эталоном, где сегменты были `<div>`:
+
+```css
+.segment { text-decoration: none; }
+```
+
+(Пункт-напоминание: класс-имена в `shell.js` уже совпадают с эталоном — `task-link/task-name/task-tags/active`, `segments/segment/active`, `model-toolbar/model-label`, `viewer/iframe-chrome/frame-label`, `prompt-panel`. У `.task-link` в эталоне уже есть `text-decoration: none`, у `.segment` — нет, поэтому правка нужна только для сегментов.)
 
 - [ ] **Step 7: Создать оболочку `index.html`**
 
@@ -652,7 +665,7 @@ window.TASKS = [
           <span class="chrome-dot"></span>
         </div>
         <div class="frame-label" id="frame-label"></div>
-        <iframe class="frame" id="stage" title="Решение модели"></iframe>
+        <iframe class="frame" id="stage" title="Решение модели" sandbox="allow-scripts"></iframe>
       </section>
       <details class="prompt-panel" id="prompt-box" open>
         <summary>Промпт задачи</summary>
@@ -666,14 +679,21 @@ window.TASKS = [
 </html>
 ```
 
+Примечание по `sandbox="allow-scripts"`: даёт iframe-демке исполнять скрипты (canvas, requestAnimationFrame, inline `<script>`), но кладёт её в opaque-origin — она НЕ может читать/менять DOM оболочки, навигировать top-фрейм или трогать storage. `allow-same-origin` намеренно НЕ добавляем (оболочке не нужно заглядывать внутрь iframe). Это усиливает заявленную изоляцию для LLM-сгенерированного кода.
+
 - [ ] **Step 8: Проверить оболочку через Playwright MCP**
 
 1. `browser_navigate` → `http://localhost:8000/index.html`
 2. `browser_console_messages` → без ошибок (favicon — допустимо).
 3. `browser_take_screenshot` (`.playwright-mcp/shell-1.png`): слева пункт «Двойной маятник» активен; вверху сегмент «Claude Opus 4.8» активен; в области просмотра внутри iframe крутится маятник; снизу спойлер с текстом промпта. Сверить вид с эталоном `mockup-shell.html`.
 4. `browser_navigate` → `http://localhost:8000/index.html#double-pendulum/opus-4.8` — состояние то же (дип-линк работает).
+5. **Проверка режима `file://` — ЖЁСТКИЙ критерий приёмки** (спека требует «работает в обоих режимах», CLAUDE.md/README обещают двойной клик):
+   - Сначала пробуем инструментом: `browser_navigate` → `file:///E:/_Проекты/pet/visual-tests/index.html`. В сессии планирования Playwright MCP вернул «Access to file: protocol is blocked» — если так же, переходим к fallback; если инструмент открыл — снимаем console/скриншот как в пп. 2–3.
+   - Fallback: `powershell -NoProfile -Command "Start-Process 'file:///E:/_Проекты/pet/visual-tests/index.html'"` + визуальное подтверждение: сайдбар заполнен, в iframe анимируется маятник, промпт виден, дип-линк `#double-pendulum/opus-4.8` работает.
+   - Проверенное допущение (источник): `sandbox="allow-scripts"` НЕ ломает `file://`. Opaque-origin отключает только storage / доступ-к-родителю / формы / модальные окна, но исполнение скриптов (внешних `<script>` и inline) разрешено. MDN «iframe» + web.dev «Play safely in sandboxed IFrames» (https://web.dev/articles/sandboxed-iframes): «allow-scripts allows JavaScript execution». Демка использует только canvas / rAF / DOM-внутри-себя — всё работает в sandbox.
+   - **Если `file://` всё же не работает** (например, браузер блокирует сам `file://`-фрейминг — это уже НЕ про sandbox): НЕ понижать требование молча. Остановиться и эскалировать пользователю как решение по спеке — либо менять реализацию, либо осознанно править утверждённую спеку + `CLAUDE.md` + `README.md` (убрать обещание двойного клика, сделать сервер основным режимом). Спекой владеет пользователь.
 
-Expected: визуально совпадает с эталоном, в iframe — живая демка, промпт виден.
+Expected: `file://` проходит — оболочка на `file://` работает так же, как на сервере (сайдбар, живой iframe, промпт, дип-линк). Провал `file://` = СТОП и эскалация, а не «ок, задокументировали».
 
 - [ ] **Step 9: Коммит**
 
@@ -738,7 +758,7 @@ Node используется только как dev-time раннер тест
 
 `README.md`:
 
-```markdown
+````markdown
 # visual-tests
 
 Полигон для сравнения визуальных решений разных LLM. Слева — список задач,
@@ -764,7 +784,7 @@ python -m http.server 8000
 ## Тесты
 - `node demos/double-pendulum/opus-4.8/pendulum.test.js`
 - `node assets/shell.test.js`
-```
+````
 
 - [ ] **Step 3: Коммит**
 
@@ -798,5 +818,4 @@ git -C "E:/_Проекты/pet/visual-tests" push
   `resolveActiveSelection→{task,solution}|null`, `window.Pendulum`,
   `window.TASKS` — имена совпадают во всех задачах. Класс-имена разметки
   `shell.js` совпадают с CSS-эталоном.
-```
 
