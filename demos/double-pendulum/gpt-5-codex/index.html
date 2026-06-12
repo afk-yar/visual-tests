@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Double Pendulum</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <main class="app" aria-label="Double pendulum simulation">
+    <canvas id="pendulumCanvas"></canvas>
+
+    <section class="panel" aria-label="Simulation controls">
+      <div class="panel-head">
+        <div>
+          <h1>Double pendulum</h1>
+          <p id="stateText">running</p>
+        </div>
+        <div class="time-readout" id="timeReadout">0.00 s</div>
+      </div>
+
+      <div class="actions">
+        <button id="toggleButton" type="button">Pause</button>
+        <button id="resetButton" type="button">Reset</button>
+        <label class="switch">
+          <input id="ghostToggle" type="checkbox" checked>
+          <span>Ghost</span>
+        </label>
+      </div>
+
+      <div class="control-grid">
+        <label>
+          <span>Mass 1 <output id="m1Value">1.0 kg</output></span>
+          <input id="m1" type="range" min="0.5" max="5" value="1.4" step="0.1">
+        </label>
+
+        <label>
+          <span>Mass 2 <output id="m2Value">1.0 kg</output></span>
+          <input id="m2" type="range" min="0.5" max="5" value="1.0" step="0.1">
+        </label>
+
+        <label>
+          <span>Length 1 <output id="l1Value">1.0 m</output></span>
+          <input id="l1" type="range" min="0.45" max="1.7" value="1.05" step="0.01">
+        </label>
+
+        <label>
+          <span>Length 2 <output id="l2Value">1.0 m</output></span>
+          <input id="l2" type="range" min="0.45" max="1.7" value="1.00" step="0.01">
+        </label>
+      </div>
+
+      <div class="meters">
+        <div>
+          <span>Delta</span>
+          <strong id="deltaReadout">0.0000 rad</strong>
+        </div>
+        <div>
+          <span>Step</span>
+          <strong>RK4 @ 240 Hz</strong>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
