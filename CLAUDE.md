@@ -21,10 +21,24 @@ Node используется только как dev-time раннер тест
   глобал, в node экспортируют через `module.exports` (см. `pendulum.js`,
   `assets/shell.js`).
 
-## Как смотреть
-- Двойной клик по `index.html` (`file://`), либо
-- `python -m http.server 8000` → `http://localhost:8000/index.html`
-  (сервер нужен для Playwright-проверок).
+## Как смотреть (основной режим — локальный сервер)
+- **Основной режим — локальный сервер.** Двойной клик по `start.cmd` (поднимает
+  `python -m http.server 8473` и открывает `http://localhost:8473/index.html`),
+  либо вручную: `python -m http.server 8473` → `http://localhost:8473/index.html`.
+- **Почему сервер, а не `file://`:** оболочка грузит решение в
+  `<iframe sandbox="allow-scripts">` (изоляция LLM-кода). На `file://` sandbox
+  даёт документу opaque-origin, и браузер блокирует загрузку `file://`-субресурсов
+  (CSS/JS) внутри iframe — встроенная демка не отрисовывается. На `http://` всё
+  работает. Отдельную демку (`demos/<task>/<model>/index.html`) можно открыть и
+  напрямую двойным кликом через `file://` — там iframe/sandbox не участвует.
+- Сервер также нужен для автономной проверки через Playwright MCP (он блокирует
+  `file://`).
+
+## Проверка визуальных результатов (правило для агента)
+Любой визуальный результат проверяй **сам** через локальный сервер + Playwright MCP
+(`browser_navigate` на `http://localhost:8473/...`, `browser_take_screenshot`,
+`browser_console_messages`). НЕ полагайся на `file://` (Playwright его блокирует) и
+НЕ перекладывай визуальную проверку на пользователя как основной способ.
 
 ## Как тестировать
 - Чистая логика: `node demos/<task>/<model>/*.test.js`, `node assets/shell.test.js`.
