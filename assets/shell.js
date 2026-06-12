@@ -47,7 +47,7 @@
     }
 
     switchEl.innerHTML = '';
-    if (!sel) return;
+    if (!sel || !sel.solution) return;
     for (const s of sel.task.solutions) {
       const seg = document.createElement('a');
       const isActive = s.slug === sel.solution.slug;
