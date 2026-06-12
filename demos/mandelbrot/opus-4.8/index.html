@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Множество Мандельброта — Opus 4.8</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <canvas id="stage"></canvas>
+
+    <div class="hud">
+      <div class="row"><span class="k">Зум</span><span class="v" id="hudZoom">1.00×</span></div>
+      <div class="row"><span class="k">Re (центр)</span><span class="v mono" id="hudRe">—</span></div>
+      <div class="row"><span class="k">Im (центр)</span><span class="v mono" id="hudIm">—</span></div>
+      <div class="row"><span class="k">Итераций</span><span class="v" id="hudIter">—</span></div>
+      <div class="row"><span class="k">Курсор</span><span class="v mono" id="hudCursor">—</span></div>
+    </div>
+
+    <div class="panel">
+      <div class="group">
+        <button id="reset" type="button">Сброс вида</button>
+      </div>
+      <label>Палитра
+        <select id="palette">
+          <option value="electric">Electric</option>
+          <option value="fire">Fire</option>
+        </select>
+      </label>
+      <label>Качество
+        <select id="quality">
+          <option value="0.5">Черновик</option>
+          <option value="0.75">Норма</option>
+          <option value="1" selected>Высокое</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="hint">Колесо — зум к курсору · перетаскивание — панорама · двойной клик — приблизить</div>
+    <div class="progress" id="progress"></div>
+  </div>
+
+  <script src="mandelbrot.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

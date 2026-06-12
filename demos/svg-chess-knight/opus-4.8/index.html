@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Шахматный конь — Claude Opus 4.8</title>
+<style>
+  :root { color-scheme: dark; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: #0f1115;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  /* Ambient stage: soft cool vignette around the figure */
+  .stage {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(120% 90% at 50% 38%, #1a1e29 0%, #14171f 42%, #0f1115 72%, #0b0d11 100%);
+  }
+  /* Pedestal glow under the knight */
+  .stage::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 14%;
+    width: 46vmin;
+    height: 9vmin;
+    transform: translateX(-50%);
+    background: radial-gradient(closest-side, rgba(120,170,255,0.16), rgba(120,170,255,0) 75%);
+    filter: blur(2px);
+    pointer-events: none;
+  }
+  .knight {
+    width: min(78vmin, 760px);
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 26px 34px rgba(0,0,0,0.55));
+    /* very subtle idle float — alive, not gimmicky */
+    animation: float 7.5s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-1.1%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .knight { animation: none; }
+  }
+  .sig {
+    position: absolute;
+    left: 50%;
+    bottom: 4.5%;
+    transform: translateX(-50%);
+    font-size: clamp(10px, 1.5vmin, 14px);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #5c6b86;
+    user-select: none;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <!--
+      Chess Knight — heraldic silhouette, facing left.
+      Pure cubic/quadratic Bézier paths. Coordinate frame 0..600 x 0..640.
+    -->
+    <svg class="knight" viewBox="0 0 600 640" role="img"
+         aria-label="Шахматный конь, векторный силуэт" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Body volume: light from upper-left -->
+        <linearGradient id="bodyGrad" x1="0.12" y1="0.05" x2="0.86" y2="0.98">
+          <stop offset="0"    stop-color="#f3f6fb"/>
+          <stop offset="0.34" stop-color="#dbe2ee"/>
+          <stop offset="0.62" stop-color="#aeb9cd"/>
+          <stop offset="0.84" stop-color="#7d8aa3"/>
+          <stop offset="1"    stop-color="#5d6a83"/>
+        </linearGradient>
+
+        <!-- Rim sheen along the back / forehead -->
+        <linearGradient id="rimGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"   stop-color="#ffffff" stop-opacity="0.9"/>
+          <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.12"/>
+          <stop offset="1"   stop-color="#ffffff" stop-opacity="0"/>
+        </linearGradient>
+
+        <!-- Mane darker, cooler -->
+        <linearGradient id="maneGrad" x1="0.2" y1="0" x2="0.9" y2="1">
+          <stop offset="0"   stop-color="#9aa6be"/>
+          <stop offset="0.5" stop-color="#6f7c97"/>
+          <stop offset="1"   stop-color="#4a566e"/>
+        </linearGradient>
+
+        <!-- Base / plinth -->
+        <linearGradient id="baseGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"   stop-color="#c2cbdc"/>
+          <stop offset="0.5" stop-color="#9099ad"/>
+          <stop offset="1"   stop-color="#5a6378"/>
+        </linearGradient>
+
+        <!-- Eye -->
+        <radialGradient id="eyeGrad" cx="0.38" cy="0.34" r="0.75">
+          <stop offset="0"   stop-color="#3a4254"/>
+          <stop offset="0.55" stop-color="#1c2230"/>
+          <stop offset="1"   stop-color="#0c0f17"/>
+        </radialGradient>
+
+        <!-- Soft inner contact shadow under the jaw -->
+        <radialGradient id="jawShade" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0"   stop-color="#3c4458" stop-opacity="0.55"/>
+          <stop offset="1"   stop-color="#3c4458" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- Subtle whole-figure top-light glaze -->
+        <linearGradient id="glaze" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"    stop-color="#ffffff" stop-opacity="0.16"/>
+          <stop offset="0.45" stop-color="#ffffff" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+
+      <!-- ============ PLINTH (the chess-piece base) ============ -->
+      <g>
+        <!-- base ellipse shadow on the ground -->
+        <ellipse cx="300" cy="598" rx="156" ry="20" fill="#000000" opacity="0.34"/>
+        <!-- lower wide ring -->
+        <path fill="url(#baseGrad)" d="
+          M 150 560
+          C 150 545, 217 534, 300 534
+          C 383 534, 450 545, 450 560
+          C 450 581, 383 596, 300 596
+          C 217 596, 150 581, 150 560 Z"/>
+        <!-- collar / fillet above the base -->
+        <path fill="#aab3c6" d="
+          M 178 528
+          C 178 518, 232 510, 300 510
+          C 368 510, 422 518, 422 528
+          C 422 540, 368 549, 300 549
+          C 232 549, 178 540, 178 528 Z"/>
+        <!-- top step the neck rises from -->
+        <path fill="#c8d0e0" d="
+          M 196 505
+          C 196 497, 243 491, 300 491
+          C 357 491, 404 497, 404 505
+          C 404 514, 357 521, 300 521
+          C 243 521, 196 514, 196 505 Z"/>
+        <!-- base top highlight -->
+        <path fill="url(#rimGrad)" opacity="0.5" d="
+          M 210 500
+          C 210 495, 250 491, 300 491
+          C 350 491, 390 495, 390 500
+          C 390 503, 350 506, 300 506
+          C 250 506, 210 503, 210 500 Z"/>
+      </g>
+
+      <!-- ============ KNIGHT BODY ============ -->
+      <!-- One continuous silhouette, horse head & arched neck facing LEFT.
+           Traversal (clockwise): neck base front-left -> up the front of the
+           throat -> under the jaw -> chin -> open mouth notch -> muzzle tip
+           -> up the nose/face -> forehead -> between the ears -> poll -> down
+           the crested back of the neck (mane side) -> neck base back-right. -->
+      <path id="silhouette" fill="url(#bodyGrad)" stroke="#37425c" stroke-width="3.5"
+            stroke-linejoin="round" d="
+        M 232 498
+        C 224 452, 222 405, 230 360
+        C 236 326, 248 295, 248 270
+        C 248 256, 244 246, 232 240
+        C 213 231, 192 228, 174 235
+        C 162 240, 152 244, 146 240
+        C 140 236, 142 226, 150 218
+        C 142 219, 134 217, 132 210
+        C 130 203, 137 196, 148 190
+        C 138 188, 132 182, 134 174
+        C 136 165, 148 158, 168 152
+        C 152 150, 144 142, 148 134
+        C 153 124, 170 117, 196 113
+        C 188 102, 188 90, 198 82
+        C 215 69, 232 59, 246 44
+        C 256 33, 261 20, 274 14
+        C 268 28, 272 42, 284 48
+        C 296 54, 312 50, 322 42
+        C 322 56, 318 70, 328 80
+        C 340 92, 358 96, 372 92
+        C 366 106, 366 122, 378 132
+        C 392 144, 410 148, 424 144
+        C 416 160, 412 178, 420 196
+        C 430 218, 446 238, 454 264
+        C 466 304, 470 348, 466 392
+        C 462 432, 452 470, 442 498
+        C 408 510, 372 514, 337 514
+        C 302 514, 266 510, 232 498 Z"/>
+
+      <!-- crested back-of-neck rim light (mane edge catching the light) -->
+      <path fill="none" stroke="url(#rimGrad)" stroke-width="6" stroke-linecap="round"
+            opacity="0.8" d="
+        M 322 44
+        C 320 64, 332 82, 350 92
+        C 360 110, 364 130, 374 148
+        C 388 168, 432 230, 446 300"/>
+
+      <!-- forehead / face-plane sheen (the lit left cheek of the face) -->
+      <path fill="url(#glaze)" opacity="0.85" d="
+        M 274 14
+        C 268 28, 272 42, 284 48
+        C 296 54, 312 50, 322 42
+        C 320 70, 300 92, 272 100
+        C 246 108, 218 108, 196 113
+        C 188 102, 188 90, 198 82
+        C 215 69, 232 59, 246 44
+        C 256 33, 261 20, 274 14 Z"/>
+
+      <!-- soft long highlight down the bridge of the nose -->
+      <path fill="none" stroke="#f4f8ff" stroke-width="14" stroke-linecap="round"
+            opacity="0.42" d="M 226 130 C 210 162, 196 196, 184 228"/>
+
+      <!-- ============ MANE ============ -->
+      <!-- A crest of flowing locks running down the back (right) edge of the
+           neck. Each lock is a clean flame shape; they overlap top-to-bottom
+           so the crest reads as continuous hair, not detached scallops. -->
+      <g stroke="#46526e" stroke-width="2" stroke-linejoin="round">
+        <path fill="url(#maneGrad)" d="
+          M 322 42
+          C 332 58, 339 76, 340 96
+          C 354 86, 372 90, 382 104
+          C 372 110, 359 110, 349 104
+          C 351 84, 340 62, 322 42 Z"/>
+        <path fill="url(#maneGrad)" d="
+          M 343 100
+          C 358 116, 369 138, 374 162
+          C 389 152, 408 158, 418 173
+          C 407 178, 393 177, 384 169
+          C 385 147, 367 121, 343 100 Z"/>
+        <path fill="url(#maneGrad)" d="
+          M 378 168
+          C 394 188, 405 214, 409 240
+          C 425 231, 444 238, 453 254
+          C 442 259, 428 257, 419 248
+          C 419 224, 401 195, 378 168 Z"/>
+        <path fill="url(#maneGrad)" d="
+          M 414 248
+          C 430 272, 441 302, 444 332
+          C 459 324, 476 333, 482 350
+          C 471 354, 457 351, 449 342
+          C 448 316, 436 284, 414 248 Z"/>
+        <path fill="url(#maneGrad)" d="
+          M 444 332
+          C 456 360, 461 392, 458 424
+          C 470 416, 482 423, 484 438
+          C 473 442, 461 438, 456 429
+          C 459 396, 455 363, 444 332 Z"/>
+      </g>
+
+      <!-- mane flow lines: soft light strokes following each lock -->
+      <g fill="none" stroke="#eef3fb" stroke-width="2" stroke-linecap="round" opacity="0.42">
+        <path d="M 330 56 C 339 74, 342 92, 339 110"/>
+        <path d="M 352 116 C 366 138, 372 160, 372 182"/>
+        <path d="M 388 188 C 401 212, 407 236, 407 260"/>
+        <path d="M 422 268 C 436 296, 443 326, 442 354"/>
+        <path d="M 449 348 C 458 380, 460 410, 455 438"/>
+      </g>
+
+      <!-- ============ FACE DETAIL ============ -->
+      <!-- ear inner shadow (forward ear) -->
+      <path fill="#5d6a83" stroke="#37425c" stroke-width="2" d="
+        M 286 26 C 290 38, 292 50, 290 62
+        C 284 52, 280 40, 278 28
+        C 280 26, 283 25, 286 26 Z"/>
+
+      <!-- carved groove separating cheek from jaw -->
+      <path fill="none" stroke="#5b6884" stroke-width="3" stroke-linecap="round"
+            opacity="0.7" d="
+        M 250 150 C 248 186, 244 224, 244 258"/>
+
+      <!-- jaw / cheek contact shade -->
+      <ellipse cx="236" cy="250" rx="40" ry="44" fill="url(#jawShade)"/>
+
+      <!-- shaded muzzle underside (separates lower lip / chin) -->
+      <path fill="#7d8aa3" opacity="0.55" stroke="none" d="
+        M 146 240 C 158 246, 174 244, 188 238
+        C 204 231, 220 224, 232 226
+        C 226 234, 214 240, 200 244
+        C 184 248, 166 248, 150 244
+        C 147 243, 145 241, 146 240 Z"/>
+
+      <!-- nostril -->
+      <path fill="#222a3b" stroke="#161c28" stroke-width="1.5" d="
+        M 168 206
+        C 160 202, 150 205, 148 213
+        C 146 220, 152 226, 161 224
+        C 172 222, 178 212, 168 206 Z"/>
+
+      <!-- mouth / lip line + open-mouth notch -->
+      <path fill="none" stroke="#37425c" stroke-width="2.8" stroke-linecap="round" d="
+        M 150 226 C 168 232, 190 232, 210 226"/>
+
+      <!-- eye -->
+      <ellipse cx="250" cy="116" rx="14.5" ry="11" fill="url(#eyeGrad)"
+               stroke="#222a3b" stroke-width="2.6" transform="rotate(20 250 116)"/>
+      <!-- upper eyelid crease -->
+      <path fill="none" stroke="#37425c" stroke-width="2.4" stroke-linecap="round" d="
+        M 232 106 C 242 99, 256 100, 266 109"/>
+      <!-- eye catchlight -->
+      <circle cx="246" cy="111" r="3.3" fill="#eaf1fb" opacity="0.92"/>
+
+      <!-- brow ridge accent -->
+      <path fill="none" stroke="#e7edf7" stroke-width="2.4" stroke-linecap="round"
+            opacity="0.45" d="M 230 98 C 248 88, 270 90, 286 104"/>
+    </svg>
+
+    <div class="sig">Claude Opus 4.8</div>
+  </div>
+</body>
+</html>
