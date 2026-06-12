@@ -9,9 +9,10 @@
 сервер и открывает оболочку), либо вручную:
 
 ```
-python -m http.server 8473
+python serve.py 8473
 ```
-и открыть `http://localhost:8473/index.html`.
+и открыть `http://localhost:8473/index.html`. `serve.py` отдаёт `no-store`, так
+что правки `manifest.js`/демок видны после обычного refresh (без Ctrl+F5).
 
 Оболочку нужно открывать именно через сервер: решение грузится в
 `<iframe sandbox="allow-scripts">`, а на `file://` браузер блокирует загрузку

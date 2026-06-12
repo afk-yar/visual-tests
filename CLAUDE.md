@@ -25,8 +25,11 @@ Node используется только как dev-time раннер тест
 
 ## Как смотреть (основной режим — локальный сервер)
 - **Основной режим — локальный сервер.** Двойной клик по `start.cmd` (поднимает
-  `python -m http.server 8473` и открывает `http://localhost:8473/index.html`),
-  либо вручную: `python -m http.server 8473` → `http://localhost:8473/index.html`.
+  `python serve.py 8473` и открывает `http://localhost:8473/index.html`),
+  либо вручную: `python serve.py 8473` → `http://localhost:8473/index.html`.
+- `serve.py` отдаёт `Cache-Control: no-store`, поэтому правки `manifest.js` и демок
+  видны после обычного refresh — без жёсткого Ctrl+F5. (Обычный
+  `python -m http.server` кэширует — тогда после правки manifest жми Ctrl+F5.)
 - **Почему сервер, а не `file://`:** оболочка грузит решение в
   `<iframe sandbox="allow-scripts">` (изоляция LLM-кода). На `file://` sandbox
   даёт документу opaque-origin, и браузер блокирует загрузку `file://`-субресурсов
