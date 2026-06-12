@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Двойной маятник — Opus 4.8</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <canvas id="stage"></canvas>
+    <div class="panel">
+      <button id="playPause" type="button">Пауза</button>
+      <button id="reset" type="button">Сброс</button>
+      <button id="ghost" type="button">Призрак δθ=1e-4</button>
+      <label>m₁ <input id="m1" type="range" min="0.2" max="3" step="0.1" value="1"></label>
+      <label>m₂ <input id="m2" type="range" min="0.2" max="3" step="0.1" value="1"></label>
+      <label>L₁ <input id="L1" type="range" min="0.3" max="1.5" step="0.05" value="1"></label>
+      <label>L₂ <input id="L2" type="range" min="0.3" max="1.5" step="0.05" value="1"></label>
+    </div>
+  </div>
+  <script src="pendulum.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
