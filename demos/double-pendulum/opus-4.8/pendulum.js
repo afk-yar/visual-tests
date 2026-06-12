@@ -1,6 +1,7 @@
 'use strict';
 
 // Угловые ускорения (каноника, myPhysicsLab). s={th1,th2,w1,w2}, p={m1,m2,L1,L2,g}.
+// Требует m1 > 0: при m1=0 и th1=th2 знаменатель обращается в ноль.
 function accelerations(s, p) {
   const { th1, th2, w1, w2 } = s;
   const { m1, m2, L1, L2, g } = p;
@@ -72,7 +73,7 @@ function bobPositions(s, p) {
   return { x1, y1, x2, y2 };
 }
 
-const PendulumAPI = { accelerations, derivative, rk4Step, totalEnergy, bobPositions };
+const PendulumAPI = { accelerations, rk4Step, totalEnergy, bobPositions };
 
 // Dual-mode: node — экспорт; браузер (<script>) — глобал window.Pendulum.
 if (typeof module !== 'undefined' && module.exports) {
