@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>visual-tests — полигон визуальных задач</title>
+  <link rel="stylesheet" href="assets/shell.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" aria-label="Список визуальных задач">
+      <header class="brand">
+        <h1 class="brand-title">visual-tests</h1>
+        <div class="brand-subtitle">полигон визуальных задач</div>
+      </header>
+      <nav aria-label="Задачи">
+        <ul class="task-list" id="task-list"></ul>
+      </nav>
+    </aside>
+    <main class="main">
+      <section class="model-toolbar" aria-label="Выбор модели">
+        <div class="model-label">Модель:</div>
+        <div class="segments" id="model-switch" role="tablist" aria-label="Модели"></div>
+      </section>
+      <section class="viewer" aria-label="Результат модели">
+        <div class="iframe-chrome" aria-hidden="true">
+          <span class="chrome-dot"></span>
+          <span class="chrome-dot"></span>
+          <span class="chrome-dot"></span>
+        </div>
+        <div class="frame-label" id="frame-label"></div>
+        <iframe class="frame" id="stage" title="Решение модели" sandbox="allow-scripts"></iframe>
+      </section>
+      <details class="prompt-panel" id="prompt-box" open>
+        <summary>Промпт задачи</summary>
+        <pre id="prompt-text"></pre>
+      </details>
+    </main>
+  </div>
+  <script src="manifest.js"></script>
+  <script src="assets/shell.js"></script>
+</body>
+</html>
