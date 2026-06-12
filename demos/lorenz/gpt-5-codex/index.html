@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lorenz Attractor</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0f1115;
+      --panel: rgba(16, 19, 26, 0.66);
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #f4efe6;
+      --muted: #a8b2c5;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    canvas {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+      background: var(--bg);
+    }
+
+    .hud {
+      position: fixed;
+      left: clamp(12px, 2vw, 24px);
+      bottom: clamp(12px, 2vw, 24px);
+      display: grid;
+      gap: 7px;
+      min-width: min(330px, calc(100vw - 24px));
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.34);
+      backdrop-filter: blur(16px);
+      color: var(--text);
+      pointer-events: none;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 78px minmax(0, 1fr);
+      gap: 12px;
+      align-items: baseline;
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .value {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    @media (max-width: 540px) {
+      .hud {
+        right: 12px;
+        min-width: 0;
+      }
+
+      .row {
+        grid-template-columns: 66px minmax(0, 1fr);
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="lorenz" aria-label="Realtime Lorenz attractor"></canvas>
+  <section class="hud" aria-live="polite">
+    <div class="row"><span class="label">System</span><span class="value">σ=10, ρ=28, β=8/3</span></div>
+    <div class="row"><span class="label">Stepper</span><span class="value">RK4 · fixed dt <span id="dtValue">0.006</span></span></div>
+    <div class="row"><span class="label">Trail</span><span class="value"><span id="trailValue">0</span> points</span></div>
+  </section>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var canvas = document.getElementById("lorenz");
+      var ctx = canvas.getContext("2d", { alpha: false });
+      var trailValue = document.getElementById("trailValue");
+
+      var sigma = 10;
+      var rho = 28;
+      var beta = 8 / 3;
+      var dt = 0.006;
+      var simSpeed = 2.1;
+      var maxTrail = 6200;
+
+      var xs = new Float32Array(maxTrail);
+      var ys = new Float32Array(maxTrail);
+      var zs = new Float32Array(maxTrail);
+      var head = 0;
+      var count = 0;
+
+      var state = { x: 0.12, y: 0, z: 0 };
+      var width = 1;
+      var height = 1;
+      var dpr = 1;
+      var accumulator = 0;
+      var lastTime = performance.now();
+
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function pushPoint() {
+        xs[head] = state.x;
+        ys[head] = state.y;
+        zs[head] = state.z;
+        head = (head + 1) % maxTrail;
+        count = Math.min(count + 1, maxTrail);
+      }
+
+      function stepLorenz(h) {
+        var x = state.x;
+        var y = state.y;
+        var z = state.z;
+
+        var k1x = sigma * (y - x);
+        var k1y = x * (rho - z) - y;
+        var k1z = x * y - beta * z;
+
+        var x2 = x + 0.5 * h * k1x;
+        var y2 = y + 0.5 * h * k1y;
+        var z2 = z + 0.5 * h * k1z;
+        var k2x = sigma * (y2 - x2);
+        var k2y = x2 * (rho - z2) - y2;
+        var k2z = x2 * y2 - beta * z2;
+
+        var x3 = x + 0.5 * h * k2x;
+        var y3 = y + 0.5 * h * k2y;
+        var z3 = z + 0.5 * h * k2z;
+        var k3x = sigma * (y3 - x3);
+        var k3y = x3 * (rho - z3) - y3;
+        var k3z = x3 * y3 - beta * z3;
+
+        var x4 = x + h * k3x;
+        var y4 = y + h * k3y;
+        var z4 = z + h * k3z;
+        var k4x = sigma * (y4 - x4);
+        var k4y = x4 * (rho - z4) - y4;
+        var k4z = x4 * y4 - beta * z4;
+
+        state.x = x + h * (k1x + 2 * k2x + 2 * k3x + k4x) / 6;
+        state.y = y + h * (k1y + 2 * k2y + 2 * k3y + k4y) / 6;
+        state.z = z + h * (k1z + 2 * k2z + 2 * k3z + k4z) / 6;
+      }
+
+      function getIndex(offset) {
+        var start = head - count;
+        if (start < 0) {
+          start += maxTrail;
+        }
+        return (start + offset) % maxTrail;
+      }
+
+      function resize() {
+        var rect = canvas.getBoundingClientRect();
+        dpr = clamp(window.devicePixelRatio || 1, 1, 2.5);
+        width = Math.max(1, Math.floor(rect.width * dpr));
+        height = Math.max(1, Math.floor(rect.height * dpr));
+        canvas.width = width;
+        canvas.height = height;
+      }
+
+      function background() {
+        var radius = Math.max(width, height) * 0.78;
+        var glow = ctx.createRadialGradient(width * 0.52, height * 0.45, 0, width * 0.52, height * 0.52, radius);
+        glow.addColorStop(0, "#18202a");
+        glow.addColorStop(0.42, "#10141b");
+        glow.addColorStop(1, "#0f1115");
+        ctx.globalCompositeOperation = "source-over";
+        ctx.fillStyle = glow;
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.fillStyle = "rgba(255, 255, 255, 0.035)";
+        var gridGap = Math.max(44, Math.min(width, height) * 0.09);
+        for (var x = (width * 0.5) % gridGap; x < width; x += gridGap) {
+          ctx.fillRect(Math.round(x), 0, 1, height);
+        }
+        for (var y = (height * 0.5) % gridGap; y < height; y += gridGap) {
+          ctx.fillRect(0, Math.round(y), width, 1);
+        }
+      }
+
+      function project(index, yaw, pitch) {
+        var x = xs[index];
+        var y = ys[index];
+        var z = zs[index] - 27;
+
+        var cy = Math.cos(yaw);
+        var sy = Math.sin(yaw);
+        var cp = Math.cos(pitch);
+        var sp = Math.sin(pitch);
+
+        var rx = x * cy + z * sy;
+        var rz = -x * sy + z * cy;
+        var ry = y * cp - rz * sp;
+        var rz2 = y * sp + rz * cp;
+
+        var distance = 96;
+        var perspective = distance / (distance + rz2);
+        var scale = Math.min(width, height) * 0.0138;
+
+        return {
+          x: width / 2 + rx * scale * perspective,
+          y: height / 2 - (ry - 2) * scale * perspective,
+          z: rz2
+        };
+      }
+
+      function drawTrail(time) {
+        if (count < 2) {
+          return;
+        }
+
+        var yaw = time * 0.13;
+        var pitch = -0.52 + 0.08 * Math.sin(time * 0.18);
+        var prev = project(getIndex(0), yaw, pitch);
+
+        ctx.globalCompositeOperation = "lighter";
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+
+        for (var i = 1; i < count; i += 1) {
+          var index = getIndex(i);
+          var point = project(index, yaw, pitch);
+          var age = i / (count - 1);
+          var fade = Math.pow(age, 1.75);
+          var hue = 184 + age * 148 + 18 * Math.sin(zs[index] * 0.12);
+          var light = 42 + 24 * age;
+          var alpha = 0.04 + 0.86 * fade;
+
+          ctx.beginPath();
+          ctx.moveTo(prev.x, prev.y);
+          ctx.lineTo(point.x, point.y);
+          ctx.strokeStyle = "hsla(" + hue + ", 90%, " + light + "%, " + alpha + ")";
+          ctx.lineWidth = (0.28 + 1.55 * fade) * dpr;
+          ctx.stroke();
+
+          prev = point;
+        }
+
+        var newest = project(getIndex(count - 1), yaw, pitch);
+        ctx.globalCompositeOperation = "source-over";
+        var dot = ctx.createRadialGradient(newest.x, newest.y, 0, newest.x, newest.y, 14 * dpr);
+        dot.addColorStop(0, "rgba(255, 247, 218, 0.95)");
+        dot.addColorStop(0.34, "rgba(120, 220, 255, 0.56)");
+        dot.addColorStop(1, "rgba(120, 220, 255, 0)");
+        ctx.fillStyle = dot;
+        ctx.beginPath();
+        ctx.arc(newest.x, newest.y, 14 * dpr, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function seedAttractor() {
+        var burnIn = 1200;
+        var visibleSeed = 3600;
+        for (var i = 0; i < burnIn; i += 1) {
+          stepLorenz(dt);
+        }
+        for (var j = 0; j < visibleSeed; j += 1) {
+          stepLorenz(dt);
+          pushPoint();
+        }
+        trailValue.textContent = String(count);
+      }
+
+      function animate(now) {
+        var elapsed = Math.min(0.06, (now - lastTime) / 1000);
+        lastTime = now;
+        accumulator += elapsed * simSpeed;
+
+        var steps = 0;
+        while (accumulator >= dt && steps < 48) {
+          stepLorenz(dt);
+          pushPoint();
+          accumulator -= dt;
+          steps += 1;
+        }
+
+        if (steps === 48) {
+          accumulator = 0;
+        }
+
+        background();
+        drawTrail(now * 0.001);
+        trailValue.textContent = String(count);
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener("resize", resize);
+      resize();
+      seedAttractor();
+      requestAnimationFrame(animate);
+    }());
+  </script>
+</body>
+</html>

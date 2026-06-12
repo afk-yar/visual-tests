@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mandelbrot Explorer</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0f1115;
+      --panel: rgba(16, 19, 27, 0.72);
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #f3efe5;
+      --muted: #aab2c2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    canvas {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+      background: #07090d;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    canvas.dragging {
+      cursor: grabbing;
+    }
+
+    .hud {
+      position: fixed;
+      left: clamp(12px, 2vw, 24px);
+      top: clamp(12px, 2vw, 24px);
+      min-width: min(360px, calc(100vw - 24px));
+      display: grid;
+      gap: 8px;
+      padding: 13px 15px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--text);
+      box-shadow: 0 18px 54px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(16px);
+      pointer-events: none;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 88px minmax(0, 1fr);
+      gap: 12px;
+      align-items: baseline;
+      min-width: 0;
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .value {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    @media (max-width: 560px) {
+      .hud {
+        right: 12px;
+        min-width: 0;
+        padding: 11px 12px;
+      }
+
+      .row {
+        grid-template-columns: 70px minmax(0, 1fr);
+        gap: 8px;
+      }
+
+      .value {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="fractal" aria-label="Interactive Mandelbrot set"></canvas>
+  <section class="hud" aria-live="polite">
+    <div class="row"><span class="label">Zoom</span><span class="value" id="zoomValue">1x</span></div>
+    <div class="row"><span class="label">Center</span><span class="value" id="centerValue">-0.65, 0</span></div>
+    <div class="row"><span class="label">Iters</span><span class="value" id="iterValue">0</span></div>
+    <div class="row"><span class="label">Render</span><span class="value" id="renderValue">ready</span></div>
+  </section>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var canvas = document.getElementById("fractal");
+      var ctx = canvas.getContext("2d", { alpha: false });
+      var zoomValue = document.getElementById("zoomValue");
+      var centerValue = document.getElementById("centerValue");
+      var iterValue = document.getElementById("iterValue");
+      var renderValue = document.getElementById("renderValue");
+
+      var initialHeight = 3.08;
+      var view = {
+        x: -0.65,
+        y: 0,
+        height: initialHeight
+      };
+
+      var cssWidth = 1;
+      var cssHeight = 1;
+      var dpr = 1;
+      var renderToken = 0;
+      var dragging = false;
+      var lastPointer = { x: 0, y: 0 };
+
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function formatNumber(value) {
+        var abs = Math.abs(value);
+        if (abs !== 0 && (abs < 0.0001 || abs >= 100000)) {
+          return value.toExponential(6);
+        }
+        return value.toPrecision(10).replace(/\.?0+$/, "");
+      }
+
+      function formatZoom(value) {
+        if (value >= 1000000) {
+          return value.toExponential(3) + "x";
+        }
+        if (value >= 1000) {
+          return Math.round(value).toLocaleString("en-US") + "x";
+        }
+        if (value >= 10) {
+          return value.toFixed(1) + "x";
+        }
+        return value.toFixed(2) + "x";
+      }
+
+      function iterationLimit() {
+        var zoom = initialHeight / view.height;
+        var growth = Math.log2(Math.max(1, zoom));
+        return Math.min(4200, Math.floor(150 + growth * 82 + Math.sqrt(growth + 1) * 24));
+      }
+
+      function updateHud(maxIter, stateText) {
+        var zoom = initialHeight / view.height;
+        zoomValue.textContent = formatZoom(zoom);
+        centerValue.textContent = formatNumber(view.x) + ", " + formatNumber(view.y);
+        iterValue.textContent = String(maxIter);
+        renderValue.textContent = stateText;
+      }
+
+      function hslToRgb(h, s, l) {
+        h = ((h % 360) + 360) % 360;
+        s = clamp(s / 100, 0, 1);
+        l = clamp(l / 100, 0, 1);
+
+        var c = (1 - Math.abs(2 * l - 1)) * s;
+        var hp = h / 60;
+        var x = c * (1 - Math.abs((hp % 2) - 1));
+        var r1 = 0;
+        var g1 = 0;
+        var b1 = 0;
+
+        if (hp < 1) {
+          r1 = c; g1 = x;
+        } else if (hp < 2) {
+          r1 = x; g1 = c;
+        } else if (hp < 3) {
+          g1 = c; b1 = x;
+        } else if (hp < 4) {
+          g1 = x; b1 = c;
+        } else if (hp < 5) {
+          r1 = x; b1 = c;
+        } else {
+          r1 = c; b1 = x;
+        }
+
+        var m = l - c / 2;
+        return [
+          Math.round((r1 + m) * 255),
+          Math.round((g1 + m) * 255),
+          Math.round((b1 + m) * 255)
+        ];
+      }
+
+      function palette(mu, maxIter) {
+        var t = mu / maxIter;
+        var hue = 219 + 154 * t + 42 * Math.sin(mu * 0.045) + 18 * Math.sin(mu * 0.012 + 1.7);
+        var sat = 76 + 14 * Math.sin(mu * 0.017 + 0.8);
+        var light = 40 + 22 * (1 - Math.exp(-0.045 * mu)) + 7 * Math.sin(mu * 0.032);
+        return hslToRgb(hue, sat, light);
+      }
+
+      function isInsideMainBulbs(cx, cy) {
+        var xMinusQuarter = cx - 0.25;
+        var q = xMinusQuarter * xMinusQuarter + cy * cy;
+        var cardioid = q * (q + xMinusQuarter) <= 0.25 * cy * cy;
+        var bulbX = cx + 1;
+        var periodTwoBulb = bulbX * bulbX + cy * cy <= 0.0625;
+        return cardioid || periodTwoBulb;
+      }
+
+      function renderRow(image, y, width, height, unit, maxIter) {
+        var cy = view.y + (y - height / 2) * unit;
+        var offset = y * width * 4;
+
+        for (var x = 0; x < width; x += 1) {
+          var cx = view.x + (x - width / 2) * unit;
+          var r = 8;
+          var g = 10;
+          var b = 15;
+
+          if (!isInsideMainBulbs(cx, cy)) {
+            var zx = 0;
+            var zy = 0;
+            var zx2 = 0;
+            var zy2 = 0;
+            var iter = 0;
+
+            while (iter < maxIter && zx2 + zy2 <= 4) {
+              zy = 2 * zx * zy + cy;
+              zx = zx2 - zy2 + cx;
+              zx2 = zx * zx;
+              zy2 = zy * zy;
+              iter += 1;
+            }
+
+            if (iter < maxIter) {
+              var radius = Math.sqrt(zx2 + zy2);
+              var mu = iter + 1 - Math.log(Math.log(radius)) / Math.LN2;
+              var rgb = palette(Math.max(0, mu), maxIter);
+              r = rgb[0];
+              g = rgb[1];
+              b = rgb[2];
+            }
+          }
+
+          image.data[offset] = r;
+          image.data[offset + 1] = g;
+          image.data[offset + 2] = b;
+          image.data[offset + 3] = 255;
+          offset += 4;
+        }
+      }
+
+      function render() {
+        var token = renderToken + 1;
+        renderToken = token;
+
+        var width = canvas.width;
+        var height = canvas.height;
+        var image = ctx.createImageData(width, height);
+        var unit = view.height / height;
+        var maxIter = iterationLimit();
+        var y = 0;
+        var started = performance.now();
+
+        updateHud(maxIter, "drawing");
+
+        function drawChunk() {
+          if (token !== renderToken) {
+            return;
+          }
+
+          var startY = y;
+          var deadline = performance.now() + 13;
+
+          while (y < height && performance.now() < deadline) {
+            renderRow(image, y, width, height, unit, maxIter);
+            y += 1;
+          }
+
+          if (y > startY) {
+            ctx.putImageData(image, 0, 0, 0, startY, width, y - startY);
+          }
+
+          if (y < height) {
+            renderValue.textContent = "drawing " + Math.round((y / height) * 100) + "%";
+            requestAnimationFrame(drawChunk);
+            return;
+          }
+
+          updateHud(maxIter, (performance.now() - started).toFixed(0) + " ms");
+        }
+
+        requestAnimationFrame(drawChunk);
+      }
+
+      function resize() {
+        var rect = canvas.getBoundingClientRect();
+        dpr = clamp(window.devicePixelRatio || 1, 1, 2.5);
+        cssWidth = Math.max(1, Math.floor(rect.width));
+        cssHeight = Math.max(1, Math.floor(rect.height));
+        canvas.width = Math.max(1, Math.floor(cssWidth * dpr));
+        canvas.height = Math.max(1, Math.floor(cssHeight * dpr));
+        render();
+      }
+
+      function screenToComplex(clientX, clientY) {
+        var rect = canvas.getBoundingClientRect();
+        var unit = view.height / cssHeight;
+        var sx = clientX - rect.left;
+        var sy = clientY - rect.top;
+        return {
+          x: view.x + (sx - cssWidth / 2) * unit,
+          y: view.y + (sy - cssHeight / 2) * unit
+        };
+      }
+
+      canvas.addEventListener("wheel", function (event) {
+        event.preventDefault();
+        var before = screenToComplex(event.clientX, event.clientY);
+        var factor = Math.exp(event.deltaY * 0.0013);
+        view.height = clamp(view.height * factor, 1e-13, 8);
+        var after = screenToComplex(event.clientX, event.clientY);
+        view.x += before.x - after.x;
+        view.y += before.y - after.y;
+        render();
+      }, { passive: false });
+
+      canvas.addEventListener("pointerdown", function (event) {
+        dragging = true;
+        lastPointer.x = event.clientX;
+        lastPointer.y = event.clientY;
+        canvas.classList.add("dragging");
+        canvas.setPointerCapture(event.pointerId);
+      });
+
+      canvas.addEventListener("pointermove", function (event) {
+        if (!dragging) {
+          return;
+        }
+
+        var unit = view.height / cssHeight;
+        var dx = event.clientX - lastPointer.x;
+        var dy = event.clientY - lastPointer.y;
+        lastPointer.x = event.clientX;
+        lastPointer.y = event.clientY;
+        view.x -= dx * unit;
+        view.y -= dy * unit;
+        render();
+      });
+
+      function endDrag(event) {
+        if (!dragging) {
+          return;
+        }
+        dragging = false;
+        canvas.classList.remove("dragging");
+        if (event && canvas.hasPointerCapture(event.pointerId)) {
+          canvas.releasePointerCapture(event.pointerId);
+        }
+      }
+
+      canvas.addEventListener("pointerup", endDrag);
+      canvas.addEventListener("pointercancel", endDrag);
+      canvas.addEventListener("dblclick", function () {
+        view.x = -0.65;
+        view.y = 0;
+        view.height = initialHeight;
+        render();
+      });
+
+      window.addEventListener("resize", resize);
+      resize();
+    }());
+  </script>
+</body>
+</html>
