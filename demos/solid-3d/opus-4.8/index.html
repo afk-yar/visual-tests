@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3D-тело (софт-рендер) — Opus 4.8</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="stagebox">
+      <canvas id="stage"></canvas>
+      <div id="hud"></div>
+    </div>
+    <div class="panel">
+      <button id="btnFill" type="button">Заливка</button>
+      <button id="btnSmooth" type="button">Гуро (гладкое)</button>
+      <button id="btnSpin" type="button">Вращение: вкл</button>
+      <label>Тело
+        <select id="shape">
+          <option value="torus">Тор</option>
+          <option value="sphere">Икосфера</option>
+          <option value="cube">Куб (тесселяция)</option>
+        </select>
+      </label>
+      <span class="hint">тяни мышью — повернуть</span>
+    </div>
+  </div>
+  <script src="geometry.js"></script>
+  <script src="renderer.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

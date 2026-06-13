@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3D-поверхность функции — Opus 4.8</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="stage"></canvas>
+
+  <div class="hud">
+    <div class="title">3D-поверхность z = f(x, y)</div>
+    <div class="eq" id="eq">z = sin(r − t) / r,&nbsp; r = √(x² + y²)</div>
+    <div class="meta" id="meta">Ламберт · нормали в узлах · алгоритм художника</div>
+  </div>
+
+  <div class="panel">
+    <div class="seg" id="funcs">
+      <button data-fn="ripple" class="on" type="button">Рябь</button>
+      <button data-fn="saddle" type="button">Седло</button>
+      <button data-fn="gauss" type="button">Гауссиана</button>
+      <button data-fn="waves" type="button">Волны</button>
+    </div>
+    <div class="sep"></div>
+    <button id="playPause" class="btn" type="button">Пауза</button>
+    <button id="spin" class="btn on" type="button">Камера</button>
+    <button id="wire" class="btn" type="button">Каркас</button>
+    <div class="sep"></div>
+    <label class="wide">Сетка <input id="grid" type="range" min="24" max="96" step="2" value="64"></label>
+    <label>Скорость <input id="speed" type="range" min="0" max="2.5" step="0.05" value="1"></label>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

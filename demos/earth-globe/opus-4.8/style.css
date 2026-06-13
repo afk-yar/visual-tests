@@ -1,0 +1,119 @@
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #02030a;
+  color: #dfe7ff;
+  font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#stage {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+}
+#stage:active { cursor: grabbing; }
+
+.hud {
+  position: fixed;
+  top: 18px;
+  left: 20px;
+  pointer-events: none;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.85);
+  user-select: none;
+}
+.hud .title {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #eaf1ff;
+}
+.hud .sub {
+  margin-top: 4px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: #8ba0c8;
+}
+
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  padding: 11px 16px;
+  background: rgba(8, 13, 28, 0.62);
+  border: 1px solid rgba(120, 150, 220, 0.18);
+  border-radius: 13px;
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+  box-shadow: 0 8px 34px rgba(0, 0, 0, 0.55);
+  font-size: 12.5px;
+  color: #c4d2f0;
+  max-width: calc(100% - 24px);
+}
+.panel label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+.panel label.check { cursor: pointer; }
+.panel input[type="range"] {
+  width: 92px;
+  accent-color: #5b9dff;
+  cursor: pointer;
+}
+.panel input[type="checkbox"] {
+  accent-color: #5b9dff;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+.panel button {
+  border: 1px solid rgba(120, 150, 220, 0.28);
+  background: rgba(30, 44, 78, 0.55);
+  color: #d6e2ff;
+  padding: 6px 13px;
+  border-radius: 9px;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.panel button:hover { background: rgba(48, 68, 116, 0.7); }
+.panel button.on {
+  background: rgba(64, 120, 220, 0.32);
+  border-color: rgba(120, 170, 255, 0.6);
+  color: #eaf2ff;
+}
+
+.hint {
+  position: fixed;
+  right: 18px;
+  bottom: 20px;
+  font-size: 11px;
+  color: #6f83ac;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  text-align: right;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.8);
+  max-width: 40%;
+}
+
+@media (max-width: 640px) {
+  .hint { display: none; }
+  .hud .title { font-size: 20px; }
+}

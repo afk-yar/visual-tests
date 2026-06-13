@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Воксельный ландшафт — Opus 4.8</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <canvas id="stage"></canvas>
+
+    <div class="hud">
+      <div class="hud-row">
+        <span class="badge" id="fps">— FPS</span>
+        <span class="badge alt" id="distOut">дальность —</span>
+      </div>
+    </div>
+
+    <div class="panel" id="panel">
+      <div class="panel-head">
+        <span class="title">VoxelSpace · ландшафт</span>
+        <button id="collapse" type="button" title="Свернуть/развернуть">▾</button>
+      </div>
+
+      <div class="panel-body" id="panelBody">
+        <label class="ctl">
+          <span class="lbl">Высота камеры <em id="vCamH">220</em></span>
+          <input id="camH" type="range" min="40" max="600" step="2" value="220">
+        </label>
+
+        <label class="ctl">
+          <span class="lbl">Дальность отрисовки <em id="vDist">900</em></span>
+          <input id="dist" type="range" min="200" max="1600" step="20" value="900">
+        </label>
+
+        <label class="ctl">
+          <span class="lbl">Линия горизонта <em id="vHorizon">0.40</em></span>
+          <input id="horizon" type="range" min="0.15" max="0.75" step="0.01" value="0.40">
+        </label>
+
+        <label class="ctl">
+          <span class="lbl">Угол обзора <em id="vFov">100°</em></span>
+          <input id="fov" type="range" min="60" max="140" step="2" value="100">
+        </label>
+
+        <label class="ctl">
+          <span class="lbl">Скорость полёта <em id="vSpeed">1.0×</em></span>
+          <input id="speed" type="range" min="0" max="3" step="0.05" value="1.0">
+        </label>
+
+        <label class="ctl">
+          <span class="lbl">Густота тумана <em id="vFog">0.55</em></span>
+          <input id="fog" type="range" min="0" max="1" step="0.02" value="0.55">
+        </label>
+
+        <div class="row">
+          <label class="check"><input id="follow" type="checkbox" checked> камера держит высоту над рельефом</label>
+        </div>
+        <div class="row">
+          <button id="regen" type="button">Новый ландшафт</button>
+          <span class="hint">мышь / стрелки — поворот и тангаж</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="terrain.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Полярное сияние — Opus 4.8</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="stage"></canvas>
+
+  <div class="hud">
+    <div class="title">Полярное сияние</div>
+    <div class="sub">Aurora borealis · ленты-занавеси, лучи, отражение в озере</div>
+  </div>
+
+  <div class="panel">
+    <button id="playPause" type="button">Пауза</button>
+    <button id="reflect" class="on" type="button">Отражение</button>
+    <button id="shoot" type="button">Метеор</button>
+    <label>Интенсивность <input id="intensity" type="range" min="0.45" max="1.6" step="0.01" value="1"></label>
+    <label>Скорость <input id="speed" type="range" min="0.2" max="2.2" step="0.01" value="1"></label>
+    <label>Ветер <input id="wind" type="range" min="0" max="2" step="0.01" value="1"></label>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
