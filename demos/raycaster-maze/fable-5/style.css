@@ -1,0 +1,31 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  background: #0d1016;
+  color: #cfd6e4;
+  font: 14px/1.4 "Segoe UI", system-ui, sans-serif;
+  overflow: hidden;
+}
+
+canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.help {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  font: 12px/1.6 Consolas, monospace;
+  color: #c5cdde;
+  background: rgba(10, 12, 18, 0.7);
+  padding: 6px 12px;
+  border-radius: 6px;
+  pointer-events: none;
+}
+.help b { color: #ffc440; font-weight: 600; }

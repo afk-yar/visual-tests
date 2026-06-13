@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Идущий человечек — Claude Fable 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="bar">
+  <label>скорость
+    <input type="range" id="spd" min="50" max="420" step="5" value="140">
+    <output id="spdv">140</output>
+  </label>
+  <span class="scale-hint">медленная ходьба ←→ бег</span>
+</header>
+<main>
+  <canvas id="cv"></canvas>
+  <div class="hud" id="hud"></div>
+</main>
+<script src="walker.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

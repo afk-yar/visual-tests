@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Шахматный конь — Claude Fable 5</title>
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    display: grid;
+    place-items: center;
+    background: radial-gradient(ellipse 70% 60% at 50% 42%, #1b2230 0%, #0d1118 55%, #07090d 100%);
+    overflow: hidden;
+  }
+  svg { width: min(78vmin, 640px); height: auto; display: block; }
+</style>
+</head>
+<body>
+<svg viewBox="0 0 480 520" role="img" aria-label="Шахматный конь">
+  <defs>
+    <linearGradient id="body" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#f5f7fb"/>
+      <stop offset="0.55" stop-color="#cdd5e2"/>
+      <stop offset="1" stop-color="#9aa6ba"/>
+    </linearGradient>
+    <linearGradient id="mane" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#6b7690"/>
+      <stop offset="1" stop-color="#3a4357"/>
+    </linearGradient>
+    <linearGradient id="base" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d8dfeb"/>
+      <stop offset="1" stop-color="#8d99af"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.45" r="0.6">
+      <stop offset="0" stop-color="#33415c" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#33415c" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-30%" y="-20%" width="160%" height="150%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+
+  <!-- Мягкое свечение за фигурой -->
+  <ellipse cx="240" cy="250" rx="220" ry="230" fill="url(#glow)"/>
+
+  <g filter="url(#shadow)">
+    <!-- Тело: грудь, глубокое горло, клиновидная голова с мордой влево, короткие уши, шея, круп -->
+    <path fill="url(#body)" d="
+      M 180 418
+      C 172 392, 172 368, 183 346
+      C 172 332, 158 316, 152 300
+      C 144 288, 124 280, 106 274
+      C 94 270, 82 268, 76 264
+      C 66 258, 62 246, 64 234
+      C 66 224, 74 218, 86 214
+      C 108 204, 128 192, 144 176
+      C 148 170, 151 162, 152 152
+      C 146 148, 144 140, 148 130
+      C 154 118, 162 116, 166 124
+      C 170 132, 172 142, 172 150
+      L 178 148
+      C 178 138, 182 128, 190 122
+      C 198 116, 204 120, 204 130
+      C 204 140, 202 150, 200 156
+      C 240 184, 272 240, 288 300
+      C 298 336, 304 380, 305 418
+      Z"/>
+
+    <!-- Грива: узкая волнистая полоса вдоль задней кромки шеи -->
+    <path fill="url(#mane)" d="
+      M 200 156
+      C 240 184, 272 240, 288 300
+      C 296 334, 302 378, 304 410
+      C 292 392, 286 372, 281 352
+      C 276 358, 268 361, 263 359
+      C 266 326, 258 296, 246 270
+      C 241 278, 233 281, 228 279
+      C 231 251, 221 224, 206 203
+      C 202 212, 195 216, 189 214
+      C 192 192, 194 172, 200 156
+      Z"/>
+
+    <!-- Глаз -->
+    <path fill="#222a3a" d="
+      M 118 206
+      C 126 196, 138 195, 144 202
+      C 138 210, 125 213, 118 206
+      Z"/>
+
+    <!-- Ноздря -->
+    <path fill="#222a3a" d="
+      M 74 242
+      C 76 234, 82 232, 87 235
+      C 85 243, 79 246, 74 242
+      Z" opacity="0.8"/>
+
+    <!-- Линия рта -->
+    <path fill="none" stroke="#4a5468" stroke-width="3" stroke-linecap="round"
+      d="M 70 254 C 80 260, 90 264, 100 266"/>
+
+    <!-- Линия щеки/челюсти -->
+    <path fill="none" stroke="#9aa6ba" stroke-width="3" stroke-linecap="round" opacity="0.6"
+      d="M 130 280 C 146 266, 152 248, 146 230"/>
+
+    <!-- Постамент -->
+    <path fill="url(#base)" d="
+      M 158 418 L 322 418
+      C 330 418, 332 422, 330 428
+      L 322 442 L 158 442 L 150 428
+      C 148 422, 150 418, 158 418
+      Z"/>
+    <rect x="130" y="442" width="224" height="34" rx="10" fill="url(#base)"/>
+    <!-- Блик на нижней плите -->
+    <rect x="140" y="448" width="204" height="5" rx="2.5" fill="#eef2f8" opacity="0.5"/>
+  </g>
+</svg>
+</body>
+</html>

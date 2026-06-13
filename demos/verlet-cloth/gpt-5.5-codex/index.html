@@ -1,0 +1,913 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Verlet Cloth Demo</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #08090d;
+      --panel: rgba(13, 18, 26, 0.72);
+      --panel-strong: rgba(20, 29, 42, 0.92);
+      --text: #eef5ff;
+      --muted: #9fb0c1;
+      --line: rgba(255, 255, 255, 0.16);
+      --accent: #71e3ff;
+      --accent-2: #ffba66;
+      --danger: #ff5c7a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      touch-action: none;
+      user-select: none;
+    }
+
+    .stage {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 15% 12%, rgba(113, 227, 255, 0.12), transparent 28%),
+        radial-gradient(circle at 86% 22%, rgba(255, 186, 102, 0.11), transparent 25%),
+        linear-gradient(180deg, #101623 0%, #08090d 52%, #050608 100%);
+    }
+
+    canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+      display: block;
+    }
+
+    canvas.dragging {
+      cursor: grabbing;
+    }
+
+    .hud {
+      position: absolute;
+      left: max(16px, env(safe-area-inset-left));
+      top: max(14px, env(safe-area-inset-top));
+      display: grid;
+      grid-template-columns: auto auto;
+      align-items: center;
+      gap: 10px 12px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 18px 70px rgba(0, 0, 0, 0.34);
+      z-index: 3;
+    }
+
+    .title {
+      display: grid;
+      gap: 1px;
+      min-width: 142px;
+    }
+
+    .title strong {
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      color: #f8fbff;
+    }
+
+    .title span {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .reset {
+      appearance: none;
+      border: 1px solid rgba(113, 227, 255, 0.42);
+      border-radius: 7px;
+      min-height: 34px;
+      padding: 0 12px;
+      background: linear-gradient(180deg, rgba(113, 227, 255, 0.18), rgba(113, 227, 255, 0.07));
+      color: var(--text);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 680;
+      letter-spacing: 0;
+      cursor: pointer;
+    }
+
+    .reset:hover {
+      background: linear-gradient(180deg, rgba(113, 227, 255, 0.28), rgba(113, 227, 255, 0.1));
+    }
+
+    .reset:active {
+      transform: translateY(1px);
+    }
+
+    .stats {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      min-width: 236px;
+    }
+
+    .stat {
+      min-width: 0;
+      padding: 7px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .stat b {
+      display: block;
+      font-size: 13px;
+      line-height: 1.05;
+      font-weight: 760;
+      color: #ffffff;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat small {
+      display: block;
+      margin-top: 3px;
+      font-size: 10px;
+      line-height: 1;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .hint {
+      position: absolute;
+      right: max(16px, env(safe-area-inset-right));
+      bottom: max(14px, env(safe-area-inset-bottom));
+      z-index: 3;
+      max-width: min(360px, calc(100vw - 32px));
+      padding: 9px 11px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      backdrop-filter: blur(16px);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .cursor {
+      position: absolute;
+      width: 86px;
+      height: 86px;
+      margin: -43px 0 0 -43px;
+      border: 1px solid rgba(113, 227, 255, 0.3);
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(0.75);
+      transition: opacity 160ms ease, transform 160ms ease;
+      z-index: 2;
+      box-shadow: inset 0 0 24px rgba(113, 227, 255, 0.08), 0 0 32px rgba(113, 227, 255, 0.08);
+    }
+
+    .cursor.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .cursor.locked {
+      border-color: rgba(255, 186, 102, 0.58);
+      box-shadow: inset 0 0 26px rgba(255, 186, 102, 0.1), 0 0 34px rgba(255, 186, 102, 0.16);
+    }
+
+    @media (max-width: 560px) {
+      .hud {
+        left: 10px;
+        right: 10px;
+        top: 10px;
+        grid-template-columns: minmax(0, 1fr) auto;
+      }
+
+      .stats {
+        min-width: 0;
+      }
+
+      .hint {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        max-width: none;
+        font-size: 11px;
+      }
+    }
+
+    @media (max-height: 420px) {
+      .hint {
+        display: none;
+      }
+
+      .stats {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage" aria-label="Симуляция ткани на Verlet-интегрировании">
+    <canvas id="clothCanvas"></canvas>
+    <div class="cursor" id="cursor"></div>
+    <section class="hud" aria-label="Параметры симуляции">
+      <div class="title">
+        <strong>Verlet Cloth</strong>
+        <span>потяните ткань мышью</span>
+      </div>
+      <button class="reset" id="resetButton" type="button">Сброс</button>
+      <div class="stats" aria-hidden="true">
+        <div class="stat">
+          <b id="linkStat">0</b>
+          <small>связей</small>
+        </div>
+        <div class="stat">
+          <b id="tearStat">0</b>
+          <small>разрывов</small>
+        </div>
+        <div class="stat">
+          <b id="windStat">0.0</b>
+          <small>ветер</small>
+        </div>
+      </div>
+    </section>
+    <div class="hint">Верхний край закреплён в нескольких точках. Зажмите и тяните полотно; связи рвутся при сильном растяжении.</div>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var canvas = document.getElementById("clothCanvas");
+      var ctx = canvas.getContext("2d", { alpha: false });
+      var resetButton = document.getElementById("resetButton");
+      var cursor = document.getElementById("cursor");
+      var linkStat = document.getElementById("linkStat");
+      var tearStat = document.getElementById("tearStat");
+      var windStat = document.getElementById("windStat");
+
+      var TAU = Math.PI * 2;
+      var DPR_LIMIT = 2.25;
+      var SOLVER_STEPS = 8;
+      var FIXED_STEP = 1 / 60;
+      var MAX_FRAME_TIME = 1 / 30;
+      var DRAG_RADIUS = 52;
+      var SNAP_STRETCH = 2.26;
+      var DAMPING = 0.986;
+      var GRAVITY = 0.34;
+      var POINTER_INERTIA = 0.35;
+
+      var width = 0;
+      var height = 0;
+      var dpr = 1;
+      var points = [];
+      var sticks = [];
+      var edgeMap = {};
+      var activeSticks = 0;
+      var tears = 0;
+      var cols = 0;
+      var rows = 0;
+      var spacing = 0;
+      var anchorSet = {};
+      var clothBounds = { left: 0, top: 0, right: 0 };
+      var pointer = {
+        active: false,
+        id: null,
+        x: 0,
+        y: 0,
+        px: 0,
+        py: 0,
+        grab: null
+      };
+      var lastTime = 0;
+      var wind = 0;
+      var windPhase = Math.random() * 100;
+      var statClock = 0;
+      var accumulator = 0;
+
+      function Point(x, y, column, row) {
+        this.id = row * cols + column;
+        this.x = x;
+        this.y = y;
+        this.oldX = x;
+        this.oldY = y;
+        this.baseX = x;
+        this.baseY = y;
+        this.vx = 0;
+        this.vy = 0;
+        this.column = column;
+        this.row = row;
+        this.pinX = null;
+        this.pinY = null;
+        this.mass = 1 + row * 0.015;
+      }
+
+      function Stick(a, b, rest, kind) {
+        this.a = a;
+        this.b = b;
+        this.rest = rest;
+        this.kind = kind;
+        this.active = true;
+        this.strain = 0;
+      }
+
+      function resize() {
+        var rect = canvas.getBoundingClientRect();
+        width = Math.max(320, Math.floor(rect.width || window.innerWidth || 320));
+        height = Math.max(240, Math.floor(rect.height || window.innerHeight || 240));
+        dpr = Math.min(DPR_LIMIT, Math.max(1, window.devicePixelRatio || 1));
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        createCloth();
+      }
+
+      function createCloth() {
+        points = [];
+        sticks = [];
+        edgeMap = {};
+        activeSticks = 0;
+        tears = 0;
+        accumulator = 0;
+        pointer.grab = null;
+
+        cols = clamp(Math.floor(width / 28), 16, 34);
+        rows = clamp(Math.floor(height / 28), 12, 26);
+        clothBounds.top = Math.max(56, Math.min(height * 0.17, 112));
+        var usableWidth = Math.min(width * 0.78, cols * 25);
+        var bottomMargin = Math.max(74, Math.min(132, height * 0.16));
+        var usableHeight = Math.max(130, height - clothBounds.top - bottomMargin);
+        spacing = Math.min(usableWidth / (cols - 1), usableHeight / (rows - 1));
+        var clothWidth = spacing * (cols - 1);
+        var clothHeight = spacing * (rows - 1);
+        clothBounds.left = (width - clothWidth) * 0.5;
+        clothBounds.right = clothBounds.left + clothWidth;
+
+        var anchors = buildAnchors(cols);
+        anchorSet = {};
+        for (var i = 0; i < anchors.length; i += 1) {
+          anchorSet[anchors[i]] = true;
+        }
+
+        for (var y = 0; y < rows; y += 1) {
+          for (var x = 0; x < cols; x += 1) {
+            var px = clothBounds.left + x * spacing;
+            var py = clothBounds.top + y * spacing;
+            var point = new Point(px, py, x, y);
+            if (y === 0 && anchorSet[x]) {
+              point.pinX = px;
+              point.pinY = py;
+            }
+            points.push(point);
+          }
+        }
+
+        for (var row = 0; row < rows; row += 1) {
+          for (var col = 0; col < cols; col += 1) {
+            if (col < cols - 1) {
+              addStick(pointAt(col, row), pointAt(col + 1, row), spacing, "warp");
+            }
+            if (row < rows - 1) {
+              addStick(pointAt(col, row), pointAt(col, row + 1), spacing, "weft");
+            }
+            if (col < cols - 1 && row < rows - 1) {
+              addStick(pointAt(col, row), pointAt(col + 1, row + 1), spacing * Math.SQRT2, "bias");
+              addStick(pointAt(col + 1, row), pointAt(col, row + 1), spacing * Math.SQRT2, "bias");
+            }
+          }
+        }
+
+        activeSticks = sticks.length;
+        linkStat.textContent = String(activeSticks);
+        tearStat.textContent = "0";
+      }
+
+      function buildAnchors(count) {
+        var raw = [0, 0.16, 0.34, 0.52, 0.7, 0.86, 1];
+        var result = [];
+        for (var i = 0; i < raw.length; i += 1) {
+          var col = Math.round(raw[i] * (count - 1));
+          if (result.indexOf(col) === -1) {
+            result.push(col);
+          }
+        }
+        return result;
+      }
+
+      function addStick(a, b, rest, kind) {
+        var stick = new Stick(a, b, rest, kind);
+        sticks.push(stick);
+        if (kind !== "bias") {
+          edgeMap[edgeKey(a, b)] = stick;
+        }
+      }
+
+      function edgeKey(a, b) {
+        return a.id < b.id ? a.id + ":" + b.id : b.id + ":" + a.id;
+      }
+
+      function pointAt(col, row) {
+        return points[row * cols + col];
+      }
+
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function update(time) {
+        var frameTime = lastTime ? Math.min(MAX_FRAME_TIME, (time - lastTime) / 1000) : FIXED_STEP;
+        lastTime = time;
+        accumulator += frameTime;
+
+        while (accumulator >= FIXED_STEP) {
+          windPhase += FIXED_STEP;
+          wind = Math.sin(windPhase * 1.7) * 0.28 + Math.sin(windPhase * 0.63 + 2.1) * 0.16;
+          integrate(FIXED_STEP);
+          for (var i = 0; i < SOLVER_STEPS; i += 1) {
+            solveSticks(i);
+            constrainBounds();
+            applyPins(time);
+          }
+          accumulator -= FIXED_STEP;
+        }
+
+        draw(time);
+        updateStats(time);
+        requestAnimationFrame(update);
+      }
+
+      function integrate(dt) {
+        var normalizedStep = dt * 60;
+        var forceScale = normalizedStep * normalizedStep;
+        var pointerVX = pointer.active ? (pointer.x - pointer.px) : 0;
+        var pointerVY = pointer.active ? (pointer.y - pointer.py) : 0;
+
+        for (var i = 0; i < points.length; i += 1) {
+          var p = points[i];
+          if (p.pinX !== null) {
+            continue;
+          }
+
+          var vx = (p.x - p.oldX) * DAMPING;
+          var vy = (p.y - p.oldY) * DAMPING;
+          var rowLift = p.row / Math.max(1, rows - 1);
+          var wave = Math.sin(p.y * 0.018 + windPhase * 9 + p.column * 0.22) * 0.12;
+          var pressure = wind * (0.45 + rowLift * 0.85) + wave;
+
+          p.oldX = p.x;
+          p.oldY = p.y;
+          p.x += vx + pressure * forceScale;
+          p.y += vy + (GRAVITY * p.mass) * forceScale;
+
+          if (pointer.grab === p) {
+            p.x += (pointer.x - p.x) * 0.88 + pointerVX * POINTER_INERTIA;
+            p.y += (pointer.y - p.y) * 0.88 + pointerVY * POINTER_INERTIA;
+          }
+        }
+
+        pointer.px = pointer.x;
+        pointer.py = pointer.y;
+      }
+
+      function solveSticks(pass) {
+        for (var i = 0; i < sticks.length; i += 1) {
+          var s = sticks[i];
+          if (!s.active) {
+            continue;
+          }
+
+          var a = s.a;
+          var b = s.b;
+          var dx = b.x - a.x;
+          var dy = b.y - a.y;
+          var dist = Math.sqrt(dx * dx + dy * dy) || 0.0001;
+          var stretch = dist / s.rest;
+          s.strain = stretch;
+
+          if (stretch > SNAP_STRETCH && !(a.pinX !== null && b.pinX !== null)) {
+            s.active = false;
+            activeSticks -= 1;
+            tears += 1;
+            kickTornEnds(a, b, dx / dist, dy / dist);
+            continue;
+          }
+
+          var stiffness = s.kind === "bias" ? 0.36 : 0.72;
+          var correction = (dist - s.rest) / dist * stiffness;
+          var axPinned = a.pinX !== null;
+          var bxPinned = b.pinX !== null;
+          var shareA = bxPinned ? 1 : axPinned ? 0 : 0.5;
+          var shareB = axPinned ? 1 : bxPinned ? 0 : 0.5;
+
+          if (!axPinned) {
+            a.x += dx * correction * shareA;
+            a.y += dy * correction * shareA;
+          }
+          if (!bxPinned) {
+            b.x -= dx * correction * shareB;
+            b.y -= dy * correction * shareB;
+          }
+        }
+
+        if (pointer.grab && pass > 0) {
+          pointer.grab.x += (pointer.x - pointer.grab.x) * 0.36;
+          pointer.grab.y += (pointer.y - pointer.grab.y) * 0.36;
+        }
+      }
+
+      function kickTornEnds(a, b, nx, ny) {
+        if (a.pinX === null) {
+          a.oldX += nx * 1.7;
+          a.oldY += ny * 1.7;
+        }
+        if (b.pinX === null) {
+          b.oldX -= nx * 1.7;
+          b.oldY -= ny * 1.7;
+        }
+      }
+
+      function constrainBounds() {
+        var pad = 8;
+        var floor = height - 8;
+        for (var i = 0; i < points.length; i += 1) {
+          var p = points[i];
+          if (p.pinX !== null) {
+            continue;
+          }
+          if (p.x < pad) {
+            p.x = pad;
+            p.oldX = p.x + (p.x - p.oldX) * -0.2;
+          } else if (p.x > width - pad) {
+            p.x = width - pad;
+            p.oldX = p.x + (p.x - p.oldX) * -0.2;
+          }
+          if (p.y > floor) {
+            p.y = floor;
+            p.oldY = p.y + (p.y - p.oldY) * -0.22;
+            p.oldX += (p.x - p.oldX) * 0.12;
+          }
+        }
+      }
+
+      function applyPins(time) {
+        var t = time * 0.001;
+        for (var i = 0; i < points.length; i += 1) {
+          var p = points[i];
+          if (p.pinX !== null) {
+            var sway = Math.sin(t * 1.6 + p.column * 0.55) * 1.7;
+            p.x = p.pinX + sway;
+            p.y = p.pinY + Math.sin(t * 1.1 + p.column * 0.4) * 0.7;
+            p.oldX = p.x;
+            p.oldY = p.y;
+          }
+        }
+      }
+
+      function draw(time) {
+        var t = time * 0.001;
+        drawBackground(t);
+        drawClothShadow();
+        drawPanels();
+        drawAnchors(t);
+        drawGrabHighlight(t);
+      }
+
+      function drawBackground(t) {
+        var g = ctx.createLinearGradient(0, 0, 0, height);
+        g.addColorStop(0, "#101726");
+        g.addColorStop(0.56, "#080a10");
+        g.addColorStop(1, "#050608");
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.save();
+        ctx.globalAlpha = 0.32;
+        ctx.strokeStyle = "rgba(255,255,255,0.055)";
+        ctx.lineWidth = 1;
+        var grid = Math.max(28, spacing);
+        var ox = (Math.sin(t * 0.4) * 16) % grid;
+        for (var x = ox - grid; x < width + grid; x += grid) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x - height * 0.14, height);
+          ctx.stroke();
+        }
+        for (var y = -grid; y < height + grid; y += grid) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(width, y + width * 0.035);
+          ctx.stroke();
+        }
+        ctx.restore();
+
+        drawWind(t);
+      }
+
+      function drawWind(t) {
+        ctx.save();
+        ctx.lineWidth = 1;
+        for (var i = 0; i < 16; i += 1) {
+          var y = ((i * 61 + t * 18) % (height + 130)) - 80;
+          var x = ((i * 173 + Math.sin(t + i) * 44) % (width + 180)) - 90;
+          var len = 52 + Math.sin(t * 1.8 + i) * 20;
+          var alpha = 0.04 + Math.abs(wind) * 0.025;
+          ctx.strokeStyle = "rgba(113,227,255," + alpha.toFixed(3) + ")";
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.bezierCurveTo(x + len * 0.35, y - 8, x + len * 0.7, y + 9, x + len, y + wind * 16);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      function drawClothShadow() {
+        ctx.save();
+        ctx.globalCompositeOperation = "source-over";
+        ctx.shadowColor = "rgba(0, 0, 0, 0.55)";
+        ctx.shadowBlur = 28;
+        ctx.shadowOffsetY = 22;
+        ctx.strokeStyle = "rgba(0, 0, 0, 0.25)";
+        ctx.lineWidth = 8;
+        ctx.beginPath();
+        for (var i = 0; i < sticks.length; i += 1) {
+          var s = sticks[i];
+          if (!s.active || s.kind === "bias") {
+            continue;
+          }
+          ctx.moveTo(s.a.x, s.a.y);
+          ctx.lineTo(s.b.x, s.b.y);
+        }
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function drawPanels() {
+        ctx.save();
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+
+        for (var row = 0; row < rows - 1; row += 1) {
+          for (var col = 0; col < cols - 1; col += 1) {
+            var p0 = pointAt(col, row);
+            var p1 = pointAt(col + 1, row);
+            var p2 = pointAt(col + 1, row + 1);
+            var p3 = pointAt(col, row + 1);
+            var shade = 0.08 + (row / rows) * 0.1 + Math.sin((col + row) * 0.7) * 0.012;
+            var alpha = hasEnoughEdges(col, row) ? 0.38 : 0.13;
+            ctx.fillStyle = "rgba(" +
+              Math.round(54 + row * 1.4) + "," +
+              Math.round(136 + col * 0.8) + "," +
+              Math.round(164 + row * 0.8) + "," +
+              alpha.toFixed(3) + ")";
+            ctx.beginPath();
+            ctx.moveTo(p0.x, p0.y);
+            ctx.lineTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.lineTo(p3.x, p3.y);
+            ctx.closePath();
+            ctx.fill();
+
+            if (shade > 0.12) {
+              ctx.fillStyle = "rgba(255, 255, 255, 0.025)";
+              ctx.fill();
+            }
+          }
+        }
+
+        drawSticks("bias", "rgba(121, 218, 255, 0.12)", 0.55);
+        drawSticks("warp", "rgba(220, 248, 255, 0.72)", 1.18);
+        drawSticks("weft", "rgba(129, 227, 255, 0.62)", 1.08);
+        drawStrain();
+        ctx.restore();
+      }
+
+      function hasEnoughEdges(col, row) {
+        var p0 = pointAt(col, row);
+        var p1 = pointAt(col + 1, row);
+        var p2 = pointAt(col + 1, row + 1);
+        var p3 = pointAt(col, row + 1);
+        var count =
+          (edgeActive(p0, p1) ? 1 : 0) +
+          (edgeActive(p1, p2) ? 1 : 0) +
+          (edgeActive(p2, p3) ? 1 : 0) +
+          (edgeActive(p3, p0) ? 1 : 0);
+        return count >= 2;
+      }
+
+      function edgeActive(a, b) {
+        var stick = edgeMap[edgeKey(a, b)];
+        return !!(stick && stick.active);
+      }
+
+      function drawSticks(kind, color, lineWidth) {
+        ctx.beginPath();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = lineWidth;
+        for (var i = 0; i < sticks.length; i += 1) {
+          var s = sticks[i];
+          if (!s.active || s.kind !== kind) {
+            continue;
+          }
+          ctx.moveTo(s.a.x, s.a.y);
+          ctx.lineTo(s.b.x, s.b.y);
+        }
+        ctx.stroke();
+      }
+
+      function drawStrain() {
+        ctx.save();
+        ctx.lineWidth = 1.8;
+        ctx.shadowColor = "rgba(255, 92, 122, 0.55)";
+        ctx.shadowBlur = 6;
+        for (var i = 0; i < sticks.length; i += 1) {
+          var s = sticks[i];
+          if (!s.active || s.kind === "bias" || s.strain < 1.42) {
+            continue;
+          }
+          var heat = clamp((s.strain - 1.42) / (SNAP_STRETCH - 1.42), 0, 1);
+          ctx.strokeStyle = "rgba(255, " + Math.round(184 - heat * 110) + ", " + Math.round(102 - heat * 42) + ", " + (0.25 + heat * 0.58).toFixed(3) + ")";
+          ctx.beginPath();
+          ctx.moveTo(s.a.x, s.a.y);
+          ctx.lineTo(s.b.x, s.b.y);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      function drawAnchors(t) {
+        ctx.save();
+        for (var i = 0; i < cols; i += 1) {
+          if (!anchorSet[i]) {
+            continue;
+          }
+          var p = pointAt(i, 0);
+          ctx.strokeStyle = "rgba(255, 186, 102, 0.65)";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(p.pinX, p.pinY - 38);
+          ctx.lineTo(p.x, p.y);
+          ctx.stroke();
+
+          ctx.fillStyle = "rgba(255, 186, 102, 0.95)";
+          ctx.shadowColor = "rgba(255, 186, 102, 0.55)";
+          ctx.shadowBlur = 12 + Math.sin(t * 2 + i) * 3;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 4.4, 0, TAU);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+        ctx.restore();
+      }
+
+      function drawGrabHighlight(t) {
+        if (!pointer.active) {
+          return;
+        }
+        ctx.save();
+        var pulse = 0.5 + Math.sin(t * 7) * 0.5;
+        ctx.strokeStyle = pointer.grab ? "rgba(255, 186, 102, 0.64)" : "rgba(113, 227, 255, 0.42)";
+        ctx.lineWidth = 1 + pulse * 0.8;
+        ctx.beginPath();
+        ctx.arc(pointer.x, pointer.y, DRAG_RADIUS, 0, TAU);
+        ctx.stroke();
+
+        if (pointer.grab) {
+          ctx.strokeStyle = "rgba(255, 186, 102, 0.42)";
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(pointer.x, pointer.y);
+          ctx.lineTo(pointer.grab.x, pointer.grab.y);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      function updateStats(time) {
+        if (time - statClock < 120) {
+          return;
+        }
+        statClock = time;
+        linkStat.textContent = String(activeSticks);
+        tearStat.textContent = String(tears);
+        windStat.textContent = wind.toFixed(1);
+      }
+
+      function pointerPos(event) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+          x: (event.clientX - rect.left) * (width / rect.width),
+          y: (event.clientY - rect.top) * (height / rect.height)
+        };
+      }
+
+      function nearestPoint(x, y) {
+        var best = null;
+        var bestDist = DRAG_RADIUS * DRAG_RADIUS;
+        for (var i = 0; i < points.length; i += 1) {
+          var p = points[i];
+          if (p.pinX !== null) {
+            continue;
+          }
+          var dx = p.x - x;
+          var dy = p.y - y;
+          var dist = dx * dx + dy * dy;
+          if (dist < bestDist) {
+            bestDist = dist;
+            best = p;
+          }
+        }
+        return best;
+      }
+
+      function setCursor(x, y, visible, locked) {
+        cursor.style.left = x + "px";
+        cursor.style.top = y + "px";
+        cursor.classList.toggle("visible", !!visible);
+        cursor.classList.toggle("locked", !!locked);
+      }
+
+      canvas.addEventListener("pointerdown", function (event) {
+        var pos = pointerPos(event);
+        pointer.active = true;
+        pointer.id = event.pointerId;
+        pointer.x = pos.x;
+        pointer.y = pos.y;
+        pointer.px = pos.x;
+        pointer.py = pos.y;
+        pointer.grab = nearestPoint(pos.x, pos.y);
+        canvas.setPointerCapture(event.pointerId);
+        canvas.classList.add("dragging");
+        setCursor(event.clientX, event.clientY, true, !!pointer.grab);
+      });
+
+      canvas.addEventListener("pointermove", function (event) {
+        var pos = pointerPos(event);
+        if (pointer.active && event.pointerId === pointer.id) {
+          pointer.x = pos.x;
+          pointer.y = pos.y;
+          if (!pointer.grab) {
+            pointer.grab = nearestPoint(pos.x, pos.y);
+          }
+          setCursor(event.clientX, event.clientY, true, !!pointer.grab);
+        } else {
+          setCursor(event.clientX, event.clientY, true, !!nearestPoint(pos.x, pos.y));
+        }
+      });
+
+      canvas.addEventListener("pointerleave", function () {
+        if (!pointer.active) {
+          setCursor(0, 0, false, false);
+        }
+      });
+
+      function releasePointer(event) {
+        if (event && pointer.id !== null && event.pointerId !== pointer.id) {
+          return;
+        }
+        pointer.active = false;
+        pointer.id = null;
+        pointer.grab = null;
+        canvas.classList.remove("dragging");
+        cursor.classList.remove("locked");
+      }
+
+      canvas.addEventListener("pointerup", releasePointer);
+      canvas.addEventListener("pointercancel", releasePointer);
+
+      resetButton.addEventListener("click", function () {
+        createCloth();
+      });
+
+      window.addEventListener("resize", function () {
+        resize();
+      });
+
+      resize();
+      requestAnimationFrame(update);
+    })();
+  </script>
+</body>
+</html>

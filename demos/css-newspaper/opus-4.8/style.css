@@ -1,0 +1,368 @@
+/* ===========================================================
+   Вечерній Вѣстникъ — первая полоса
+   Чистый CFF/HTML, без JavaScript. Газетная типографика.
+   =========================================================== */
+
+:root {
+  --paper:      #f4efe2;   /* тёплая бумага */
+  --paper-edge: #ece5d4;   /* тень кромки листа */
+  --ink:        #1c1813;   /* почти чёрные чернила */
+  --ink-soft:   #4a4339;   /* выцветший текст */
+  --ink-faint:  #7a7062;   /* подписи, служебное */
+  --rule:       #2a241c;   /* линейки */
+  --accent:     #6e1414;   /* типографская «красная строка» */
+  --serif: Georgia, "Times New Roman", "PT Serif", "Liberation Serif", serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  /* лёгкая «зернистость» бумаги двумя радиальными градиентами */
+  background:
+    radial-gradient(circle at 18% 12%, rgba(0,0,0,.018) 0, transparent 55%),
+    radial-gradient(circle at 82% 88%, rgba(0,0,0,.022) 0, transparent 55%),
+    #ddd6c5;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  padding: 26px 16px 44px;
+}
+
+/* ---- Лист газеты ---------------------------------------- */
+.sheet {
+  max-width: 1080px;
+  margin: 0 auto;
+  background: var(--paper);
+  padding: 40px 48px 30px;
+  border: 1px solid #cfc6b1;
+  box-shadow:
+    0 1px 0 #fff inset,
+    0 18px 40px -22px rgba(0,0,0,.45);
+  background-image:
+    linear-gradient(90deg, rgba(0,0,0,.015), transparent 6%, transparent 94%, rgba(0,0,0,.02));
+}
+
+/* ===========================================================
+   ШАПКА / MASTHEAD
+   =========================================================== */
+.masthead { text-align: center; }
+
+.masthead__ears {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--ink-faint);
+  letter-spacing: .02em;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule);
+}
+.ear--left  { text-align: left;  max-width: 38%; font-style: italic; }
+.ear--right { text-align: right; max-width: 42%; font-style: italic; }
+
+.masthead__title { padding: 10px 0 6px; }
+
+.masthead__est {
+  display: block;
+  font-size: 11px;
+  letter-spacing: .42em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+  padding-left: .42em; /* компенсация трекинга */
+}
+
+.masthead__name {
+  margin: 0;
+  font-size: clamp(46px, 9vw, 104px);
+  line-height: .92;
+  font-weight: 700;
+  letter-spacing: .005em;
+  /* благородные засечки старого устава */
+  font-family: "Playbill", "Old English Text MT", Georgia, var(--serif);
+  text-shadow: 0 1px 0 rgba(255,255,255,.4);
+}
+
+.masthead__motto {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-soft);
+  letter-spacing: .02em;
+}
+
+.masthead__bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 7px 0;
+  border-top: 3px double var(--rule);
+  border-bottom: 1px solid var(--rule);
+  font-size: 12px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.bar__sep { color: var(--accent); font-size: 9px; }
+
+/* ===========================================================
+   ГЛАВНАЯ СТАТЬЯ
+   =========================================================== */
+.kicker {
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.lead-story { padding-top: 22px; }
+
+.lead-story__headline {
+  margin: 6px 0 12px;
+  text-align: center;
+  font-size: clamp(34px, 5.4vw, 60px);
+  line-height: 1.02;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+
+.lead-story__subhead {
+  max-width: 46ch;
+  margin: 0 auto 18px;
+  text-align: center;
+  font-size: 20px;
+  line-height: 1.4;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+/* многоколоночная вёрстка лида */
+.lead-story__body {
+  columns: 3;
+  column-gap: 34px;
+  column-rule: 1px solid #c8bfa9;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  margin-top: 18px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+
+.lead-story__body p {
+  margin: 0 0 .35em;
+  text-indent: 1.25em;
+}
+.lead-story__body p:first-of-type { text-indent: 0; }
+
+/* буквица */
+.dropcap {
+  float: left;
+  font-size: 4.9em;
+  line-height: .78;
+  padding: .02em .08em 0 0;
+  margin: .02em .06em 0 0;
+  font-weight: 700;
+  color: var(--accent);
+  font-family: Georgia, var(--serif);
+}
+
+/* первый абзац без отступа, чуть крупнее */
+.lead-paragraph {
+  font-size: 17.5px;
+}
+
+/* ===========================================================
+   НИЖНИЙ ЯРУС
+   =========================================================== */
+.lower-deck {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 1fr;
+  gap: 0;
+  margin-top: 8px;
+}
+
+.brief {
+  padding: 0 22px;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+.brief:first-child { padding-left: 0; }
+.brief:last-child  { padding-right: 0; }
+.brief--bordered { border-left: 1px solid var(--rule); }
+
+.brief__title {
+  margin: 6px 0 10px;
+  font-size: clamp(19px, 2.4vw, 25px);
+  line-height: 1.12;
+  font-weight: 700;
+  text-align: left;
+  letter-spacing: -.005em;
+}
+
+.brief p {
+  margin: 0 0 .55em;
+  font-size: 14.5px;
+  line-height: 1.46;
+  color: var(--ink);
+  text-indent: 1.1em;
+}
+.brief p:first-of-type { text-indent: 0; }
+
+/* ===========================================================
+   ФОТО-ПЛЕЙСХОЛДЕРЫ
+   =========================================================== */
+.figure { margin: 0 0 12px; }
+
+.ph {
+  position: relative;
+  border: 1px solid var(--rule);
+  background: #e9e3d6;
+  overflow: hidden;
+}
+.ph svg { display: block; width: 100%; height: 100%; }
+/* «полутоновая» газетная сетка поверх фото */
+.ph::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(0,0,0,.16) .6px, transparent .7px);
+  background-size: 3px 3px;
+  mix-blend-mode: multiply;
+  opacity: .55;
+  pointer-events: none;
+}
+.ph--portrait { aspect-ratio: 4 / 5; }
+.ph--wide     { aspect-ratio: 16 / 9; }
+
+.figure--inset {
+  float: right;
+  width: 100%;
+  margin: 4px 0 10px;
+}
+
+figcaption {
+  margin-top: 5px;
+  font-size: 11.5px;
+  line-height: 1.32;
+  font-style: italic;
+  color: var(--ink-faint);
+  text-align: left;
+  text-indent: 0;
+}
+figcaption em { font-style: normal; letter-spacing: .03em; }
+
+/* ===========================================================
+   ВРЕЗКА С ЦИТАТОЙ
+   =========================================================== */
+.pullquote {
+  margin: 14px 0 6px;
+  padding: 16px 6px 14px;
+  border-top: 3px double var(--rule);
+  border-bottom: 3px double var(--rule);
+  text-align: center;
+  break-inside: avoid;
+}
+.pullquote__text {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.28;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--ink);
+  text-indent: 0;
+  position: relative;
+}
+.pullquote__text::before { content: "« "; color: var(--accent); }
+.pullquote__text::after  { content: " »"; color: var(--accent); }
+.pullquote__attr {
+  margin: 9px 0 0;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-style: normal;
+  text-indent: 0;
+}
+
+/* ===========================================================
+   ЛИНЕЙКИ
+   =========================================================== */
+.rule { border: 0; margin: 22px 0; }
+.rule--thick {
+  border-top: 4px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  height: 4px;
+}
+.rule--double {
+  border-top: 3px double var(--rule);
+  margin: 0 0 12px;
+}
+
+/* ===========================================================
+   КОЛОНТИТУЛ
+   =========================================================== */
+.colophon { margin-top: 26px; }
+.colophon__grid {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 11.5px;
+  letter-spacing: .03em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+.colophon__center { text-align: center; }
+.colophon__right  { text-align: right; }
+.colophon__note {
+  margin: 10px 0 0;
+  text-align: center;
+  font-size: 11px;
+  font-style: italic;
+  color: var(--ink-faint);
+}
+
+/* ===========================================================
+   АДАПТИВ
+   =========================================================== */
+@media (max-width: 860px) {
+  .sheet { padding: 26px 22px 22px; }
+  .lead-story__body { columns: 2; column-gap: 26px; }
+  .lower-deck { grid-template-columns: 1fr 1fr; }
+  .brief { padding: 16px 16px 0; }
+  .brief:first-child { grid-column: 1 / -1; padding: 0 0 14px; border-bottom: 1px solid var(--rule); }
+  .brief--bordered:nth-child(3) { border-left: 0; }
+}
+
+@media (max-width: 560px) {
+  body { font-size: 16px; padding: 14px 8px 30px; }
+  .masthead__ears { display: none; }
+  .lead-story__body { columns: 1; border-top-width: 1px; }
+  .lower-deck { grid-template-columns: 1fr; }
+  .brief, .brief:first-child { padding: 16px 0 0; border-left: 0; }
+  .brief--bordered { border-left: 0; border-top: 1px solid var(--rule); padding-top: 16px; }
+  .colophon__grid { flex-direction: column; align-items: center; text-align: center; }
+  .colophon__right, .colophon__center { text-align: center; }
+  .figure--inset { float: none; }
+}
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .sheet { box-shadow: none; border: 0; max-width: none; }
+}

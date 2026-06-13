@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inline SVG Bicycle</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #070a10;
+      --bg2: #101824;
+      --tube: #f0f8ff;
+      --tube-soft: #b7d9ee;
+      --line: #d9f0ff;
+      --dim: #7f9cb2;
+      --dark-metal: #121a24;
+      --accent: #ffe8a3;
+      --brake: #ffb6a3;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .stage {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      background:
+        radial-gradient(circle at 50% 55%, rgba(68, 111, 139, 0.23), transparent 47%),
+        linear-gradient(180deg, var(--bg2), var(--bg) 58%, #04060a);
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .guide {
+      fill: none;
+      stroke: rgba(173, 216, 242, 0.13);
+      stroke-width: 1.2;
+    }
+
+    .shadow {
+      fill: rgba(0, 0, 0, 0.34);
+    }
+
+    .tire {
+      fill: none;
+      stroke: #0e1621;
+      stroke-width: 28;
+    }
+
+    .tire-edge {
+      fill: none;
+      stroke: rgba(230, 248, 255, 0.34);
+      stroke-width: 2;
+    }
+
+    .rim {
+      fill: none;
+      stroke: var(--line);
+      stroke-width: 7;
+    }
+
+    .rim-inner {
+      fill: none;
+      stroke: rgba(217, 240, 255, 0.58);
+      stroke-width: 2;
+    }
+
+    .spoke {
+      stroke: #c9dfed;
+      stroke-width: 1.25;
+      stroke-linecap: round;
+      opacity: 0.72;
+    }
+
+    .spoke:nth-child(odd) {
+      opacity: 0.48;
+    }
+
+    .hub-shell {
+      fill: #101925;
+      stroke: var(--line);
+      stroke-width: 4;
+    }
+
+    .hub-flange {
+      fill: rgba(217, 240, 255, 0.12);
+      stroke: rgba(217, 240, 255, 0.72);
+      stroke-width: 2;
+    }
+
+    .axle {
+      fill: var(--accent);
+      stroke: #fff5cd;
+      stroke-width: 2;
+    }
+
+    .tube-back {
+      fill: none;
+      stroke: rgba(1, 5, 10, 0.84);
+      stroke-width: 22;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .tube {
+      fill: none;
+      stroke: url(#tubeGradient);
+      stroke-width: 12.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .stay {
+      fill: none;
+      stroke: var(--tube-soft);
+      stroke-width: 7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .stay-back {
+      fill: none;
+      stroke: rgba(1, 5, 10, 0.9);
+      stroke-width: 14;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .triangle-fill {
+      fill: rgba(120, 193, 239, 0.035);
+      stroke: rgba(180, 224, 247, 0.2);
+      stroke-width: 1.2;
+    }
+
+    .lug {
+      fill: #101925;
+      stroke: var(--line);
+      stroke-width: 4;
+    }
+
+    .small-lug {
+      fill: #101925;
+      stroke: var(--tube-soft);
+      stroke-width: 3;
+    }
+
+    .chain-track {
+      fill: none;
+      stroke: rgba(3, 6, 10, 0.94);
+      stroke-width: 15;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .chain-line {
+      fill: none;
+      stroke: #f7f4d4;
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .chain-link {
+      fill: rgba(255, 244, 197, 0.88);
+      stroke: #fff8d7;
+      stroke-width: 1;
+    }
+
+    .gear {
+      fill: rgba(9, 15, 22, 0.82);
+      stroke: var(--accent);
+      stroke-width: 5;
+    }
+
+    .gear-tooth {
+      fill: none;
+      stroke: #fff3bd;
+      stroke-width: 8;
+      stroke-dasharray: 2 8;
+      stroke-linecap: round;
+    }
+
+    .crank {
+      stroke: var(--line);
+      stroke-width: 7;
+      stroke-linecap: round;
+    }
+
+    .pedal {
+      fill: #121a24;
+      stroke: var(--line);
+      stroke-width: 3;
+    }
+
+    .saddle-fill {
+      fill: #eef8ff;
+      stroke: #ffffff;
+      stroke-width: 2.5;
+    }
+
+    .saddle-shadow {
+      fill: #111924;
+      stroke: rgba(217, 240, 255, 0.42);
+      stroke-width: 2;
+    }
+
+    .handlebar,
+    .stem,
+    .fork {
+      fill: none;
+      stroke: var(--line);
+      stroke-width: 9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .fork-back {
+      fill: none;
+      stroke: rgba(1, 5, 10, 0.92);
+      stroke-width: 18;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .cable {
+      fill: none;
+      stroke: rgba(201, 223, 237, 0.82);
+      stroke-width: 2.1;
+      stroke-linecap: round;
+    }
+
+    .brake-arm {
+      fill: none;
+      stroke: var(--brake);
+      stroke-width: 4.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .brake-pad {
+      fill: #101925;
+      stroke: #ffd2c8;
+      stroke-width: 2;
+    }
+
+    .bolt {
+      fill: var(--accent);
+      stroke: #fff7cd;
+      stroke-width: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <svg viewBox="0 0 1200 700" role="img" aria-labelledby="svgTitle svgDesc" preserveAspectRatio="xMidYMid meet">
+      <title id="svgTitle">Technical inline SVG drawing of a classic bicycle</title>
+      <desc id="svgDesc">A clean vector bicycle with diamond frame, wheels, spokes, fork, saddle, handlebar, crankset, pedals, chain, sprockets and brakes on a dark background.</desc>
+
+      <defs>
+        <linearGradient id="tubeGradient" x1="210" y1="230" x2="860" y2="520" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#ffffff"/>
+          <stop offset="0.38" stop-color="#dff5ff"/>
+          <stop offset="1" stop-color="#a7cee6"/>
+        </linearGradient>
+
+        <filter id="glow" x="-15%" y="-18%" width="130%" height="136%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="1.15" result="blur"/>
+          <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.48 0 0 0 0 0.82 0 0 0 0 1 0 0 0 0.48 0" result="aura"/>
+          <feMerge>
+            <feMergeNode in="aura"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+
+        <g id="frontCrankArm">
+          <line class="crank" x1="500" y1="455" x2="559" y2="504"/>
+          <g transform="translate(570 513) rotate(28)">
+            <rect class="pedal" x="-25" y="-6" width="50" height="12" rx="3"/>
+            <line x1="-18" y1="0" x2="18" y2="0" stroke="#f4fbff" stroke-width="1.5"/>
+          </g>
+        </g>
+
+        <g id="rearCrankArm">
+          <line class="crank" x1="500" y1="455" x2="443" y2="410" opacity="0.45"/>
+          <g transform="translate(432 401) rotate(28)" opacity="0.58">
+            <rect class="pedal" x="-23" y="-5.5" width="46" height="11" rx="3"/>
+            <line x1="-16" y1="0" x2="16" y2="0" stroke="#f4fbff" stroke-width="1.3"/>
+          </g>
+        </g>
+      </defs>
+
+      <rect width="1200" height="700" fill="transparent"/>
+      <ellipse class="shadow" cx="600" cy="632" rx="505" ry="36"/>
+
+      <g class="guide">
+        <path d="M130 490H1070"/>
+        <path d="M270 310V610M930 310V610"/>
+        <circle cx="270" cy="490" r="180"/>
+        <circle cx="930" cy="490" r="180"/>
+      </g>
+
+      <g id="bicycle" filter="url(#glow)">
+        <g id="wheels">
+          <g id="rearWheel">
+            <circle class="tire" cx="270" cy="490" r="180"/>
+            <circle class="tire-edge" cx="270" cy="490" r="194"/>
+            <circle class="rim" cx="270" cy="490" r="164"/>
+            <circle class="rim-inner" cx="270" cy="490" r="151"/>
+            <g id="rearSpokes"></g>
+            <line x1="270" y1="326" x2="270" y2="348" stroke="#fff3bd" stroke-width="3" stroke-linecap="round"/>
+            <ellipse class="hub-flange" cx="270" cy="490" rx="29" ry="12"/>
+            <circle class="hub-shell" cx="270" cy="490" r="18"/>
+            <circle class="axle" cx="270" cy="490" r="5.5"/>
+          </g>
+
+          <g id="frontWheel">
+            <circle class="tire" cx="930" cy="490" r="180"/>
+            <circle class="tire-edge" cx="930" cy="490" r="194"/>
+            <circle class="rim" cx="930" cy="490" r="164"/>
+            <circle class="rim-inner" cx="930" cy="490" r="151"/>
+            <g id="frontSpokes"></g>
+            <line x1="930" y1="326" x2="930" y2="348" stroke="#fff3bd" stroke-width="3" stroke-linecap="round"/>
+            <ellipse class="hub-flange" cx="930" cy="490" rx="29" ry="12"/>
+            <circle class="hub-shell" cx="930" cy="490" r="18"/>
+            <circle class="axle" cx="930" cy="490" r="5.5"/>
+          </g>
+        </g>
+
+        <g id="chainAssembly">
+          <path class="chain-track" d="M268 463 L491 404 A53 53 0 0 1 553 471 L509 506 L280 518 A29 29 0 0 1 268 463 Z"/>
+          <path class="chain-line" d="M268 463 L491 404 A53 53 0 0 1 553 471 L509 506 L280 518 A29 29 0 0 1 268 463 Z"/>
+          <g id="chainLinks"></g>
+
+          <circle class="gear-tooth" cx="500" cy="455" r="58"/>
+          <circle class="gear" cx="500" cy="455" r="48"/>
+          <circle fill="#101925" stroke="#fff4c4" stroke-width="3" cx="500" cy="455" r="24"/>
+          <g stroke="#fff4c4" stroke-width="4" stroke-linecap="round">
+            <line x1="500" y1="455" x2="500" y2="413"/>
+            <line x1="500" y1="455" x2="539" y2="468"/>
+            <line x1="500" y1="455" x2="524" y2="490"/>
+            <line x1="500" y1="455" x2="476" y2="490"/>
+            <line x1="500" y1="455" x2="461" y2="468"/>
+          </g>
+          <circle class="gear-tooth" cx="270" cy="490" r="33"/>
+          <circle class="gear" cx="270" cy="490" r="25"/>
+        </g>
+
+        <g id="frameTriangles">
+          <path class="triangle-fill" d="M270 490 L430 245 L500 455 Z"/>
+          <path class="triangle-fill" d="M430 245 L760 250 L800 345 L500 455 Z"/>
+        </g>
+
+        <g id="frameBack">
+          <path class="tube-back" d="M430 245 L760 250"/>
+          <path class="tube-back" d="M760 250 L800 345"/>
+          <path class="tube-back" d="M800 345 L500 455"/>
+          <path class="tube-back" d="M500 455 L430 245"/>
+          <path class="stay-back" d="M270 490 L430 245"/>
+          <path class="stay-back" d="M270 490 L500 455"/>
+        </g>
+
+        <g id="frameTubes">
+          <path class="tube" d="M430 245 L760 250"/>
+          <path class="tube" d="M760 250 L800 345"/>
+          <path class="tube" d="M800 345 L500 455"/>
+          <path class="tube" d="M500 455 L430 245"/>
+          <path class="stay" d="M270 490 L430 245"/>
+          <path class="stay" d="M270 490 L500 455"/>
+          <path class="stay" d="M274 502 L503 468" opacity="0.62"/>
+          <path class="stay" d="M285 488 L436 256" opacity="0.52"/>
+        </g>
+
+        <g id="fork">
+          <path class="fork-back" d="M800 345 C832 382 884 432 930 490"/>
+          <path class="fork-back" d="M776 330 C816 382 872 433 930 490"/>
+          <path class="fork" d="M800 345 C832 382 884 432 930 490"/>
+          <path class="fork" d="M776 330 C816 382 872 433 930 490"/>
+          <path class="stay" d="M786 328 C808 345 826 352 846 350"/>
+          <circle class="small-lug" cx="930" cy="490" r="14"/>
+        </g>
+
+        <g id="dropouts">
+          <path d="M247 486 L270 474 L293 486 L287 503 L254 503 Z" fill="#111924" stroke="#d9f0ff" stroke-width="3"/>
+          <path d="M911 482 L930 471 L950 482 L946 501 L914 501 Z" fill="#111924" stroke="#d9f0ff" stroke-width="3"/>
+        </g>
+
+        <g id="lugs">
+          <circle class="lug" cx="430" cy="245" r="17"/>
+          <circle class="lug" cx="500" cy="455" r="20"/>
+          <ellipse class="lug" cx="760" cy="250" rx="17" ry="15"/>
+          <ellipse class="lug" cx="800" cy="345" rx="17" ry="15"/>
+          <circle class="small-lug" cx="270" cy="490" r="13"/>
+          <path d="M748 232 L772 226" stroke="#e8f7ff" stroke-width="5" stroke-linecap="round"/>
+          <path d="M790 369 L813 363" stroke="#e8f7ff" stroke-width="5" stroke-linecap="round"/>
+        </g>
+
+        <g id="seat">
+          <path class="stay-back" d="M430 245 L411 199"/>
+          <path class="stay" d="M430 245 L411 199"/>
+          <path class="saddle-shadow" d="M349 217 C382 205 444 204 492 217 C478 235 385 238 342 226 C340 223 343 220 349 217 Z"/>
+          <path class="saddle-fill" d="M352 198 C388 184 446 187 495 205 C478 220 392 221 346 211 C342 207 345 202 352 198 Z"/>
+          <path d="M393 217 C409 225 445 224 461 214" fill="none" stroke="#111924" stroke-width="3" stroke-linecap="round"/>
+          <path d="M392 221 L431 246 M458 218 L436 246" stroke="#b7d9ee" stroke-width="3" stroke-linecap="round"/>
+        </g>
+
+        <g id="cockpit">
+          <path class="stem" d="M760 250 L744 209 L828 204"/>
+          <path class="handlebar" d="M828 204 C875 193 926 209 928 247 C930 286 895 310 858 291"/>
+          <path class="handlebar" d="M836 205 C846 226 850 245 842 267" opacity="0.75"/>
+          <path d="M915 246 C903 255 898 273 904 291" fill="none" stroke="#101925" stroke-width="9" stroke-linecap="round"/>
+          <path d="M915 246 C903 255 898 273 904 291" fill="none" stroke="#ffcfbf" stroke-width="4" stroke-linecap="round"/>
+          <path d="M828 204 L848 219" stroke="#101925" stroke-width="13" stroke-linecap="round"/>
+          <path d="M828 204 L848 219" stroke="#d9f0ff" stroke-width="5" stroke-linecap="round"/>
+          <circle class="bolt" cx="828" cy="204" r="4.6"/>
+        </g>
+
+        <g id="brakesAndCables">
+          <path class="cable" d="M849 218 C895 224 902 287 862 340"/>
+          <path class="cable" d="M837 214 C689 186 498 222 373 318"/>
+
+          <g id="frontBrake">
+            <circle class="bolt" cx="862" cy="340" r="5"/>
+            <path class="brake-arm" d="M862 340 C911 326 982 330 1014 353"/>
+            <path class="brake-arm" d="M862 340 C848 339 838 344 846 353"/>
+            <rect class="brake-pad" x="998" y="348" width="34" height="10" rx="3" transform="rotate(10 1015 353)"/>
+            <rect class="brake-pad" x="829" y="348" width="34" height="10" rx="3" transform="rotate(-10 846 353)"/>
+            <path d="M842 341 C894 319 970 319 1022 343" fill="none" stroke="#ffb6a3" stroke-width="3" stroke-linecap="round"/>
+          </g>
+
+          <g id="rearBrake">
+            <circle class="bolt" cx="373" cy="318" r="5"/>
+            <path class="brake-arm" d="M373 318 C330 323 236 326 185 353"/>
+            <path class="brake-arm" d="M373 318 C369 331 362 344 355 353"/>
+            <rect class="brake-pad" x="168" y="348" width="34" height="10" rx="3" transform="rotate(10 185 353)"/>
+            <rect class="brake-pad" x="338" y="348" width="34" height="10" rx="3" transform="rotate(-10 355 353)"/>
+            <path d="M184 343 C236 319 322 319 373 343" fill="none" stroke="#ffb6a3" stroke-width="3" stroke-linecap="round"/>
+          </g>
+        </g>
+
+        <g id="crankset">
+          <use href="#rearCrankArm"/>
+          <use href="#frontCrankArm"/>
+          <circle class="bolt" cx="500" cy="455" r="8"/>
+        </g>
+      </g>
+    </svg>
+  </main>
+
+  <script>
+    (function () {
+      var ns = document.querySelector("svg").namespaceURI;
+
+      function make(name, attrs) {
+        var node = document.createElementNS(ns, name);
+        Object.keys(attrs).forEach(function (key) {
+          node.setAttribute(key, attrs[key]);
+        });
+        return node;
+      }
+
+      function addSpokes(id, cx, cy, rimRadius, count, twist) {
+        var group = document.getElementById(id);
+        var hubRadius = 22;
+        var step = Math.PI * 2 / count;
+        for (var i = 0; i < count; i += 1) {
+          var hubAngle = i * step + (i % 2 === 0 ? 0.42 : -0.42);
+          var rimAngle = i * step + twist;
+          var line = make("line", {
+            "class": "spoke",
+            x1: (cx + Math.cos(hubAngle) * hubRadius).toFixed(2),
+            y1: (cy + Math.sin(hubAngle) * hubRadius).toFixed(2),
+            x2: (cx + Math.cos(rimAngle) * rimRadius).toFixed(2),
+            y2: (cy + Math.sin(rimAngle) * rimRadius).toFixed(2)
+          });
+          group.appendChild(line);
+        }
+      }
+
+      function addChainRun(group, x1, y1, x2, y2, count) {
+        var dx = x2 - x1;
+        var dy = y2 - y1;
+        var angle = Math.atan2(dy, dx) * 180 / Math.PI;
+        for (var i = 0; i <= count; i += 1) {
+          var t = i / count;
+          var x = x1 + dx * t;
+          var y = y1 + dy * t;
+          group.appendChild(make("rect", {
+            "class": "chain-link",
+            x: "-6",
+            y: "-2.6",
+            width: "12",
+            height: "5.2",
+            rx: "2.4",
+            transform: "translate(" + x.toFixed(2) + " " + y.toFixed(2) + ") rotate(" + angle.toFixed(2) + ")"
+          }));
+        }
+      }
+
+      function addChainArc(group, cx, cy, radius, startDeg, endDeg, count) {
+        var start = startDeg * Math.PI / 180;
+        var end = endDeg * Math.PI / 180;
+        for (var i = 0; i <= count; i += 1) {
+          var t = i / count;
+          var a = start + (end - start) * t;
+          var x = cx + Math.cos(a) * radius;
+          var y = cy + Math.sin(a) * radius;
+          var angle = a * 180 / Math.PI + 90;
+          group.appendChild(make("rect", {
+            "class": "chain-link",
+            x: "-5.7",
+            y: "-2.5",
+            width: "11.4",
+            height: "5",
+            rx: "2.3",
+            transform: "translate(" + x.toFixed(2) + " " + y.toFixed(2) + ") rotate(" + angle.toFixed(2) + ")"
+          }));
+        }
+      }
+
+      addSpokes("rearSpokes", 270, 490, 158, 48, 0.21);
+      addSpokes("frontSpokes", 930, 490, 158, 48, -0.21);
+
+      var chain = document.getElementById("chainLinks");
+      addChainRun(chain, 269, 463, 490, 405, 22);
+      addChainRun(chain, 280, 518, 508, 506, 23);
+      addChainArc(chain, 500, 455, 52, -105, 18, 16);
+      addChainArc(chain, 270, 490, 28, 96, 256, 10);
+    }());
+  </script>
+</body>
+</html>

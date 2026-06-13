@@ -10,7 +10,7 @@
 """
 import os
 import sys
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8473
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -31,6 +31,8 @@ if __name__ == "__main__":
     print(f"visual-tests dev server (no-store): http://localhost:{PORT}/index.html")
     print("Ctrl+C to stop.")
     try:
-        HTTPServer(("", PORT), NoCacheHandler).serve_forever()
+        # ThreadingHTTPServer: однопоточный HTTPServer блокируется целиком,
+        # пока Chromium держит молчащее спекулятивное соединение.
+        ThreadingHTTPServer(("", PORT), NoCacheHandler).serve_forever()
     except KeyboardInterrupt:
         pass

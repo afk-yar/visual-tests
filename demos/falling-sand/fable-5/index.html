@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Падающий песок — Claude Fable 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="bar">
+  <button data-mat="1" class="active" type="button"><span class="swatch" style="background:#d8b264"></span>Песок</button>
+  <button data-mat="2" type="button"><span class="swatch" style="background:#4078d2"></span>Вода</button>
+  <button data-mat="3" type="button"><span class="swatch" style="background:#6e737e"></span>Камень</button>
+  <button data-mat="4" type="button"><span class="swatch" style="background:#7a5434"></span>Дерево</button>
+  <button data-mat="5" type="button"><span class="swatch" style="background:#f07828"></span>Огонь</button>
+  <button data-mat="0" type="button"><span class="swatch" style="background:#1a1e28; border:1px solid #444"></span>Ластик</button>
+  <label>кисть <input type="range" id="size" min="1" max="12" step="1" value="4"><output id="sizev">4</output></label>
+  <button id="btnPause" class="btn" type="button">⏸ Пауза</button>
+  <button id="btnScene" class="btn" type="button">⌂ Сцена</button>
+  <button id="btnClear" class="btn" type="button">✕ Очистить</button>
+</header>
+<main>
+  <canvas id="cv"></canvas>
+  <div class="hud" id="hud">рисуйте мышью</div>
+</main>
+<script src="sand.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

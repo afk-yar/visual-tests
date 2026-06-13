@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Идущий человечек — Opus 4.8</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <canvas id="stage"></canvas>
+    <div class="panel">
+      <label>Скорость
+        <input id="speed" type="range" min="20" max="440" step="1" value="120">
+      </label>
+      <output id="speedOut" class="readout">120 px/c</output>
+      <span class="hint">медленная ходьба → бег</span>
+      <span class="spacer"></span>
+      <span id="gait" class="readout"></span>
+    </div>
+  </div>
+  <script src="gait.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

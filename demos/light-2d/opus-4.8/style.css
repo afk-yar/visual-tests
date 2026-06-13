@@ -1,0 +1,36 @@
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: #0f1115;
+  color: #e8e8ec;
+  font-family: ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+}
+.wrap { display: flex; flex-direction: column; height: 100vh; }
+#stage { flex: 1 1 auto; width: 100%; display: block; cursor: none; }
+.panel {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  background: #16181d;
+  border-top: 1px solid #2a2f38;
+}
+.panel .check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #e8e8ec;
+  cursor: pointer;
+  user-select: none;
+}
+.panel input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #37c6d9;
+  cursor: pointer;
+}
+.panel .hint { font-size: 13px; color: #aeb8c7; }

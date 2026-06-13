@@ -1,0 +1,77 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  background: #0e1016;
+  color: #cfd6e4;
+  font: 14px/1.4 "Segoe UI", system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+header.bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  padding: 10px 16px;
+  background: #141720;
+  border-bottom: 1px solid #232838;
+}
+
+.btn, [data-mat] {
+  background: #222839;
+  color: #dde3ef;
+  border: 1px solid #333c54;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.btn:hover, [data-mat]:hover { background: #2b3349; }
+
+[data-mat].active {
+  border-color: #e8b84b;
+  color: #ffe9b3;
+  background: #34301f;
+}
+
+.swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 6px;
+  vertical-align: -1px;
+}
+
+header label {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  color: #9aa4b8;
+  white-space: nowrap;
+}
+header input[type="range"] { width: 90px; accent-color: #e8b84b; }
+
+main { flex: 1; position: relative; min-height: 0; }
+
+canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+}
+
+.hud {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  font: 12px/1.5 Consolas, monospace;
+  color: #79839a;
+  pointer-events: none;
+}

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Стая (boids) — Opus 4.8</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <canvas id="stage"></canvas>
+    <div class="hud" id="hud"></div>
+    <div class="panel">
+      <button id="reset" type="button">Разбросать</button>
+      <button id="highlight" type="button" class="on">Подсветка</button>
+      <label>разделение <input id="sep" type="range" min="0" max="2" step="0.05" value="1.2"><output id="sepv"></output></label>
+      <label>выравнивание <input id="ali" type="range" min="0" max="2" step="0.05" value="1.0"><output id="aliv"></output></label>
+      <label>сцепление <input id="coh" type="range" min="0" max="2" step="0.05" value="0.9"><output id="cohv"></output></label>
+      <label>радиус <input id="perception" type="range" min="20" max="160" step="5" value="70"><output id="perceptionv"></output></label>
+      <label>скорость <input id="maxSpeed" type="range" min="60" max="320" step="10" value="160"><output id="maxSpeedv"></output></label>
+      <label>агентов <input id="count" type="range" min="400" max="1200" step="50" value="500"><output id="countv"></output></label>
+    </div>
+  </div>
+  <script src="boids.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

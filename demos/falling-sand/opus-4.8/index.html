@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Падающий песок — Opus 4.8</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <canvas id="stage"></canvas>
+    <div class="panel">
+      <div class="group" id="materials">
+        <button data-mat="1" class="on" type="button"><span class="swatch" style="background:#d9b65f"></span>Песок</button>
+        <button data-mat="2" type="button"><span class="swatch" style="background:#3f7fd6"></span>Вода</button>
+        <button data-mat="3" type="button"><span class="swatch" style="background:#6f7682"></span>Камень</button>
+        <button data-mat="4" type="button"><span class="swatch" style="background:#7c5a33"></span>Дерево</button>
+        <button data-mat="5" type="button"><span class="swatch" style="background:#f07a2a"></span>Огонь</button>
+        <button data-mat="6" type="button"><span class="swatch" style="background:#7a808c"></span>Дым</button>
+        <button data-mat="0" type="button"><span class="swatch" style="background:#0a0c10;border-color:#38404e"></span>Ластик</button>
+      </div>
+      <div class="group">
+        <label>Кисть <input id="size" type="range" min="1" max="16" step="1" value="4"><output id="sizeOut">4</output></label>
+      </div>
+      <div class="group">
+        <button id="playPause" type="button">Пауза</button>
+        <button id="clear" type="button">Очистить</button>
+      </div>
+      <span class="hint">рисуйте мышью по холсту</span>
+    </div>
+  </div>
+  <script src="sand.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

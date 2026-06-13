@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Boids Canvas</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --panel: rgba(12, 16, 22, 0.78);
+      --panel-strong: rgba(17, 23, 31, 0.9);
+      --line: rgba(166, 190, 203, 0.2);
+      --text: #edf6f8;
+      --muted: #92a5ad;
+      --accent: #ffcf5c;
+      --cyan: #64f0ff;
+      --rose: #ff6b9c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #05070a;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-width: 240px;
+      min-height: 180px;
+    }
+
+    .app {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(11, 13, 18, 0.98), rgba(4, 8, 12, 0.98)),
+        #05070a;
+    }
+
+    canvas {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .panel {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: min(318px, calc(100vw - 24px));
+      max-height: calc(100vh - 24px);
+      padding: 13px;
+      overflow: auto;
+      border: 1px solid rgba(187, 219, 228, 0.16);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.36);
+      backdrop-filter: blur(16px) saturate(120%);
+      pointer-events: auto;
+    }
+
+    .topline {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 720;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .sub {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
+    .fps {
+      min-width: 62px;
+      padding: 5px 7px;
+      border: 1px solid rgba(255, 207, 92, 0.24);
+      border-radius: 6px;
+      background: rgba(255, 207, 92, 0.09);
+      color: var(--accent);
+      text-align: right;
+      font-size: 12px;
+      line-height: 1.25;
+      white-space: nowrap;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+
+    .stat {
+      padding: 8px 9px;
+      border: 1px solid rgba(166, 190, 203, 0.14);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.04);
+      min-width: 0;
+    }
+
+    .stat b {
+      display: block;
+      margin-bottom: 2px;
+      color: #f6fbfc;
+      font-size: 15px;
+      line-height: 1.1;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.15;
+    }
+
+    .controls {
+      display: grid;
+      gap: 9px;
+    }
+
+    label.control {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 7px 10px;
+      align-items: center;
+      color: #dfeaed;
+      font-size: 12px;
+      line-height: 1.1;
+    }
+
+    .value {
+      color: #a8c2c8;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    input[type="range"] {
+      grid-column: 1 / -1;
+      width: 100%;
+      height: 22px;
+      margin: 0;
+      accent-color: var(--cyan);
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid rgba(166, 190, 203, 0.2);
+      border-radius: 6px;
+      background: var(--panel-strong);
+      color: #eaf5f7;
+      padding: 8px 10px;
+      font: inherit;
+      font-size: 12px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    button:hover {
+      border-color: rgba(100, 240, 255, 0.44);
+      background: rgba(19, 34, 43, 0.94);
+    }
+
+    button:focus-visible,
+    input[type="range"]:focus-visible {
+      outline: 2px solid rgba(100, 240, 255, 0.82);
+      outline-offset: 2px;
+    }
+
+    .legend {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+      color: #aabdc4;
+      font-size: 11px;
+      line-height: 1;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 16px rgba(255, 207, 92, 0.9);
+    }
+
+    @media (max-width: 520px), (max-height: 420px) {
+      .panel {
+        top: 8px;
+        left: 8px;
+        width: min(296px, calc(100vw - 16px));
+        padding: 10px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app" id="app">
+    <canvas id="world" aria-label="Boids simulation"></canvas>
+
+    <section class="panel" aria-label="Simulation controls">
+      <div class="topline">
+        <div>
+          <h1>Boids</h1>
+          <div class="sub"><span id="agentCount">520</span> agents</div>
+        </div>
+        <div class="fps"><span id="fps">--</span> fps</div>
+      </div>
+
+      <div class="stats" aria-live="polite">
+        <div class="stat">
+          <b id="neighborCount">0</b>
+          <span>visible neighbors</span>
+        </div>
+        <div class="stat">
+          <b id="speedReadout">3.2</b>
+          <span>max speed</span>
+        </div>
+      </div>
+
+      <div class="controls">
+        <label class="control" for="separation">
+          Separation
+          <span class="value" id="separationValue">1.55</span>
+          <input id="separation" type="range" min="0" max="3" step="0.05" value="1.55">
+        </label>
+
+        <label class="control" for="alignment">
+          Alignment
+          <span class="value" id="alignmentValue">0.95</span>
+          <input id="alignment" type="range" min="0" max="3" step="0.05" value="0.95">
+        </label>
+
+        <label class="control" for="cohesion">
+          Cohesion
+          <span class="value" id="cohesionValue">0.86</span>
+          <input id="cohesion" type="range" min="0" max="3" step="0.05" value="0.86">
+        </label>
+
+        <label class="control" for="perception">
+          Perception
+          <span class="value" id="perceptionValue">82 px</span>
+          <input id="perception" type="range" min="28" max="180" step="1" value="82">
+        </label>
+
+        <label class="control" for="maxSpeed">
+          Max speed
+          <span class="value" id="maxSpeedValue">3.20</span>
+          <input id="maxSpeed" type="range" min="1" max="6" step="0.05" value="3.2">
+        </label>
+      </div>
+
+      <div class="actions">
+        <button type="button" id="reset">Reset</button>
+        <div class="legend"><span class="dot" aria-hidden="true"></span><span>selected</span></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var canvas = document.getElementById("world");
+      var ctx = canvas.getContext("2d", { alpha: false });
+      var agentCountEl = document.getElementById("agentCount");
+      var fpsEl = document.getElementById("fps");
+      var neighborCountEl = document.getElementById("neighborCount");
+      var speedReadoutEl = document.getElementById("speedReadout");
+      var resetButton = document.getElementById("reset");
+
+      var sliders = {
+        separation: document.getElementById("separation"),
+        alignment: document.getElementById("alignment"),
+        cohesion: document.getElementById("cohesion"),
+        perception: document.getElementById("perception"),
+        maxSpeed: document.getElementById("maxSpeed")
+      };
+
+      var outputs = {
+        separation: document.getElementById("separationValue"),
+        alignment: document.getElementById("alignmentValue"),
+        cohesion: document.getElementById("cohesionValue"),
+        perception: document.getElementById("perceptionValue"),
+        maxSpeed: document.getElementById("maxSpeedValue")
+      };
+
+      var COUNT = 520;
+      var TAU = Math.PI * 2;
+      var DPR_LIMIT = 2;
+
+      var width = 1;
+      var height = 1;
+      var dpr = 1;
+      var selectedIndex = 0;
+      var selectedNeighborCount = 0;
+      var lastTime = 0;
+      var fpsAverage = 60;
+      var lastUiUpdate = 0;
+      var frame = 0;
+      var steerResultX = 0;
+      var steerResultY = 0;
+
+      var x = new Float32Array(COUNT);
+      var y = new Float32Array(COUNT);
+      var vx = new Float32Array(COUNT);
+      var vy = new Float32Array(COUNT);
+      var hue = new Float32Array(COUNT);
+      var size = new Float32Array(COUNT);
+      var cellX = new Int16Array(COUNT);
+      var cellY = new Int16Array(COUNT);
+      var neighborFlags = new Uint8Array(COUNT);
+
+      var buckets = [];
+      var bucketStamp = new Int32Array(0);
+      var bucketToken = 1;
+      var cols = 1;
+      var rows = 1;
+      var cellSize = 82;
+
+      var settings = {
+        separation: Number(sliders.separation.value),
+        alignment: Number(sliders.alignment.value),
+        cohesion: Number(sliders.cohesion.value),
+        perception: Number(sliders.perception.value),
+        maxSpeed: Number(sliders.maxSpeed.value)
+      };
+
+      agentCountEl.textContent = String(COUNT);
+
+      function rand(min, max) {
+        return min + Math.random() * (max - min);
+      }
+
+      function torusDelta(delta, span) {
+        if (delta > span * 0.5) {
+          return delta - span;
+        }
+        if (delta < -span * 0.5) {
+          return delta + span;
+        }
+        return delta;
+      }
+
+      function wrapPosition(value, span) {
+        if (span <= 0) {
+          return 0;
+        }
+        value %= span;
+        if (value < 0) {
+          value += span;
+        }
+        return value;
+      }
+
+      function formatNumber(value, digits) {
+        return Number(value).toFixed(digits);
+      }
+
+      function syncOutputs() {
+        outputs.separation.textContent = formatNumber(settings.separation, 2);
+        outputs.alignment.textContent = formatNumber(settings.alignment, 2);
+        outputs.cohesion.textContent = formatNumber(settings.cohesion, 2);
+        outputs.perception.textContent = Math.round(settings.perception) + " px";
+        outputs.maxSpeed.textContent = formatNumber(settings.maxSpeed, 2);
+        speedReadoutEl.textContent = formatNumber(settings.maxSpeed, 2);
+      }
+
+      function configureGrid() {
+        cellSize = Math.max(12, settings.perception);
+        cols = Math.max(1, Math.ceil(width / cellSize));
+        rows = Math.max(1, Math.ceil(height / cellSize));
+        var needed = cols * rows;
+        buckets = new Array(needed);
+        for (var i = 0; i < needed; i += 1) {
+          buckets[i] = [];
+        }
+        bucketStamp = new Int32Array(needed);
+        bucketToken = 1;
+      }
+
+      function seedBoids(disperse) {
+        var centerBias = disperse ? 1 : 0.45;
+        for (var i = 0; i < COUNT; i += 1) {
+          var angle = rand(0, TAU);
+          var ring = Math.pow(Math.random(), centerBias);
+          var rx = Math.cos(angle) * ring * width * 0.44;
+          var ry = Math.sin(angle) * ring * height * 0.44;
+          x[i] = wrapPosition(width * 0.5 + rx + rand(-20, 20), width);
+          y[i] = wrapPosition(height * 0.5 + ry + rand(-20, 20), height);
+
+          var velocityAngle = angle + rand(-1.6, 1.6);
+          var velocity = rand(settings.maxSpeed * 0.36, settings.maxSpeed);
+          vx[i] = Math.cos(velocityAngle) * velocity;
+          vy[i] = Math.sin(velocityAngle) * velocity;
+
+          hue[i] = (175 + rand(-38, 92) + i * 0.37) % 360;
+          size[i] = rand(4.1, 6.2);
+        }
+        selectedIndex = Math.floor(COUNT * 0.37);
+      }
+
+      function resizeCanvas() {
+        var rect = canvas.getBoundingClientRect();
+        var nextWidth = Math.max(1, Math.floor(rect.width));
+        var nextHeight = Math.max(1, Math.floor(rect.height));
+        var oldWidth = width;
+        var oldHeight = height;
+
+        width = nextWidth;
+        height = nextHeight;
+        dpr = Math.min(DPR_LIMIT, Math.max(1, window.devicePixelRatio || 1));
+        canvas.width = Math.max(1, Math.floor(width * dpr));
+        canvas.height = Math.max(1, Math.floor(height * dpr));
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        if (oldWidth > 1 && oldHeight > 1) {
+          var sx = width / oldWidth;
+          var sy = height / oldHeight;
+          for (var i = 0; i < COUNT; i += 1) {
+            x[i] = wrapPosition(x[i] * sx, width);
+            y[i] = wrapPosition(y[i] * sy, height);
+          }
+        }
+
+        configureGrid();
+        ctx.fillStyle = "#05070a";
+        ctx.fillRect(0, 0, width, height);
+      }
+
+      function clearBuckets() {
+        for (var i = 0; i < buckets.length; i += 1) {
+          buckets[i].length = 0;
+        }
+      }
+
+      function buildGrid() {
+        clearBuckets();
+        for (var i = 0; i < COUNT; i += 1) {
+          var cx = Math.min(cols - 1, Math.max(0, Math.floor(x[i] / cellSize)));
+          var cy = Math.min(rows - 1, Math.max(0, Math.floor(y[i] / cellSize)));
+          cellX[i] = cx;
+          cellY[i] = cy;
+          buckets[cy * cols + cx].push(i);
+        }
+      }
+
+      function scanNeighborCandidates(index, visit) {
+        bucketToken += 1;
+        if (bucketToken > 2000000000) {
+          bucketStamp.fill(0);
+          bucketToken = 1;
+        }
+
+        var baseX = cellX[index];
+        var baseY = cellY[index];
+        for (var oy = -1; oy <= 1; oy += 1) {
+          var by = (baseY + oy + rows) % rows;
+          for (var ox = -1; ox <= 1; ox += 1) {
+            var bx = (baseX + ox + cols) % cols;
+            var bucketIndex = by * cols + bx;
+            if (bucketStamp[bucketIndex] === bucketToken) {
+              continue;
+            }
+            bucketStamp[bucketIndex] = bucketToken;
+            var list = buckets[bucketIndex];
+            for (var n = 0; n < list.length; n += 1) {
+              var other = list[n];
+              if (other !== index) {
+                visit(other);
+              }
+            }
+          }
+        }
+      }
+
+      function setSteerFromDesired(dx, dy, currentVx, currentVy, maxSpeed, maxForce) {
+        var length = Math.hypot(dx, dy);
+        if (length < 0.0001) {
+          steerResultX = 0;
+          steerResultY = 0;
+          return;
+        }
+        var desiredX = dx / length * maxSpeed;
+        var desiredY = dy / length * maxSpeed;
+        var steerX = desiredX - currentVx;
+        var steerY = desiredY - currentVy;
+        var steerLength = Math.hypot(steerX, steerY);
+        if (steerLength > maxForce && steerLength > 0.0001) {
+          var scale = maxForce / steerLength;
+          steerX *= scale;
+          steerY *= scale;
+        }
+        steerResultX = steerX;
+        steerResultY = steerY;
+      }
+
+      function updateBoids(dt, now) {
+        var perception = settings.perception;
+        var perceptionSq = perception * perception;
+        var maxSpeed = settings.maxSpeed;
+        var maxForce = 0.048 + maxSpeed * 0.012;
+
+        neighborFlags.fill(0);
+        selectedNeighborCount = 0;
+        buildGrid();
+
+        for (var i = 0; i < COUNT; i += 1) {
+          var alignX = 0;
+          var alignY = 0;
+          var cohesionX = 0;
+          var cohesionY = 0;
+          var separationX = 0;
+          var separationY = 0;
+          var seen = 0;
+
+          scanNeighborCandidates(i, function (j) {
+            var dx = torusDelta(x[j] - x[i], width);
+            var dy = torusDelta(y[j] - y[i], height);
+            var distSq = dx * dx + dy * dy;
+
+            if (distSq > 0.0001 && distSq <= perceptionSq) {
+              var dist = Math.sqrt(distSq);
+              var closeness = 1 - dist / perception;
+              var repel = closeness * closeness / Math.max(dist, 0.001);
+
+              alignX += vx[j];
+              alignY += vy[j];
+              cohesionX += dx;
+              cohesionY += dy;
+              separationX -= dx * repel;
+              separationY -= dy * repel;
+              seen += 1;
+
+              if (i === selectedIndex) {
+                neighborFlags[j] = 1;
+                selectedNeighborCount += 1;
+              }
+            }
+          });
+
+          var forceX = 0;
+          var forceY = 0;
+
+          if (seen > 0) {
+            setSteerFromDesired(separationX, separationY, vx[i], vy[i], maxSpeed, maxForce * 1.35);
+            forceX += steerResultX * settings.separation;
+            forceY += steerResultY * settings.separation;
+
+            setSteerFromDesired(alignX / seen, alignY / seen, vx[i], vy[i], maxSpeed, maxForce);
+            forceX += steerResultX * settings.alignment;
+            forceY += steerResultY * settings.alignment;
+
+            setSteerFromDesired(cohesionX / seen, cohesionY / seen, vx[i], vy[i], maxSpeed, maxForce);
+            forceX += steerResultX * settings.cohesion;
+            forceY += steerResultY * settings.cohesion;
+          }
+
+          var wander = (now * 0.00018 + i * 0.61803398875) % TAU;
+          forceX += Math.cos(wander * 1.7) * 0.004;
+          forceY += Math.sin(wander * 1.3) * 0.004;
+
+          vx[i] += forceX * dt;
+          vy[i] += forceY * dt;
+
+          var speedLength = Math.hypot(vx[i], vy[i]);
+          if (speedLength > maxSpeed && speedLength > 0.0001) {
+            var speedScale = maxSpeed / speedLength;
+            vx[i] *= speedScale;
+            vy[i] *= speedScale;
+          }
+
+          x[i] = wrapPosition(x[i] + vx[i] * dt, width);
+          y[i] = wrapPosition(y[i] + vy[i] * dt, height);
+        }
+      }
+
+      function drawBackground(now) {
+        ctx.fillStyle = "rgba(4, 7, 10, 0.29)";
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.save();
+        ctx.globalAlpha = 0.2;
+        ctx.strokeStyle = "#1b2b33";
+        ctx.lineWidth = 1;
+        var spacing = 72;
+        var drift = (now * 0.012) % spacing;
+
+        ctx.beginPath();
+        for (var gx = -spacing + drift; gx <= width + spacing; gx += spacing) {
+          ctx.moveTo(gx, 0);
+          ctx.lineTo(gx + 28, height);
+        }
+        for (var gy = -spacing - drift * 0.45; gy <= height + spacing; gy += spacing) {
+          ctx.moveTo(0, gy);
+          ctx.lineTo(width, gy + 18);
+        }
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function drawPerceptionCircle(cx, cy, radius) {
+        var offsetsX = [0];
+        var offsetsY = [0];
+        if (cx - radius < 0) {
+          offsetsX.push(width);
+        }
+        if (cx + radius > width) {
+          offsetsX.push(-width);
+        }
+        if (cy - radius < 0) {
+          offsetsY.push(height);
+        }
+        if (cy + radius > height) {
+          offsetsY.push(-height);
+        }
+
+        for (var ix = 0; ix < offsetsX.length; ix += 1) {
+          for (var iy = 0; iy < offsetsY.length; iy += 1) {
+            ctx.beginPath();
+            ctx.arc(cx + offsetsX[ix], cy + offsetsY[iy], radius, 0, TAU);
+            ctx.stroke();
+          }
+        }
+      }
+
+      function drawDebugLayer() {
+        var sx = x[selectedIndex];
+        var sy = y[selectedIndex];
+        var radius = settings.perception;
+
+        ctx.save();
+        ctx.lineWidth = 1.25;
+        ctx.strokeStyle = "rgba(255, 207, 92, 0.46)";
+        ctx.setLineDash([8, 8]);
+        drawPerceptionCircle(sx, sy, radius);
+        ctx.setLineDash([]);
+
+        ctx.strokeStyle = "rgba(100, 240, 255, 0.22)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (var i = 0; i < COUNT; i += 1) {
+          if (neighborFlags[i]) {
+            var dx = torusDelta(x[i] - sx, width);
+            var dy = torusDelta(y[i] - sy, height);
+            ctx.moveTo(sx, sy);
+            ctx.lineTo(sx + dx, sy + dy);
+          }
+        }
+        ctx.stroke();
+
+        for (var j = 0; j < COUNT; j += 1) {
+          if (neighborFlags[j]) {
+            var ndx = torusDelta(x[j] - sx, width);
+            var ndy = torusDelta(y[j] - sy, height);
+            ctx.beginPath();
+            ctx.arc(sx + ndx, sy + ndy, 5.6, 0, TAU);
+            ctx.fillStyle = "rgba(100, 240, 255, 0.18)";
+            ctx.fill();
+            ctx.strokeStyle = "rgba(100, 240, 255, 0.68)";
+            ctx.stroke();
+          }
+        }
+
+        ctx.restore();
+      }
+
+      function drawBoidAt(i, px, py, highlight, neighbor) {
+        var angle = Math.atan2(vy[i], vx[i]);
+        var speed = Math.hypot(vx[i], vy[i]);
+        var speedRatio = Math.min(1, speed / Math.max(0.001, settings.maxSpeed));
+        var scale = size[i] * (0.86 + speedRatio * 0.42);
+        var cos = Math.cos(angle);
+        var sin = Math.sin(angle);
+        var nx = -sin;
+        var ny = cos;
+        var noseX = px + cos * scale * 2.1;
+        var noseY = py + sin * scale * 2.1;
+        var tailX = px - cos * scale * 1.2;
+        var tailY = py - sin * scale * 1.2;
+        var wing = scale * (0.72 + speedRatio * 0.18);
+
+        ctx.beginPath();
+        ctx.moveTo(px - cos * scale * 2.0, py - sin * scale * 2.0);
+        ctx.lineTo(px - cos * scale * 0.35, py - sin * scale * 0.35);
+        ctx.strokeStyle = highlight
+          ? "rgba(255, 207, 92, 0.46)"
+          : neighbor
+            ? "rgba(100, 240, 255, 0.22)"
+            : "rgba(180, 224, 230, 0.1)";
+        ctx.lineWidth = highlight ? 2.2 : 1.35;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(noseX, noseY);
+        ctx.lineTo(tailX + nx * wing, tailY + ny * wing);
+        ctx.lineTo(px - cos * scale * 0.25, py - sin * scale * 0.25);
+        ctx.lineTo(tailX - nx * wing, tailY - ny * wing);
+        ctx.closePath();
+
+        if (highlight) {
+          ctx.fillStyle = "rgba(255, 207, 92, 0.96)";
+          ctx.strokeStyle = "rgba(255, 246, 188, 0.95)";
+          ctx.lineWidth = 1.35;
+        } else if (neighbor) {
+          ctx.fillStyle = "rgba(100, 240, 255, 0.88)";
+          ctx.strokeStyle = "rgba(218, 252, 255, 0.72)";
+          ctx.lineWidth = 0.85;
+        } else {
+          var localHue = (hue[i] + speedRatio * 38 + Math.sin(i * 0.13 + frame * 0.015) * 14 + 360) % 360;
+          ctx.fillStyle = "hsla(" + localHue + ", 78%, " + (56 + speedRatio * 14) + "%, 0.74)";
+          ctx.strokeStyle = "hsla(" + localHue + ", 88%, 78%, 0.22)";
+          ctx.lineWidth = 0.7;
+        }
+
+        ctx.fill();
+        ctx.stroke();
+      }
+
+      function drawBoidWrapped(i, highlight, neighbor) {
+        var margin = 18;
+        drawBoidAt(i, x[i], y[i], highlight, neighbor);
+
+        if (x[i] < margin) {
+          drawBoidAt(i, x[i] + width, y[i], highlight, neighbor);
+        } else if (x[i] > width - margin) {
+          drawBoidAt(i, x[i] - width, y[i], highlight, neighbor);
+        }
+
+        if (y[i] < margin) {
+          drawBoidAt(i, x[i], y[i] + height, highlight, neighbor);
+        } else if (y[i] > height - margin) {
+          drawBoidAt(i, x[i], y[i] - height, highlight, neighbor);
+        }
+      }
+
+      function drawBoids() {
+        ctx.save();
+        ctx.globalCompositeOperation = "lighter";
+        for (var i = 0; i < COUNT; i += 1) {
+          if (i !== selectedIndex && !neighborFlags[i]) {
+            drawBoidWrapped(i, false, false);
+          }
+        }
+
+        for (var j = 0; j < COUNT; j += 1) {
+          if (neighborFlags[j] && j !== selectedIndex) {
+            drawBoidWrapped(j, false, true);
+          }
+        }
+
+        drawBoidWrapped(selectedIndex, true, false);
+        ctx.restore();
+      }
+
+      function updateUi(now) {
+        if (now - lastUiUpdate < 140) {
+          return;
+        }
+        lastUiUpdate = now;
+        fpsEl.textContent = String(Math.round(fpsAverage));
+        neighborCountEl.textContent = String(selectedNeighborCount);
+        speedReadoutEl.textContent = formatNumber(settings.maxSpeed, 2);
+      }
+
+      function animate(now) {
+        if (!lastTime) {
+          lastTime = now;
+        }
+
+        var elapsed = now - lastTime;
+        lastTime = now;
+        var dt = Math.min(2.2, Math.max(0.25, elapsed / 16.6667));
+
+        if (elapsed > 0) {
+          var instantFps = 1000 / elapsed;
+          fpsAverage = fpsAverage * 0.92 + instantFps * 0.08;
+        }
+
+        frame += 1;
+        updateBoids(dt, now);
+        drawBackground(now);
+        drawDebugLayer();
+        drawBoids();
+        updateUi(now);
+        window.requestAnimationFrame(animate);
+      }
+
+      function chooseNearest(clientX, clientY) {
+        var rect = canvas.getBoundingClientRect();
+        var px = clientX - rect.left;
+        var py = clientY - rect.top;
+        var bestIndex = selectedIndex;
+        var bestDistance = Infinity;
+
+        for (var i = 0; i < COUNT; i += 1) {
+          var dx = torusDelta(x[i] - px, width);
+          var dy = torusDelta(y[i] - py, height);
+          var distSq = dx * dx + dy * dy;
+          if (distSq < bestDistance) {
+            bestDistance = distSq;
+            bestIndex = i;
+          }
+        }
+
+        selectedIndex = bestIndex;
+      }
+
+      Object.keys(sliders).forEach(function (key) {
+        sliders[key].addEventListener("input", function () {
+          settings[key] = Number(sliders[key].value);
+          if (key === "perception") {
+            configureGrid();
+          }
+          syncOutputs();
+        });
+      });
+
+      resetButton.addEventListener("click", function () {
+        seedBoids(true);
+      });
+
+      canvas.addEventListener("pointerdown", function (event) {
+        chooseNearest(event.clientX, event.clientY);
+      });
+
+      window.addEventListener("resize", resizeCanvas);
+
+      syncOutputs();
+      resizeCanvas();
+      seedBoids(false);
+      window.requestAnimationFrame(animate);
+    }());
+  </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Рейкастер-лабиринт — Opus 4.8</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <canvas id="stage" tabindex="0"></canvas>
+    <div class="panel">
+      <button id="regen" type="button">Новый лабиринт</button>
+      <span class="keys">
+        <kbd>W</kbd><kbd>S</kbd> вперёд/назад ·
+        <kbd>A</kbd><kbd>D</kbd> стрейф ·
+        <kbd>←</kbd><kbd>→</kbd> поворот
+      </span>
+      <span class="hint" id="hint">наведите курсор на холст для управления</span>
+    </div>
+  </div>
+  <script src="raycast.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

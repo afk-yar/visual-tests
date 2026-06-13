@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Газетная полоса — Claude Fable 5</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #23211d;
+    padding: 28px 16px;
+    display: flex;
+    justify-content: center;
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
+  .page {
+    background: #f6f1e5;
+    color: #1d1a15;
+    width: min(1120px, 100%);
+    padding: 36px 44px 28px;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.65);
+  }
+
+  /* ---------- Шапка ---------- */
+
+  .ears {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #4a443a;
+    border-bottom: 1px solid #1d1a15;
+    padding-bottom: 6px;
+  }
+
+  .masthead {
+    text-align: center;
+    padding: 14px 0 10px;
+    border-bottom: 4px double #1d1a15;
+  }
+
+  .masthead h1 {
+    font-size: 64px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    font-variant: small-caps;
+    line-height: 1;
+  }
+
+  .masthead .motto {
+    margin-top: 8px;
+    font-style: italic;
+    font-size: 14px;
+    color: #4a443a;
+  }
+
+  /* ---------- Главная статья ---------- */
+
+  .lead-story { padding: 22px 0 18px; border-bottom: 1px solid #8b8273; }
+
+  .lead-story h2 {
+    font-size: 42px;
+    line-height: 1.08;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .lead-story .subhead {
+    text-align: center;
+    font-style: italic;
+    font-size: 19px;
+    color: #3a352c;
+    margin-bottom: 8px;
+  }
+
+  .byline {
+    text-align: center;
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #5a5346;
+    margin-bottom: 16px;
+  }
+  .byline::before, .byline::after { content: "—"; margin: 0 10px; color: #8b8273; }
+
+  .columns {
+    column-count: 3;
+    column-gap: 26px;
+    column-rule: 1px solid #c9c0ad;
+    font-size: 15px;
+    line-height: 1.42;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .columns p { margin-bottom: 0.7em; text-indent: 1.4em; }
+  .columns p:first-child { text-indent: 0; }
+
+  .columns .opener::first-letter {
+    float: left;
+    font-size: 64px;
+    line-height: 0.82;
+    padding: 4px 8px 0 0;
+    font-weight: 700;
+  }
+
+  .lede { font-weight: 700; }
+
+  /* Фото и врезки внутри колонок */
+
+  figure { break-inside: avoid; margin: 4px 0 14px; }
+
+  .photo {
+    width: 100%;
+    aspect-ratio: 4 / 2.7;
+    background:
+      radial-gradient(ellipse 60% 50% at 60% 38%, #b8ad97 0%, transparent 70%),
+      linear-gradient(160deg, #8e8470 0%, #6c6553 45%, #4e4839 100%);
+    border: 1px solid #1d1a15;
+    filter: grayscale(0.35) contrast(0.92);
+  }
+
+  figcaption {
+    font-size: 12px;
+    font-style: italic;
+    color: #4a443a;
+    padding-top: 5px;
+    border-bottom: 1px solid #c9c0ad;
+    padding-bottom: 6px;
+  }
+
+  .pullquote {
+    break-inside: avoid;
+    margin: 12px 6px 16px;
+    padding: 14px 10px;
+    border-top: 3px solid #1d1a15;
+    border-bottom: 1px solid #1d1a15;
+    text-align: center;
+    font-size: 21px;
+    line-height: 1.3;
+    font-style: italic;
+  }
+  .pullquote .who {
+    display: block;
+    margin-top: 8px;
+    font-size: 12px;
+    font-style: normal;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #5a5346;
+  }
+
+  /* ---------- Нижние материалы ---------- */
+
+  .secondary {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 0 26px;
+    padding-top: 18px;
+  }
+
+  .secondary article { padding-right: 0; }
+  .secondary article + article { border-left: 1px solid #c9c0ad; padding-left: 26px; }
+
+  .secondary h3 {
+    font-size: 23px;
+    line-height: 1.12;
+    margin-bottom: 6px;
+  }
+
+  .secondary .kicker {
+    font-size: 11.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #7a4a28;
+    margin-bottom: 4px;
+  }
+
+  .secondary p {
+    font-size: 14px;
+    line-height: 1.42;
+    text-align: justify;
+    hyphens: auto;
+    margin-bottom: 0.6em;
+  }
+
+  .photo.small { aspect-ratio: 4 / 2.2; }
+
+  /* ---------- Колонтитул ---------- */
+
+  .footer {
+    margin-top: 20px;
+    border-top: 2px solid #1d1a15;
+    padding-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11.5px;
+    letter-spacing: 0.05em;
+    color: #4a443a;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="ears">
+    <span>Пятница, 12 июня 2026 года</span>
+    <span>Издаётся с 1924 года</span>
+    <span>№ 142 (26 408) · Цена свободная</span>
+  </div>
+
+  <header class="masthead">
+    <h1>Вечерний Полигон</h1>
+    <div class="motto">Ежедневная газета наблюдаемых явлений — выходит, пока сходится численный метод</div>
+  </header>
+
+  <section class="lead-story">
+    <h2>Город перевёл часы на маятниковое время</h2>
+    <div class="subhead">После двух недель испытаний главную площадь оборудовали двойным маятником — горожанам обещаны «предсказуемые сюрпризы дважды в сутки»</div>
+    <div class="byline">Аркадий Фазов, отдел хаотических новостей</div>
+
+    <div class="columns">
+      <p class="opener lede">Вчера в полдень на башне городской ратуши остановили старинный часовой механизм и торжественно запустили новый — двойной маятник работы мастерских Политехнического института. Первые же сутки наблюдений подтвердили расчёты инженеров: стрелки движутся уверенно, однако куда именно — не берётся предсказать никто.</p>
+      <p>Идея перевода города на «маятниковое время» обсуждалась с прошлой осени, когда комиссия по точному времени признала обычные часы «удручающе линейными». Как пояснил на брифинге главный механик ратуши, классический маятник честно отрабатывает свой период, но не оставляет пространства для дискуссии, тогда как двойной — «открывает в расписании дня художественную перспективу».</p>
+      <figure>
+        <div class="photo"></div>
+        <figcaption>Башня ратуши в момент запуска механизма. Нижнее звено маятника на снимке смазано — фотографы просят считать это художественным приёмом. Фото: М. Объективов</figcaption>
+      </figure>
+      <p>Испытания проходили при стечении публики. Гимназисты старших классов дежурили у башни посменно, записывая углы отклонения в общую тетрадь; к вечеру тетрадь пришлось заменить второй, а затем и третьей. Учитель математики, руководивший наблюдениями, назвал происходящее «лучшим уроком о чувствительности к начальным условиям, какой можно купить за бюджет районного отдела образования».</p>
+      <div class="pullquote">
+        «Мы не опаздываем. Мы расходимся с расписанием экспоненциально»
+        <span class="who">— начальник вокзальной службы</span>
+      </div>
+      <p>Не обошлось и без скептиков. Союз извозчиков подал в управу записку, в которой указывает, что плата за простой «не может зависеть от показателя Ляпунова», и требует вернуть на башню прежний механизм или хотя бы вывесить рядом таблицу поправок. В управе записку приняли, поблагодарили и пообещали рассмотреть «в порядке живой очереди, длина которой также ведёт себя непредсказуемо».</p>
+      <p>Тем временем городские службы приспосабливаются. Трамвайное депо объявило, что переходит на интервальное движение «от события до события»; пекарни сместили утреннюю выпечку на «первое большое отклонение маятника», а театр напечатал на билетах две даты сразу — «на всякий случай».</p>
+      <p>Учёный секретарь Политехнического института, наблюдавший за запуском, в беседе с нашим корреспондентом был сдержан: система детерминирована, напомнил он, и ничего сверхъестественного в ней нет — уравнения движения известны более двух столетий. На вопрос, когда стрелки покажут шесть часов, секретарь ответил, что ответ существует, единственен и совершенно бесполезен, поскольку для его вычисления потребовалось бы знать начальный угол с точностью, «которой не располагает ни одна обсерватория империи».</p>
+      <p>Редакция продолжит следить за стрелками. Если получится.</p>
+    </div>
+  </section>
+
+  <section class="secondary">
+    <article>
+      <div class="kicker">Наука и быт</div>
+      <h3>Фрактальная набережная признана бесконечной только на бумаге</h3>
+      <p>Комиссия по благоустройству завершила обмер новой набережной, спроектированной «по мотивам множества Мандельброта». Подрядчик настаивал, что периметр объекта бесконечен, и выставил соответствующий счёт. Однако приглашённый геометр указал, что бюджет осваивается в конечном числе итераций, а глубина детализации ограничена шириной тротуарной плитки.</p>
+      <p>Стороны сошлись на компромиссе: оплачены будут первые семь уровней самоподобия, остальные объявлены «перспективой развития территории».</p>
+    </article>
+    <article>
+      <div class="kicker">Городская хроника</div>
+      <h3>Стая скворцов согласовала маршрут с тремя правилами</h3>
+      <figure>
+        <div class="photo small"></div>
+        <figcaption>Вечернее построение над элеватором. Фото: М. Объективов</figcaption>
+      </figure>
+      <p>Орнитологи отмечают: ни один скворец не руководит стаей, что не мешает ей закладывать виражи слаженнее гарнизонного оркестра. Птицам, по словам наблюдателей, достаточно держать дистанцию, равняться на соседей и не отбиваться от центра — «чего мы много лет безуспешно требуем от очереди в кассу».</p>
+    </article>
+    <article>
+      <div class="kicker">Письма в редакцию</div>
+      <h3>«Верните тень на солнечные часы»</h3>
+      <p>Читатель Г. из слободы Заречной жалуется, что после установки на площади нового фонаря тень от обелиска солнечных часов стала показывать два времени сразу. Управа отвечает, что фонарь работает строго по графику, а «геометрически точное построение теней — вопрос, давно решённый в литературе».</p>
+      <p>От редакции: литературу мы проверили. Решённый, но не у нас.</p>
+    </article>
+  </section>
+
+  <div class="footer">
+    <span>«Вечерний Полигон» · Типография № 3</span>
+    <span>Адрес редакции: наб. Аттракторов, 28</span>
+    <span>Полоса 1 из 8</span>
+  </div>
+
+</div>
+</body>
+</html>

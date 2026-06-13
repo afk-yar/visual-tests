@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Стая boids — Claude Fable 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="bar">
+  <button id="btnReset" class="btn" type="button">⟲ Разбросать</button>
+  <label>разделение <input type="range" id="sep" min="0" max="4" step="0.1" value="1.6"><output id="sepv">1.6</output></label>
+  <label>выравнивание <input type="range" id="ali" min="0" max="4" step="0.1" value="1.0"><output id="aliv">1.0</output></label>
+  <label>сцепление <input type="range" id="coh" min="0" max="4" step="0.1" value="0.8"><output id="cohv">0.8</output></label>
+  <label>радиус <input type="range" id="per" min="20" max="160" step="5" value="70"><output id="perv">70</output></label>
+  <label>скорость <input type="range" id="spd" min="60" max="400" step="10" value="170"><output id="spdv">170</output></label>
+</header>
+<main>
+  <canvas id="cv"></canvas>
+  <div class="hud" id="hud"></div>
+</main>
+<script src="boids.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

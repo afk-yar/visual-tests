@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Классический велосипед — Claude Opus 4.8</title>
+<style>
+  :root { color-scheme: dark; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: #0d0f13;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  /* Ambient stage: soft cool vignette around the figure */
+  .stage {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(125% 95% at 50% 44%, #1a1f2b 0%, #14171f 44%, #0f1115 74%, #0a0c10 100%);
+  }
+  /* Contact glow under the wheels */
+  .stage::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 16%;
+    width: 64vmin;
+    height: 8vmin;
+    transform: translateX(-50%);
+    background: radial-gradient(closest-side, rgba(120,170,255,0.14), rgba(120,170,255,0) 76%);
+    filter: blur(3px);
+    pointer-events: none;
+  }
+  .bike {
+    width: min(90vmin, 940px);
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 24px 32px rgba(0,0,0,0.55));
+  }
+  .sig {
+    position: absolute;
+    left: 50%;
+    bottom: 4.5%;
+    transform: translateX(-50%);
+    font-size: clamp(10px, 1.5vmin, 14px);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #5c6b86;
+    user-select: none;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <!--
+      Classic diamond-frame bicycle. Frame 0..760 x 0..520.
+      Locked nodes (so tubes converge, not float):
+        rear hub  RH = (190, 380)
+        front hub FH = (590, 380)        wheel R = 130, both hubs on ground y=380
+        bottom bracket / caretka  BB = (375, 360)   (between wheels, above hub line)
+        seat cluster (top of seat tube) ST = (315, 175)
+        head tube top  HT = (520, 165)   head tube bottom HB = (538, 235)
+      Front triangle  : ST–HT (top tube), BB–HB (down tube), ST–BB (seat tube), HT–HB (head tube)
+      Rear  triangle  : ST–BB (seat tube, shared), BB–RH (chainstay), ST–RH (seatstay)
+      Fork : HB → FH.  Chain: external tangents of chainring(BB,r34) & cog(RH,r14).
+    -->
+    <svg class="bike" viewBox="0 0 760 520" role="img"
+         aria-label="Классический велосипед, векторная схема" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Tube volume: light from upper-left, cool steel -->
+        <linearGradient id="tube" x1="0.1" y1="0" x2="0.9" y2="1">
+          <stop offset="0"    stop-color="#f3f6fb"/>
+          <stop offset="0.45" stop-color="#cbd4e2"/>
+          <stop offset="1"    stop-color="#8e9ab1"/>
+        </linearGradient>
+        <!-- Fork / bar accents, a touch lighter -->
+        <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#eef2fa"/>
+          <stop offset="1" stop-color="#aab5c9"/>
+        </linearGradient>
+        <!-- Tyre body -->
+        <radialGradient id="tyre" cx="0.5" cy="0.42" r="0.62">
+          <stop offset="0.78" stop-color="#2c323e"/>
+          <stop offset="1"    stop-color="#1a1e26"/>
+        </radialGradient>
+        <!-- Rim sheen -->
+        <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"   stop-color="#dfe6f2"/>
+          <stop offset="0.5" stop-color="#aab4c6"/>
+          <stop offset="1"   stop-color="#7b8597"/>
+        </linearGradient>
+        <radialGradient id="cogG" cx="0.4" cy="0.35" r="0.7">
+          <stop offset="0" stop-color="#cfd6e4"/>
+          <stop offset="1" stop-color="#7e8aa0"/>
+        </radialGradient>
+      </defs>
+
+      <!-- ground contact shadow -->
+      <ellipse cx="390" cy="512" rx="290" ry="9" fill="#000" opacity="0.34"/>
+
+      <!-- ===================== WHEELS ===================== -->
+      <!-- spokes drawn first, hubs + tyres over their ends -->
+      <g stroke-linecap="round">
+        <!-- ===== REAR WHEEL  RH=(190,380) ===== -->
+        <circle cx="190" cy="380" r="130" fill="none" stroke="url(#tyre)" stroke-width="15"/>
+        <circle cx="190" cy="380" r="120" fill="none" stroke="url(#rim)" stroke-width="5"/>
+        <g stroke="#8b94a8" stroke-width="1.8" opacity="0.92">
+          <line x1="190" y1="380" x2="312.0" y2="380.0"/>
+          <line x1="190" y1="380" x2="295.7" y2="441.0"/>
+          <line x1="190" y1="380" x2="251.0" y2="485.7"/>
+          <line x1="190" y1="380" x2="190.0" y2="502.0"/>
+          <line x1="190" y1="380" x2="129.0" y2="485.7"/>
+          <line x1="190" y1="380" x2="84.3" y2="441.0"/>
+          <line x1="190" y1="380" x2="68.0" y2="380.0"/>
+          <line x1="190" y1="380" x2="84.3" y2="319.0"/>
+          <line x1="190" y1="380" x2="129.0" y2="274.3"/>
+          <line x1="190" y1="380" x2="190.0" y2="258.0"/>
+          <line x1="190" y1="380" x2="251.0" y2="274.3"/>
+          <line x1="190" y1="380" x2="295.7" y2="319.0"/>
+        </g>
+
+        <!-- ===== FRONT WHEEL  FH=(590,380) ===== -->
+        <circle cx="590" cy="380" r="130" fill="none" stroke="url(#tyre)" stroke-width="15"/>
+        <circle cx="590" cy="380" r="120" fill="none" stroke="url(#rim)" stroke-width="5"/>
+        <g stroke="#8b94a8" stroke-width="1.8" opacity="0.92">
+          <line x1="590" y1="380" x2="707.8" y2="411.6"/>
+          <line x1="590" y1="380" x2="676.3" y2="466.3"/>
+          <line x1="590" y1="380" x2="621.6" y2="497.8"/>
+          <line x1="590" y1="380" x2="558.4" y2="497.8"/>
+          <line x1="590" y1="380" x2="503.7" y2="466.3"/>
+          <line x1="590" y1="380" x2="472.2" y2="411.6"/>
+          <line x1="590" y1="380" x2="472.2" y2="348.4"/>
+          <line x1="590" y1="380" x2="503.7" y2="293.7"/>
+          <line x1="590" y1="380" x2="558.4" y2="262.2"/>
+          <line x1="590" y1="380" x2="621.6" y2="262.2"/>
+          <line x1="590" y1="380" x2="676.3" y2="293.7"/>
+          <line x1="590" y1="380" x2="707.8" y2="348.4"/>
+        </g>
+      </g>
+
+      <!-- ===================== DRIVETRAIN (under frame) ===================== -->
+      <!-- rear cog on rear hub -->
+      <circle cx="190" cy="380" r="14" fill="none" stroke="url(#cogG)" stroke-width="4"/>
+      <!-- chain: closed loop on external tangents of chainring(BB) & cog(RH) -->
+      <g fill="none" stroke="#566073" stroke-width="4.5" stroke-linecap="round">
+        <!-- upper (taut) run -->
+        <path d="M 367.7 326.8 L 187.0 366.3"/>
+        <!-- lower (return) run -->
+        <path d="M 375.0 394.0 L 190.0 394.0"/>
+      </g>
+      <!-- chain roller texture -->
+      <g stroke="#9aa4b8" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="1.5 6">
+        <path d="M 367.7 326.8 L 187.0 366.3"/>
+        <path d="M 375.0 394.0 L 190.0 394.0"/>
+      </g>
+
+      <!-- far crank arm + pedal (behind frame, opposite phase) -->
+      <line x1="375" y1="360" x2="345" y2="322" stroke="#727c8f" stroke-width="7" stroke-linecap="round"/>
+      <rect x="324" y="315" width="36" height="8" rx="3" fill="#727c8f"/>
+
+      <!-- ===================== FRAME (diamond: two closed triangles) ===================== -->
+      <g fill="none" stroke="url(#tube)" stroke-width="12"
+         stroke-linecap="round" stroke-linejoin="round">
+        <!-- FRONT TRIANGLE -->
+        <line x1="315" y1="175" x2="520" y2="165"/>   <!-- top tube  ST->HT -->
+        <line x1="375" y1="360" x2="538" y2="235"/>   <!-- down tube BB->HB -->
+        <line x1="315" y1="175" x2="375" y2="360"/>   <!-- seat tube ST->BB (shared) -->
+        <line x1="520" y1="165" x2="538" y2="235"/>   <!-- head tube HT->HB -->
+        <!-- REAR TRIANGLE (stays) -->
+        <line x1="375" y1="360" x2="190" y2="380"/>   <!-- chainstay BB->RH -->
+        <line x1="315" y1="175" x2="190" y2="380"/>   <!-- seatstay  ST->RH -->
+      </g>
+
+      <!-- ===================== FORK & STEERING ===================== -->
+      <g fill="none" stroke="url(#bar)" stroke-width="9" stroke-linecap="round">
+        <!-- fork: from head-tube bottom, along steering axis, curving to front hub -->
+        <path d="M 538 235 C 552 282, 572 340, 590 380"/>
+        <!-- stem + steerer above head tube -->
+        <path d="M 520 165 L 514 142 L 548 134"/>
+        <!-- handlebar (drop-ish curl back) -->
+        <path d="M 548 134 C 566 130, 576 134, 580 148"/>
+      </g>
+      <!-- grip -->
+      <line x1="572" y1="132" x2="580" y2="148" stroke="#363d4b" stroke-width="11" stroke-linecap="round"/>
+
+      <!-- ===================== SEAT ===================== -->
+      <!-- seatpost up from seat cluster -->
+      <line x1="315" y1="175" x2="306" y2="150" stroke="url(#bar)" stroke-width="8" stroke-linecap="round"/>
+      <!-- saddle -->
+      <path d="M 270 146
+               C 286 138, 320 137, 342 144
+               C 326 154, 290 156, 270 150 Z"
+            fill="#272c37" stroke="#3a4250" stroke-width="1.5"/>
+      <path d="M 270 146 C 286 139, 318 138, 340 144"
+            fill="none" stroke="#aeb8c9" stroke-width="1.5" opacity="0.5"/>
+
+      <!-- ===================== BOTTOM BRACKET / CHAINRING / NEAR CRANK ===================== -->
+      <!-- chainring -->
+      <circle cx="375" cy="360" r="34" fill="none" stroke="#9aa4b8" stroke-width="5"/>
+      <g stroke="#9aa4b8" stroke-width="2">
+        <line x1="375" y1="360" x2="375" y2="394"/>
+        <line x1="375" y1="360" x2="404" y2="343"/>
+        <line x1="375" y1="360" x2="404" y2="377"/>
+        <line x1="375" y1="360" x2="346" y2="343"/>
+        <line x1="375" y1="360" x2="346" y2="377"/>
+      </g>
+      <!-- BB shell hub -->
+      <circle cx="375" cy="360" r="8" fill="#3a4250"/>
+      <!-- near crank arm + pedal (forward phase) -->
+      <line x1="375" y1="360" x2="405" y2="398" stroke="#cbd4e2" stroke-width="8" stroke-linecap="round"/>
+      <rect x="388" y="394" width="38" height="9" rx="3" fill="#cbd4e2"/>
+
+      <!-- hubs over spoke ends -->
+      <circle cx="190" cy="380" r="7" fill="#3a4250"/>
+      <circle cx="590" cy="380" r="7" fill="#3a4250"/>
+
+      <!-- ===================== BRAKES ===================== -->
+      <!-- front caliper on fork crown + cable to bar -->
+      <g fill="none" stroke="#6e7889" stroke-linecap="round">
+        <path d="M 548 252 C 560 246, 574 250, 578 262" stroke-width="4.5"/>
+        <line x1="578" y1="262" x2="574" y2="278" stroke-width="3.5"/>
+        <line x1="551" y1="256" x2="555" y2="272" stroke-width="3.5"/>
+      </g>
+      <path d="M 548 134 C 556 172, 552 214, 556 248"
+            fill="none" stroke="#525c6e" stroke-width="1.8"/>
+      <!-- rear caliper on seatstay + cable -->
+      <g fill="none" stroke="#6e7889" stroke-linecap="round">
+        <path d="M 245 272 C 256 266, 270 270, 274 282" stroke-width="4.5"/>
+        <line x1="274" y1="282" x2="270" y2="298" stroke-width="3.5"/>
+        <line x1="248" y1="276" x2="252" y2="292" stroke-width="3.5"/>
+      </g>
+      <path d="M 309 188 C 286 214, 264 244, 256 270"
+            fill="none" stroke="#525c6e" stroke-width="1.8"/>
+
+      <!-- top sheen on the down tube for a hint of volume -->
+      <path d="M 380 354 L 534 236" fill="none" stroke="#ffffff"
+            stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+      <path d="M 318 180 L 372 352" fill="none" stroke="#ffffff"
+            stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+    </svg>
+
+    <div class="sig">Claude Opus 4.8</div>
+  </div>
+</body>
+</html>

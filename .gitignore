@@ -11,7 +11,10 @@ Desktop.ini
 *.log
 *.tmp
 
-# Playwright MCP scratch output (скриншоты, снапшоты, логи консоли)
+# Playwright MCP scratch output (снапшоты, логи консоли — авто-имена)
 .playwright-mcp/
-# Скриншоты Playwright, упавшие в корень рабочей папки
+# Скриншоты Playwright складываем сюда (filename с префиксом tmp/)
+tmp/
+!tmp/.gitkeep
+# Подстраховка: скриншот без префикса падает в корень — тоже игнор
 /*.png

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ткань на верлете — Opus 4.8</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <canvas id="stage"></canvas>
+    <div class="panel">
+      <button id="reset" type="button">Сброс</button>
+      <button id="wind" type="button" class="on">Ветер</button>
+      <button id="dots" type="button">Точки</button>
+      <label>Ветер <input id="windStr" type="range" min="0" max="3" step="0.1" value="1"></label>
+      <label>Разрыв <input id="tear" type="range" min="1.5" max="6" step="0.1" value="3"></label>
+      <label>Радиус <input id="grab" type="range" min="20" max="120" step="5" value="55"></label>
+      <span class="hint">тяни мышью · сильное растяжение рвёт связи</span>
+    </div>
+  </div>
+  <script src="cloth.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Procedural Walker</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --panel: rgba(8, 13, 18, 0.74);
+      --line: rgba(196, 230, 255, 0.18);
+      --text: #ecf7ff;
+      --muted: #9fb2c2;
+      --accent: #57d7ff;
+      --accent-2: #ffbd6b;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #070b0f;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      position: relative;
+    }
+
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      touch-action: none;
+    }
+
+    .hud {
+      position: fixed;
+      left: clamp(12px, 2.2vw, 28px);
+      bottom: clamp(12px, 2.2vw, 28px);
+      width: min(420px, calc(100vw - 24px));
+      box-sizing: border-box;
+      padding: 14px 16px 13px;
+      color: var(--text);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .label {
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    output {
+      min-width: 88px;
+      font-variant-numeric: tabular-nums;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 28px;
+      min-width: 0;
+      margin: 0;
+      accent-color: var(--accent);
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .readout {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 11px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(196, 230, 255, 0.12);
+    }
+
+    .metric {
+      min-width: 0;
+    }
+
+    .metric span {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 11px;
+      line-height: 1.2;
+      color: var(--muted);
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 13px;
+      line-height: 1.15;
+      font-weight: 800;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    @media (max-width: 430px), (max-height: 360px) {
+      .hud {
+        padding: 11px 12px 10px;
+      }
+
+      .row {
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+      }
+
+      .label {
+        grid-column: 1;
+      }
+
+      input[type="range"] {
+        grid-column: 1 / -1;
+        grid-row: 2;
+      }
+
+      output {
+        grid-column: 2;
+      }
+
+      .readout {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+      }
+
+      .metric span {
+        font-size: 10px;
+      }
+
+      .metric strong {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="scene" aria-label="Процедурная анимация идущего stick figure"></canvas>
+
+  <section class="hud" aria-label="Параметры походки">
+    <div class="row">
+      <label class="label" for="speed">Скорость</label>
+      <input id="speed" type="range" min="0" max="1" step="0.001" value="0.38">
+      <output id="speedLabel" for="speed">Ходьба</output>
+    </div>
+    <div class="readout" aria-hidden="true">
+      <div class="metric">
+        <span>Темп</span>
+        <strong id="cadenceLabel">0.00 Гц</strong>
+      </div>
+      <div class="metric">
+        <span>Опора</span>
+        <strong id="stanceLabel">0%</strong>
+      </div>
+      <div class="metric">
+        <span>Шаг</span>
+        <strong id="strideLabel">0 px</strong>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var canvas = document.getElementById("scene");
+      var ctx = canvas.getContext("2d", { alpha: false });
+      var speedInput = document.getElementById("speed");
+      var speedLabel = document.getElementById("speedLabel");
+      var cadenceLabel = document.getElementById("cadenceLabel");
+      var stanceLabel = document.getElementById("stanceLabel");
+      var strideLabel = document.getElementById("strideLabel");
+
+      var state = {
+        width: 0,
+        height: 0,
+        dpr: 1,
+        lastTime: performance.now(),
+        phase: 0,
+        ground: 0,
+        speedNorm: Number(speedInput.value),
+        footprints: [],
+        dust: [],
+        legs: [
+          {
+            name: "near",
+            offset: 0,
+            ready: false,
+            inStance: false,
+            plantWorldX: 0,
+            swingStartWorldX: 0,
+            swingTargetWorldX: 0,
+            foot: { x: 0, y: 0, angle: 0, lift: 0, stanceT: 0, swingT: 0 },
+            color: "#eefaff",
+            joint: "#57d7ff",
+            alpha: 1,
+            layer: 1
+          },
+          {
+            name: "far",
+            offset: 0.5,
+            ready: false,
+            inStance: false,
+            plantWorldX: 0,
+            swingStartWorldX: 0,
+            swingTargetWorldX: 0,
+            foot: { x: 0, y: 0, angle: 0, lift: 0, stanceT: 0, swingT: 0 },
+            color: "#7fa4ba",
+            joint: "#ffbd6b",
+            alpha: 0.62,
+            layer: 0
+          }
+        ]
+      };
+
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function lerp(a, b, t) {
+        return a + (b - a) * t;
+      }
+
+      function invLerp(a, b, value) {
+        return clamp((value - a) / (b - a), 0, 1);
+      }
+
+      function smoothstep(edge0, edge1, value) {
+        var t = invLerp(edge0, edge1, value);
+        return t * t * (3 - 2 * t);
+      }
+
+      function easeInOut(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
+
+      function fract(value) {
+        return value - Math.floor(value);
+      }
+
+      function mod(value, period) {
+        return ((value % period) + period) % period;
+      }
+
+      function hash(value) {
+        return fract(Math.sin(value * 127.1 + 311.7) * 43758.5453);
+      }
+
+      function resize() {
+        var rect = canvas.getBoundingClientRect();
+        var dpr = clamp(window.devicePixelRatio || 1, 1, 2.5);
+        var width = Math.max(1, Math.round(rect.width));
+        var height = Math.max(1, Math.round(rect.height));
+        state.width = width;
+        state.height = height;
+        state.dpr = dpr;
+        canvas.width = Math.round(width * dpr);
+        canvas.height = Math.round(height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      window.addEventListener("resize", resize, { passive: true });
+      resize();
+
+      function getParams() {
+        var w = state.width;
+        var h = state.height;
+        var s = clamp(state.speedNorm, 0, 1);
+        var run = smoothstep(0.58, 0.9, s);
+        var legLen = clamp(Math.min(h * 0.34, w * 0.22), 70, 190);
+        var groundY = clamp(h * 0.76, h * 0.58, h - 42);
+        var cadence = lerp(0.72, 2.55, Math.pow(s, 0.78));
+        var stride = legLen * lerp(0.44, 1.2, Math.pow(s, 0.85));
+        var stanceFrac = lerp(0.68, 0.36, run);
+        var groundSpeed = stride * cadence;
+        var stanceSpan = stride * stanceFrac;
+        var touchdownX = stanceSpan * 0.5;
+        var hipBaseY = groundY - legLen * lerp(0.78, 0.84, run);
+        var walkBounce = Math.sin(state.phase * Math.PI * 4 + 0.45) * legLen * lerp(0.018, 0.012, run);
+        var flightLift = Math.max(0, Math.sin((state.phase - 0.07) * Math.PI * 2)) * legLen * 0.075 * run;
+        var hipY = hipBaseY + walkBounce - flightLift;
+        var hipX = w * 0.48 + Math.sin(state.phase * Math.PI * 2) * legLen * 0.012;
+
+        return {
+          s: s,
+          run: run,
+          width: w,
+          height: h,
+          centerX: hipX,
+          groundY: groundY,
+          legLen: legLen,
+          thigh: legLen * 0.52,
+          shin: legLen * 0.5,
+          torso: legLen * 0.62,
+          head: legLen * 0.16,
+          upperArm: legLen * 0.34,
+          foreArm: legLen * 0.33,
+          footLen: legLen * 0.28,
+          cadence: cadence,
+          stride: stride,
+          stanceFrac: stanceFrac,
+          groundSpeed: groundSpeed,
+          stanceSpan: stanceSpan,
+          touchdownX: touchdownX,
+          hipY: hipY,
+          stepHeight: legLen * lerp(0.11, 0.29, run) + legLen * s * 0.045,
+          lean: lerp(0.025, 0.25, run) + Math.sin(state.phase * Math.PI * 4 + 1.2) * lerp(0.035, 0.06, run),
+          line: clamp(legLen * 0.055, 4.5, 9)
+        };
+      }
+
+      function solveIK(a, b, lenA, lenB, bend) {
+        var dx = b.x - a.x;
+        var dy = b.y - a.y;
+        var realD = Math.max(0.001, Math.hypot(dx, dy));
+        var d = clamp(realD, Math.abs(lenA - lenB) + 0.001, lenA + lenB - 0.001);
+        var ux = dx / realD;
+        var uy = dy / realD;
+        var along = (lenA * lenA - lenB * lenB + d * d) / (2 * d);
+        var height = Math.sqrt(Math.max(0, lenA * lenA - along * along));
+        var mx = a.x + ux * along;
+        var my = a.y + uy * along;
+        return {
+          x: mx + -uy * height * bend,
+          y: my + ux * height * bend
+        };
+      }
+
+      function initializeLeg(leg, phase, p, inStance) {
+        if (inStance) {
+          var stanceT = phase / p.stanceFrac;
+          var xRel = p.touchdownX - stanceT * p.stanceSpan;
+          leg.plantWorldX = state.ground + xRel;
+        } else {
+          var swingT = (phase - p.stanceFrac) / (1 - p.stanceFrac);
+          var swingDuration = (1 - p.stanceFrac) / p.cadence;
+          var elapsed = swingT * swingDuration;
+          var remaining = (1 - swingT) * swingDuration;
+          var startBodyWorld = state.ground - p.groundSpeed * elapsed;
+          var targetBodyWorld = state.ground + p.groundSpeed * remaining;
+          leg.swingStartWorldX = startBodyWorld - p.touchdownX;
+          leg.swingTargetWorldX = targetBodyWorld + p.touchdownX;
+        }
+        leg.inStance = inStance;
+        leg.ready = true;
+      }
+
+      function addFootprint(leg, p, angle) {
+        state.footprints.push({
+          worldX: leg.plantWorldX,
+          side: leg.name,
+          born: performance.now(),
+          angle: angle
+        });
+        if (state.footprints.length > 42) {
+          state.footprints.splice(0, state.footprints.length - 42);
+        }
+      }
+
+      function addDust(worldX, groundY, amount, tint) {
+        for (var i = 0; i < amount; i += 1) {
+          var a = -Math.PI * (0.12 + hash(worldX + i) * 0.76);
+          var speed = 18 + hash(worldX * 1.3 + i) * 54;
+          state.dust.push({
+            worldX: worldX + (hash(i + worldX * 0.11) - 0.5) * 12,
+            y: groundY - hash(worldX + i * 9.2) * 5,
+            vx: Math.cos(a) * speed,
+            vy: Math.sin(a) * speed - 8,
+            age: 0,
+            life: 0.34 + hash(worldX + i * 2.3) * 0.38,
+            size: 1.8 + hash(worldX + i * 4.1) * 3.7,
+            tint: tint
+          });
+        }
+      }
+
+      function updateLeg(leg, p) {
+        var phase = fract(state.phase + leg.offset);
+        var inStance = phase < p.stanceFrac;
+
+        if (!leg.ready) {
+          initializeLeg(leg, phase, p, inStance);
+        }
+
+        if (inStance && !leg.inStance) {
+          leg.plantWorldX = Number.isFinite(leg.swingTargetWorldX) ? leg.swingTargetWorldX : state.ground + p.touchdownX;
+          addFootprint(leg, p, -0.18);
+          addDust(leg.plantWorldX, p.groundY, p.run > 0.45 ? 9 : 4, leg.name === "near" ? "#57d7ff" : "#ffbd6b");
+        }
+
+        if (!inStance && leg.inStance) {
+          var swingDuration = (1 - p.stanceFrac) / p.cadence;
+          leg.swingStartWorldX = leg.plantWorldX;
+          leg.swingTargetWorldX = state.ground + p.groundSpeed * swingDuration + p.touchdownX;
+          addDust(leg.swingStartWorldX, p.groundY, p.run > 0.45 ? 7 : 3, leg.name === "near" ? "#57d7ff" : "#ffbd6b");
+        }
+
+        leg.inStance = inStance;
+
+        var foot = leg.foot;
+        if (inStance) {
+          var stanceT = clamp(phase / p.stanceFrac, 0, 1);
+          foot.x = p.centerX + leg.plantWorldX - state.ground;
+          foot.y = p.groundY - p.line * 0.18;
+          foot.angle = lerp(-0.22, 0.42, smoothstep(0.08, 0.94, stanceT));
+          foot.lift = 0;
+          foot.stanceT = stanceT;
+          foot.swingT = 0;
+        } else {
+          var swingT = clamp((phase - p.stanceFrac) / (1 - p.stanceFrac), 0, 1);
+          var eased = easeInOut(swingT);
+          var worldX = lerp(leg.swingStartWorldX, leg.swingTargetWorldX, eased);
+          var lift = Math.sin(Math.PI * swingT);
+          var lateSnap = smoothstep(0.62, 1, swingT);
+          foot.x = p.centerX + worldX - state.ground;
+          foot.y = p.groundY - p.line * 0.18 - p.stepHeight * Math.pow(lift, lerp(0.84, 0.62, p.run));
+          foot.angle = lerp(0.58, -0.28, lateSnap) + Math.sin(swingT * Math.PI) * 0.14;
+          foot.lift = lift;
+          foot.stanceT = 0;
+          foot.swingT = swingT;
+        }
+      }
+
+      function updateDust(dt, p) {
+        for (var i = state.dust.length - 1; i >= 0; i -= 1) {
+          var d = state.dust[i];
+          d.age += dt;
+          d.worldX += d.vx * dt;
+          d.y += d.vy * dt;
+          d.vy += 92 * dt;
+          if (d.age > d.life || d.y > p.groundY + 18) {
+            state.dust.splice(i, 1);
+          }
+        }
+      }
+
+      function update(dt) {
+        var target = Number(speedInput.value);
+        state.speedNorm += (target - state.speedNorm) * Math.min(1, dt * 4.8);
+
+        var p = getParams();
+        state.phase = fract(state.phase + p.cadence * dt);
+        state.ground += p.groundSpeed * dt;
+        p = getParams();
+
+        updateLeg(state.legs[1], p);
+        updateLeg(state.legs[0], p);
+        updateDust(dt, p);
+
+        var mode = p.run > 0.68 ? "Бег" : p.run > 0.18 ? "Разгон" : "Ходьба";
+        speedLabel.textContent = mode;
+        cadenceLabel.textContent = p.cadence.toFixed(2) + " Гц";
+        stanceLabel.textContent = Math.round(p.stanceFrac * 100) + "%";
+        strideLabel.textContent = Math.round(p.stride) + " px";
+
+        return p;
+      }
+
+      function clear(p) {
+        var sky = ctx.createLinearGradient(0, 0, 0, p.height);
+        sky.addColorStop(0, "#071018");
+        sky.addColorStop(0.42, "#0d1620");
+        sky.addColorStop(0.72, "#11171a");
+        sky.addColorStop(1, "#07090b");
+        ctx.fillStyle = sky;
+        ctx.fillRect(0, 0, p.width, p.height);
+      }
+
+      function drawBackground(p) {
+        var w = p.width;
+        var h = p.height;
+        var gy = p.groundY;
+        var horizon = gy - p.legLen * 1.18;
+
+        ctx.save();
+        ctx.globalAlpha = 0.6;
+        ctx.strokeStyle = "rgba(114, 202, 255, 0.07)";
+        ctx.lineWidth = 1;
+        for (var i = 0; i < 22; i += 1) {
+          var y = horizon + i * p.legLen * 0.075;
+          if (y > gy - 10) {
+            break;
+          }
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(w, y);
+          ctx.stroke();
+        }
+        ctx.restore();
+
+        ctx.save();
+        var parallax = state.ground * 0.11;
+        var block = p.legLen * 0.62;
+        for (var b = -1; b < Math.ceil(w / block) + 2; b += 1) {
+          var bx = b * block - mod(parallax, block);
+          var bh = p.legLen * (0.18 + hash(b + 15) * 0.34);
+          var bw = block * (0.38 + hash(b + 31) * 0.36);
+          ctx.fillStyle = "rgba(20, 33, 40, 0.46)";
+          ctx.fillRect(bx, horizon - bh, bw, bh);
+          ctx.fillStyle = hash(b + 9) > 0.5 ? "rgba(255, 189, 107, 0.22)" : "rgba(87, 215, 255, 0.16)";
+          ctx.fillRect(bx + bw * 0.16, horizon - bh + 8, Math.max(3, bw * 0.1), Math.max(3, bh * 0.08));
+        }
+        ctx.restore();
+
+        var ground = ctx.createLinearGradient(0, gy, 0, h);
+        ground.addColorStop(0, "#18201f");
+        ground.addColorStop(0.36, "#0f1515");
+        ground.addColorStop(1, "#050708");
+        ctx.fillStyle = ground;
+        ctx.fillRect(0, gy, w, h - gy);
+
+        ctx.save();
+        ctx.strokeStyle = "rgba(87, 215, 255, 0.2)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, gy + 0.5);
+        ctx.lineTo(w, gy + 0.5);
+        ctx.stroke();
+
+        var major = p.legLen * 0.52;
+        var minor = major / 4;
+        var x0 = -mod(state.ground, minor);
+        for (var x = x0; x < w + minor; x += minor) {
+          var isMajor = Math.abs(mod(x + state.ground, major)) < 1.5;
+          ctx.strokeStyle = isMajor ? "rgba(255, 189, 107, 0.28)" : "rgba(149, 188, 204, 0.12)";
+          ctx.lineWidth = isMajor ? 1.4 : 1;
+          ctx.beginPath();
+          ctx.moveTo(x, gy + 2);
+          ctx.lineTo(x - p.legLen * 0.2, h);
+          ctx.stroke();
+        }
+
+        for (var row = 0; row < 7; row += 1) {
+          var y = gy + 18 + row * row * 2.2 + row * 14;
+          if (y > h) {
+            break;
+          }
+          ctx.strokeStyle = "rgba(180, 218, 230, " + (0.11 - row * 0.01) + ")";
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(w, y);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      function drawFootprints(p) {
+        var now = performance.now();
+        ctx.save();
+        for (var i = 0; i < state.footprints.length; i += 1) {
+          var fp = state.footprints[i];
+          var x = p.centerX + fp.worldX - state.ground;
+          if (x < -p.footLen * 2 || x > p.width + p.footLen * 2) {
+            continue;
+          }
+          var age = (now - fp.born) / 1000;
+          var alpha = clamp(0.32 - age * 0.025, 0.08, 0.32);
+          ctx.save();
+          ctx.translate(x, p.groundY + 5);
+          ctx.rotate(fp.angle);
+          ctx.scale(1, fp.side === "near" ? 1 : 0.82);
+          ctx.fillStyle = fp.side === "near" ? "rgba(87, 215, 255, " + alpha + ")" : "rgba(255, 189, 107, " + alpha + ")";
+          roundedCapsule(-p.footLen * 0.45, -p.line * 0.28, p.footLen * 0.92, p.line * 0.42, p.line * 0.22);
+          ctx.restore();
+        }
+        ctx.restore();
+      }
+
+      function roundedCapsule(x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      function drawDust(p) {
+        ctx.save();
+        ctx.globalCompositeOperation = "lighter";
+        for (var i = 0; i < state.dust.length; i += 1) {
+          var d = state.dust[i];
+          var t = clamp(d.age / d.life, 0, 1);
+          var x = p.centerX + d.worldX - state.ground;
+          var alpha = (1 - t) * 0.4;
+          ctx.globalAlpha = alpha;
+          ctx.fillStyle = d.tint;
+          ctx.beginPath();
+          ctx.arc(x, d.y, d.size * (1 + t * 1.8), 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      function drawShadow(p) {
+        ctx.save();
+        var span = p.legLen * lerp(0.82, 1.16, p.run);
+        var alpha = lerp(0.35, 0.22, p.run);
+        ctx.fillStyle = "rgba(0, 0, 0, " + alpha + ")";
+        ctx.beginPath();
+        ctx.ellipse(p.centerX, p.groundY + 9, span, p.legLen * 0.12, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function strokeChain(points, color, width, alpha, glow) {
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        if (glow) {
+          ctx.shadowColor = glow;
+          ctx.shadowBlur = width * 2.6;
+        }
+        ctx.strokeStyle = color;
+        ctx.lineWidth = width;
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (var i = 1; i < points.length; i += 1) {
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function drawJoint(point, radius, color, alpha) {
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = color;
+        ctx.shadowColor = color;
+        ctx.shadowBlur = radius * 2.3;
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function drawFoot(leg, p, alpha) {
+        var f = leg.foot;
+        var c = Math.cos(f.angle);
+        var s = Math.sin(f.angle);
+        var heel = {
+          x: f.x - c * p.footLen * 0.42,
+          y: f.y - s * p.footLen * 0.42
+        };
+        var toe = {
+          x: f.x + c * p.footLen * 0.58,
+          y: f.y + s * p.footLen * 0.58
+        };
+
+        if (leg.inStance) {
+          ctx.save();
+          ctx.globalAlpha = 0.28 * alpha;
+          ctx.strokeStyle = leg.joint;
+          ctx.lineWidth = p.line * 0.24;
+          ctx.beginPath();
+          ctx.moveTo(heel.x, p.groundY + 1);
+          ctx.lineTo(toe.x, p.groundY + 1);
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        strokeChain([heel, toe], leg.color, p.line * 0.72, alpha, leg.joint);
+        drawJoint(toe, p.line * 0.24, leg.joint, alpha * 0.9);
+      }
+
+      function drawLeg(leg, hip, p) {
+        var ankle = { x: leg.foot.x, y: leg.foot.y - p.line * 0.5 };
+        var knee = solveIK(hip, ankle, p.thigh, p.shin, -1);
+        var width = p.line * (leg.name === "near" ? 1 : 0.82);
+        strokeChain([hip, knee, ankle], leg.color, width, leg.alpha, leg.joint);
+        drawJoint(knee, width * 0.47, leg.joint, leg.alpha * 0.95);
+        drawFoot(leg, p, leg.alpha);
+      }
+
+      function drawArm(handPhase, shoulder, p, color, glow, alpha, side) {
+        var armAmp = p.legLen * lerp(0.24, 0.48, p.run);
+        var vertical = p.legLen * lerp(0.47, 0.36, p.run);
+        var hand = {
+          x: shoulder.x - Math.cos(handPhase * Math.PI * 2) * armAmp,
+          y: shoulder.y + vertical + Math.sin(handPhase * Math.PI * 2 + 0.3) * p.legLen * 0.05
+        };
+        var elbow = solveIK(shoulder, hand, p.upperArm, p.foreArm, side);
+        strokeChain([shoulder, elbow, hand], color, p.line * 0.76, alpha, glow);
+        drawJoint(elbow, p.line * 0.33, glow, alpha * 0.9);
+        drawJoint(hand, p.line * 0.42, color, alpha);
+      }
+
+      function drawTorso(p) {
+        var hip = { x: p.centerX, y: p.hipY };
+        var lean = p.lean;
+        var shoulder = {
+          x: hip.x + Math.sin(lean) * p.torso,
+          y: hip.y - Math.cos(lean) * p.torso
+        };
+        var neck = {
+          x: shoulder.x + Math.sin(lean) * p.head * 0.64,
+          y: shoulder.y - Math.cos(lean) * p.head * 0.52
+        };
+        var head = {
+          x: neck.x + Math.sin(lean) * p.head * 0.42,
+          y: neck.y - Math.cos(lean) * p.head * 0.72
+        };
+
+        var farHip = { x: hip.x - p.line * 0.42, y: hip.y + p.line * 0.28 };
+        var nearHip = { x: hip.x + p.line * 0.42, y: hip.y - p.line * 0.12 };
+        var farShoulder = { x: shoulder.x - p.line * 0.5, y: shoulder.y + p.line * 0.34 };
+        var nearShoulder = { x: shoulder.x + p.line * 0.5, y: shoulder.y - p.line * 0.12 };
+
+        drawLeg(state.legs[1], farHip, p);
+        drawArm(fract(state.phase + 0), farShoulder, p, "#7899ad", "#ffbd6b", 0.5, 1);
+
+        strokeChain([hip, shoulder], "#eaf8ff", p.line * 1.16, 0.98, "#57d7ff");
+        drawJoint(hip, p.line * 0.58, "#ffbd6b", 0.9);
+        drawJoint(shoulder, p.line * 0.48, "#57d7ff", 0.86);
+
+        drawArm(fract(state.phase + 0.5), nearShoulder, p, "#f5fbff", "#57d7ff", 0.95, -1);
+        drawLeg(state.legs[0], nearHip, p);
+
+        ctx.save();
+        ctx.globalAlpha = 0.98;
+        ctx.shadowColor = "#57d7ff";
+        ctx.shadowBlur = p.head * 0.8;
+        var grad = ctx.createRadialGradient(head.x - p.head * 0.28, head.y - p.head * 0.34, p.head * 0.12, head.x, head.y, p.head);
+        grad.addColorStop(0, "#ffffff");
+        grad.addColorStop(0.55, "#cceeff");
+        grad.addColorStop(1, "#7cdcff");
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(head.x, head.y, p.head, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = "rgba(6, 14, 20, 0.9)";
+        ctx.beginPath();
+        ctx.arc(head.x + Math.cos(lean) * p.head * 0.34, head.y + Math.sin(lean) * p.head * 0.16, p.head * 0.1, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        drawCenterOfMass(hip, shoulder, p);
+      }
+
+      function drawCenterOfMass(hip, shoulder, p) {
+        var x = lerp(hip.x, shoulder.x, 0.38);
+        var y = lerp(hip.y, shoulder.y, 0.38);
+        ctx.save();
+        ctx.globalAlpha = 0.36;
+        ctx.strokeStyle = "rgba(255, 189, 107, 0.8)";
+        ctx.lineWidth = Math.max(1, p.line * 0.16);
+        ctx.beginPath();
+        ctx.arc(x, y, p.line * 1.25, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.globalAlpha = 0.24;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x, p.groundY);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function drawPhaseMeter(p) {
+        var r = clamp(p.legLen * 0.12, 13, 24);
+        var x = p.width - r - clamp(p.width * 0.028, 12, 34);
+        var y = clamp(p.height * 0.075, 28, 52);
+        var start = -Math.PI / 2;
+        ctx.save();
+        ctx.lineCap = "round";
+        ctx.lineWidth = Math.max(3, r * 0.16);
+        ctx.strokeStyle = "rgba(210, 235, 250, 0.18)";
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.stroke();
+
+        for (var i = 0; i < state.legs.length; i += 1) {
+          var leg = state.legs[i];
+          var phase = fract(state.phase + leg.offset);
+          ctx.strokeStyle = leg.name === "near" ? "#57d7ff" : "#ffbd6b";
+          ctx.globalAlpha = leg.name === "near" ? 0.9 : 0.62;
+          ctx.beginPath();
+          ctx.arc(x, y, r - i * r * 0.28, start, start + Math.PI * 2 * p.stanceFrac);
+          ctx.stroke();
+          ctx.fillStyle = ctx.strokeStyle;
+          ctx.beginPath();
+          ctx.arc(x + Math.cos(start + phase * Math.PI * 2) * (r - i * r * 0.28), y + Math.sin(start + phase * Math.PI * 2) * (r - i * r * 0.28), Math.max(3, r * 0.13), 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      function render(p) {
+        clear(p);
+        drawBackground(p);
+        drawFootprints(p);
+        drawShadow(p);
+        drawDust(p);
+        drawTorso(p);
+        drawPhaseMeter(p);
+      }
+
+      function frame(now) {
+        var dt = clamp((now - state.lastTime) / 1000, 0, 0.045);
+        state.lastTime = now;
+        var p = update(dt);
+        render(p);
+        requestAnimationFrame(frame);
+      }
+
+      requestAnimationFrame(frame);
+    }());
+  </script>
+</body>
+</html>

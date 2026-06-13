@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Северный Вестник — первая полоса</title>
+  <style>
+    :root {
+      --paper: #f6f1e6;
+      --paper-deep: #ece2ce;
+      --ink: #171513;
+      --soft-ink: #4c4740;
+      --rule: #28231f;
+      --hairline: rgba(23, 21, 19, .32);
+      --muted: #746c60;
+      --red: #9d2f26;
+      --blue: #244f63;
+      --green: #59673a;
+      --photo: #d6cfbf;
+      --photo-ink: #645d53;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 8% 10%, rgba(157, 47, 38, .08), transparent 22rem),
+        radial-gradient(circle at 93% 18%, rgba(36, 79, 99, .07), transparent 24rem),
+        var(--paper-deep);
+    }
+
+    body {
+      min-height: 100%;
+      margin: 0;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", Times, serif;
+      background:
+        linear-gradient(90deg, rgba(23, 21, 19, .035) 1px, transparent 1px) 0 0 / 9px 9px,
+        linear-gradient(rgba(255, 255, 255, .28), rgba(255, 255, 255, 0) 22rem);
+      text-rendering: optimizeLegibility;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      padding: clamp(14px, 2.5vw, 34px);
+    }
+
+    .newspaper {
+      width: min(100%, 1320px);
+      margin: 0 auto;
+      padding: clamp(16px, 2.8vw, 38px);
+      background:
+        linear-gradient(90deg, rgba(23, 21, 19, .025) 1px, transparent 1px) 0 0 / 31px 31px,
+        linear-gradient(rgba(255, 255, 255, .36), rgba(255, 255, 255, .12)),
+        var(--paper);
+      border: 1px solid rgba(23, 21, 19, .42);
+      box-shadow: 0 22px 60px rgba(38, 31, 24, .22);
+    }
+
+    .masthead {
+      border-top: 5px double var(--rule);
+      border-bottom: 5px double var(--rule);
+      padding: clamp(8px, 1.4vw, 16px) 0 clamp(10px, 1.5vw, 18px);
+    }
+
+    .kicker-row,
+    .footer-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      gap: 1rem;
+      align-items: center;
+      color: var(--soft-ink);
+      font-size: .86rem;
+      line-height: 1.2;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .kicker-row span:nth-child(2),
+    .footer-row span:nth-child(2) {
+      color: var(--red);
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .kicker-row span:last-child,
+    .footer-row span:last-child {
+      text-align: right;
+    }
+
+    .nameplate {
+      margin: clamp(8px, 1.1vw, 14px) 0 0;
+      font-size: 8.4rem;
+      line-height: .82;
+      text-align: center;
+      letter-spacing: 0;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .nameplate small {
+      display: block;
+      margin-top: .28rem;
+      color: var(--blue);
+      font-size: .92rem;
+      line-height: 1.25;
+      letter-spacing: .19em;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .edition-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: clamp(8px, 1.4vw, 16px);
+      padding-top: .52rem;
+      border-top: 1px solid var(--hairline);
+      color: var(--soft-ink);
+      font-size: .84rem;
+      line-height: 1.25;
+    }
+
+    .edition-strip b {
+      color: var(--ink);
+    }
+
+    .edition-strip span:nth-child(2) {
+      text-align: center;
+    }
+
+    .edition-strip span:last-child {
+      text-align: right;
+    }
+
+    .lead-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2.05fr) minmax(250px, .95fr);
+      gap: clamp(18px, 2.7vw, 34px);
+      margin-top: clamp(18px, 2.6vw, 32px);
+      padding-bottom: clamp(18px, 2.6vw, 30px);
+      border-bottom: 3px double var(--rule);
+    }
+
+    .main-article {
+      min-width: 0;
+    }
+
+    .section-label {
+      display: inline-block;
+      margin-bottom: .46rem;
+      padding: .18rem .52rem .13rem;
+      color: var(--paper);
+      background: var(--red);
+      font-size: .78rem;
+      line-height: 1.2;
+      letter-spacing: .12em;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    .headline {
+      max-width: 13ch;
+      font-size: 7.6rem;
+      line-height: .84;
+      letter-spacing: 0;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .deck {
+      max-width: 55rem;
+      margin-top: clamp(10px, 1.5vw, 16px);
+      padding-top: clamp(8px, 1.2vw, 14px);
+      border-top: 2px solid var(--rule);
+      color: var(--blue);
+      font-size: 1.78rem;
+      line-height: 1.06;
+      font-weight: 700;
+    }
+
+    .byline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem .85rem;
+      align-items: baseline;
+      margin: clamp(12px, 1.7vw, 18px) 0;
+      color: var(--muted);
+      font-size: .86rem;
+      line-height: 1.25;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .byline b {
+      color: var(--ink);
+    }
+
+    .article-flow {
+      column-count: 3;
+      column-gap: clamp(18px, 2.7vw, 32px);
+      column-rule: 1px solid var(--hairline);
+      font-size: 1.08rem;
+      line-height: 1.54;
+      text-align: justify;
+      hyphens: auto;
+      overflow-wrap: break-word;
+    }
+
+    .article-flow p + p {
+      margin-top: .72rem;
+    }
+
+    .lead-paragraph {
+      font-weight: 700;
+    }
+
+    .lead-paragraph::first-letter {
+      float: left;
+      margin: .08em .1em 0 0;
+      color: var(--red);
+      font-size: 5.6em;
+      line-height: .78;
+      font-weight: 900;
+    }
+
+    .pullquote {
+      break-inside: avoid;
+      margin: 1.05rem 0;
+      padding: .95rem 0 .9rem;
+      border-top: 3px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      color: var(--green);
+      font-size: 1.56rem;
+      line-height: 1.08;
+      font-weight: 800;
+      text-align: left;
+    }
+
+    .pullquote cite {
+      display: block;
+      margin-top: .55rem;
+      color: var(--muted);
+      font-size: .72rem;
+      line-height: 1.25;
+      letter-spacing: .12em;
+      font-style: normal;
+      text-transform: uppercase;
+    }
+
+    .side-rail {
+      min-width: 0;
+      border-left: 2px solid var(--rule);
+      padding-left: clamp(14px, 2vw, 24px);
+    }
+
+    .photo {
+      margin: 0;
+      break-inside: avoid;
+    }
+
+    .photo-frame {
+      position: relative;
+      display: grid;
+      min-height: 210px;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid rgba(23, 21, 19, .58);
+      background:
+        linear-gradient(135deg, transparent 48%, rgba(23, 21, 19, .34) 49%, rgba(23, 21, 19, .34) 51%, transparent 52%),
+        linear-gradient(45deg, transparent 48%, rgba(23, 21, 19, .22) 49%, rgba(23, 21, 19, .22) 51%, transparent 52%),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, .22) 0 1px, transparent 1px 7px),
+        linear-gradient(135deg, #c7c0af, var(--photo) 45%, #b6ad9c);
+    }
+
+    .photo-frame::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(23, 21, 19, .3);
+    }
+
+    .photo-frame::after {
+      content: attr(data-mark);
+      position: relative;
+      display: grid;
+      width: min(76%, 18rem);
+      aspect-ratio: 5 / 3;
+      place-items: center;
+      border: 2px solid rgba(100, 93, 83, .58);
+      color: var(--photo-ink);
+      background: rgba(246, 241, 230, .42);
+      font-size: 4.2rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .photo figcaption {
+      margin-top: .42rem;
+      color: var(--soft-ink);
+      font-size: .84rem;
+      line-height: 1.28;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .side-story {
+      margin-top: clamp(14px, 2vw, 22px);
+      padding-top: clamp(12px, 1.8vw, 20px);
+      border-top: 2px solid var(--rule);
+    }
+
+    .side-story h2 {
+      margin-bottom: .46rem;
+      font-size: 2.04rem;
+      line-height: .96;
+      text-transform: uppercase;
+    }
+
+    .side-story p {
+      font-size: .99rem;
+      line-height: 1.45;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .index-box {
+      margin-top: clamp(14px, 2vw, 22px);
+      border: 1px solid var(--rule);
+    }
+
+    .index-box h2 {
+      padding: .34rem .54rem .28rem;
+      color: var(--paper);
+      background: var(--blue);
+      font-size: .85rem;
+      line-height: 1.2;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .index-box ol {
+      display: grid;
+      gap: .38rem;
+      margin: 0;
+      padding: .68rem .8rem .82rem 1.85rem;
+      font-size: .95rem;
+      line-height: 1.25;
+    }
+
+    .news-band {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(14px, 2vw, 24px);
+      margin-top: clamp(18px, 2.6vw, 30px);
+    }
+
+    .brief {
+      min-width: 0;
+      padding-right: clamp(10px, 1.4vw, 18px);
+      border-right: 1px solid var(--hairline);
+    }
+
+    .brief:last-child {
+      padding-right: 0;
+      border-right: 0;
+    }
+
+    .brief h2 {
+      margin-bottom: .45rem;
+      padding-bottom: .34rem;
+      border-bottom: 1px solid var(--rule);
+      font-size: 1.55rem;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .brief .tag {
+      display: block;
+      margin-bottom: .4rem;
+      color: var(--red);
+      font-size: .74rem;
+      line-height: 1.2;
+      letter-spacing: .13em;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .brief p {
+      font-size: .98rem;
+      line-height: 1.44;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .mini-photo {
+      margin: .72rem 0 .46rem;
+    }
+
+    .mini-photo .photo-frame {
+      min-height: 128px;
+    }
+
+    .mini-photo .photo-frame::after {
+      width: min(70%, 10rem);
+      font-size: 2.35rem;
+    }
+
+    .market-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      margin-top: clamp(18px, 2.4vw, 28px);
+      border-top: 3px solid var(--rule);
+      border-bottom: 3px solid var(--rule);
+    }
+
+    .market-item {
+      min-width: 0;
+      padding: .52rem .62rem .5rem;
+      border-right: 1px solid var(--hairline);
+      text-align: center;
+    }
+
+    .market-item:last-child {
+      border-right: 0;
+    }
+
+    .market-item b,
+    .market-item span {
+      display: block;
+    }
+
+    .market-item b {
+      font-size: .78rem;
+      line-height: 1.1;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .market-item span {
+      margin-top: .18rem;
+      color: var(--blue);
+      font-size: 1.15rem;
+      line-height: 1.1;
+      font-weight: 700;
+    }
+
+    .continued {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
+      gap: clamp(16px, 2.3vw, 28px);
+      margin-top: clamp(18px, 2.5vw, 30px);
+      padding-top: clamp(14px, 2vw, 24px);
+      border-top: 1px solid var(--rule);
+    }
+
+    .columns-two {
+      column-count: 2;
+      column-gap: clamp(18px, 2.5vw, 28px);
+      column-rule: 1px solid var(--hairline);
+      font-size: .98rem;
+      line-height: 1.48;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .continued h2 {
+      margin-bottom: .55rem;
+      font-size: 2.35rem;
+      line-height: .95;
+      text-transform: uppercase;
+    }
+
+    .continued h3 {
+      margin: 0 0 .35rem;
+      color: var(--green);
+      font-size: 1.5rem;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .small-note {
+      padding: .78rem .86rem;
+      border: 1px solid var(--rule);
+      background: rgba(255, 255, 255, .22);
+    }
+
+    .small-note p {
+      font-size: .96rem;
+      line-height: 1.42;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .footer-row {
+      margin-top: clamp(18px, 2.4vw, 28px);
+      padding-top: .58rem;
+      border-top: 5px double var(--rule);
+      font-size: .76rem;
+    }
+
+    @media (max-width: 1050px) {
+      .nameplate {
+        font-size: 6.2rem;
+      }
+
+      .headline {
+        font-size: 6.1rem;
+      }
+
+      .lead-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .side-rail {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: clamp(14px, 2.6vw, 24px);
+        border-left: 0;
+        border-top: 2px solid var(--rule);
+        padding: clamp(16px, 2.6vw, 24px) 0 0;
+      }
+
+      .side-story,
+      .index-box {
+        margin-top: 0;
+      }
+
+      .news-band {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .brief:nth-child(2) {
+        border-right: 0;
+        padding-right: 0;
+      }
+
+      .brief:nth-child(n + 3) {
+        padding-top: clamp(12px, 1.8vw, 18px);
+        border-top: 1px solid var(--hairline);
+      }
+
+      .market-strip {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .market-item:nth-child(3n) {
+        border-right: 0;
+      }
+
+      .market-item:nth-child(n + 4) {
+        border-top: 1px solid var(--hairline);
+      }
+    }
+
+    @media (max-width: 820px) {
+      .nameplate {
+        font-size: 4.85rem;
+      }
+
+      .headline {
+        font-size: 4.7rem;
+      }
+
+      .deck {
+        font-size: 1.46rem;
+      }
+
+      .article-flow,
+      .columns-two {
+        column-count: 2;
+      }
+
+      .headline {
+        max-width: 11ch;
+      }
+
+      .continued {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 0;
+      }
+
+      .newspaper {
+        min-height: 100vh;
+        border-right: 0;
+        border-left: 0;
+        box-shadow: none;
+      }
+
+      .nameplate {
+        font-size: 3.3rem;
+      }
+
+      .nameplate small {
+        font-size: .72rem;
+      }
+
+      .headline {
+        font-size: 3.05rem;
+      }
+
+      .deck {
+        font-size: 1.22rem;
+      }
+
+      .pullquote {
+        font-size: 1.28rem;
+      }
+
+      .photo-frame::after {
+        font-size: 3.1rem;
+      }
+
+      .side-story h2,
+      .continued h2 {
+        font-size: 1.72rem;
+      }
+
+      .kicker-row,
+      .edition-strip,
+      .footer-row {
+        grid-template-columns: 1fr;
+        gap: .28rem;
+        text-align: center;
+      }
+
+      .kicker-row span,
+      .kicker-row span:last-child,
+      .edition-strip span,
+      .edition-strip span:last-child,
+      .footer-row span,
+      .footer-row span:last-child {
+        text-align: center;
+      }
+
+      .article-flow,
+      .columns-two {
+        column-count: 1;
+      }
+
+      .lead-paragraph::first-letter {
+        font-size: 4.8em;
+      }
+
+      .side-rail,
+      .news-band {
+        grid-template-columns: 1fr;
+      }
+
+      .brief,
+      .brief:nth-child(2) {
+        padding-right: 0;
+        border-right: 0;
+      }
+
+      .brief + .brief {
+        padding-top: 1rem;
+        border-top: 1px solid var(--hairline);
+      }
+
+      .market-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .market-item,
+      .market-item:nth-child(3n) {
+        border-right: 1px solid var(--hairline);
+      }
+
+      .market-item:nth-child(2n) {
+        border-right: 0;
+      }
+
+      .market-item:nth-child(n + 3) {
+        border-top: 1px solid var(--hairline);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <article class="newspaper" aria-label="Первая полоса газеты Северный Вестник">
+      <header class="masthead">
+        <div class="kicker-row" aria-label="Служебная строка выпуска">
+          <span>Городская ежедневная газета</span>
+          <span>Основана в 1912 году</span>
+          <span>Цена свободная</span>
+        </div>
+
+        <h1 class="nameplate">Северный Вестник
+          <small>новости, люди, решения большого города</small>
+        </h1>
+
+        <div class="edition-strip">
+          <span><b>Суббота, 13 июня 2026</b></span>
+          <span>№ 112 (34891)</span>
+          <span>Первый выпуск • Москва</span>
+        </div>
+      </header>
+
+      <section class="lead-grid" aria-label="Главная тема выпуска">
+        <div class="main-article">
+          <span class="section-label">Главная тема</span>
+          <h2 class="headline">Набережная выходит к людям</h2>
+          <p class="deck">После десятилетий заборов и складов город открывает семь километров берега: с причалами, павильонами, тихими садами и новой линией трамвая.</p>
+          <p class="byline"><b>Анна Корнеева</b><span>репортаж с правого берега</span><span>фото отдела хроники</span></p>
+
+          <div class="article-flow">
+            <p class="lead-paragraph">Вчера утром первые секции временного ограждения сняли у старого элеватора, и набережная, которую несколько поколений горожан видели только из окон электрички, стала обычной улицей. По ней уже идут жители соседних кварталов, рабочие выравнивают гранитные плиты, а у воды проверяют фонари с матовым стеклом.</p>
+            <p>Открытие сделали без торжественной сцены: чиновники прошли по маршруту вместе с инженерами и активистами, которые пять лет собирали замечания по проекту. Главный спор был о том, останется ли берег прогулочным или превратится в витрину ресторанов. В окончательной схеме коммерческие павильоны занимают меньше пятой части фронта, остальное отдано проходам, деревьям и спускам к воде.</p>
+            <p>Новая линия трамвая пройдет по бывшей подъездной ветке. Ее не стали прятать в тоннель: проектировщики решили, что медленное движение вдоль воды разгрузит автобусные маршруты и даст району понятную ось. Остановки поставят каждые шестьсот метров, а платформы сделают на одном уровне с тротуаром.</p>
+
+            <aside class="pullquote">«Берег перестает быть задним двором города. Теперь это не декорация для праздников, а ежедневный маршрут».
+              <cite>Марина Литвинова, городской архитектор</cite>
+            </aside>
+
+            <p>Вдоль промышленных корпусов сохранят кирпичные фасады и крановые балки. Внутри появятся мастерские, зал районных собраний и небольшая библиотека. Стены не будут перекрашивать в ровный цвет: следы старой кладки, номера пролетов и заводские таблички оставят как часть памяти места.</p>
+            <p>Самый тихий участок начинается за насосной станцией. Здесь тротуар уходит от воды к ряду вязов, между которыми уже размечены длинные скамьи. По словам дендрологов, деревья удалось сохранить благодаря тому, что инженерные сети проложили по существующему коллектору, а не вскрывали весь склон.</p>
+            <p>Первую очередь обещают открыть для круглосуточного прохода в августе. До конца года должны закончить велополосу, два безбарьерных спуска и навигацию. Власти отдельно обещают, что проход не будут закрывать под частные мероприятия: это условие внесено в регламент эксплуатации территории.</p>
+          </div>
+        </div>
+
+        <aside class="side-rail" aria-label="Боковая колонка первой полосы">
+          <figure class="photo">
+            <div class="photo-frame" data-mark="I"></div>
+            <figcaption>Рабочие снимают последние панели ограждения у старого элеватора. За ним начнется первый открытый участок новой прогулочной линии.</figcaption>
+          </figure>
+
+          <section class="side-story">
+            <h2>Что изменится к осени</h2>
+            <p>На берегу появятся 14 спусков, 480 новых деревьев и три общественных павильона. Автомобильные подъезды оставят только для служб, доставки и жителей прилегающих домов.</p>
+          </section>
+
+          <section class="index-box" aria-label="Анонсы номера">
+            <h2>В номере</h2>
+            <ol>
+              <li>Школы меняют расписание перед новым стандартом</li>
+              <li>Почему дворовые рынки возвращаются в спальные районы</li>
+              <li>Большое интервью с реставратором трамвайного депо</li>
+              <li>Афиша выходных: камерные концерты и ночные экскурсии</li>
+            </ol>
+          </section>
+        </aside>
+      </section>
+
+      <section class="news-band" aria-label="Новости первой полосы">
+        <article class="brief">
+          <span class="tag">Город</span>
+          <h2>Площади вернули тень</h2>
+          <p>На Сенной площади высадили первые взрослые липы. Подрядчик обещает, что деревья получат капельный полив, а лавки поставят не по краям, а внутри теневого контура.</p>
+        </article>
+
+        <article class="brief">
+          <span class="tag">Общество</span>
+          <h2>Поликлиники открывают вечерние окна</h2>
+          <p>С июля терапевты и педиатры будут принимать до девяти вечера три дня в неделю. В департаменте считают, что это снимет утреннюю очередь и поможет работающим родителям.</p>
+        </article>
+
+        <article class="brief">
+          <span class="tag">Культура</span>
+          <h2>Музей покажет найденные письма</h2>
+          <figure class="photo mini-photo">
+            <div class="photo-frame" data-mark="II"></div>
+            <figcaption>Фрагмент архива купеческой семьи.</figcaption>
+          </figure>
+          <p>В фондах обнаружили переписку начала прошлого века. Экспозицию собирают как городской дневник: рядом с письмами покажут карты, счета и фотографии дворов.</p>
+        </article>
+
+        <article class="brief">
+          <span class="tag">Экономика</span>
+          <h2>Рынок труда стал спокойнее</h2>
+          <p>Работодатели реже обещают резкий рост зарплат, но чаще предлагают обучение внутри компании. Аналитики называют это переходом от гонки найма к удержанию специалистов.</p>
+        </article>
+      </section>
+
+      <section class="market-strip" aria-label="Городские показатели">
+        <div class="market-item"><b>Погода</b><span>+23</span></div>
+        <div class="market-item"><b>Ветер</b><span>3 м/с</span></div>
+        <div class="market-item"><b>Вода</b><span>+18</span></div>
+        <div class="market-item"><b>Трафик</b><span>4 балла</span></div>
+        <div class="market-item"><b>Афиша</b><span>126</span></div>
+        <div class="market-item"><b>Страниц</b><span>16</span></div>
+      </section>
+
+      <section class="continued" aria-label="Дополнительные материалы">
+        <article>
+          <h2>Старые маршруты получают вторую жизнь</h2>
+          <div class="columns-two">
+            <p>Транспортники начали испытания коротких кольцевых рейсов между вокзалами, рынками и поликлиниками. Вместо длинных линий через весь город они предлагают частые пересадки на понятных узлах. Такой подход уже проверяли зимой на северо-востоке: среднее ожидание снизилось почти на треть.</p>
+            <p>Главное требование жителей — не потерять прямые связи с районными центрами. Поэтому каждое изменение обещают показывать на схемах заранее, с расчетом времени в пути и доступностью остановок для маломобильных пассажиров.</p>
+          </div>
+        </article>
+
+        <aside class="small-note">
+          <h3>Колонка редактора</h3>
+          <p>В хорошей городской новости всегда есть проверка деталями: можно ли пройти с коляской, хватит ли света зимой, найдется ли место для тихого разговора. Набережная станет настоящей только тогда, когда ее перестанут специально замечать.</p>
+        </aside>
+      </section>
+
+      <footer class="footer-row">
+        <span>Редакция: Большой Почтовый переулок, 7</span>
+        <span>sever-vestnik.example • архив открыт</span>
+        <span>Следующий номер: понедельник, 15 июня</span>
+      </footer>
+    </article>
+  </main>
+</body>
+</html>

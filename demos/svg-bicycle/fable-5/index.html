@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SVG велосипед — Claude Fable 5</title>
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    display: grid;
+    place-items: center;
+    background: radial-gradient(ellipse 75% 65% at 50% 45%, #1a212e 0%, #0d1117 60%, #07090d 100%);
+    overflow: hidden;
+  }
+  svg { width: min(92vw, 150vh); height: auto; display: block; }
+</style>
+</head>
+<body>
+<svg viewBox="0 0 760 520" role="img" aria-label="Классический велосипед">
+  <defs>
+    <linearGradient id="frame" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f0f3f8"/>
+      <stop offset="1" stop-color="#b6c0d2"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="9" stdDeviation="12" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <!-- ======== Колёса ======== -->
+    <g stroke-linecap="round">
+      <!-- Заднее -->
+      <circle cx="180" cy="360" r="126" fill="none" stroke="#2a2f3a" stroke-width="13"/>
+      <circle cx="180" cy="360" r="118" fill="none" stroke="#9aa4b8" stroke-width="5"/>
+      <g stroke="#7c8699" stroke-width="2">
+        <line x1="180" y1="360" x2="180" y2="244"/>
+        <line x1="180" y1="360" x2="180" y2="476"/>
+        <line x1="180" y1="360" x2="296" y2="360"/>
+        <line x1="180" y1="360" x2="64" y2="360"/>
+        <line x1="180" y1="360" x2="262" y2="278"/>
+        <line x1="180" y1="360" x2="98" y2="442"/>
+        <line x1="180" y1="360" x2="262" y2="442"/>
+        <line x1="180" y1="360" x2="98" y2="278"/>
+        <line x1="180" y1="360" x2="225" y2="253"/>
+        <line x1="180" y1="360" x2="135" y2="467"/>
+        <line x1="180" y1="360" x2="287" y2="315"/>
+        <line x1="180" y1="360" x2="73" y2="405"/>
+        <line x1="180" y1="360" x2="287" y2="405"/>
+        <line x1="180" y1="360" x2="73" y2="315"/>
+        <line x1="180" y1="360" x2="225" y2="467"/>
+        <line x1="180" y1="360" x2="135" y2="253"/>
+      </g>
+      <!-- Переднее -->
+      <circle cx="580" cy="360" r="126" fill="none" stroke="#2a2f3a" stroke-width="13"/>
+      <circle cx="580" cy="360" r="118" fill="none" stroke="#9aa4b8" stroke-width="5"/>
+      <g stroke="#7c8699" stroke-width="2">
+        <line x1="580" y1="360" x2="580" y2="244"/>
+        <line x1="580" y1="360" x2="580" y2="476"/>
+        <line x1="580" y1="360" x2="696" y2="360"/>
+        <line x1="580" y1="360" x2="464" y2="360"/>
+        <line x1="580" y1="360" x2="662" y2="278"/>
+        <line x1="580" y1="360" x2="498" y2="442"/>
+        <line x1="580" y1="360" x2="662" y2="442"/>
+        <line x1="580" y1="360" x2="498" y2="278"/>
+        <line x1="580" y1="360" x2="625" y2="253"/>
+        <line x1="580" y1="360" x2="535" y2="467"/>
+        <line x1="580" y1="360" x2="687" y2="315"/>
+        <line x1="580" y1="360" x2="473" y2="405"/>
+        <line x1="580" y1="360" x2="687" y2="405"/>
+        <line x1="580" y1="360" x2="473" y2="315"/>
+        <line x1="580" y1="360" x2="625" y2="467"/>
+        <line x1="580" y1="360" x2="535" y2="253"/>
+      </g>
+    </g>
+
+    <!-- ======== Трансмиссия (под рамой) ======== -->
+    <!-- Задняя звёздочка -->
+    <circle cx="180" cy="360" r="16" fill="none" stroke="#6e7889" stroke-width="5"/>
+    <!-- Цепь: верхняя и нижняя ветви (касательные звезда-звёздочка) -->
+    <g stroke="#525c6e" stroke-width="5" stroke-dasharray="7 3">
+      <line x1="330" y1="334" x2="180" y2="345"/>
+      <line x1="330" y1="406" x2="180" y2="375"/>
+    </g>
+    <!-- Дальний шатун и педаль (за рамой, в противофазе) -->
+    <line x1="330" y1="370" x2="301" y2="333" stroke="#6e7889" stroke-width="7" stroke-linecap="round"/>
+    <rect x="282" y="327" width="38" height="8" rx="3" fill="#6e7889"/>
+
+    <!-- ======== Рама (ромб из двух треугольников) ======== -->
+    <g fill="none" stroke="url(#frame)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Передний треугольник: верхняя труба, нижняя, подседельная, рулевая -->
+      <path d="M 285 195 L 520 185"/>
+      <path d="M 330 370 L 535 229"/>
+      <path d="M 330 370 L 285 195"/>
+      <path d="M 514 168 L 541 246"/>
+      <!-- Задний треугольник: перья -->
+      <path d="M 180 360 L 285 195"/>
+      <path d="M 180 360 L 330 370"/>
+    </g>
+
+    <!-- ======== Вилка и руль ======== -->
+    <g fill="none" stroke="#cfd6e4" stroke-width="8" stroke-linecap="round">
+      <!-- Вилка: продолжение рулевой оси к передней оси -->
+      <path d="M 541 246 C 552 286, 568 330, 580 360"/>
+      <!-- Шток и вынос -->
+      <path d="M 514 168 L 508 150 L 540 143"/>
+      <!-- Руль с лёгким изгибом назад -->
+      <path d="M 540 143 C 556 140, 566 142, 572 150"/>
+    </g>
+    <!-- Грипса -->
+    <line x1="566" y1="146" x2="574" y2="152" stroke="#3a4150" stroke-width="11" stroke-linecap="round"/>
+
+    <!-- ======== Седло ======== -->
+    <line x1="285" y1="195" x2="277" y2="162" stroke="#cfd6e4" stroke-width="7"/>
+    <path d="M 243 158 C 258 150, 290 148, 312 154 C 296 163, 262 165, 243 158 Z" fill="#2a2f3a"/>
+
+    <!-- ======== Ведущая звезда, каретка, ближний шатун ======== -->
+    <circle cx="330" cy="370" r="36" fill="none" stroke="#8b95a8" stroke-width="6"/>
+    <circle cx="330" cy="370" r="9" fill="#3a4150"/>
+    <line x1="330" y1="370" x2="359" y2="407" stroke="#aab4c6" stroke-width="8" stroke-linecap="round"/>
+    <rect x="340" y="403" width="38" height="9" rx="3" fill="#aab4c6"/>
+
+    <!-- ======== Втулки ======== -->
+    <circle cx="180" cy="360" r="8" fill="#3a4150"/>
+    <circle cx="580" cy="360" r="8" fill="#3a4150"/>
+
+    <!-- ======== Тормоза ======== -->
+    <!-- Передний калипер на коронке вилки -->
+    <path d="M 545 258 C 556 252, 568 256, 572 268" fill="none" stroke="#6e7889" stroke-width="5" stroke-linecap="round"/>
+    <line x1="572" y1="268" x2="568" y2="282" stroke="#6e7889" stroke-width="4"/>
+    <line x1="548" y1="262" x2="552" y2="276" stroke="#6e7889" stroke-width="4"/>
+    <!-- Тросик от руля -->
+    <path d="M 540 143 C 548 180, 548 220, 552 254" fill="none" stroke="#525c6e" stroke-width="2"/>
+    <!-- Задний калипер на перьях -->
+    <path d="M 232 278 C 242 271, 254 274, 258 285" fill="none" stroke="#6e7889" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 287 192 C 264 216, 246 246, 238 274" fill="none" stroke="#525c6e" stroke-width="2"/>
+  </g>
+</svg>
+</body>
+</html>

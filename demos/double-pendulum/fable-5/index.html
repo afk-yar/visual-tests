@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Двойной маятник — Claude Fable 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="bar">
+  <div class="controls">
+    <button id="btnRun" class="btn primary" type="button">⏸ Пауза</button>
+    <button id="btnReset" class="btn" type="button">⟲ Сброс</button>
+    <label class="toggle">
+      <input type="checkbox" id="chkGhost">
+      <span>Призрак (Δθ₁ = 0.001 рад)</span>
+    </label>
+  </div>
+  <div class="sliders">
+    <label>m₁ <input type="range" id="m1" min="0.2" max="5" step="0.1" value="1"><output id="m1v">1.0</output> кг</label>
+    <label>m₂ <input type="range" id="m2" min="0.2" max="5" step="0.1" value="1"><output id="m2v">1.0</output> кг</label>
+    <label>l₁ <input type="range" id="l1" min="0.4" max="2" step="0.05" value="1"><output id="l1v">1.0</output> м</label>
+    <label>l₂ <input type="range" id="l2" min="0.4" max="2" step="0.05" value="1"><output id="l2v">1.0</output> м</label>
+  </div>
+</header>
+<main>
+  <canvas id="cv"></canvas>
+  <div class="hud" id="hud"></div>
+</main>
+<script src="pendulum.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
