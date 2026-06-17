@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Voxel Terrain Canvas Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="view" aria-label="Procedural VoxelSpace terrain"></canvas>
+
+  <section class="panel" aria-label="Terrain controls">
+    <div class="panel__title">
+      <span>Voxel Terrain</span>
+      <output id="fps">-- fps</output>
+    </div>
+
+    <label class="control">
+      <span>Camera height</span>
+      <input id="heightControl" type="range" min="35" max="240" value="92" step="1">
+      <output id="heightValue">92</output>
+    </label>
+
+    <label class="control">
+      <span>Draw distance</span>
+      <input id="distanceControl" type="range" min="360" max="1550" value="1080" step="10">
+      <output id="distanceValue">1080</output>
+    </label>
+
+    <label class="control">
+      <span>Horizon line</span>
+      <input id="horizonControl" type="range" min="20" max="70" value="43" step="1">
+      <output id="horizonValue">43%</output>
+    </label>
+  </section>
+
+  <script src="main.js"></script>
+</body>
+</html>

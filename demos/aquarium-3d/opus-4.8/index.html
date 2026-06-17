@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>«3D-аквариум» — Opus 4.8</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scene"></canvas>
+
+  <header class="hud">
+    <h1>3D-аквариум</h1>
+    <p>Opus 4.8 · честный 3D на 2D-canvas: перспектива, сортировка по глубине, дымка воды</p>
+  </header>
+
+  <section class="panel" aria-label="Управление">
+    <button id="btnPause" class="btn" type="button" aria-pressed="false">Пауза</button>
+
+    <label class="ctl">
+      <span>Рыбы <b id="fishVal">22</b></span>
+      <input id="fishCount" type="range" min="6" max="44" step="1" value="22">
+    </label>
+
+    <label class="ctl ctl--toggle">
+      <input id="tglRays" type="checkbox" checked>
+      <span>Лучи света</span>
+    </label>
+
+    <label class="ctl ctl--toggle">
+      <input id="tglOrbit" type="checkbox" checked>
+      <span>Облёт камеры</span>
+    </label>
+  </section>
+
+  <script src="main.js"></script>
+</body>
+</html>

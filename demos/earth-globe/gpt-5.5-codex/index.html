@@ -1,0 +1,865 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Procedural Earth Globe</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #01040b;
+    }
+
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      touch-action: none;
+      cursor: crosshair;
+      background: #01040b;
+    }
+  </style>
+</head>
+<body>
+<canvas id="scene" aria-label="Procedural rotating Earth globe"></canvas>
+<script>
+(function () {
+  "use strict";
+
+  var canvas = document.getElementById("scene");
+  var ctx = canvas.getContext("2d", { alpha: false });
+  var TAU = Math.PI * 2;
+  var HALF_PI = Math.PI * 0.5;
+  var DEG = Math.PI / 180;
+  var TEX_W = 1024;
+  var TEX_H = 512;
+  var TEX_MASK = TEX_W - 1;
+  var AXIS_TILT = -23.5 * DEG;
+
+  var scene = {
+    w: 0,
+    h: 0,
+    cssW: 0,
+    cssH: 0,
+    dpr: 1,
+    cx: 0,
+    cy: 0,
+    r: 1,
+    displayR: 1,
+    stars: [],
+    dust: []
+  };
+
+  var light = normalize3(-0.58, -0.32, 0.78);
+  var targetLight = normalize3(-0.58, -0.32, 0.78);
+  var draggingLight = false;
+  var pointerMoved = false;
+
+  var textures = buildTextures();
+  var globe = null;
+  var last = performance.now();
+  var spin = 0;
+  var cloudSpin = 0.55;
+  var framePhase = 0;
+
+  function clamp(v, a, b) {
+    return v < a ? a : (v > b ? b : v);
+  }
+
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
+
+  function smoothstep(a, b, x) {
+    var t = clamp((x - a) / (b - a), 0, 1);
+    return t * t * (3 - 2 * t);
+  }
+
+  function mixColor(a, b, t) {
+    return [
+      lerp(a[0], b[0], t),
+      lerp(a[1], b[1], t),
+      lerp(a[2], b[2], t)
+    ];
+  }
+
+  function normalize3(x, y, z) {
+    var l = Math.sqrt(x * x + y * y + z * z) || 1;
+    return { x: x / l, y: y / l, z: z / l };
+  }
+
+  function mulberry32(seed) {
+    return function () {
+      var t = seed += 0x6D2B79F5;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function hash2(x, y) {
+    var n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453123;
+    return n - Math.floor(n);
+  }
+
+  function valueNoise(x, y) {
+    var ix = Math.floor(x);
+    var iy = Math.floor(y);
+    var fx = x - ix;
+    var fy = y - iy;
+    var ux = fx * fx * (3 - 2 * fx);
+    var uy = fy * fy * (3 - 2 * fy);
+    var a = hash2(ix, iy);
+    var b = hash2(ix + 1, iy);
+    var c = hash2(ix, iy + 1);
+    var d = hash2(ix + 1, iy + 1);
+    return lerp(lerp(a, b, ux), lerp(c, d, ux), uy);
+  }
+
+  function fbm(x, y) {
+    var sum = 0;
+    var amp = 0.5;
+    var freq = 1;
+    for (var i = 0; i < 5; i++) {
+      sum += amp * valueNoise(x * freq, y * freq);
+      freq *= 2.03;
+      amp *= 0.52;
+    }
+    return sum;
+  }
+
+  function wrapLonDelta(a, b) {
+    var d = a - b;
+    while (d > 180) d -= 360;
+    while (d < -180) d += 360;
+    return d;
+  }
+
+  function gaussianGeo(lon, lat, lon0, lat0, sx, sy) {
+    var dx = wrapLonDelta(lon, lon0) / sx;
+    var dy = (lat - lat0) / sy;
+    return Math.exp(-(dx * dx + dy * dy));
+  }
+
+  function lonToX(lon) {
+    return (lon + 180) / 360 * TEX_W;
+  }
+
+  function latToY(lat) {
+    return (90 - lat) / 180 * TEX_H;
+  }
+
+  function makeCanvas(w, h) {
+    var c = document.createElement("canvas");
+    c.width = w;
+    c.height = h;
+    return c;
+  }
+
+  function buildTextures() {
+    var maskCanvas = makeCanvas(TEX_W, TEX_H);
+    var mctx = maskCanvas.getContext("2d");
+    mctx.fillStyle = "black";
+    mctx.fillRect(0, 0, TEX_W, TEX_H);
+    mctx.fillStyle = "white";
+
+    drawLandMask(mctx);
+
+    var blurCanvas = makeCanvas(TEX_W, TEX_H);
+    var bctx = blurCanvas.getContext("2d");
+    bctx.filter = "blur(5px)";
+    bctx.drawImage(maskCanvas, 0, 0);
+    bctx.filter = "none";
+
+    var maskData = mctx.getImageData(0, 0, TEX_W, TEX_H).data;
+    var blurData = bctx.getImageData(0, 0, TEX_W, TEX_H).data;
+    var earth = new Uint8ClampedArray(TEX_W * TEX_H * 4);
+    var landMask = new Uint8Array(TEX_W * TEX_H);
+
+    for (var y = 0; y < TEX_H; y++) {
+      var lat = 90 - y / (TEX_H - 1) * 180;
+      for (var x = 0; x < TEX_W; x++) {
+        var lon = x / (TEX_W - 1) * 360 - 180;
+        var p = y * TEX_W + x;
+        var o = p * 4;
+        var land = maskData[o + 3] / 255;
+        var coast = blurData[o + 3] / 255;
+        var n1 = fbm((lon + 180) / 42, (lat + 90) / 42);
+        var n2 = fbm((lon + 180) / 13 + 17, (lat + 90) / 13 + 9);
+        var ocean = oceanColor(lon, lat, n1, n2, coast, land);
+        var terrain = landColor(lon, lat, n1, n2);
+        var c = mixColor(ocean, terrain, land);
+        var ice = smoothstep(58, 78, Math.abs(lat) + n2 * 12);
+        if (land > 0.1) {
+          c = mixColor(c, [232, 237, 230], ice * 0.85);
+        } else {
+          var polarSeaIce = smoothstep(66, 84, Math.abs(lat) + n1 * 15);
+          c = mixColor(c, [155, 194, 205], polarSeaIce * 0.5);
+        }
+        earth[o] = clamp(c[0], 0, 255);
+        earth[o + 1] = clamp(c[1], 0, 255);
+        earth[o + 2] = clamp(c[2], 0, 255);
+        earth[o + 3] = Math.round(land * 255);
+        landMask[p] = earth[o + 3];
+      }
+    }
+
+    var cloud = buildCloudTexture();
+    var lights = buildLightTexture(landMask);
+    return { earth: earth, cloud: cloud, lights: lights, landMask: landMask };
+  }
+
+  function drawPoly(ctx2, pts) {
+    ctx2.beginPath();
+    ctx2.moveTo(lonToX(pts[0][0]), latToY(pts[0][1]));
+    for (var i = 1; i < pts.length; i++) {
+      ctx2.lineTo(lonToX(pts[i][0]), latToY(pts[i][1]));
+    }
+    ctx2.closePath();
+    ctx2.fill();
+  }
+
+  function drawEllipseGeo(ctx2, lon, lat, rxDeg, ryDeg, rot) {
+    ctx2.save();
+    ctx2.translate(lonToX(lon), latToY(lat));
+    ctx2.rotate(rot || 0);
+    ctx2.beginPath();
+    ctx2.ellipse(0, 0, rxDeg / 360 * TEX_W, ryDeg / 180 * TEX_H, 0, 0, TAU);
+    ctx2.fill();
+    ctx2.restore();
+  }
+
+  function drawLandMask(ctx2) {
+    var northAmerica = [
+      [-168, 71], [-150, 69], [-132, 63], [-125, 55], [-126, 47], [-119, 38],
+      [-112, 31], [-104, 24], [-96, 19], [-88, 18], [-81, 25], [-76, 34],
+      [-70, 43], [-61, 48], [-52, 56], [-59, 64], [-82, 70], [-112, 73],
+      [-140, 72]
+    ];
+    var centralAmerica = [
+      [-101, 22], [-92, 19], [-86, 15], [-82, 10], [-78, 8], [-77, 4],
+      [-83, 8], [-90, 13], [-98, 16]
+    ];
+    var southAmerica = [
+      [-81, 12], [-70, 12], [-60, 7], [-50, -6], [-44, -18], [-48, -31],
+      [-55, -43], [-63, -54], [-71, -55], [-75, -43], [-79, -28], [-81, -13],
+      [-79, 0]
+    ];
+    var greenland = [
+      [-73, 60], [-52, 59], [-31, 66], [-21, 74], [-34, 82], [-57, 83],
+      [-72, 75]
+    ];
+    var eurasia = [
+      [-11, 36], [-8, 47], [3, 57], [22, 63], [44, 69], [72, 73],
+      [102, 72], [127, 65], [148, 57], [170, 51], [178, 43], [165, 36],
+      [145, 30], [127, 23], [111, 13], [105, 3], [96, 6], [87, 19],
+      [75, 22], [66, 28], [58, 22], [48, 16], [42, 25], [33, 31],
+      [24, 38], [13, 37], [3, 43], [-6, 41]
+    ];
+    var india = [
+      [67, 24], [77, 28], [88, 23], [91, 18], [82, 8], [77, 6], [72, 13]
+    ];
+    var seAsia = [
+      [96, 21], [106, 20], [111, 14], [108, 8], [101, 5], [97, 10]
+    ];
+    var arabia = [
+      [35, 31], [48, 30], [57, 22], [52, 13], [45, 12], [39, 19]
+    ];
+    var africa = [
+      [-17, 36], [3, 37], [25, 33], [35, 26], [44, 12], [51, 10],
+      [43, -3], [39, -18], [29, -33], [17, -36], [5, -31], [-7, -21],
+      [-15, -4], [-12, 17]
+    ];
+    var australia = [
+      [112, -11], [130, -10], [153, -16], [154, -30], [141, -39],
+      [122, -35], [112, -25]
+    ];
+    var antarctica = [
+      [-180, -68], [-150, -70], [-122, -66], [-91, -72], [-58, -69],
+      [-22, -73], [12, -68], [43, -71], [81, -67], [119, -72],
+      [154, -68], [180, -70], [180, -90], [-180, -90]
+    ];
+
+    var polys = [
+      northAmerica, centralAmerica, southAmerica, greenland, eurasia, india,
+      seAsia, arabia, africa, australia, antarctica
+    ];
+    for (var i = 0; i < polys.length; i++) drawPoly(ctx2, polys[i]);
+
+    drawEllipseGeo(ctx2, -157, 20, 5, 2.2, -0.2);
+    drawEllipseGeo(ctx2, -76, 19, 5, 2.8, 0.2);
+    drawEllipseGeo(ctx2, -4, 54, 6, 6, -0.5);
+    drawEllipseGeo(ctx2, 14, 42, 5.5, 8, -0.55);
+    drawEllipseGeo(ctx2, 139, 38, 5, 9, -0.35);
+    drawEllipseGeo(ctx2, 121, 13, 7, 8, 0.2);
+    drawEllipseGeo(ctx2, 114, 0, 10, 6, 0.15);
+    drawEllipseGeo(ctx2, 103, -2, 10, 5, 0.4);
+    drawEllipseGeo(ctx2, 124, -4, 11, 6, -0.15);
+    drawEllipseGeo(ctx2, 146, -6, 8, 4, -0.25);
+    drawEllipseGeo(ctx2, 47, -20, 5, 10, -0.25);
+    drawEllipseGeo(ctx2, 173, -42, 5, 7, -0.4);
+    drawEllipseGeo(ctx2, -41, 64, 9, 5, 0.15);
+
+    ctx2.globalAlpha = 0.9;
+    for (var j = 0; j < 60; j++) {
+      var r = mulberry32(9000 + j);
+      var lon = -172 + r() * 34;
+      var lat = 51 + r() * 16;
+      drawEllipseGeo(ctx2, lon, lat, 0.9 + r() * 2.2, 0.5 + r() * 1.5, r() * Math.PI);
+    }
+    ctx2.globalAlpha = 1;
+  }
+
+  function oceanColor(lon, lat, n1, n2, coast, land) {
+    var shallow = clamp((coast - land) * 1.8, 0, 1);
+    var tropic = 1 - smoothstep(8, 40, Math.abs(lat));
+    var deep = [4, 18, 42];
+    var mid = [7, 45, 78];
+    var reef = [28, 126, 133];
+    var c = mixColor(deep, mid, 0.35 + n1 * 0.55);
+    c = mixColor(c, reef, shallow * (0.35 + tropic * 0.55));
+    c[0] += n2 * 7;
+    c[1] += n2 * 9;
+    c[2] += n2 * 11;
+    return c;
+  }
+
+  function landColor(lon, lat, n1, n2) {
+    var sahara = gaussianGeo(lon, lat, 16, 22, 37, 13);
+    var arabian = gaussianGeo(lon, lat, 45, 23, 17, 9);
+    var australian = gaussianGeo(lon, lat, 132, -25, 24, 13);
+    var gobi = gaussianGeo(lon, lat, 102, 42, 22, 8);
+    var atacama = gaussianGeo(lon, lat, -70, -23, 7, 9);
+    var desert = clamp(Math.max(sahara, arabian, australian, gobi, atacama), 0, 1);
+    var equator = 1 - smoothstep(8, 36, Math.abs(lat));
+    var forest = clamp(equator * 0.8 + n2 * 0.55 - desert * 0.75, 0, 1);
+    var tundra = smoothstep(45, 68, Math.abs(lat));
+    var mountain = Math.max(
+      gaussianGeo(lon, lat, -72, -22, 5, 26),
+      gaussianGeo(lon, lat, -113, 45, 8, 23),
+      gaussianGeo(lon, lat, 84, 31, 22, 6),
+      gaussianGeo(lon, lat, 37, 9, 6, 20),
+      gaussianGeo(lon, lat, 10, 45, 10, 4)
+    );
+    var green = mixColor([53, 96, 48], [34, 75, 43], forest);
+    var dry = mixColor([116, 127, 65], [196, 153, 88], desert);
+    var c = mixColor(green, dry, clamp(desert * 1.1 + (1 - forest) * 0.35, 0, 1));
+    c = mixColor(c, [108, 98, 82], mountain * (0.45 + n1 * 0.5));
+    c = mixColor(c, [126, 134, 100], tundra * (1 - desert) * 0.75);
+    c[0] += (n1 - 0.45) * 26;
+    c[1] += (n2 - 0.45) * 22;
+    c[2] += (n1 - 0.5) * 18;
+    return c;
+  }
+
+  function buildCloudTexture() {
+    var data = new Uint8ClampedArray(TEX_W * TEX_H * 4);
+    var storms = [
+      [-54, 21, 18, 0.9],
+      [141, 17, 20, 0.85],
+      [77, -12, 17, 0.72],
+      [-24, -34, 24, 0.6]
+    ];
+    for (var y = 0; y < TEX_H; y++) {
+      var lat = 90 - y / (TEX_H - 1) * 180;
+      for (var x = 0; x < TEX_W; x++) {
+        var lon = x / (TEX_W - 1) * 360 - 180;
+        var u = x / TEX_W;
+        var v = y / TEX_H;
+        var belts = 0.42 + 0.23 * Math.sin((lat + 7) * DEG * 4.2);
+        var n = fbm(u * 8.6 + 4.1, v * 5.8 + 19.7);
+        var wisps = fbm(u * 21.0 + 30.0, v * 13.0 + 1.2);
+        var storm = 0;
+        for (var s = 0; s < storms.length; s++) {
+          var st = storms[s];
+          var dx = wrapLonDelta(lon, st[0]) * Math.cos(lat * DEG);
+          var dy = lat - st[1];
+          var d = Math.sqrt(dx * dx + dy * dy);
+          var a = Math.atan2(dy, dx);
+          var arms = 0.5 + 0.5 * Math.sin(a * 3.2 + d * 0.28);
+          storm = Math.max(storm, Math.exp(-(d * d) / (st[2] * st[2])) * arms * st[3]);
+        }
+        var polarClear = 1 - smoothstep(58, 82, Math.abs(lat));
+        var alpha = smoothstep(0.54, 0.83, n * 0.72 + wisps * 0.18 + belts * 0.18 + storm * 0.55);
+        alpha *= 0.22 + 0.78 * polarClear;
+        alpha = clamp(alpha * 1.18, 0, 0.92);
+        var o = (y * TEX_W + x) * 4;
+        var tone = 210 + Math.round(wisps * 45);
+        data[o] = tone;
+        data[o + 1] = tone + 8;
+        data[o + 2] = 255;
+        data[o + 3] = Math.round(alpha * 255);
+      }
+    }
+    return data;
+  }
+
+  function buildLightTexture(landMask) {
+    var c = makeCanvas(TEX_W, TEX_H);
+    var lctx = c.getContext("2d");
+    lctx.clearRect(0, 0, TEX_W, TEX_H);
+    lctx.globalCompositeOperation = "lighter";
+
+    var cities = [
+      [-74.0, 40.7, 1.0], [-118.2, 34.1, 0.85], [-87.6, 41.9, 0.8],
+      [-95.4, 29.8, 0.62], [-99.1, 19.4, 0.9], [-43.2, -22.9, 0.8],
+      [-46.6, -23.6, 0.92], [-58.4, -34.6, 0.78], [-77.0, -12.1, 0.55],
+      [-0.1, 51.5, 1.0], [2.35, 48.86, 0.95], [13.4, 52.5, 0.9],
+      [4.9, 52.3, 0.8], [12.5, 41.9, 0.75], [-3.7, 40.4, 0.75],
+      [28.9, 41.0, 0.86], [37.6, 55.8, 0.88], [31.2, 30.0, 0.85],
+      [3.4, 6.5, 0.78], [28.0, -26.2, 0.72], [44.4, 33.3, 0.64],
+      [51.4, 35.7, 0.7], [72.9, 19.1, 1.0], [77.2, 28.6, 1.0],
+      [88.4, 22.6, 0.88], [90.4, 23.8, 0.86], [100.5, 13.8, 0.8],
+      [106.8, -6.2, 0.9], [103.8, 1.35, 0.8], [121.5, 31.2, 1.0],
+      [116.4, 39.9, 0.92], [114.1, 22.3, 0.82], [139.7, 35.7, 1.0],
+      [135.5, 34.7, 0.78], [126.98, 37.56, 0.86], [151.2, -33.9, 0.75],
+      [144.96, -37.8, 0.65], [174.8, -36.8, 0.5]
+    ];
+
+    for (var i = 0; i < cities.length; i++) {
+      addGlow(lctx, cities[i][0], cities[i][1], 4 + cities[i][2] * 6, 0.22 + cities[i][2] * 0.26);
+      addGlow(lctx, cities[i][0], cities[i][1], 1.6 + cities[i][2] * 2.8, 0.55 + cities[i][2] * 0.25);
+    }
+
+    var rng = mulberry32(52213);
+    for (var j = 0; j < 3600; j++) {
+      var lon = rng() * 360 - 180;
+      var lat = rng() * 130 - 55;
+      var x = Math.floor(lonToX(lon)) & TEX_MASK;
+      var y = clamp(Math.floor(latToY(lat)), 0, TEX_H - 1);
+      if (landMask[y * TEX_W + x] < 110) continue;
+      var bias = populationBias(lon, lat);
+      if (rng() > bias) continue;
+      var power = 0.13 + rng() * 0.28 + bias * 0.22;
+      addGlow(lctx, lon, lat, 0.8 + rng() * 1.6, power);
+    }
+
+    return lctx.getImageData(0, 0, TEX_W, TEX_H).data;
+  }
+
+  function populationBias(lon, lat) {
+    var b = 0;
+    b += gaussianGeo(lon, lat, -78, 39, 18, 9) * 0.9;
+    b += gaussianGeo(lon, lat, -96, 34, 23, 11) * 0.5;
+    b += gaussianGeo(lon, lat, 8, 50, 22, 9) * 1.0;
+    b += gaussianGeo(lon, lat, 30, 45, 21, 10) * 0.55;
+    b += gaussianGeo(lon, lat, 78, 23, 23, 12) * 1.0;
+    b += gaussianGeo(lon, lat, 117, 34, 24, 13) * 0.95;
+    b += gaussianGeo(lon, lat, 139, 36, 10, 7) * 0.9;
+    b += gaussianGeo(lon, lat, 105, 15, 16, 12) * 0.75;
+    b += gaussianGeo(lon, lat, -46, -23, 12, 8) * 0.68;
+    b += gaussianGeo(lon, lat, 31, 30, 7, 7) * 0.58;
+    b += gaussianGeo(lon, lat, 30, -28, 9, 7) * 0.44;
+    b += gaussianGeo(lon, lat, 145, -35, 10, 6) * 0.42;
+    return clamp(b, 0.01, 0.82);
+  }
+
+  function addGlow(ctx2, lon, lat, radius, alpha) {
+    var x = lonToX(lon);
+    var y = latToY(lat);
+    var xs = [x, x - TEX_W, x + TEX_W];
+    for (var i = 0; i < xs.length; i++) {
+      var g = ctx2.createRadialGradient(xs[i], y, 0, xs[i], y, radius);
+      g.addColorStop(0, "rgba(255,225,150," + alpha + ")");
+      g.addColorStop(0.35, "rgba(255,176,72," + (alpha * 0.34) + ")");
+      g.addColorStop(1, "rgba(255,120,30,0)");
+      ctx2.fillStyle = g;
+      ctx2.beginPath();
+      ctx2.arc(xs[i], y, radius, 0, TAU);
+      ctx2.fill();
+    }
+  }
+
+  function rebuildGlobe() {
+    var cssMin = Math.min(scene.cssW, scene.cssH);
+    scene.displayR = Math.max(150, cssMin * 0.355);
+    if (scene.cssW < 560 || scene.cssH < 520) {
+      scene.displayR = Math.max(120, cssMin * 0.43);
+    }
+    scene.r = Math.max(96, Math.min(scene.displayR * scene.dpr, 390));
+    var size = Math.max(192, Math.round(scene.r * 2));
+    var r = size * 0.5;
+    var count = size * size;
+    var nx = new Float32Array(count);
+    var ny = new Float32Array(count);
+    var nz = new Float32Array(count);
+    var u0 = new Float32Array(count);
+    var vOff = new Uint32Array(count);
+    var inside = new Uint8Array(count);
+    var c = Math.cos(-AXIS_TILT);
+    var s = Math.sin(-AXIS_TILT);
+
+    for (var y = 0; y < size; y++) {
+      var vy = (y + 0.5 - r) / r;
+      for (var x = 0; x < size; x++) {
+        var vx = (x + 0.5 - r) / r;
+        var rr = vx * vx + vy * vy;
+        var p = y * size + x;
+        if (rr > 1) continue;
+        var vz = Math.sqrt(1 - rr);
+        inside[p] = 1;
+        nx[p] = vx;
+        ny[p] = vy;
+        nz[p] = vz;
+        var tx = c * vx - s * vy;
+        var ty = s * vx + c * vy;
+        var tz = vz;
+        var lon = Math.atan2(tz, tx);
+        var lat = Math.asin(clamp(ty, -1, 1));
+        u0[p] = (lon + Math.PI) / TAU * TEX_W;
+        var vv = clamp(Math.floor((HALF_PI - lat) / Math.PI * TEX_H), 0, TEX_H - 1);
+        vOff[p] = vv * TEX_W;
+      }
+    }
+
+    var pc = makeCanvas(size, size);
+    var pctx = pc.getContext("2d");
+    var img = pctx.createImageData(size, size);
+    globe = { canvas: pc, ctx: pctx, img: img, size: size, r: r, nx: nx, ny: ny, nz: nz, u0: u0, vOff: vOff, inside: inside };
+  }
+
+  function rebuildStars() {
+    var rng = mulberry32(10991 + Math.round(scene.w + scene.h));
+    var count = Math.floor(scene.w * scene.h / 5200);
+    scene.stars = [];
+    scene.dust = [];
+    for (var i = 0; i < count; i++) {
+      scene.stars.push({
+        x: rng() * scene.w,
+        y: rng() * scene.h,
+        r: 0.35 + rng() * rng() * 1.65,
+        a: 0.18 + rng() * 0.82,
+        p: rng() * TAU,
+        tw: 0.35 + rng() * 1.6,
+        cool: rng()
+      });
+    }
+    var dustCount = Math.floor(scene.w * scene.h / 3600);
+    for (var j = 0; j < dustCount; j++) {
+      var x = rng() * scene.w;
+      var bandY = scene.h * (0.25 + 0.42 * (x / scene.w)) + Math.sin(x * 0.003) * scene.h * 0.08;
+      scene.dust.push({
+        x: x,
+        y: bandY + (rng() - 0.5) * scene.h * 0.35,
+        r: 0.6 + rng() * 2.8,
+        a: rng() * 0.075
+      });
+    }
+  }
+
+  function resize() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 1.45);
+    var w = Math.max(1, window.innerWidth);
+    var h = Math.max(1, window.innerHeight);
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    scene.cssW = w;
+    scene.cssH = h;
+    scene.dpr = dpr;
+    scene.w = canvas.width;
+    scene.h = canvas.height;
+    scene.cx = scene.w * 0.5;
+    scene.cy = scene.h * 0.52;
+    if (scene.cssW > scene.cssH * 1.25) {
+      scene.cx = scene.w * 0.52;
+      scene.cy = scene.h * 0.51;
+    }
+    rebuildGlobe();
+    rebuildStars();
+  }
+
+  function setLightFromPointer(e) {
+    var rect = canvas.getBoundingClientRect();
+    var px = (e.clientX - rect.left) * scene.dpr;
+    var py = (e.clientY - rect.top) * scene.dpr;
+    var range = Math.min(scene.w, scene.h) * 0.48;
+    var lx = clamp((px - scene.cx) / range, -1.28, 1.28);
+    var ly = clamp((py - scene.cy) / range, -1.28, 1.28);
+    var lz = 0.75 - Math.min(0.32, Math.sqrt(lx * lx + ly * ly) * 0.14);
+    targetLight = normalize3(lx, ly, lz);
+    pointerMoved = true;
+  }
+
+  canvas.addEventListener("pointerdown", function (e) {
+    draggingLight = true;
+    canvas.setPointerCapture(e.pointerId);
+    setLightFromPointer(e);
+  });
+
+  canvas.addEventListener("pointermove", function (e) {
+    if (draggingLight || e.buttons) setLightFromPointer(e);
+  });
+
+  canvas.addEventListener("pointerup", function (e) {
+    draggingLight = false;
+    try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
+  });
+
+  canvas.addEventListener("pointercancel", function () {
+    draggingLight = false;
+  });
+
+  window.addEventListener("resize", resize);
+  resize();
+  requestAnimationFrame(tick);
+
+  function tick(now) {
+    var dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    framePhase += dt;
+    spin += dt * 0.082;
+    cloudSpin += dt * 0.108;
+
+    if (!pointerMoved) {
+      var idle = normalize3(-0.56 + Math.sin(now * 0.00011) * 0.16, -0.32 + Math.cos(now * 0.00009) * 0.1, 0.78);
+      targetLight.x = idle.x;
+      targetLight.y = idle.y;
+      targetLight.z = idle.z;
+    }
+    light.x = lerp(light.x, targetLight.x, 0.065);
+    light.y = lerp(light.y, targetLight.y, 0.065);
+    light.z = lerp(light.z, targetLight.z, 0.065);
+    var nl = normalize3(light.x, light.y, light.z);
+    light.x = nl.x;
+    light.y = nl.y;
+    light.z = nl.z;
+
+    draw(now * 0.001);
+    requestAnimationFrame(tick);
+  }
+
+  function draw(time) {
+    drawBackground(time);
+    var r = scene.displayR * scene.dpr;
+    var sunX = scene.cx + light.x * Math.min(scene.w, scene.h) * 0.64;
+    var sunY = scene.cy + light.y * Math.min(scene.w, scene.h) * 0.64;
+    drawSun(sunX, sunY, Math.min(scene.w, scene.h) * 0.16);
+    drawAtmosphereBack(scene.cx, scene.cy, r);
+    renderGlobe(time);
+    ctx.drawImage(globe.canvas, scene.cx - r, scene.cy - r, r * 2, r * 2);
+    drawAtmosphereFront(scene.cx, scene.cy, r);
+    drawVignette();
+  }
+
+  function drawBackground(time) {
+    var g = ctx.createLinearGradient(0, 0, scene.w, scene.h);
+    g.addColorStop(0, "#020713");
+    g.addColorStop(0.45, "#030711");
+    g.addColorStop(1, "#000208");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, scene.w, scene.h);
+
+    ctx.save();
+    ctx.globalCompositeOperation = "screen";
+    for (var d = 0; d < scene.dust.length; d++) {
+      var du = scene.dust[d];
+      ctx.globalAlpha = du.a;
+      ctx.fillStyle = "#7fa3d7";
+      ctx.beginPath();
+      ctx.arc(du.x, du.y, du.r, 0, TAU);
+      ctx.fill();
+    }
+    for (var i = 0; i < scene.stars.length; i++) {
+      var s = scene.stars[i];
+      var tw = s.a * (0.65 + 0.35 * Math.sin(time * s.tw + s.p));
+      ctx.globalAlpha = tw;
+      ctx.fillStyle = s.cool > 0.64 ? "#d9e8ff" : (s.cool < 0.18 ? "#ffe4c4" : "#ffffff");
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, TAU);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function drawSun(x, y, size) {
+    ctx.save();
+    ctx.globalCompositeOperation = "screen";
+    var g = ctx.createRadialGradient(x, y, 0, x, y, size);
+    g.addColorStop(0, "rgba(255,248,218,0.9)");
+    g.addColorStop(0.08, "rgba(255,224,143,0.42)");
+    g.addColorStop(0.34, "rgba(86,151,255,0.08)");
+    g.addColorStop(1, "rgba(15,44,100,0)");
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(x, y, size, 0, TAU);
+    ctx.fill();
+
+    ctx.globalAlpha = 0.38;
+    ctx.strokeStyle = "rgba(255,235,185,0.32)";
+    ctx.lineWidth = Math.max(1, size * 0.008);
+    ctx.beginPath();
+    ctx.moveTo(x - size * 0.38, y);
+    ctx.lineTo(x + size * 0.38, y);
+    ctx.moveTo(x, y - size * 0.22);
+    ctx.lineTo(x, y + size * 0.22);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawAtmosphereBack(cx, cy, r) {
+    ctx.save();
+    ctx.globalCompositeOperation = "screen";
+    var g = ctx.createRadialGradient(cx, cy, r * 0.92, cx, cy, r * 1.26);
+    g.addColorStop(0, "rgba(20,120,255,0)");
+    g.addColorStop(0.34, "rgba(48,155,255,0.22)");
+    g.addColorStop(0.68, "rgba(48,120,255,0.08)");
+    g.addColorStop(1, "rgba(0,60,150,0)");
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r * 1.27, 0, TAU);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawAtmosphereFront(cx, cy, r) {
+    ctx.save();
+    ctx.globalCompositeOperation = "screen";
+    ctx.lineWidth = Math.max(2, r * 0.025);
+    ctx.strokeStyle = "rgba(112,192,255,0.35)";
+    ctx.beginPath();
+    ctx.arc(cx, cy, r * 1.006, 0, TAU);
+    ctx.stroke();
+
+    var hx = cx + light.x * r * 0.62;
+    var hy = cy + light.y * r * 0.62;
+    var g = ctx.createRadialGradient(hx, hy, r * 0.2, hx, hy, r * 1.2);
+    g.addColorStop(0, "rgba(120,190,255,0.08)");
+    g.addColorStop(0.48, "rgba(70,155,255,0.045)");
+    g.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r * 1.03, 0, TAU);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawVignette() {
+    var g = ctx.createRadialGradient(scene.cx, scene.cy, Math.min(scene.w, scene.h) * 0.28, scene.cx, scene.cy, Math.max(scene.w, scene.h) * 0.72);
+    g.addColorStop(0, "rgba(0,0,0,0)");
+    g.addColorStop(0.72, "rgba(0,0,0,0.12)");
+    g.addColorStop(1, "rgba(0,0,0,0.62)");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, scene.w, scene.h);
+  }
+
+  function renderGlobe(time) {
+    var data = globe.img.data;
+    var size = globe.size;
+    var nx = globe.nx;
+    var ny = globe.ny;
+    var nz = globe.nz;
+    var u0 = globe.u0;
+    var vOff = globe.vOff;
+    var inside = globe.inside;
+    var earth = textures.earth;
+    var cloud = textures.cloud;
+    var lights = textures.lights;
+    var spinPx = (spin / TAU * TEX_W) % TEX_W;
+    var cloudPx = (cloudSpin / TAU * TEX_W) % TEX_W;
+    var lx = light.x;
+    var ly = light.y;
+    var lz = light.z;
+    var hx = lx;
+    var hy = ly;
+    var hz = lz + 1.35;
+    var hl = Math.sqrt(hx * hx + hy * hy + hz * hz) || 1;
+    hx /= hl;
+    hy /= hl;
+    hz /= hl;
+    var flicker = 0.93 + 0.07 * Math.sin(time * 6.0);
+
+    for (var p = 0, o = 0; p < inside.length; p++, o += 4) {
+      if (!inside[p]) {
+        data[o] = 0;
+        data[o + 1] = 0;
+        data[o + 2] = 0;
+        data[o + 3] = 0;
+        continue;
+      }
+
+      var vx = nx[p];
+      var vy = ny[p];
+      var vz = nz[p];
+      var dot = vx * lx + vy * ly + vz * lz;
+      var day = smoothstep(-0.18, 0.16, dot);
+      var hardDay = clamp(dot * 1.15 + 0.08, 0, 1);
+      var night = smoothstep(0.12, -0.16, dot);
+      var limb = 1 - vz;
+      var twilight = Math.max(0, 1 - Math.abs(dot) * 5.8) * (0.35 + 0.65 * vz);
+
+      var ui = ((u0[p] + spinPx) | 0) & TEX_MASK;
+      var ti = (vOff[p] + ui) * 4;
+      var land = earth[ti + 3] / 255;
+      var ocean = 1 - land;
+      var baseR = earth[ti];
+      var baseG = earth[ti + 1];
+      var baseB = earth[ti + 2];
+
+      var cloudUi = ((u0[p] + cloudPx + Math.sin((vOff[p] / TEX_W) * 0.042 + time * 0.21) * 7) | 0) & TEX_MASK;
+      var ci = (vOff[p] + cloudUi) * 4;
+      var ca = cloud[ci + 3] / 255;
+
+      var shadow = 1 - ca * day * 0.2;
+      var illum = 0.035 + day * 0.96 + hardDay * 0.06;
+      var nightBlue = night * (0.015 + vz * 0.035);
+      var r = baseR * illum * shadow + 8 * nightBlue;
+      var g = baseG * illum * shadow + 16 * nightBlue;
+      var b = baseB * illum * shadow + 32 * nightBlue;
+
+      var lightIdx = ti;
+      var city = (lights[lightIdx] / 255) * night * flicker * (1 - ca * 0.55);
+      if (city > 0) {
+        var core = city * (1.2 + city * 1.8);
+        r += 255 * core;
+        g += 158 * core;
+        b += 64 * core;
+      }
+
+      var ndh = Math.max(0, vx * hx + vy * hy + vz * hz);
+      var spec = Math.pow(ndh, 82) * ocean * day * (1 - ca * 0.85);
+      var wideSpec = Math.pow(ndh, 18) * ocean * day * 0.16;
+      if (spec + wideSpec > 0.0001) {
+        var s = spec * 2.45 + wideSpec;
+        r += 235 * s;
+        g += 248 * s;
+        b += 255 * s;
+      }
+
+      if (ca > 0.01) {
+        var cloudLight = 0.10 + day * 0.95 + twilight * 0.15;
+        var cr = cloud[ci] * cloudLight;
+        var cg = cloud[ci + 1] * cloudLight;
+        var cb = cloud[ci + 2] * cloudLight;
+        var mix = ca * (0.62 + day * 0.22);
+        r = lerp(r, cr, mix);
+        g = lerp(g, cg, mix);
+        b = lerp(b, cb, mix);
+      }
+
+      if (twilight > 0.01) {
+        r += 46 * twilight;
+        g += 24 * twilight;
+        b += 10 * twilight;
+      }
+
+      var rim = Math.pow(clamp(limb, 0, 1), 2.35) * (0.28 + day * 0.72);
+      r += 34 * rim;
+      g += 102 * rim;
+      b += 205 * rim;
+
+      var limbFade = smoothstep(1.0, 0.78, limb);
+      data[o] = clamp(r * limbFade, 0, 255);
+      data[o + 1] = clamp(g * limbFade, 0, 255);
+      data[o + 2] = clamp(b * limbFade, 0, 255);
+      data[o + 3] = 255;
+    }
+    globe.ctx.putImageData(globe.img, 0, 0);
+  }
+})();
+</script>
+</body>
+</html>

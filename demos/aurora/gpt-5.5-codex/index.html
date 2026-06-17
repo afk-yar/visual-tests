@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aurora Canvas</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #02030a;
+    }
+
+    body {
+      touch-action: none;
+    }
+
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="scene" aria-label="Animated aurora over a night landscape"></canvas>
+
+  <script>
+  (function () {
+    "use strict";
+
+    var canvas = document.getElementById("scene");
+    var ctx = canvas.getContext("2d", { alpha: false });
+    var auroraCanvas = document.createElement("canvas");
+    var auroraCtx = auroraCanvas.getContext("2d");
+
+    var W = 1;
+    var H = 1;
+    var DPR = 1;
+    var horizonY = 1;
+    var stars = [];
+    var trees = [];
+    var lastResizeW = -1;
+    var lastResizeH = -1;
+    var startTime = performance.now();
+
+    var TAU = Math.PI * 2;
+
+    function clamp(v, a, b) {
+      return Math.max(a, Math.min(b, v));
+    }
+
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    function smoothstep(a, b, v) {
+      var t = clamp((v - a) / (b - a), 0, 1);
+      return t * t * (3 - 2 * t);
+    }
+
+    function mulberry32(seed) {
+      return function () {
+        var t = seed += 0x6D2B79F5;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    var rand = mulberry32(0xA5193F);
+
+    function hash2(x, y) {
+      var n = Math.imul(x | 0, 374761393) + Math.imul(y | 0, 668265263);
+      n = Math.imul(n ^ (n >>> 13), 1274126177);
+      return ((n ^ (n >>> 16)) >>> 0) / 4294967295;
+    }
+
+    function noise2(x, y) {
+      var x0 = Math.floor(x);
+      var y0 = Math.floor(y);
+      var xf = x - x0;
+      var yf = y - y0;
+      var sx = xf * xf * (3 - 2 * xf);
+      var sy = yf * yf * (3 - 2 * yf);
+      var a = hash2(x0, y0);
+      var b = hash2(x0 + 1, y0);
+      var c = hash2(x0, y0 + 1);
+      var d = hash2(x0 + 1, y0 + 1);
+      return lerp(lerp(a, b, sx), lerp(c, d, sx), sy);
+    }
+
+    function fbm(x, y, octaves) {
+      var value = 0;
+      var amp = 0.5;
+      var freq = 1;
+      var sum = 0;
+      for (var i = 0; i < octaves; i++) {
+        value += noise2(x * freq, y * freq) * amp;
+        sum += amp;
+        amp *= 0.52;
+        freq *= 2.03;
+      }
+      return value / sum;
+    }
+
+    function hsla(h, s, l, a) {
+      return "hsla(" + h + "," + s + "%," + l + "%," + a + ")";
+    }
+
+    function resize() {
+      var nw = Math.max(1, Math.floor(window.innerWidth || document.documentElement.clientWidth || 1));
+      var nh = Math.max(1, Math.floor(window.innerHeight || document.documentElement.clientHeight || 1));
+      if (nw === lastResizeW && nh === lastResizeH) {
+        return;
+      }
+
+      lastResizeW = nw;
+      lastResizeH = nh;
+      W = nw;
+      H = nh;
+      DPR = Math.min(2, Math.max(1, window.devicePixelRatio || 1));
+      horizonY = H * (H < W ? 0.635 : 0.61);
+
+      canvas.width = Math.floor(W * DPR);
+      canvas.height = Math.floor(H * DPR);
+      auroraCanvas.width = canvas.width;
+      auroraCanvas.height = canvas.height;
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      auroraCtx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+      buildStars();
+      buildTrees();
+    }
+
+    function buildStars() {
+      var r = mulberry32(0xE77AA1 + Math.floor(W * 7 + H * 11));
+      var count = clamp(Math.floor(W * H / 760), 520, 1550);
+      stars = [];
+      for (var i = 0; i < count; i++) {
+        var u = r();
+        var band = Math.abs((u * 0.85 + r() * 0.22) - 0.58);
+        var v = Math.pow(r(), 1.22) * 0.93;
+        if (r() < smoothstep(0.32, 0.0, band) * 0.38) {
+          v = clamp(0.08 + u * 0.38 + (r() - 0.5) * 0.18, 0.02, 0.9);
+        }
+        stars.push({
+          x: u,
+          y: v,
+          r: 0.35 + Math.pow(r(), 3.3) * 1.75,
+          a: 0.28 + Math.pow(r(), 1.5) * 0.72,
+          tw: 0.45 + r() * 1.55,
+          p: r() * TAU,
+          warm: r()
+        });
+      }
+    }
+
+    function buildTrees() {
+      var r = mulberry32(0xB0E417 + Math.floor(W * 13 + H * 5));
+      trees = [];
+      var count = clamp(Math.floor(W / 17), 38, 95);
+      for (var i = 0; i < count; i++) {
+        trees.push({
+          x: r(),
+          h: 0.45 + Math.pow(r(), 1.6) * 1.55,
+          w: 0.45 + r() * 0.9,
+          layer: r(),
+          lean: (r() - 0.5) * 0.12
+        });
+      }
+      trees.sort(function (a, b) { return a.x - b.x; });
+    }
+
+    function drawSky(t) {
+      var g = ctx.createLinearGradient(0, 0, 0, H);
+      g.addColorStop(0, "#02020b");
+      g.addColorStop(0.23, "#040916");
+      g.addColorStop(0.49, "#071323");
+      g.addColorStop(0.68, "#050b15");
+      g.addColorStop(1, "#010207");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+
+      var moonGlow = ctx.createRadialGradient(W * 0.72, H * 0.18, 0, W * 0.72, H * 0.18, Math.max(W, H) * 0.52);
+      moonGlow.addColorStop(0, "rgba(76, 118, 190, 0.13)");
+      moonGlow.addColorStop(0.38, "rgba(19, 47, 94, 0.055)");
+      moonGlow.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = moonGlow;
+      ctx.fillRect(0, 0, W, horizonY + H * 0.08);
+
+      var lowGlow = ctx.createRadialGradient(W * 0.48, horizonY * 0.82, 0, W * 0.48, horizonY * 0.82, W * 0.62);
+      lowGlow.addColorStop(0, "rgba(31, 116, 112, 0.10)");
+      lowGlow.addColorStop(0.54, "rgba(35, 48, 94, 0.055)");
+      lowGlow.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = lowGlow;
+      ctx.fillRect(0, 0, W, horizonY + 50);
+
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      ctx.translate(W * 0.43, H * 0.24);
+      ctx.rotate(-0.78);
+      var belt = ctx.createRadialGradient(0, 0, 0, 0, 0, Math.max(W, H) * 0.5);
+      belt.addColorStop(0, "rgba(142, 174, 220, 0.085)");
+      belt.addColorStop(0.28, "rgba(84, 112, 178, 0.04)");
+      belt.addColorStop(0.62, "rgba(33, 52, 98, 0.018)");
+      belt.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.scale(0.42, 1.0);
+      ctx.fillStyle = belt;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, Math.max(W, H) * 0.76, Math.max(W, H) * 0.18, 0, 0, TAU);
+      ctx.fill();
+      ctx.restore();
+
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+      for (var i = 0; i < 7; i++) {
+        var y = horizonY - H * (0.03 + i * 0.018);
+        var a = 0.025 - i * 0.002;
+        ctx.strokeStyle = "rgba(73, 179, 168," + a + ")";
+        ctx.lineWidth = 1.2 + i * 1.8;
+        ctx.beginPath();
+        ctx.moveTo(0, y + Math.sin(t * 0.18 + i) * 4);
+        for (var x = 0; x <= W; x += 80) {
+          ctx.lineTo(x, y + Math.sin(x * 0.004 + t * 0.2 + i) * (5 + i));
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function drawStars(t) {
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      for (var i = 0; i < stars.length; i++) {
+        var s = stars[i];
+        var x = s.x * W;
+        var y = s.y * horizonY * 0.95 + H * 0.008;
+        if (y > horizonY - 12) {
+          continue;
+        }
+        var twinkle = 0.72 + 0.28 * Math.sin(t * s.tw + s.p + Math.sin(t * 0.07 + s.x * 8) * 0.7);
+        var a = s.a * twinkle;
+        var warm = s.warm;
+        ctx.fillStyle = warm > 0.73
+          ? "rgba(255,232,198," + a + ")"
+          : warm < 0.18
+            ? "rgba(190,218,255," + a + ")"
+            : "rgba(238,246,255," + a + ")";
+
+        if (s.r < 0.75) {
+          ctx.fillRect(x, y, 1, 1);
+        } else {
+          ctx.beginPath();
+          ctx.arc(x, y, s.r, 0, TAU);
+          ctx.fill();
+          if (s.r > 1.25 && a > 0.55) {
+            ctx.globalAlpha = a * 0.38;
+            ctx.strokeStyle = "rgba(210,228,255,0.55)";
+            ctx.lineWidth = 0.65;
+            ctx.beginPath();
+            ctx.moveTo(x - s.r * 3.1, y);
+            ctx.lineTo(x + s.r * 3.1, y);
+            ctx.moveTo(x, y - s.r * 2.2);
+            ctx.lineTo(x, y + s.r * 2.2);
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+          }
+        }
+      }
+
+      var meteorCycle = (t + 3.4) % 19.0;
+      if (meteorCycle < 1.05) {
+        var m = meteorCycle / 1.05;
+        var mx = W * (0.16 + 0.48 * m);
+        var my = H * (0.16 + 0.15 * m);
+        var tail = 170 * (1 - Math.abs(m - 0.42));
+        var g = ctx.createLinearGradient(mx - tail, my - tail * 0.32, mx, my);
+        g.addColorStop(0, "rgba(154,205,255,0)");
+        g.addColorStop(0.65, "rgba(197,236,255,0.19)");
+        g.addColorStop(1, "rgba(255,255,255,0.75)");
+        ctx.strokeStyle = g;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(mx - tail, my - tail * 0.32);
+        ctx.lineTo(mx, my);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    var curtains = [
+      {
+        seed: 3.1,
+        phase: 0.0,
+        top: 0.075,
+        bottom: 0.56,
+        x0: -0.10,
+        x1: 0.72,
+        wave: 2.2,
+        folds: 13.0,
+        speed: 0.34,
+        drift: 0.030,
+        swayTop: 18,
+        swayBottom: 58,
+        step: 7,
+        hueShift: 0
+      },
+      {
+        seed: 8.9,
+        phase: 1.7,
+        top: 0.135,
+        bottom: 0.61,
+        x0: 0.22,
+        x1: 1.12,
+        wave: 2.9,
+        folds: 16.0,
+        speed: -0.25,
+        drift: -0.024,
+        swayTop: 14,
+        swayBottom: 70,
+        step: 6,
+        hueShift: 42
+      },
+      {
+        seed: 14.5,
+        phase: 3.4,
+        top: 0.03,
+        bottom: 0.49,
+        x0: 0.04,
+        x1: 0.96,
+        wave: 1.65,
+        folds: 9.0,
+        speed: 0.19,
+        drift: 0.016,
+        swayTop: 10,
+        swayBottom: 46,
+        step: 10,
+        hueShift: 86
+      }
+    ];
+
+    function sampleCurtain(c, x, t) {
+      var nx = x / W;
+      var drifted = nx + Math.sin(t * 0.043 + c.phase) * c.drift;
+      var env = smoothstep(c.x0, c.x0 + 0.13, drifted) * (1 - smoothstep(c.x1 - 0.15, c.x1, drifted));
+      var n = fbm(drifted * 4.8 + c.seed, t * 0.071 + c.seed * 0.37, 4);
+      var slow = Math.sin(drifted * TAU * c.wave + t * c.speed + c.phase);
+      var cross = Math.sin(drifted * TAU * (c.wave * 0.47 + 0.9) - t * 0.43 + c.phase * 1.8);
+      var fine = Math.sin(drifted * TAU * c.folds + n * 4.6 + t * (0.72 + c.speed) + c.phase);
+      var narrow = Math.sin(drifted * TAU * (c.folds * 1.71) - t * 1.16 + c.phase * 2.5 + n * 2.2);
+      var fold = Math.pow(Math.max(0, fine * 0.5 + 0.5), 2.55);
+      var streak = Math.pow(Math.max(0, narrow * 0.5 + 0.5), 8.5);
+      var pulse = 0.78 + 0.22 * Math.sin(t * 0.72 + c.phase + n * 3.0);
+      var intensity = env * pulse * (0.14 + 0.58 * fold + 0.44 * streak + 0.22 * n);
+      var top = H * (c.top + 0.018 * slow + 0.014 * cross + (n - 0.5) * 0.035);
+      var bottom = H * (c.bottom + 0.036 * slow + 0.022 * cross + (n - 0.5) * 0.052);
+      bottom = Math.min(bottom, horizonY - H * 0.025);
+      top = Math.max(H * 0.018, Math.min(top, bottom - H * 0.20));
+      var sway = slow * 0.62 + cross * 0.27 + (n - 0.5) * 1.1;
+      return {
+        xTop: x + sway * c.swayTop,
+        xBottom: x + sway * c.swayBottom,
+        top: top,
+        bottom: bottom,
+        n: n,
+        intensity: clamp(intensity, 0, 1.35),
+        fold: fold,
+        streak: streak
+      };
+    }
+
+    function drawCurtainSurface(ac, c, t) {
+      var step = Math.max(4, c.step);
+      ac.save();
+      ac.globalCompositeOperation = "lighter";
+
+      for (var x = -W * 0.16; x < W * 1.16; x += step) {
+        var a = sampleCurtain(c, x, t);
+        var b = sampleCurtain(c, x + step * 1.22, t);
+        var alpha = Math.min(0.34, (a.intensity + b.intensity) * 0.105);
+        if (alpha < 0.006) {
+          continue;
+        }
+
+        var hueWave = Math.sin((x / W) * TAU * 1.25 + t * 0.24 + c.phase);
+        var cyanMix = Math.sin((x / W) * TAU * 2.05 - t * 0.18 + c.seed);
+        var hue = hueWave > 0.42
+          ? 292 + 16 * cyanMix
+          : (cyanMix > 0.34 ? 188 + 14 * hueWave : 132 + 20 * hueWave);
+        hue = (hue + c.hueShift * 0.12 + 360) % 360;
+
+        var g = ac.createLinearGradient(0, Math.min(a.top, b.top), 0, Math.max(a.bottom, b.bottom));
+        g.addColorStop(0.00, hsla(hue + 18, 100, 64, 0));
+        g.addColorStop(0.12, hsla(190 + cyanMix * 18, 100, 66, alpha * 0.36));
+        g.addColorStop(0.34, hsla(135 + hueWave * 12, 100, 61, alpha * 0.92));
+        g.addColorStop(0.53, hsla(hue, 94, 65, alpha * 0.76));
+        g.addColorStop(0.72, hsla(287 + hueWave * 18, 92, 68, alpha * 0.42));
+        g.addColorStop(1.00, hsla(151, 100, 54, 0));
+
+        ac.fillStyle = g;
+        ac.beginPath();
+        ac.moveTo(a.xTop, a.top);
+        ac.lineTo(b.xTop, b.top);
+        ac.lineTo(b.xBottom, b.bottom);
+        ac.lineTo(a.xBottom, a.bottom);
+        ac.closePath();
+        ac.fill();
+
+        if (a.intensity > 0.24) {
+          var beamAlpha = Math.min(0.22, a.intensity * 0.095);
+          var beam = ac.createLinearGradient(0, a.top - H * 0.11, 0, a.bottom);
+          beam.addColorStop(0, "rgba(139, 221, 255, 0)");
+          beam.addColorStop(0.26, hsla(166 + hueWave * 34, 100, 73, beamAlpha * 0.35));
+          beam.addColorStop(0.55, hsla(hue, 96, 68, beamAlpha));
+          beam.addColorStop(1, "rgba(116, 255, 184, 0)");
+          ac.strokeStyle = beam;
+          ac.lineWidth = 0.65 + a.streak * 2.6 + a.fold * 1.4;
+          ac.beginPath();
+          ac.moveTo(a.xTop + Math.sin(t + x * 0.01) * 1.5, a.top - H * (0.055 + a.streak * 0.06));
+          ac.bezierCurveTo(
+            lerp(a.xTop, a.xBottom, 0.22),
+            lerp(a.top, a.bottom, 0.25),
+            lerp(a.xTop, a.xBottom, 0.66),
+            lerp(a.top, a.bottom, 0.62),
+            a.xBottom,
+            a.bottom
+          );
+          ac.stroke();
+        }
+      }
+      ac.restore();
+    }
+
+    function drawAuroraField(t) {
+      auroraCtx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      auroraCtx.clearRect(0, 0, W, H);
+
+      auroraCtx.save();
+      auroraCtx.globalCompositeOperation = "lighter";
+      for (var i = 0; i < curtains.length; i++) {
+        drawCurtainSurface(auroraCtx, curtains[i], t);
+      }
+
+      for (var k = 0; k < 36; k++) {
+        var nx = k / 35;
+        var sway = Math.sin(nx * TAU * 2.4 + t * 0.45) * 0.5 + fbm(nx * 3.2, t * 0.05, 3) - 0.5;
+        var x = W * nx + sway * 50;
+        var top = H * (0.05 + 0.04 * noise2(k, 2));
+        var bottom = horizonY - H * (0.08 + 0.08 * noise2(k, 4));
+        var alpha = 0.018 + Math.pow(Math.max(0, Math.sin(nx * TAU * 5.8 + t * 0.9)), 5) * 0.07;
+        var g = auroraCtx.createLinearGradient(x, top, x + 10, bottom);
+        g.addColorStop(0, "rgba(85, 190, 255, 0)");
+        g.addColorStop(0.35, "rgba(120, 255, 218," + alpha + ")");
+        g.addColorStop(0.66, "rgba(202, 110, 255," + alpha * 0.55 + ")");
+        g.addColorStop(1, "rgba(55, 255, 128, 0)");
+        auroraCtx.strokeStyle = g;
+        auroraCtx.lineWidth = 7 + 14 * noise2(k, 7);
+        auroraCtx.beginPath();
+        auroraCtx.moveTo(x, top);
+        auroraCtx.bezierCurveTo(
+          x + Math.sin(t * 0.52 + k) * 20,
+          lerp(top, bottom, 0.35),
+          x + Math.sin(t * 0.39 + k * 1.8) * 28,
+          lerp(top, bottom, 0.68),
+          x + Math.sin(t * 0.3 + k) * 42,
+          bottom
+        );
+        auroraCtx.stroke();
+      }
+      auroraCtx.restore();
+    }
+
+    function compositeAurora(t) {
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+
+      ctx.globalAlpha = 0.54;
+      ctx.filter = "blur(" + Math.max(16, Math.min(34, W * 0.028)) + "px)";
+      ctx.drawImage(auroraCanvas, 0, 0, W, H);
+
+      ctx.globalAlpha = 0.74;
+      ctx.filter = "blur(" + Math.max(5, Math.min(12, W * 0.009)) + "px)";
+      ctx.drawImage(auroraCanvas, 0, 0, W, H);
+
+      ctx.filter = "none";
+      ctx.globalAlpha = 0.96;
+      ctx.drawImage(auroraCanvas, 0, 0, W, H);
+
+      ctx.restore();
+    }
+
+    function drawWater(t) {
+      var g = ctx.createLinearGradient(0, horizonY - 10, 0, H);
+      g.addColorStop(0, "rgba(8, 17, 26, 0.96)");
+      g.addColorStop(0.34, "rgba(4, 9, 15, 0.98)");
+      g.addColorStop(1, "rgba(1, 2, 7, 1)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, horizonY - 4, W, H - horizonY + 4);
+
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      for (var y = horizonY + 6; y < H; y += 8) {
+        var p = (y - horizonY) / Math.max(1, H - horizonY);
+        var a = (1 - p) * 0.035;
+        var amp = 5 + p * 18;
+        ctx.strokeStyle = "rgba(76, 132, 162," + a + ")";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (var x = -20; x <= W + 20; x += 28) {
+          var yy = y + Math.sin(x * 0.017 + t * 0.9 + p * 12) * (0.7 + p * 2.4);
+          if (x === -20) {
+            ctx.moveTo(x + Math.sin(p * 18 + t) * amp, yy);
+          } else {
+            ctx.lineTo(x + Math.sin(p * 18 + t + x * 0.004) * amp, yy);
+          }
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function drawAuroraReflection(t) {
+      var waterH = H - horizonY;
+      if (waterH <= 2) {
+        return;
+      }
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, horizonY, W, waterH);
+      ctx.clip();
+      ctx.globalCompositeOperation = "lighter";
+      ctx.filter = "blur(2.2px)";
+
+      var step = 3;
+      for (var y = 0; y < waterH; y += step) {
+        var p = y / waterH;
+        var falloff = Math.pow(1 - p, 2.15) * (0.9 - p * 0.25);
+        if (falloff <= 0.003) {
+          continue;
+        }
+        var srcY = clamp((horizonY - 8 - y * 0.82) * DPR, 0, auroraCanvas.height - step * DPR);
+        var srcH = Math.max(1, step * DPR * (1.3 + p * 1.4));
+        var wave = Math.sin(y * 0.035 + t * 1.35) * (12 + p * 34);
+        wave += (fbm(y * 0.026, t * 0.18, 3) - 0.5) * (36 + p * 50);
+        var stretch = 72 + p * 170;
+        ctx.globalAlpha = 0.34 * falloff;
+        ctx.drawImage(
+          auroraCanvas,
+          0,
+          srcY,
+          auroraCanvas.width,
+          srcH,
+          -stretch * 0.5 + wave,
+          horizonY + y,
+          W + stretch,
+          step * (1.35 + p * 2.2)
+        );
+      }
+
+      ctx.filter = "none";
+      for (var i = 0; i < 72; i++) {
+        var py = horizonY + 12 + Math.pow(i / 72, 1.55) * waterH * 0.9;
+        var p2 = (py - horizonY) / waterH;
+        var len = W * (0.035 + 0.19 * (1 - p2)) * (0.5 + noise2(i, 12));
+        var x = W * noise2(i, 91) + Math.sin(t * 0.8 + i) * 34;
+        var a = (1 - p2) * (0.035 + noise2(i, 8) * 0.05);
+        var hue = noise2(i, 44) > 0.68 ? "202, 156, 255" : noise2(i, 45) > 0.42 ? "99, 237, 207" : "91, 255, 146";
+        ctx.strokeStyle = "rgba(" + hue + "," + a + ")";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x - len * 0.5, py);
+        ctx.lineTo(x + len * 0.5, py + Math.sin(t + i) * 0.7);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function mountainY(seed, nx, amp, rough) {
+      var n1 = fbm(nx * 2.1 + seed, seed * 0.71, 5);
+      var n2 = fbm(nx * 9.0 + seed * 1.7, seed * 0.33, 3);
+      return (0.32 + n1 * 0.72 + n2 * rough) * amp;
+    }
+
+    function drawMountainLayer(seed, baseOffset, amp, color, alpha, step) {
+      ctx.save();
+      ctx.fillStyle = color;
+      ctx.globalAlpha = alpha;
+      ctx.beginPath();
+      ctx.moveTo(-10, horizonY + baseOffset + 80);
+      for (var x = -10; x <= W + 10; x += step) {
+        var nx = x / W;
+        var peak = mountainY(seed, nx, amp, 0.18);
+        var y = horizonY + baseOffset - peak;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(W + 10, H + 10);
+      ctx.lineTo(-10, H + 10);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawTrees() {
+      ctx.save();
+      ctx.fillStyle = "rgba(1, 4, 8, 0.98)";
+      for (var i = 0; i < trees.length; i++) {
+        var tr = trees[i];
+        var x = tr.x * W;
+        var bank = horizonY + 6 + Math.sin(tr.x * TAU * 3.4) * 8 + tr.layer * 22;
+        var h = (24 + tr.h * 40) * clamp(H / 760, 0.7, 1.28);
+        var w = h * (0.22 + tr.w * 0.08);
+        var lean = tr.lean * h;
+        if (tr.layer > 0.72) {
+          h *= 1.25;
+          bank += 11;
+        }
+        ctx.beginPath();
+        ctx.moveTo(x - w * 0.18, bank);
+        ctx.lineTo(x + w * 0.18, bank);
+        ctx.lineTo(x + lean * 0.35, bank - h * 0.88);
+        ctx.closePath();
+        ctx.fill();
+
+        for (var j = 0; j < 4; j++) {
+          var p = j / 4;
+          var yy = bank - h * (0.18 + p * 0.18);
+          var ww = w * (1.08 - p * 0.18);
+          ctx.beginPath();
+          ctx.moveTo(x + lean * p - ww, yy + h * 0.12);
+          ctx.lineTo(x + lean * (p + 0.1), yy - h * 0.18);
+          ctx.lineTo(x + lean * p + ww, yy + h * 0.12);
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+      ctx.restore();
+    }
+
+    function drawLandscape(t) {
+      ctx.save();
+      ctx.globalCompositeOperation = "source-over";
+
+      drawMountainLayer(2.5, -8, H * 0.115, "rgba(8, 17, 27, 0.96)", 0.86, Math.max(9, W / 120));
+      drawMountainLayer(6.2, 18, H * 0.15, "rgba(3, 8, 15, 0.99)", 0.95, Math.max(8, W / 140));
+
+      var ridge = ctx.createLinearGradient(0, horizonY - H * 0.18, 0, horizonY + 38);
+      ridge.addColorStop(0, "rgba(10, 26, 33, 0.28)");
+      ridge.addColorStop(0.72, "rgba(1, 5, 10, 0.98)");
+      ctx.fillStyle = ridge;
+      ctx.beginPath();
+      ctx.moveTo(-10, horizonY + 48);
+      for (var x = -10; x <= W + 10; x += Math.max(7, W / 150)) {
+        var nx = x / W;
+        var n = fbm(nx * 3.5 + 12, 5.8, 4);
+        var y = horizonY + 20 - n * H * 0.082 + Math.sin(nx * TAU * 4.4) * H * 0.013;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(W + 10, H + 10);
+      ctx.lineTo(-10, H + 10);
+      ctx.closePath();
+      ctx.fill();
+
+      drawTrees();
+
+      ctx.globalCompositeOperation = "screen";
+      ctx.strokeStyle = "rgba(118, 196, 190, 0.10)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, horizonY + 18);
+      for (var sx = 0; sx <= W; sx += 40) {
+        ctx.lineTo(sx, horizonY + 17 + Math.sin(sx * 0.015 + t * 0.25) * 3);
+      }
+      ctx.stroke();
+
+      ctx.restore();
+
+      ctx.save();
+      ctx.fillStyle = "rgba(0, 2, 7, 0.98)";
+      ctx.beginPath();
+      ctx.moveTo(0, H);
+      ctx.lineTo(0, H * 0.84);
+      for (var fx = 0; fx <= W; fx += Math.max(12, W / 90)) {
+        var fny = H * (0.82 + 0.035 * fbm(fx / W * 4.2, 10.1, 4));
+        ctx.lineTo(fx, fny + Math.sin(fx * 0.02) * 4);
+      }
+      ctx.lineTo(W, H);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawVignette() {
+      ctx.save();
+      ctx.globalCompositeOperation = "multiply";
+      var g = ctx.createRadialGradient(W * 0.52, H * 0.42, Math.min(W, H) * 0.2, W * 0.52, H * 0.42, Math.max(W, H) * 0.78);
+      g.addColorStop(0, "rgba(255,255,255,1)");
+      g.addColorStop(0.58, "rgba(185,185,185,1)");
+      g.addColorStop(1, "rgba(24,24,32,1)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+      ctx.restore();
+
+      ctx.save();
+      var haze = ctx.createLinearGradient(0, 0, 0, H);
+      haze.addColorStop(0, "rgba(0,0,0,0.04)");
+      haze.addColorStop(0.58, "rgba(0,0,0,0)");
+      haze.addColorStop(1, "rgba(0,0,0,0.46)");
+      ctx.fillStyle = haze;
+      ctx.fillRect(0, 0, W, H);
+      ctx.restore();
+    }
+
+    function render(now) {
+      resize();
+      var t = (now - startTime) / 1000;
+
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+
+      drawSky(t);
+      drawStars(t);
+      drawAuroraField(t);
+      compositeAurora(t);
+      drawWater(t);
+      drawAuroraReflection(t);
+      drawLandscape(t);
+      drawVignette();
+
+      requestAnimationFrame(render);
+    }
+
+    window.addEventListener("resize", resize, { passive: true });
+    resize();
+    requestAnimationFrame(render);
+  }());
+  </script>
+</body>
+</html>

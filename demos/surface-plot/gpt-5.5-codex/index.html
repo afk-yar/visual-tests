@@ -1,0 +1,942 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Canvas Surface Plot</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --panel: rgba(8, 13, 22, 0.76);
+      --panel-strong: rgba(11, 18, 30, 0.92);
+      --line: rgba(220, 232, 255, 0.14);
+      --text: #eef5ff;
+      --muted: #9eabbc;
+      --accent: #65d6ba;
+      --hot: #ffbd66;
+      --danger: #ff6f8f;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #070a10;
+      font: 14px/1.35 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+    }
+
+    body {
+      min-width: 320px;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      touch-action: none;
+      cursor: grab;
+    }
+
+    canvas:active {
+      cursor: grabbing;
+    }
+
+    .panel {
+      position: fixed;
+      left: 16px;
+      top: 16px;
+      width: min(380px, calc(100vw - 32px));
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: linear-gradient(180deg, var(--panel-strong), var(--panel));
+      box-shadow: 0 18px 46px rgba(0, 0, 0, 0.34);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      user-select: none;
+    }
+
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .readout {
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      font-size: 12px;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    label {
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      min-width: 0;
+    }
+
+    select,
+    button,
+    input[type="range"] {
+      width: 100%;
+    }
+
+    select,
+    button {
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: rgba(16, 25, 40, 0.96);
+      color: var(--text);
+      font: inherit;
+      outline: none;
+    }
+
+    select:focus,
+    button:focus-visible,
+    input:focus-visible {
+      border-color: rgba(101, 214, 186, 0.7);
+      box-shadow: 0 0 0 3px rgba(101, 214, 186, 0.18);
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: 650;
+    }
+
+    button:hover {
+      background: rgba(23, 37, 58, 0.98);
+    }
+
+    input[type="range"] {
+      accent-color: var(--accent);
+    }
+
+    .switches {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .switch {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 34px;
+      padding: 0 8px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: rgba(16, 25, 40, 0.62);
+      color: var(--text);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .switch input {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      accent-color: var(--accent);
+    }
+
+    .legend {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      width: min(310px, calc(100vw - 32px));
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(8, 13, 22, 0.66);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ramp {
+      height: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 5px;
+      background: linear-gradient(90deg, #242c71, #2378bb, #38b29c, #94cd5e, #ecb549, #e65446);
+    }
+
+    @media (max-width: 720px), (max-height: 560px) {
+      .panel {
+        left: 10px;
+        top: 10px;
+        width: calc(100vw - 20px);
+        padding: 10px;
+      }
+
+      .controls {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .switches {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .legend {
+        right: 10px;
+        bottom: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .panel {
+        font-size: 13px;
+      }
+
+      h1 {
+        font-size: 15px;
+      }
+
+      .controls,
+      .switches {
+        grid-template-columns: 1fr;
+      }
+
+      .legend {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="surface" aria-label="Animated 3D surface plot"></canvas>
+
+  <section class="panel" aria-label="Surface controls">
+    <div class="topline">
+      <h1>Canvas Surface Plot</h1>
+      <output id="fps" class="readout">-- fps</output>
+    </div>
+
+    <div class="controls">
+      <label>
+        Function
+        <select id="surfaceMode">
+          <option value="ripple">Ripple</option>
+          <option value="saddle">Saddle</option>
+          <option value="gaussian">Gaussian</option>
+          <option value="peaks">Peaks</option>
+        </select>
+      </label>
+
+      <label>
+        Resolution <output id="resValue">70</output>
+        <input id="resolution" type="range" min="28" max="92" step="2" value="70">
+      </label>
+
+      <label>
+        Wave speed <output id="speedValue">1.00</output>
+        <input id="speed" type="range" min="0" max="2" step="0.05" value="1">
+      </label>
+
+      <button id="reset" type="button">Reset view</button>
+
+      <div class="switches">
+        <label class="switch"><input id="wire" type="checkbox" checked> Wire</label>
+        <label class="switch"><input id="nodes" type="checkbox" checked> Nodes</label>
+        <label class="switch"><input id="auto" type="checkbox" checked> Rotate</label>
+      </div>
+    </div>
+  </section>
+
+  <aside class="legend" aria-label="Height color scale">
+    <div class="legend-row">
+      <span id="minHeight">low</span>
+      <span>height color map</span>
+      <span id="maxHeight">high</span>
+    </div>
+    <div class="ramp" aria-hidden="true"></div>
+  </aside>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var canvas = document.getElementById("surface");
+      var ctx = canvas.getContext("2d", { alpha: false });
+
+      var modeSelect = document.getElementById("surfaceMode");
+      var resolutionInput = document.getElementById("resolution");
+      var speedInput = document.getElementById("speed");
+      var wireInput = document.getElementById("wire");
+      var nodeInput = document.getElementById("nodes");
+      var autoInput = document.getElementById("auto");
+      var resetButton = document.getElementById("reset");
+      var fpsOutput = document.getElementById("fps");
+      var resOutput = document.getElementById("resValue");
+      var speedOutput = document.getElementById("speedValue");
+      var minHeightOutput = document.getElementById("minHeight");
+      var maxHeightOutput = document.getElementById("maxHeight");
+
+      var state = {
+        width: 1,
+        height: 1,
+        dpr: 1,
+        resolution: 70,
+        mode: "ripple",
+        wire: true,
+        nodes: true,
+        autoRotate: true,
+        yaw: -0.58,
+        pitch: -0.68,
+        zoom: 1,
+        time: 0,
+        speed: 1,
+        dragging: false,
+        pointerX: 0,
+        pointerY: 0,
+        fps: 0,
+        fpsTick: 0,
+        fpsFrames: 0
+      };
+
+      var mesh = null;
+      var colorStops = [
+        [0.00, [36, 44, 113]],
+        [0.18, [35, 120, 187]],
+        [0.36, [56, 178, 156]],
+        [0.55, [148, 205, 94]],
+        [0.74, [236, 181, 73]],
+        [1.00, [230, 84, 70]]
+      ];
+
+      var light = normalize(-0.44, 0.72, -0.54);
+
+      function clamp(value, low, high) {
+        return Math.max(low, Math.min(high, value));
+      }
+
+      function normalize(x, y, z) {
+        var length = Math.sqrt(x * x + y * y + z * z) || 1;
+        return { x: x / length, y: y / length, z: z / length };
+      }
+
+      function smoothstep(edge0, edge1, value) {
+        var t = clamp((value - edge0) / (edge1 - edge0), 0, 1);
+        return t * t * (3 - 2 * t);
+      }
+
+      function buildMesh(size) {
+        var stride = size + 1;
+        var total = stride * stride;
+        var extent = 4.25;
+        var step = (extent * 2) / size;
+        var xs = new Float32Array(total);
+        var zs = new Float32Array(total);
+        var heights = new Float32Array(total);
+        var nx = new Float32Array(total);
+        var ny = new Float32Array(total);
+        var nz = new Float32Array(total);
+        var sx = new Float32Array(total);
+        var sy = new Float32Array(total);
+        var depth = new Float32Array(total);
+        var shade = new Float32Array(total);
+        var faces = [];
+        var k;
+        var i;
+        var j;
+
+        for (j = 0; j < stride; j += 1) {
+          for (i = 0; i < stride; i += 1) {
+            k = j * stride + i;
+            xs[k] = -extent + i * step;
+            zs[k] = -extent + j * step;
+          }
+        }
+
+        for (j = 0; j < size; j += 1) {
+          for (i = 0; i < size; i += 1) {
+            k = j * stride + i;
+            faces.push({
+              a: k,
+              b: k + 1,
+              c: k + stride + 1,
+              d: k + stride,
+              depth: 0,
+              height: 0,
+              light: 0,
+              area: 0
+            });
+          }
+        }
+
+        return {
+          size: size,
+          stride: stride,
+          total: total,
+          extent: extent,
+          step: step,
+          x: xs,
+          z: zs,
+          h: heights,
+          nx: nx,
+          ny: ny,
+          nz: nz,
+          sx: sx,
+          sy: sy,
+          depth: depth,
+          shade: shade,
+          faces: faces,
+          minHeight: -1,
+          maxHeight: 1
+        };
+      }
+
+      function ripple(x, z, t) {
+        var r = Math.sqrt(x * x + z * z) + 0.001;
+        var primary = Math.sin(5.6 * r - 2.8 * t) / (0.65 + r);
+        var cross = 0.25 * Math.sin(2.1 * x + 1.3 * z - 1.7 * t);
+        var envelope = Math.exp(-0.028 * r * r);
+        return 1.85 * envelope * primary + 0.16 * cross;
+      }
+
+      function saddle(x, z, t) {
+        var base = 0.075 * (x * x - z * z);
+        var shear = 0.33 * Math.sin(1.05 * x + 0.72 * t) * Math.cos(0.92 * z - 0.45 * t);
+        var rim = 0.16 * Math.sin(0.7 * Math.sqrt(x * x + z * z) - t);
+        return base + shear + rim;
+      }
+
+      function gaussian(x, z, t) {
+        var ax = 1.35 * Math.cos(0.42 * t);
+        var az = 1.05 * Math.sin(0.51 * t);
+        var bx = -1.35 * Math.cos(0.36 * t + 1.2);
+        var bz = -1.1 * Math.sin(0.46 * t + 0.8);
+        var d1 = (x - ax) * (x - ax) + (z - az) * (z - az);
+        var d2 = (x - bx) * (x - bx) + (z - bz) * (z - bz);
+        var d3 = (x + 0.25) * (x + 0.25) + (z + 0.2) * (z + 0.2);
+        return 2.28 * Math.exp(-0.58 * d1) - 1.18 * Math.exp(-0.48 * d2) + 0.45 * Math.exp(-0.12 * d3);
+      }
+
+      function peaks(x, z, t) {
+        var sx = x * 0.72;
+        var sz = z * 0.72;
+        var p1 = 3 * Math.pow(1 - sx, 2) * Math.exp(-sx * sx - Math.pow(sz + 1, 2));
+        var p2 = -10 * (sx / 5 - Math.pow(sx, 3) - Math.pow(sz, 5)) * Math.exp(-sx * sx - sz * sz);
+        var p3 = -(1 / 3) * Math.exp(-Math.pow(sx + 1, 2) - sz * sz);
+        var wave = 0.18 * Math.sin(2.7 * Math.sqrt(x * x + z * z) - 1.5 * t);
+        return 0.28 * (p1 + p2 + p3) + wave;
+      }
+
+      function sampleHeight(x, z, t) {
+        if (state.mode === "saddle") {
+          return saddle(x, z, t);
+        }
+        if (state.mode === "gaussian") {
+          return gaussian(x, z, t);
+        }
+        if (state.mode === "peaks") {
+          return peaks(x, z, t);
+        }
+        return ripple(x, z, t);
+      }
+
+      function updateField(t) {
+        var minH = Infinity;
+        var maxH = -Infinity;
+        var i;
+        var h;
+
+        for (i = 0; i < mesh.total; i += 1) {
+          h = sampleHeight(mesh.x[i], mesh.z[i], t);
+          mesh.h[i] = h;
+          if (h < minH) minH = h;
+          if (h > maxH) maxH = h;
+        }
+
+        mesh.minHeight = minH;
+        mesh.maxHeight = maxH;
+        updateNormals();
+      }
+
+      function updateNormals() {
+        var stride = mesh.stride;
+        var size = mesh.size;
+        var step = mesh.step;
+        var i;
+        var j;
+        var index;
+        var left;
+        var right;
+        var up;
+        var down;
+        var dx;
+        var dz;
+        var length;
+
+        for (j = 0; j <= size; j += 1) {
+          for (i = 0; i <= size; i += 1) {
+            index = j * stride + i;
+            left = j * stride + Math.max(0, i - 1);
+            right = j * stride + Math.min(size, i + 1);
+            up = Math.max(0, j - 1) * stride + i;
+            down = Math.min(size, j + 1) * stride + i;
+            dx = (mesh.h[right] - mesh.h[left]) / ((Math.min(size, i + 1) - Math.max(0, i - 1)) * step || step);
+            dz = (mesh.h[down] - mesh.h[up]) / ((Math.min(size, j + 1) - Math.max(0, j - 1)) * step || step);
+            length = Math.sqrt(dx * dx + 1 + dz * dz) || 1;
+            mesh.nx[index] = -dx / length;
+            mesh.ny[index] = 1 / length;
+            mesh.nz[index] = -dz / length;
+          }
+        }
+      }
+
+      function projectVertices() {
+        var yawCos = Math.cos(state.yaw);
+        var yawSin = Math.sin(state.yaw);
+        var pitchCos = Math.cos(state.pitch);
+        var pitchSin = Math.sin(state.pitch);
+        var centerX = state.width * 0.5;
+        var centerY = state.height * 0.54;
+        var scaleBase = Math.min(state.width, state.height) * 0.128 * state.zoom;
+        var cameraDistance = 8.4;
+        var i;
+        var x;
+        var y;
+        var z;
+        var x1;
+        var z1;
+        var y2;
+        var z2;
+        var denom;
+        var scale;
+        var nnx;
+        var nny;
+        var nnz;
+        var nx1;
+        var nz1;
+        var ny2;
+        var nz2;
+        var dot;
+
+        for (i = 0; i < mesh.total; i += 1) {
+          x = mesh.x[i];
+          y = mesh.h[i];
+          z = mesh.z[i];
+
+          x1 = x * yawCos + z * yawSin;
+          z1 = -x * yawSin + z * yawCos;
+          y2 = y * pitchCos - z1 * pitchSin;
+          z2 = y * pitchSin + z1 * pitchCos;
+
+          denom = Math.max(1.7, cameraDistance + z2);
+          scale = scaleBase * cameraDistance / denom;
+          mesh.sx[i] = centerX + x1 * scale;
+          mesh.sy[i] = centerY - y2 * scale;
+          mesh.depth[i] = z2;
+
+          nnx = mesh.nx[i];
+          nny = mesh.ny[i];
+          nnz = mesh.nz[i];
+          nx1 = nnx * yawCos + nnz * yawSin;
+          nz1 = -nnx * yawSin + nnz * yawCos;
+          ny2 = nny * pitchCos - nz1 * pitchSin;
+          nz2 = nny * pitchSin + nz1 * pitchCos;
+
+          dot = nx1 * light.x + ny2 * light.y + nz2 * light.z;
+          mesh.shade[i] = 0.26 + 0.74 * Math.max(0, dot);
+        }
+      }
+
+      function updateFaces() {
+        var faces = mesh.faces;
+        var i;
+        var face;
+        var a;
+        var b;
+        var c;
+        var d;
+        var x1;
+        var y1;
+        var x2;
+        var y2;
+        var x3;
+        var y3;
+
+        for (i = 0; i < faces.length; i += 1) {
+          face = faces[i];
+          a = face.a;
+          b = face.b;
+          c = face.c;
+          d = face.d;
+          face.depth = (mesh.depth[a] + mesh.depth[b] + mesh.depth[c] + mesh.depth[d]) * 0.25;
+          face.height = (mesh.h[a] + mesh.h[b] + mesh.h[c] + mesh.h[d]) * 0.25;
+          face.light = (mesh.shade[a] + mesh.shade[b] + mesh.shade[c] + mesh.shade[d]) * 0.25;
+
+          x1 = mesh.sx[b] - mesh.sx[a];
+          y1 = mesh.sy[b] - mesh.sy[a];
+          x2 = mesh.sx[c] - mesh.sx[a];
+          y2 = mesh.sy[c] - mesh.sy[a];
+          x3 = mesh.sx[d] - mesh.sx[a];
+          y3 = mesh.sy[d] - mesh.sy[a];
+          face.area = Math.abs(x1 * y2 - y1 * x2) + Math.abs(x2 * y3 - y2 * x3);
+        }
+
+        faces.sort(function (a, b) {
+          return b.depth - a.depth;
+        });
+      }
+
+      function mix(a, b, t) {
+        return a + (b - a) * t;
+      }
+
+      function colorForHeight(height, shade, depth) {
+        var span = mesh.maxHeight - mesh.minHeight || 1;
+        var t = clamp((height - mesh.minHeight) / span, 0, 1);
+        var eased = smoothstep(0, 1, t);
+        var i;
+        var low;
+        var high;
+        var local;
+        var base;
+        var r;
+        var g;
+        var b;
+        var lightAmount = 0.34 + 0.86 * shade;
+        var fog = clamp((depth + 4.8) / 10.5, 0, 1) * 0.16;
+        var fogColor = [8, 13, 22];
+
+        for (i = 0; i < colorStops.length - 1; i += 1) {
+          low = colorStops[i];
+          high = colorStops[i + 1];
+          if (eased >= low[0] && eased <= high[0]) {
+            local = (eased - low[0]) / (high[0] - low[0]);
+            base = [
+              mix(low[1][0], high[1][0], local),
+              mix(low[1][1], high[1][1], local),
+              mix(low[1][2], high[1][2], local)
+            ];
+            r = mix(base[0] * lightAmount, fogColor[0], fog);
+            g = mix(base[1] * lightAmount, fogColor[1], fog);
+            b = mix(base[2] * lightAmount, fogColor[2], fog);
+            return "rgb(" + (r | 0) + "," + (g | 0) + "," + (b | 0) + ")";
+          }
+        }
+
+        base = colorStops[colorStops.length - 1][1];
+        return "rgb(" + ((base[0] * lightAmount) | 0) + "," + ((base[1] * lightAmount) | 0) + "," + ((base[2] * lightAmount) | 0) + ")";
+      }
+
+      function drawBackground() {
+        var gradient = ctx.createLinearGradient(0, 0, 0, state.height);
+        gradient.addColorStop(0, "#060913");
+        gradient.addColorStop(0.55, "#09101b");
+        gradient.addColorStop(1, "#05070c");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, state.width, state.height);
+
+        ctx.save();
+        ctx.globalAlpha = 0.28;
+        ctx.strokeStyle = "rgba(130, 164, 210, 0.12)";
+        ctx.lineWidth = 1;
+        drawProjectedRing(mesh.extent * 0.92, 96);
+        drawProjectedRing(mesh.extent * 0.52, 80);
+        ctx.restore();
+      }
+
+      function projectPoint(x, y, z) {
+        var yawCos = Math.cos(state.yaw);
+        var yawSin = Math.sin(state.yaw);
+        var pitchCos = Math.cos(state.pitch);
+        var pitchSin = Math.sin(state.pitch);
+        var centerX = state.width * 0.5;
+        var centerY = state.height * 0.54;
+        var scaleBase = Math.min(state.width, state.height) * 0.128 * state.zoom;
+        var cameraDistance = 8.4;
+        var x1 = x * yawCos + z * yawSin;
+        var z1 = -x * yawSin + z * yawCos;
+        var y2 = y * pitchCos - z1 * pitchSin;
+        var z2 = y * pitchSin + z1 * pitchCos;
+        var scale = scaleBase * cameraDistance / Math.max(1.7, cameraDistance + z2);
+        return {
+          x: centerX + x1 * scale,
+          y: centerY - y2 * scale
+        };
+      }
+
+      function drawProjectedRing(radius, segments) {
+        var floorY = mesh.minHeight - 0.34;
+        var p;
+        var i;
+        ctx.beginPath();
+        for (i = 0; i <= segments; i += 1) {
+          p = projectPoint(
+            Math.cos((i / segments) * Math.PI * 2) * radius,
+            floorY,
+            Math.sin((i / segments) * Math.PI * 2) * radius
+          );
+          if (i === 0) {
+            ctx.moveTo(p.x, p.y);
+          } else {
+            ctx.lineTo(p.x, p.y);
+          }
+        }
+        ctx.stroke();
+      }
+
+      function drawAxes() {
+        var floorY = mesh.minHeight - 0.34;
+        var x0 = projectPoint(-mesh.extent, floorY, 0);
+        var x1 = projectPoint(mesh.extent, floorY, 0);
+        var z0 = projectPoint(0, floorY, -mesh.extent);
+        var z1 = projectPoint(0, floorY, mesh.extent);
+        var y0 = projectPoint(-mesh.extent, floorY, -mesh.extent);
+        var y1 = projectPoint(-mesh.extent, mesh.maxHeight + 0.5, -mesh.extent);
+
+        ctx.save();
+        ctx.lineCap = "round";
+        ctx.lineWidth = 1.4;
+        ctx.strokeStyle = "rgba(101, 214, 186, 0.34)";
+        ctx.beginPath();
+        ctx.moveTo(x0.x, x0.y);
+        ctx.lineTo(x1.x, x1.y);
+        ctx.stroke();
+
+        ctx.strokeStyle = "rgba(255, 189, 102, 0.34)";
+        ctx.beginPath();
+        ctx.moveTo(z0.x, z0.y);
+        ctx.lineTo(z1.x, z1.y);
+        ctx.stroke();
+
+        ctx.strokeStyle = "rgba(255, 111, 143, 0.36)";
+        ctx.beginPath();
+        ctx.moveTo(y0.x, y0.y);
+        ctx.lineTo(y1.x, y1.y);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function drawFaces() {
+        var faces = mesh.faces;
+        var i;
+        var face;
+        var a;
+        var b;
+        var c;
+        var d;
+        var fill;
+        var nodeSize = clamp(1.1 * state.zoom, 0.75, 1.7);
+
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+
+        for (i = 0; i < faces.length; i += 1) {
+          face = faces[i];
+          if (face.area < 0.12) {
+            continue;
+          }
+          a = face.a;
+          b = face.b;
+          c = face.c;
+          d = face.d;
+          fill = colorForHeight(face.height, face.light, face.depth);
+
+          ctx.beginPath();
+          ctx.moveTo(mesh.sx[a], mesh.sy[a]);
+          ctx.lineTo(mesh.sx[b], mesh.sy[b]);
+          ctx.lineTo(mesh.sx[c], mesh.sy[c]);
+          ctx.lineTo(mesh.sx[d], mesh.sy[d]);
+          ctx.closePath();
+          ctx.fillStyle = fill;
+          ctx.fill();
+          ctx.strokeStyle = state.wire ? "rgba(4, 10, 18, 0.36)" : fill;
+          ctx.lineWidth = state.wire ? 0.58 : 0.42;
+          ctx.stroke();
+
+          if (state.nodes && state.wire) {
+            ctx.fillStyle = "rgba(245, 252, 255, 0.16)";
+            ctx.fillRect(mesh.sx[a] - nodeSize * 0.5, mesh.sy[a] - nodeSize * 0.5, nodeSize, nodeSize);
+            ctx.fillRect(mesh.sx[b] - nodeSize * 0.5, mesh.sy[b] - nodeSize * 0.5, nodeSize, nodeSize);
+            ctx.fillRect(mesh.sx[c] - nodeSize * 0.5, mesh.sy[c] - nodeSize * 0.5, nodeSize, nodeSize);
+            ctx.fillRect(mesh.sx[d] - nodeSize * 0.5, mesh.sy[d] - nodeSize * 0.5, nodeSize, nodeSize);
+          }
+        }
+      }
+
+      function drawGlow() {
+        var mid = projectPoint(0, mesh.maxHeight * 0.15, 0);
+        var radius = Math.min(state.width, state.height) * 0.38 * state.zoom;
+        var gradient = ctx.createRadialGradient(mid.x, mid.y, 0, mid.x, mid.y, radius);
+        gradient.addColorStop(0, "rgba(101, 214, 186, 0.16)");
+        gradient.addColorStop(0.45, "rgba(35, 120, 187, 0.08)");
+        gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+        ctx.save();
+        ctx.globalCompositeOperation = "screen";
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, state.width, state.height);
+        ctx.restore();
+      }
+
+      function renderFrame() {
+        updateField(state.time);
+        projectVertices();
+        updateFaces();
+        drawBackground();
+        drawAxes();
+        drawFaces();
+        drawGlow();
+        minHeightOutput.textContent = mesh.minHeight.toFixed(2);
+        maxHeightOutput.textContent = mesh.maxHeight.toFixed(2);
+      }
+
+      function resize() {
+        state.dpr = Math.min(window.devicePixelRatio || 1, 2);
+        state.width = Math.max(1, window.innerWidth);
+        state.height = Math.max(1, window.innerHeight);
+        canvas.width = Math.floor(state.width * state.dpr);
+        canvas.height = Math.floor(state.height * state.dpr);
+        canvas.style.width = state.width + "px";
+        canvas.style.height = state.height + "px";
+        ctx.setTransform(state.dpr, 0, 0, state.dpr, 0, 0);
+      }
+
+      function resetView() {
+        state.yaw = -0.58;
+        state.pitch = -0.68;
+        state.zoom = 1;
+      }
+
+      function setResolution(value) {
+        state.resolution = Number(value);
+        resOutput.textContent = String(state.resolution);
+        mesh = buildMesh(state.resolution);
+      }
+
+      function tick(now) {
+        var seconds = now * 0.001;
+        var last = tick.last || seconds;
+        var dt = clamp(seconds - last, 0, 0.06);
+        tick.last = seconds;
+
+        if (state.autoRotate && !state.dragging) {
+          state.yaw += dt * 0.17;
+        }
+        state.time += dt * state.speed;
+        renderFrame();
+
+        state.fpsFrames += 1;
+        if (seconds - state.fpsTick >= 0.35) {
+          state.fps = state.fpsFrames / Math.max(0.001, seconds - state.fpsTick);
+          state.fpsTick = seconds;
+          state.fpsFrames = 0;
+          fpsOutput.textContent = Math.round(state.fps) + " fps";
+        }
+
+        window.requestAnimationFrame(tick);
+      }
+
+      modeSelect.addEventListener("change", function () {
+        state.mode = modeSelect.value;
+      });
+
+      resolutionInput.addEventListener("input", function () {
+        setResolution(resolutionInput.value);
+      });
+
+      speedInput.addEventListener("input", function () {
+        state.speed = Number(speedInput.value);
+        speedOutput.textContent = state.speed.toFixed(2);
+      });
+
+      wireInput.addEventListener("change", function () {
+        state.wire = wireInput.checked;
+      });
+
+      nodeInput.addEventListener("change", function () {
+        state.nodes = nodeInput.checked;
+      });
+
+      autoInput.addEventListener("change", function () {
+        state.autoRotate = autoInput.checked;
+      });
+
+      resetButton.addEventListener("click", resetView);
+
+      canvas.addEventListener("pointerdown", function (event) {
+        state.dragging = true;
+        state.pointerX = event.clientX;
+        state.pointerY = event.clientY;
+        canvas.setPointerCapture(event.pointerId);
+      });
+
+      canvas.addEventListener("pointermove", function (event) {
+        var dx;
+        var dy;
+        if (!state.dragging) {
+          return;
+        }
+        dx = event.clientX - state.pointerX;
+        dy = event.clientY - state.pointerY;
+        state.pointerX = event.clientX;
+        state.pointerY = event.clientY;
+        state.yaw += dx * 0.0065;
+        state.pitch = clamp(state.pitch + dy * 0.0055, -1.18, -0.18);
+      });
+
+      canvas.addEventListener("pointerup", function (event) {
+        state.dragging = false;
+        canvas.releasePointerCapture(event.pointerId);
+      });
+
+      canvas.addEventListener("pointercancel", function () {
+        state.dragging = false;
+      });
+
+      canvas.addEventListener("wheel", function (event) {
+        event.preventDefault();
+        state.zoom = clamp(state.zoom * Math.exp(-event.deltaY * 0.001), 0.62, 1.85);
+      }, { passive: false });
+
+      window.addEventListener("resize", resize);
+
+      resize();
+      setResolution(state.resolution);
+      speedOutput.textContent = state.speed.toFixed(2);
+      window.requestAnimationFrame(tick);
+    }());
+  </script>
+</body>
+</html>

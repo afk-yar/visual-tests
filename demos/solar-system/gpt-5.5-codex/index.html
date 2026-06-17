@@ -1,0 +1,1328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Solar System Canvas</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --panel: rgba(5, 9, 18, 0.66);
+      --panel-line: rgba(172, 212, 255, 0.22);
+      --text: rgba(236, 246, 255, 0.94);
+      --muted: rgba(189, 211, 232, 0.68);
+      --accent: #8fc7ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #01030a;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      display: block;
+      background: #01030a;
+      touch-action: none;
+      cursor: grab;
+    }
+
+    canvas:active {
+      cursor: grabbing;
+    }
+
+    .panel {
+      position: fixed;
+      left: 16px;
+      top: 16px;
+      width: min(330px, calc(100vw - 32px));
+      padding: 14px 14px 12px;
+      border: 1px solid var(--panel-line);
+      border-radius: 8px;
+      background: linear-gradient(155deg, rgba(8, 13, 27, 0.78), rgba(3, 6, 13, 0.54));
+      box-shadow: 0 18px 46px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      user-select: none;
+    }
+
+    .title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      letter-spacing: 0;
+    }
+
+    .title strong {
+      font-size: 15px;
+      font-weight: 720;
+    }
+
+    .title span {
+      color: var(--muted);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 64px 1fr 46px;
+      align-items: center;
+      gap: 10px;
+      min-height: 28px;
+      margin: 7px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .row output {
+      color: rgba(238, 246, 255, 0.82);
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+
+    .switches {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 11px;
+    }
+
+    .switches label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 30px;
+      padding: 0 8px;
+      border: 1px solid rgba(174, 214, 255, 0.14);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.045);
+      color: rgba(224, 238, 252, 0.78);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .switches input {
+      width: 13px;
+      height: 13px;
+      margin: 0;
+      accent-color: var(--accent);
+    }
+
+    .readout {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(182, 217, 255, 0.13);
+      color: rgba(196, 217, 236, 0.62);
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .hint {
+      position: fixed;
+      right: 16px;
+      bottom: 14px;
+      max-width: min(420px, calc(100vw - 32px));
+      color: rgba(217, 234, 255, 0.46);
+      font-size: 11px;
+      line-height: 1.5;
+      text-align: right;
+      pointer-events: none;
+      text-shadow: 0 1px 6px #000;
+      user-select: none;
+    }
+
+    @media (max-width: 680px) {
+      .panel {
+        left: 10px;
+        top: 10px;
+        padding: 12px;
+      }
+
+      .row {
+        grid-template-columns: 56px 1fr 42px;
+      }
+
+      .hint {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="scene" aria-label="Animated canvas solar system"></canvas>
+
+  <section class="panel" aria-label="Solar system controls">
+    <div class="title">
+      <strong>Solar System</strong>
+      <span>2D canvas projection</span>
+    </div>
+    <label class="row">
+      <span>Scale</span>
+      <input id="scale" type="range" min="0.55" max="1.75" step="0.01" value="1.02">
+      <output id="scaleValue">1.02</output>
+    </label>
+    <label class="row">
+      <span>Time</span>
+      <input id="speed" type="range" min="0" max="36" step="0.2" value="14">
+      <output id="speedValue">14d/s</output>
+    </label>
+    <label class="row">
+      <span>Glow</span>
+      <input id="glow" type="range" min="0.45" max="1.45" step="0.01" value="1">
+      <output id="glowValue">1.00</output>
+    </label>
+    <div class="switches">
+      <label><input id="labels" type="checkbox" checked>Labels</label>
+      <label><input id="orbits" type="checkbox" checked>Orbits</label>
+      <label><input id="trails" type="checkbox" checked>Trails</label>
+    </div>
+    <div class="readout">
+      <span id="dateReadout">Day 0</span>
+      <span id="fpsReadout">-- fps</span>
+    </div>
+  </section>
+
+  <div class="hint">Drag to steer the camera. Wheel zooms the system. The orbital clock keeps real relative periods with a visual time warp.</div>
+
+  <script>
+  (function () {
+    "use strict";
+
+    var canvas = document.getElementById("scene");
+    var ctx = canvas.getContext("2d", { alpha: false });
+    var scaleInput = document.getElementById("scale");
+    var speedInput = document.getElementById("speed");
+    var glowInput = document.getElementById("glow");
+    var labelsInput = document.getElementById("labels");
+    var orbitsInput = document.getElementById("orbits");
+    var trailsInput = document.getElementById("trails");
+    var scaleValue = document.getElementById("scaleValue");
+    var speedValue = document.getElementById("speedValue");
+    var glowValue = document.getElementById("glowValue");
+    var dateReadout = document.getElementById("dateReadout");
+    var fpsReadout = document.getElementById("fpsReadout");
+
+    var TAU = Math.PI * 2;
+    var DEG = Math.PI / 180;
+    var ORBIT_POWER = 0.72;
+    var MAX_ORBIT_UNIT = Math.pow(30.07, ORBIT_POWER);
+
+    var state = {
+      w: 1,
+      h: 1,
+      dpr: 1,
+      cx: 0,
+      cy: 0,
+      pxPerUnit: 1,
+      scale: 1.02,
+      speed: 14,
+      glow: 1,
+      yaw: -0.48,
+      pitch: -0.58,
+      targetYaw: -0.48,
+      targetPitch: -0.58,
+      drag: false,
+      lastX: 0,
+      lastY: 0,
+      simDays: 1040,
+      lastT: 0,
+      fps: 60,
+      frames: 0,
+      fpsTime: 0,
+      showLabels: true,
+      showOrbits: true,
+      showTrails: true
+    };
+
+    function clamp(v, a, b) {
+      return Math.max(a, Math.min(b, v));
+    }
+
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    function mixColor(a, b, t) {
+      return [
+        Math.round(lerp(a[0], b[0], t)),
+        Math.round(lerp(a[1], b[1], t)),
+        Math.round(lerp(a[2], b[2], t))
+      ];
+    }
+
+    function rgba(c, a) {
+      return "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + a + ")";
+    }
+
+    function wrap(v) {
+      v = v % TAU;
+      return v < 0 ? v + TAU : v;
+    }
+
+    function makeRng(seed) {
+      var s = seed >>> 0;
+      return function () {
+        s = (s + 0x6D2B79F5) >>> 0;
+        var t = Math.imul(s ^ (s >>> 15), 1 | s);
+        t ^= t + Math.imul(t ^ (t >>> 7), 61 | t);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function rotateX(p, a) {
+      var c = Math.cos(a);
+      var s = Math.sin(a);
+      return { x: p.x, y: p.y * c - p.z * s, z: p.y * s + p.z * c };
+    }
+
+    function rotateY(p, a) {
+      var c = Math.cos(a);
+      var s = Math.sin(a);
+      return { x: p.x * c + p.z * s, y: p.y, z: -p.x * s + p.z * c };
+    }
+
+    function add(a, b) {
+      return { x: a.x + b.x, y: a.y + b.y, z: a.z + b.z };
+    }
+
+    function sub(a, b) {
+      return { x: a.x - b.x, y: a.y - b.y, z: a.z - b.z };
+    }
+
+    function mul(p, s) {
+      return { x: p.x * s, y: p.y * s, z: p.z * s };
+    }
+
+    function normalize(p) {
+      var m = Math.sqrt(p.x * p.x + p.y * p.y + p.z * p.z) || 1;
+      return { x: p.x / m, y: p.y / m, z: p.z / m };
+    }
+
+    function dot(a, b) {
+      return a.x * b.x + a.y * b.y + a.z * b.z;
+    }
+
+    function cross(a, b) {
+      return {
+        x: a.y * b.z - a.z * b.y,
+        y: a.z * b.x - a.x * b.z,
+        z: a.x * b.y - a.y * b.x
+      };
+    }
+
+    function solveKepler(M, e) {
+      var E = e < 0.8 ? M : Math.PI;
+      for (var i = 0; i < 6; i++) {
+        E -= (E - e * Math.sin(E) - M) / (1 - e * Math.cos(E));
+      }
+      return E;
+    }
+
+    function orbitUnit(a) {
+      return Math.pow(a, ORBIT_POWER);
+    }
+
+    function orbitAxes(body) {
+      var a = orbitUnit(body.a);
+      return {
+        a: a,
+        b: a * Math.sqrt(1 - body.e * body.e)
+      };
+    }
+
+    function orientOrbitPoint(body, p) {
+      var q = rotateY(p, (body.arg || 0) * DEG);
+      q = rotateX(q, (body.inc || 0) * DEG);
+      q = rotateY(q, (body.node || 0) * DEG);
+      return q;
+    }
+
+    function orbitPosition(body, days) {
+      var axes = orbitAxes(body);
+      var M = wrap((body.phase || 0) + days / body.period * TAU);
+      var E = solveKepler(M, body.e);
+      var p = {
+        x: axes.a * (Math.cos(E) - body.e),
+        y: 0,
+        z: axes.b * Math.sin(E)
+      };
+      return orientOrbitPoint(body, p);
+    }
+
+    function orbitGeometryPoint(body, E) {
+      var axes = orbitAxes(body);
+      return orientOrbitPoint(body, {
+        x: axes.a * (Math.cos(E) - body.e),
+        y: 0,
+        z: axes.b * Math.sin(E)
+      });
+    }
+
+    function cameraSpace(p) {
+      var c = Math.cos(state.yaw);
+      var s = Math.sin(state.yaw);
+      var x = p.x * c - p.z * s;
+      var z = p.x * s + p.z * c;
+      var y = p.y;
+      var cp = Math.cos(state.pitch);
+      var sp = Math.sin(state.pitch);
+      return {
+        x: x,
+        y: y * cp - z * sp,
+        z: y * sp + z * cp
+      };
+    }
+
+    function project(p) {
+      var cam = cameraSpace(p);
+      var cameraDistance = 34;
+      var focal = 34;
+      var depth = cameraDistance + cam.z;
+      var persp = focal / Math.max(7, depth);
+      var scale = state.pxPerUnit * state.scale * persp;
+      return {
+        x: state.cx + cam.x * scale,
+        y: state.cy + cam.y * scale,
+        depth: depth,
+        persp: persp,
+        scale: scale,
+        cam: cam
+      };
+    }
+
+    var PLANETS = [
+      {
+        name: "Mercury",
+        a: 0.387,
+        e: 0.2056,
+        inc: 7.0,
+        node: 48.3,
+        arg: 29.1,
+        period: 87.969,
+        radius: 0.383,
+        color: [166, 139, 112],
+        light: [235, 210, 172],
+        trail: [218, 171, 121],
+        phase: 0.15,
+        texture: "rock"
+      },
+      {
+        name: "Venus",
+        a: 0.723,
+        e: 0.0068,
+        inc: 3.39,
+        node: 76.7,
+        arg: 54.9,
+        period: 224.701,
+        radius: 0.949,
+        color: [219, 181, 114],
+        light: [255, 232, 178],
+        trail: [255, 210, 130],
+        phase: 1.1,
+        texture: "cloud"
+      },
+      {
+        name: "Earth",
+        a: 1.0,
+        e: 0.0167,
+        inc: 0.0,
+        node: -11.3,
+        arg: 114.2,
+        period: 365.256,
+        radius: 1,
+        color: [65, 139, 206],
+        light: [142, 219, 255],
+        trail: [95, 184, 255],
+        phase: 2.15,
+        texture: "earth",
+        moons: [
+          { name: "Moon", period: 27.32, distance: 5.2, radius: 0.28, color: [190, 195, 202], phase: 1.8, inc: 5.1, node: 20 }
+        ]
+      },
+      {
+        name: "Mars",
+        a: 1.524,
+        e: 0.0934,
+        inc: 1.85,
+        node: 49.6,
+        arg: 286.5,
+        period: 686.98,
+        radius: 0.532,
+        color: [206, 92, 50],
+        light: [255, 153, 91],
+        trail: [255, 115, 73],
+        phase: 3.4,
+        texture: "rock",
+        moons: [
+          { name: "Phobos", period: 0.319, distance: 3.1, radius: 0.13, color: [185, 157, 132], phase: 0.1, inc: 1.1, node: 60 },
+          { name: "Deimos", period: 1.263, distance: 4.4, radius: 0.11, color: [162, 145, 128], phase: 2.2, inc: 1.8, node: 85 }
+        ]
+      },
+      {
+        name: "Jupiter",
+        a: 5.203,
+        e: 0.0489,
+        inc: 1.30,
+        node: 100.5,
+        arg: 273.9,
+        period: 4332.59,
+        radius: 11.21,
+        color: [206, 164, 116],
+        light: [255, 225, 182],
+        trail: [255, 196, 119],
+        phase: 4.2,
+        texture: "jupiter",
+        moons: [
+          { name: "Io", period: 1.769, distance: 2.55, radius: 0.13, color: [255, 210, 112], phase: 0.2, inc: 0.04, node: 8 },
+          { name: "Europa", period: 3.551, distance: 3.35, radius: 0.12, color: [214, 207, 190], phase: 1.4, inc: 0.47, node: 21 },
+          { name: "Ganymede", period: 7.155, distance: 4.35, radius: 0.16, color: [176, 155, 135], phase: 2.7, inc: 0.2, node: 41 },
+          { name: "Callisto", period: 16.689, distance: 5.75, radius: 0.15, color: [126, 115, 107], phase: 5.0, inc: 0.28, node: 69 }
+        ]
+      },
+      {
+        name: "Saturn",
+        a: 9.537,
+        e: 0.0565,
+        inc: 2.49,
+        node: 113.7,
+        arg: 339.4,
+        period: 10759.22,
+        radius: 9.45,
+        color: [217, 185, 126],
+        light: [255, 232, 180],
+        trail: [244, 205, 137],
+        phase: 5.1,
+        texture: "saturn",
+        rings: true,
+        moons: [
+          { name: "Enceladus", period: 1.37, distance: 2.65, radius: 0.08, color: [225, 236, 244], phase: 0.6, inc: 0.1, node: 24 },
+          { name: "Rhea", period: 4.52, distance: 3.55, radius: 0.11, color: [197, 190, 178], phase: 2.1, inc: 0.35, node: 50 },
+          { name: "Titan", period: 15.95, distance: 4.8, radius: 0.18, color: [218, 163, 75], phase: 4.4, inc: 0.33, node: 76 },
+          { name: "Iapetus", period: 79.32, distance: 6.65, radius: 0.10, color: [152, 143, 133], phase: 5.7, inc: 8.3, node: 110 }
+        ]
+      },
+      {
+        name: "Uranus",
+        a: 19.191,
+        e: 0.0457,
+        inc: 0.77,
+        node: 74.0,
+        arg: 96.9,
+        period: 30685.4,
+        radius: 4.01,
+        color: [116, 205, 215],
+        light: [190, 250, 255],
+        trail: [98, 219, 238],
+        phase: 0.6,
+        texture: "ice",
+        moons: [
+          { name: "Titania", period: 8.71, distance: 3.1, radius: 0.12, color: [172, 178, 184], phase: 1.1, inc: 0.08, node: 30 },
+          { name: "Oberon", period: 13.46, distance: 4.1, radius: 0.11, color: [146, 151, 157], phase: 3.0, inc: 0.07, node: 62 }
+        ]
+      },
+      {
+        name: "Neptune",
+        a: 30.07,
+        e: 0.0113,
+        inc: 1.77,
+        node: 131.8,
+        arg: 273.2,
+        period: 60190,
+        radius: 3.88,
+        color: [55, 93, 212],
+        light: [106, 160, 255],
+        trail: [84, 132, 255],
+        phase: 2.9,
+        texture: "ice",
+        moons: [
+          { name: "Triton", period: -5.877, distance: 3.3, radius: 0.14, color: [188, 199, 216], phase: 1.9, inc: 157, node: 95 }
+        ]
+      }
+    ];
+
+    var SUN = {
+      name: "Sun",
+      color: [255, 188, 69],
+      light: [255, 238, 174]
+    };
+
+    var stars = [];
+    var dust = [];
+    var rng = makeRng(987654321);
+
+    function makeSky() {
+      stars = [];
+      dust = [];
+      var count = 1300;
+      for (var i = 0; i < count; i++) {
+        var yBias = Math.pow(rng(), 1.45);
+        stars.push({
+          x: rng(),
+          y: rng() * 0.94 + 0.03,
+          r: 0.35 + Math.pow(rng(), 4) * 1.8,
+          a: 0.18 + Math.pow(rng(), 1.7) * 0.74,
+          tw: rng() * TAU,
+          blue: rng() > 0.76,
+          warm: rng() > 0.86,
+          band: yBias
+        });
+      }
+      for (var j = 0; j < 360; j++) {
+        var u = rng();
+        var v = rng();
+        dust.push({
+          x: u,
+          y: 0.5 + (v - 0.5) * (0.16 + rng() * 0.22) + Math.sin(u * TAU * 1.3) * 0.035,
+          r: 14 + rng() * 58,
+          a: 0.012 + rng() * 0.045,
+          hue: rng()
+        });
+      }
+    }
+
+    function resize() {
+      state.dpr = Math.min(2, Math.max(1, window.devicePixelRatio || 1));
+      state.w = Math.max(1, window.innerWidth);
+      state.h = Math.max(1, window.innerHeight);
+      canvas.width = Math.round(state.w * state.dpr);
+      canvas.height = Math.round(state.h * state.dpr);
+      canvas.style.width = state.w + "px";
+      canvas.style.height = state.h + "px";
+      ctx.setTransform(state.dpr, 0, 0, state.dpr, 0, 0);
+      state.cx = state.w * 0.5;
+      state.cy = state.h * 0.54;
+      state.pxPerUnit = Math.min(state.w, state.h) * 0.39 / MAX_ORBIT_UNIT;
+      makeSky();
+    }
+
+    function updateControls() {
+      state.scale = parseFloat(scaleInput.value);
+      state.speed = parseFloat(speedInput.value);
+      state.glow = parseFloat(glowInput.value);
+      state.showLabels = labelsInput.checked;
+      state.showOrbits = orbitsInput.checked;
+      state.showTrails = trailsInput.checked;
+      scaleValue.textContent = state.scale.toFixed(2);
+      speedValue.textContent = state.speed.toFixed(1).replace(".0", "") + "d/s";
+      glowValue.textContent = state.glow.toFixed(2);
+    }
+
+    function drawSky(t, sunProj, sunRadius) {
+      var bg = ctx.createRadialGradient(state.w * 0.48, state.h * 0.5, 0, state.w * 0.52, state.h * 0.54, Math.max(state.w, state.h) * 0.76);
+      bg.addColorStop(0, "#061022");
+      bg.addColorStop(0.43, "#020611");
+      bg.addColorStop(1, "#000108");
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, state.w, state.h);
+
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+      for (var i = 0; i < dust.length; i++) {
+        var d = dust[i];
+        var drift = Math.sin(t * 0.000025 + d.x * 8) * 0.018;
+        var x = (d.x + drift + 1) % 1 * state.w;
+        var y = d.y * state.h + Math.sin(t * 0.000018 + d.x * 20) * state.h * 0.012;
+        var gr = ctx.createRadialGradient(x, y, 0, x, y, d.r);
+        var c = d.hue > 0.65 ? "125,160,255" : "240,155,105";
+        gr.addColorStop(0, "rgba(" + c + "," + d.a * state.glow + ")");
+        gr.addColorStop(1, "rgba(" + c + ",0)");
+        ctx.fillStyle = gr;
+        ctx.beginPath();
+        ctx.arc(x, y, d.r, 0, TAU);
+        ctx.fill();
+      }
+
+      for (var s = 0; s < stars.length; s++) {
+        var star = stars[s];
+        var tw = 0.72 + Math.sin(t * 0.0017 + star.tw) * 0.28;
+        var sx = (star.x + Math.sin(t * 0.000006 + star.band * 8) * 0.012 + 1) % 1 * state.w;
+        var sy = star.y * state.h;
+        var alpha = star.a * tw;
+        var color = star.blue ? "rgba(185,216,255," : (star.warm ? "rgba(255,214,166," : "rgba(234,244,255,");
+        ctx.fillStyle = color + alpha + ")";
+        ctx.beginPath();
+        ctx.arc(sx, sy, star.r, 0, TAU);
+        ctx.fill();
+        if (star.r > 1.25) {
+          ctx.fillStyle = color + alpha * 0.14 + ")";
+          ctx.beginPath();
+          ctx.arc(sx, sy, star.r * 3.8, 0, TAU);
+          ctx.fill();
+        }
+      }
+      ctx.restore();
+
+      var glow = ctx.createRadialGradient(sunProj.x, sunProj.y, sunRadius * 0.4, sunProj.x, sunProj.y, sunRadius * 10.8);
+      glow.addColorStop(0, "rgba(255,190,72," + 0.45 * state.glow + ")");
+      glow.addColorStop(0.18, "rgba(255,138,63," + 0.19 * state.glow + ")");
+      glow.addColorStop(0.45, "rgba(90,132,255," + 0.055 * state.glow + ")");
+      glow.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, state.w, state.h);
+      ctx.restore();
+    }
+
+    function drawSegment(a, b, color, alpha, width) {
+      ctx.strokeStyle = rgba(color, alpha);
+      ctx.lineWidth = width;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
+
+    function drawOrbit(body) {
+      var steps = body.a < 2 ? 164 : 224;
+      var prev = null;
+      for (var i = 0; i <= steps; i++) {
+        var p = project(orbitGeometryPoint(body, i / steps * TAU));
+        if (prev) {
+          var depthAlpha = clamp(0.34 + (p.persp + prev.persp) * 0.18, 0.16, 0.66);
+          drawSegment(prev, p, body.trail, 0.19 * depthAlpha, body.a < 2 ? 0.9 : 1.05);
+        }
+        prev = p;
+      }
+    }
+
+    function drawTrail(body, days) {
+      var maxSpan = body.a < 2 ? body.period * 0.22 : Math.min(body.period * 0.14, 2300);
+      var samples = body.a < 2 ? 72 : 96;
+      var prev = null;
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+      for (var i = 0; i < samples; i++) {
+        var k = i / (samples - 1);
+        var p = project(orbitPosition(body, days - maxSpan * k));
+        if (prev) {
+          var alpha = Math.pow(1 - k, 2.4) * (body.a < 2 ? 0.72 : 0.52);
+          var w = (body.a < 2 ? 2.1 : 2.8) * Math.pow(1 - k, 1.1) + 0.35;
+          drawSegment(prev, p, body.trail, alpha, w);
+        }
+        prev = p;
+      }
+      ctx.restore();
+    }
+
+    function displayRadius(body, proj) {
+      if (body.name === "Sun") {
+        return clamp(Math.min(state.w, state.h) * 0.035 * (0.9 + state.scale * 0.16), 24, 62) * Math.sqrt(proj.persp);
+      }
+      var r = 1.65 + Math.pow(body.radius, 0.62) * 2.85;
+      if (body.name === "Mercury") r += 0.5;
+      if (body.name === "Venus" || body.name === "Earth") r += 0.6;
+      return r * Math.sqrt(proj.persp) * (0.86 + state.scale * 0.2);
+    }
+
+    function moonBasis(parent, moon) {
+      var inc = ((parent.inc || 0) + (moon.inc || 0)) * DEG;
+      var node = ((parent.node || 0) + (moon.node || 0)) * DEG;
+      var u = rotateY(rotateX({ x: 1, y: 0, z: 0 }, inc), node);
+      var v = rotateY(rotateX({ x: 0, y: 0, z: 1 }, inc), node);
+      return { u: normalize(u), v: normalize(v) };
+    }
+
+    function moonPosition(parent, moon, parentItem, days) {
+      var basis = moonBasis(parent, moon);
+      var sign = moon.period < 0 ? -1 : 1;
+      var period = Math.abs(moon.period);
+      var angle = (moon.phase || 0) + sign * days / period * TAU;
+      var worldPerPixel = 1 / Math.max(0.001, parentItem.proj.scale);
+      var dist = parentItem.r * moon.distance * worldPerPixel;
+      var p = add(mul(basis.u, Math.cos(angle) * dist), mul(basis.v, Math.sin(angle) * dist));
+      return add(parentItem.pos, p);
+    }
+
+    function drawMoonOrbit(parent, moon, parentItem) {
+      var basis = moonBasis(parent, moon);
+      var worldPerPixel = 1 / Math.max(0.001, parentItem.proj.scale);
+      var dist = parentItem.r * moon.distance * worldPerPixel;
+      var prev = null;
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      for (var i = 0; i <= 76; i++) {
+        var a = i / 76 * TAU;
+        var p = add(parentItem.pos, add(mul(basis.u, Math.cos(a) * dist), mul(basis.v, Math.sin(a) * dist)));
+        var pr = project(p);
+        if (prev) {
+          drawSegment(prev, pr, moon.color, 0.12, 0.65);
+        }
+        prev = pr;
+      }
+      ctx.restore();
+    }
+
+    function lightInfo(pos, proj) {
+      var sunWorld = { x: 0, y: 0, z: 0 };
+      var sunProj = project(sunWorld);
+      var dx = sunProj.x - proj.x;
+      var dy = sunProj.y - proj.y;
+      var dm = Math.sqrt(dx * dx + dy * dy) || 1;
+      var lightWorld = normalize(sub(sunWorld, pos));
+      var lightCam = cameraSpace(lightWorld);
+      var phase = clamp(dot(lightCam, { x: 0, y: 0, z: -1 }), -1, 1);
+      return {
+        sx: dx / dm,
+        sy: dy / dm,
+        phase: phase,
+        visible: clamp(0.18 + (phase + 1) * 0.41, 0.12, 1)
+      };
+    }
+
+    function drawDiscShadow(x, y, r, light, nightAlpha) {
+      var shadow = ctx.createRadialGradient(
+        x - light.sx * r * 0.58,
+        y - light.sy * r * 0.58,
+        r * 0.08,
+        x - light.sx * r * 0.05,
+        y - light.sy * r * 0.05,
+        r * 1.12
+      );
+      shadow.addColorStop(0, "rgba(0,0,0," + nightAlpha + ")");
+      shadow.addColorStop(0.58, "rgba(0,0,0," + nightAlpha * 0.36 + ")");
+      shadow.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = shadow;
+      ctx.fillRect(x - r, y - r, r * 2, r * 2);
+    }
+
+    function drawPlanetTexture(body, x, y, r, light, t) {
+      var alpha = 0.24 + light.visible * 0.34;
+      if (body.texture === "earth") {
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = "rgba(33,91,168,0.88)";
+        ctx.fillRect(x - r, y - r, r * 2, r * 2);
+        ctx.globalAlpha = alpha * 0.85;
+        ctx.fillStyle = "rgba(58,169,105,0.82)";
+        for (var i = 0; i < 7; i++) {
+          var a = i * 1.41 + t * 0.000045;
+          var px = x + Math.sin(a * 1.7) * r * 0.62;
+          var py = y + Math.cos(a * 1.2) * r * 0.43;
+          ctx.beginPath();
+          ctx.ellipse(px, py, r * (0.16 + (i % 3) * 0.045), r * (0.07 + (i % 2) * 0.035), a, 0, TAU);
+          ctx.fill();
+        }
+        ctx.globalAlpha = alpha * 0.72;
+        ctx.strokeStyle = "rgba(255,255,255,0.7)";
+        ctx.lineWidth = Math.max(0.55, r * 0.055);
+        for (var c = 0; c < 5; c++) {
+          var yy = y - r * 0.52 + c * r * 0.25 + Math.sin(t * 0.00012 + c) * r * 0.025;
+          ctx.beginPath();
+          ctx.ellipse(x + Math.sin(c) * r * 0.08, yy, r * (0.52 + c * 0.04), r * 0.07, Math.sin(c) * 0.35, Math.PI * 0.08, Math.PI * 0.92);
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+      } else if (body.texture === "jupiter" || body.texture === "saturn") {
+        var bands = body.texture === "jupiter" ? 11 : 8;
+        for (var b = 0; b < bands; b++) {
+          var yy2 = y - r + (b + 0.5) * r * 2 / bands;
+          var stripe = b % 2 ? mixColor(body.color, [120, 77, 51], 0.18) : mixColor(body.light, [255, 255, 255], 0.07);
+          ctx.fillStyle = rgba(stripe, alpha * (0.62 + (b % 3) * 0.12));
+          ctx.fillRect(x - r, yy2 - r / bands * 0.48, r * 2, r / bands * 0.96);
+        }
+        if (body.texture === "jupiter" && r > 8) {
+          ctx.fillStyle = "rgba(178,75,50," + alpha * 0.82 + ")";
+          ctx.beginPath();
+          ctx.ellipse(x + r * 0.34, y + r * 0.18, r * 0.22, r * 0.105, -0.18, 0, TAU);
+          ctx.fill();
+          ctx.strokeStyle = "rgba(255,218,178," + alpha * 0.45 + ")";
+          ctx.lineWidth = Math.max(0.5, r * 0.025);
+          ctx.stroke();
+        }
+      } else if (body.texture === "ice") {
+        ctx.globalAlpha = alpha;
+        for (var n = 0; n < 6; n++) {
+          ctx.strokeStyle = n % 2 ? "rgba(255,255,255,0.22)" : "rgba(38,72,150,0.26)";
+          ctx.lineWidth = Math.max(0.5, r * 0.045);
+          ctx.beginPath();
+          ctx.ellipse(x, y - r * 0.52 + n * r * 0.21, r * 0.92, r * 0.05, Math.sin(n) * 0.22, 0, TAU);
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+      } else if (body.texture === "cloud") {
+        ctx.globalAlpha = alpha * 0.78;
+        ctx.strokeStyle = "rgba(255,245,218,0.68)";
+        ctx.lineWidth = Math.max(0.6, r * 0.08);
+        for (var v = 0; v < 5; v++) {
+          ctx.beginPath();
+          ctx.ellipse(x + Math.sin(t * 0.00008 + v) * r * 0.07, y - r * 0.46 + v * r * 0.23, r * 0.88, r * 0.06, Math.sin(v) * 0.38, 0, TAU);
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+      } else {
+        ctx.globalAlpha = alpha * 0.72;
+        ctx.fillStyle = "rgba(0,0,0,0.15)";
+        for (var k = 0; k < 12; k++) {
+          var aa = k * 2.399 + body.phase;
+          var rr = r * (0.18 + ((k * 37) % 71) / 100);
+          var px2 = x + Math.cos(aa) * rr;
+          var py2 = y + Math.sin(aa * 1.31) * rr * 0.75;
+          ctx.beginPath();
+          ctx.arc(px2, py2, Math.max(0.45, r * (0.035 + (k % 3) * 0.018)), 0, TAU);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    function drawPlanet(item, t) {
+      var body = item.body;
+      var p = item.proj;
+      var r = item.r;
+      var light = lightInfo(item.pos, p);
+      var night = mixColor(body.color, [0, 0, 0], 0.76);
+      var rim = mixColor(body.light, [255, 255, 255], 0.18);
+
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+      var aura = ctx.createRadialGradient(p.x, p.y, r * 0.6, p.x, p.y, r * (body.name === "Jupiter" || body.name === "Saturn" ? 4.4 : 3.1));
+      aura.addColorStop(0, rgba(body.light, 0.055 * state.glow));
+      aura.addColorStop(1, rgba(body.light, 0));
+      ctx.fillStyle = aura;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r * 4.4, 0, TAU);
+      ctx.fill();
+      ctx.restore();
+
+      if (body.rings) {
+        drawSaturnRings(item, false);
+      }
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r, 0, TAU);
+      ctx.clip();
+      ctx.fillStyle = rgba(night, 1);
+      ctx.fillRect(p.x - r, p.y - r, r * 2, r * 2);
+
+      var lit = ctx.createRadialGradient(
+        p.x + light.sx * r * 0.48,
+        p.y + light.sy * r * 0.48,
+        r * 0.03,
+        p.x + light.sx * r * 0.04,
+        p.y + light.sy * r * 0.04,
+        r * 1.35
+      );
+      lit.addColorStop(0, rgba(rim, 0.98));
+      lit.addColorStop(0.34, rgba(body.light, 0.74 * light.visible));
+      lit.addColorStop(0.72, rgba(body.color, 0.36 * light.visible));
+      lit.addColorStop(1, rgba(body.color, 0.02));
+      ctx.fillStyle = lit;
+      ctx.fillRect(p.x - r, p.y - r, r * 2, r * 2);
+
+      drawPlanetTexture(body, p.x, p.y, r, light, t);
+
+      drawDiscShadow(p.x, p.y, r, light, 0.35 + (1 - light.visible) * 0.58);
+
+      ctx.globalCompositeOperation = "screen";
+      var edge = ctx.createLinearGradient(p.x - light.sx * r, p.y - light.sy * r, p.x + light.sx * r, p.y + light.sy * r);
+      edge.addColorStop(0, "rgba(255,255,255,0)");
+      edge.addColorStop(0.88, rgba(rim, 0.18 * light.visible));
+      edge.addColorStop(1, rgba(rim, 0.44 * light.visible));
+      ctx.fillStyle = edge;
+      ctx.fillRect(p.x - r, p.y - r, r * 2, r * 2);
+      ctx.restore();
+
+      ctx.save();
+      ctx.lineWidth = Math.max(0.55, r * 0.045);
+      ctx.strokeStyle = "rgba(255,255,255," + (0.16 + light.visible * 0.14) + ")";
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r - ctx.lineWidth * 0.45, 0, TAU);
+      ctx.stroke();
+      ctx.restore();
+
+      if (body.rings) {
+        drawSaturnRings(item, true);
+      }
+    }
+
+    function ringBasis(item) {
+      var tilt = 26.7 * DEG;
+      var spin = (item.body.node + 18) * DEG;
+      var u = rotateY({ x: 1, y: 0, z: 0 }, spin);
+      var normal = rotateY(rotateX({ x: 0, y: 1, z: 0 }, tilt), spin);
+      var v = normalize(cross(normalize(normal), normalize(u)));
+      return { u: normalize(u), v: v };
+    }
+
+    function ringPoints(item, mult) {
+      var basis = ringBasis(item);
+      var worldPerPixel = 1 / Math.max(0.001, item.proj.scale);
+      var radius = item.r * mult * worldPerPixel;
+      var pts = [];
+      for (var i = 0; i <= 144; i++) {
+        var a = i / 144 * TAU;
+        var p = add(item.pos, add(mul(basis.u, Math.cos(a) * radius), mul(basis.v, Math.sin(a) * radius)));
+        var pr = project(p);
+        pts.push({ p: p, pr: pr, angle: a });
+      }
+      return pts;
+    }
+
+    function drawRingBand(item, outerMult, innerMult, alpha, tint, frontOnly) {
+      var outer = ringPoints(item, outerMult);
+      var inner = ringPoints(item, innerMult);
+      var centerDepth = item.proj.depth;
+
+      if (frontOnly) {
+        ctx.save();
+        ctx.globalCompositeOperation = "screen";
+        ctx.strokeStyle = rgba(tint, alpha);
+        ctx.lineWidth = Math.max(0.8, item.r * 0.08);
+        var drawing = false;
+        for (var i = 0; i < outer.length; i++) {
+          var close = outer[i].pr.depth < centerDepth + 0.02;
+          var midx = (outer[i].pr.x + inner[i].pr.x) * 0.5;
+          var midy = (outer[i].pr.y + inner[i].pr.y) * 0.5;
+          if (close && !drawing) {
+            ctx.beginPath();
+            ctx.moveTo(midx, midy);
+            drawing = true;
+          } else if (close) {
+            ctx.lineTo(midx, midy);
+          } else if (drawing) {
+            ctx.stroke();
+            drawing = false;
+          }
+        }
+        if (drawing) ctx.stroke();
+        ctx.restore();
+        return;
+      }
+
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      ctx.fillStyle = rgba(tint, alpha);
+      ctx.beginPath();
+      for (var o = 0; o < outer.length; o++) {
+        if (o === 0) ctx.moveTo(outer[o].pr.x, outer[o].pr.y);
+        else ctx.lineTo(outer[o].pr.x, outer[o].pr.y);
+      }
+      for (var inn = inner.length - 1; inn >= 0; inn--) {
+        ctx.lineTo(inner[inn].pr.x, inner[inn].pr.y);
+      }
+      ctx.closePath();
+      ctx.fill("evenodd");
+      ctx.restore();
+    }
+
+    function drawSaturnRings(item, front) {
+      var tintA = [237, 211, 157];
+      var tintB = [160, 134, 96];
+      if (front) {
+        drawRingBand(item, 2.55, 1.55, 0.56, tintA, true);
+        drawRingBand(item, 2.05, 1.86, 0.42, tintB, true);
+        return;
+      }
+      drawRingBand(item, 2.65, 1.45, 0.28, tintA, false);
+      drawRingBand(item, 2.05, 1.86, 0.18, tintB, false);
+      drawRingBand(item, 1.58, 1.42, 0.24, [255, 238, 190], false);
+    }
+
+    function drawMoon(item) {
+      var p = item.proj;
+      var r = item.r;
+      var light = lightInfo(item.pos, p);
+      var c = item.moon.color;
+      var night = mixColor(c, [0, 0, 0], 0.72);
+
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+      ctx.fillStyle = rgba(c, 0.08);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r * 3.2, 0, TAU);
+      ctx.fill();
+      ctx.restore();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r, 0, TAU);
+      ctx.clip();
+      ctx.fillStyle = rgba(night, 1);
+      ctx.fillRect(p.x - r, p.y - r, r * 2, r * 2);
+      var g = ctx.createRadialGradient(p.x + light.sx * r * 0.45, p.y + light.sy * r * 0.45, 0, p.x, p.y, r * 1.25);
+      g.addColorStop(0, rgba(mixColor(c, [255, 255, 255], 0.35), 0.94));
+      g.addColorStop(0.58, rgba(c, 0.56 * light.visible));
+      g.addColorStop(1, rgba(c, 0.03));
+      ctx.fillStyle = g;
+      ctx.fillRect(p.x - r, p.y - r, r * 2, r * 2);
+      drawDiscShadow(p.x, p.y, r, light, 0.44 + (1 - light.visible) * 0.42);
+      ctx.restore();
+    }
+
+    function drawSun(item, t) {
+      var p = item.proj;
+      var r = item.r;
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+      for (var i = 0; i < 20; i++) {
+        var a = i / 20 * TAU + Math.sin(t * 0.00013 + i) * 0.08;
+        var len = r * (1.35 + Math.sin(t * 0.0009 + i * 2.1) * 0.18 + (i % 5) * 0.075);
+        var x1 = p.x + Math.cos(a) * r * 0.84;
+        var y1 = p.y + Math.sin(a) * r * 0.84;
+        var x2 = p.x + Math.cos(a) * len;
+        var y2 = p.y + Math.sin(a) * len;
+        var gr = ctx.createLinearGradient(x1, y1, x2, y2);
+        gr.addColorStop(0, "rgba(255,232,146,0.42)");
+        gr.addColorStop(1, "rgba(255,90,30,0)");
+        ctx.strokeStyle = gr;
+        ctx.lineWidth = Math.max(0.7, r * (0.018 + (i % 4) * 0.006));
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+      }
+
+      var halo = ctx.createRadialGradient(p.x, p.y, r * 0.2, p.x, p.y, r * 2.8);
+      halo.addColorStop(0, "rgba(255,249,184,0.95)");
+      halo.addColorStop(0.22, "rgba(255,191,75,0.78)");
+      halo.addColorStop(0.55, "rgba(255,112,40,0.28)");
+      halo.addColorStop(1, "rgba(255,89,32,0)");
+      ctx.fillStyle = halo;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r * 2.8, 0, TAU);
+      ctx.fill();
+      ctx.restore();
+
+      ctx.save();
+      var core = ctx.createRadialGradient(p.x - r * 0.28, p.y - r * 0.22, 0, p.x, p.y, r);
+      core.addColorStop(0, "rgba(255,255,216,1)");
+      core.addColorStop(0.24, "rgba(255,224,117,1)");
+      core.addColorStop(0.62, "rgba(255,139,48,1)");
+      core.addColorStop(1, "rgba(174,54,20,1)");
+      ctx.fillStyle = core;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r, 0, TAU);
+      ctx.fill();
+
+      ctx.clip();
+      ctx.globalCompositeOperation = "overlay";
+      for (var j = 0; j < 18; j++) {
+        ctx.strokeStyle = j % 2 ? "rgba(255,247,168,0.2)" : "rgba(156,39,22,0.18)";
+        ctx.lineWidth = Math.max(0.8, r * 0.035);
+        ctx.beginPath();
+        var yy = p.y - r + (j + 0.5) * r * 2 / 18 + Math.sin(t * 0.00045 + j) * r * 0.025;
+        ctx.ellipse(p.x + Math.sin(j) * r * 0.07, yy, r * 0.95, r * 0.09, Math.sin(j * 1.7) * 0.4, 0, TAU);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function drawLabels(items) {
+      if (!state.showLabels) return;
+      ctx.save();
+      ctx.font = "11px Inter, ui-sans-serif, system-ui, sans-serif";
+      ctx.textBaseline = "middle";
+      ctx.lineWidth = 3;
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        if (item.type !== "planet") continue;
+        var r = item.r;
+        if (r < 3) continue;
+        var p = item.proj;
+        var label = item.body.name;
+        var x = p.x + r + 7;
+        var y = p.y - r * 0.45;
+        var alpha = clamp(0.4 + item.proj.persp * 0.32, 0.34, 0.86);
+        ctx.strokeStyle = "rgba(0,0,0,0.65)";
+        ctx.fillStyle = "rgba(224,239,255," + alpha + ")";
+        ctx.strokeText(label, x, y);
+        ctx.fillText(label, x, y);
+      }
+      ctx.restore();
+    }
+
+    function buildItems(days) {
+      var items = [];
+      var sunPos = { x: 0, y: 0, z: 0 };
+      var sunProj = project(sunPos);
+      items.push({ type: "sun", body: SUN, pos: sunPos, proj: sunProj, r: displayRadius({ name: "Sun" }, sunProj), depth: sunProj.depth });
+
+      var planetItems = [];
+      for (var i = 0; i < PLANETS.length; i++) {
+        var body = PLANETS[i];
+        var pos = orbitPosition(body, days);
+        var proj = project(pos);
+        var r = displayRadius(body, proj);
+        var item = { type: "planet", body: body, pos: pos, proj: proj, r: r, depth: proj.depth };
+        items.push(item);
+        planetItems.push(item);
+      }
+
+      for (var p = 0; p < planetItems.length; p++) {
+        var parentItem = planetItems[p];
+        var moons = parentItem.body.moons || [];
+        for (var m = 0; m < moons.length; m++) {
+          var moon = moons[m];
+          var mpos = moonPosition(parentItem.body, moon, parentItem, days);
+          var mproj = project(mpos);
+          var mr = Math.max(0.85, parentItem.r * moon.radius * 0.72 * Math.sqrt(mproj.persp / parentItem.proj.persp));
+          if (parentItem.body.name === "Earth") mr = Math.max(1.45, parentItem.r * 0.23);
+          if (parentItem.body.name === "Jupiter" || parentItem.body.name === "Saturn") mr = Math.max(1.05, mr);
+          items.push({ type: "moon", moon: moon, parent: parentItem.body, pos: mpos, proj: mproj, r: mr, depth: mproj.depth });
+        }
+      }
+
+      items.sort(function (a, b) {
+        return b.depth - a.depth;
+      });
+      return { items: items, planets: planetItems, sun: items.filter(function (x) { return x.type === "sun"; })[0] };
+    }
+
+    function drawFrame(t) {
+      if (!state.lastT) state.lastT = t;
+      var dt = Math.min(0.06, (t - state.lastT) / 1000);
+      state.lastT = t;
+
+      updateControls();
+      if (!state.drag) {
+        state.targetYaw += dt * 0.045;
+        state.targetPitch = clamp(state.targetPitch + Math.sin(t * 0.00008) * dt * 0.012, -1.08, -0.2);
+      }
+      state.yaw += (state.targetYaw - state.yaw) * clamp(dt * 4.5, 0, 1);
+      state.pitch += (state.targetPitch - state.pitch) * clamp(dt * 4.5, 0, 1);
+      state.simDays += dt * state.speed;
+
+      var sunProj = project({ x: 0, y: 0, z: 0 });
+      var sunR = displayRadius({ name: "Sun" }, sunProj);
+      drawSky(t, sunProj, sunR);
+
+      var scene = buildItems(state.simDays);
+
+      if (state.showOrbits) {
+        ctx.save();
+        ctx.globalCompositeOperation = "screen";
+        for (var o = PLANETS.length - 1; o >= 0; o--) {
+          drawOrbit(PLANETS[o]);
+        }
+        ctx.restore();
+      }
+
+      if (state.showTrails) {
+        for (var tr = PLANETS.length - 1; tr >= 0; tr--) {
+          drawTrail(PLANETS[tr], state.simDays);
+        }
+      }
+
+      if (state.showOrbits) {
+        for (var mi = 0; mi < scene.planets.length; mi++) {
+          var parent = scene.planets[mi];
+          var moons = parent.body.moons || [];
+          for (var mj = 0; mj < moons.length; mj++) {
+            if (parent.r * moons[mj].distance > 8) drawMoonOrbit(parent.body, moons[mj], parent);
+          }
+        }
+      }
+
+      for (var i = 0; i < scene.items.length; i++) {
+        var item = scene.items[i];
+        if (item.type === "sun") drawSun(item, t);
+        else if (item.type === "planet") drawPlanet(item, t);
+        else drawMoon(item);
+      }
+
+      drawLabels(scene.items);
+      drawVignette();
+      updateReadouts(dt);
+
+      requestAnimationFrame(drawFrame);
+    }
+
+    function drawVignette() {
+      var r = Math.max(state.w, state.h) * 0.72;
+      var g = ctx.createRadialGradient(state.w * 0.5, state.h * 0.5, r * 0.12, state.w * 0.5, state.h * 0.5, r);
+      g.addColorStop(0, "rgba(0,0,0,0)");
+      g.addColorStop(0.62, "rgba(0,0,0,0.05)");
+      g.addColorStop(1, "rgba(0,0,0,0.62)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, state.w, state.h);
+    }
+
+    function updateReadouts(dt) {
+      state.frames++;
+      state.fpsTime += dt;
+      if (state.fpsTime >= 0.5) {
+        state.fps = state.frames / state.fpsTime;
+        state.frames = 0;
+        state.fpsTime = 0;
+        fpsReadout.textContent = Math.round(state.fps) + " fps";
+      }
+      dateReadout.textContent = "Day " + Math.floor(state.simDays).toLocaleString("en-US");
+    }
+
+    function pointerPos(e) {
+      if (e.touches && e.touches.length) {
+        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+      return { x: e.clientX, y: e.clientY };
+    }
+
+    function startDrag(e) {
+      var p = pointerPos(e);
+      state.drag = true;
+      state.lastX = p.x;
+      state.lastY = p.y;
+    }
+
+    function moveDrag(e) {
+      if (!state.drag) return;
+      var p = pointerPos(e);
+      var dx = p.x - state.lastX;
+      var dy = p.y - state.lastY;
+      state.lastX = p.x;
+      state.lastY = p.y;
+      state.targetYaw += dx * 0.0065;
+      state.targetPitch = clamp(state.targetPitch + dy * 0.0048, -1.15, -0.12);
+      if (e.cancelable) e.preventDefault();
+    }
+
+    function endDrag() {
+      state.drag = false;
+    }
+
+    canvas.addEventListener("mousedown", startDrag);
+    window.addEventListener("mousemove", moveDrag);
+    window.addEventListener("mouseup", endDrag);
+    canvas.addEventListener("touchstart", startDrag, { passive: true });
+    window.addEventListener("touchmove", moveDrag, { passive: false });
+    window.addEventListener("touchend", endDrag);
+    canvas.addEventListener("wheel", function (e) {
+      var next = clamp(parseFloat(scaleInput.value) * (e.deltaY > 0 ? 0.94 : 1.065), parseFloat(scaleInput.min), parseFloat(scaleInput.max));
+      scaleInput.value = next.toFixed(2);
+      updateControls();
+      e.preventDefault();
+    }, { passive: false });
+
+    window.addEventListener("resize", resize);
+    updateControls();
+    resize();
+    requestAnimationFrame(drawFrame);
+  }());
+  </script>
+</body>
+</html>

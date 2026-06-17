@@ -1,0 +1,136 @@
+:root {
+  --glass: rgba(12, 28, 42, 0.46);
+  --glass-brd: rgba(150, 210, 255, 0.18);
+  --ink: #eaf6ff;
+  --ink-dim: rgba(205, 230, 250, 0.66);
+  --accent: #58c7ff;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #03101c;
+  color: var(--ink);
+  font-family: -apple-system, "Segoe UI", Roboto, system-ui, sans-serif;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* HUD ───────────────────────────────────────────── */
+.hud {
+  position: fixed;
+  top: 18px;
+  left: 20px;
+  z-index: 3;
+  pointer-events: none;
+  text-shadow: 0 1px 14px rgba(0, 10, 25, 0.85);
+}
+.hud h1 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 650;
+  letter-spacing: 0.3px;
+}
+.hud p {
+  margin: 5px 0 0;
+  max-width: 32ch;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--ink-dim);
+}
+
+/* Панель управления ──────────────────────────────── */
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 11px 16px;
+  border-radius: 15px;
+  background: var(--glass);
+  border: 1px solid var(--glass-brd);
+  backdrop-filter: blur(13px) saturate(1.25);
+  -webkit-backdrop-filter: blur(13px) saturate(1.25);
+  box-shadow: 0 12px 40px rgba(0, 8, 20, 0.5);
+  font-size: 13px;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--glass-brd);
+  background: rgba(70, 150, 210, 0.16);
+  color: var(--ink);
+  font: inherit;
+  padding: 7px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn:hover { background: rgba(90, 175, 235, 0.28); }
+.btn[aria-pressed="true"] {
+  background: rgba(88, 199, 255, 0.26);
+  border-color: rgba(120, 215, 255, 0.5);
+}
+
+.ctl {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: var(--ink-dim);
+  user-select: none;
+}
+.ctl span { white-space: nowrap; }
+.ctl b { color: var(--ink); font-weight: 600; }
+
+.ctl input[type="range"] {
+  appearance: none;
+  width: 116px;
+  height: 4px;
+  border-radius: 3px;
+  background: rgba(150, 200, 235, 0.25);
+  outline: none;
+}
+.ctl input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(88, 199, 255, 0.7);
+}
+.ctl input[type="range"]::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+}
+
+.ctl--toggle {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.ctl--toggle input { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+
+@media (max-width: 560px) {
+  .panel { gap: 11px; padding: 9px 12px; flex-wrap: wrap; justify-content: center; max-width: calc(100vw - 24px); }
+  .ctl input[type="range"] { width: 92px; }
+  .hud p { display: none; }
+}

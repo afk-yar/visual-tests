@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Particle Flow Field</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #01020a;
+    }
+
+    body {
+      position: fixed;
+      inset: 0;
+    }
+
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      background: #01020a;
+      image-rendering: auto;
+      touch-action: none;
+    }
+  </style>
+</head>
+<body>
+<canvas id="field" aria-label="Realtime three-dimensional particle flow"></canvas>
+<script>
+(function () {
+  "use strict";
+
+  var canvas = document.getElementById("field");
+  var ctx = canvas.getContext("2d", {
+    alpha: false,
+    desynchronized: true
+  });
+
+  var TAU = Math.PI * 2;
+  var W = 1;
+  var H = 1;
+  var stride = 4;
+  var halfW = 0;
+  var halfH = 0;
+  var focal = 600;
+  var imageData = null;
+  var pixels = null;
+  var hazeR = null;
+  var hazeG = null;
+  var hazeB = null;
+  var vignette = null;
+  var coreGlow = null;
+
+  var count = 0;
+  var activeCount = 0;
+  var posX = null;
+  var posY = null;
+  var posZ = null;
+  var life = null;
+  var phase = null;
+
+  var rngState = 0x3d20adea;
+  var lastTime = 0;
+  var frameMs = 16.7;
+  var pointerX = 0.5;
+  var pointerY = 0.5;
+  var pointerHeat = 0;
+  var running = true;
+
+  function rand() {
+    rngState = (rngState + 0x6D2B79F5) | 0;
+    var t = rngState;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  }
+
+  function clamp(v, lo, hi) {
+    return v < lo ? lo : (v > hi ? hi : v);
+  }
+
+  function spawn(i, wide) {
+    var a = rand() * TAU;
+    var b = Math.acos(rand() * 2 - 1);
+    var shell = wide ? 3.15 + rand() * 1.1 : Math.pow(rand(), 0.42) * 3.15;
+    var ring = 0.66 + 0.28 * Math.sin(a * 3.0 + rand() * TAU);
+
+    posX[i] = Math.cos(a) * Math.sin(b) * shell * ring;
+    posY[i] = Math.cos(b) * shell * 0.72 + (rand() - 0.5) * 0.7;
+    posZ[i] = Math.sin(a) * Math.sin(b) * shell;
+    life[i] = 340 + rand() * 760;
+    phase[i] = rand() * TAU;
+  }
+
+  function makeHaze() {
+    var n = W * H;
+    hazeR = new Uint8Array(n);
+    hazeG = new Uint8Array(n);
+    hazeB = new Uint8Array(n);
+
+    for (var y = 0; y < H; y++) {
+      var ny = (y - halfH) / Math.max(1, halfH);
+      for (var x = 0; x < W; x++) {
+        var nx = (x - halfW) / Math.max(1, halfW);
+        var r2 = nx * nx + ny * ny;
+        var core = Math.exp(-r2 * 1.95);
+        var band = Math.exp(-Math.pow(ny * 1.75 + Math.sin(nx * 3.2) * 0.16, 2.0) * 4.3);
+        var rim = Math.exp(-Math.pow(Math.sqrt(r2) - 0.72, 2.0) * 10.0);
+        var i = y * W + x;
+        hazeR[i] = (0.22 + core * 0.72 + band * 0.36 + rim * 0.18) | 0;
+        hazeG[i] = (0.35 + core * 0.78 + band * 0.72) | 0;
+        hazeB[i] = (0.55 + core * 1.45 + band * 0.92 + rim * 0.38) | 0;
+      }
+    }
+
+    vignette = ctx.createRadialGradient(halfW, halfH, Math.min(W, H) * 0.12, halfW, halfH, Math.max(W, H) * 0.68);
+    vignette.addColorStop(0.0, "rgba(0,0,0,0)");
+    vignette.addColorStop(0.57, "rgba(0,0,0,0.08)");
+    vignette.addColorStop(1.0, "rgba(0,0,10,0.56)");
+
+    coreGlow = ctx.createRadialGradient(halfW, halfH, 0, halfW, halfH, Math.min(W, H) * 0.72);
+    coreGlow.addColorStop(0.0, "rgba(82, 190, 255, 0.065)");
+    coreGlow.addColorStop(0.28, "rgba(174, 76, 255, 0.035)");
+    coreGlow.addColorStop(0.62, "rgba(15, 110, 166, 0.018)");
+    coreGlow.addColorStop(1.0, "rgba(0,0,0,0)");
+  }
+
+  function allocateParticles(nextCount) {
+    count = nextCount;
+    activeCount = nextCount;
+    posX = new Float32Array(count);
+    posY = new Float32Array(count);
+    posZ = new Float32Array(count);
+    life = new Float32Array(count);
+    phase = new Float32Array(count);
+
+    for (var i = 0; i < count; i++) {
+      spawn(i, i % 5 === 0);
+    }
+  }
+
+  function resize() {
+    var cssW = Math.max(1, window.innerWidth || document.documentElement.clientWidth || 1);
+    var cssH = Math.max(1, window.innerHeight || document.documentElement.clientHeight || 1);
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    var maxPixels = 920000;
+    var scale = Math.min(dpr, Math.sqrt(maxPixels / (cssW * cssH)));
+    scale = Math.max(0.18, Math.min(1.35, scale));
+
+    W = Math.max(320, Math.round(cssW * scale));
+    H = Math.max(220, Math.round(cssH * scale));
+    halfW = W * 0.5;
+    halfH = H * 0.5;
+    stride = W * 4;
+    focal = Math.min(W, H) * 0.92;
+
+    canvas.width = W;
+    canvas.height = H;
+    canvas.style.width = "100vw";
+    canvas.style.height = "100vh";
+    ctx.imageSmoothingEnabled = true;
+
+    imageData = ctx.createImageData(W, H);
+    pixels = imageData.data;
+    for (var p = 3; p < pixels.length; p += 4) {
+      pixels[p] = 255;
+    }
+    makeHaze();
+
+    var pixelCount = W * H;
+    var minCount = Math.min(cssW, cssH) < 560 ? 36000 : 46000;
+    var maxCount = Math.min(cssW, cssH) < 560 ? 56000 : 68000;
+    var nextCount = clamp(Math.round(pixelCount / 17), minCount, maxCount);
+    allocateParticles(nextCount);
+  }
+
+  function fadeBuffer(time) {
+    var fade = 239 + ((Math.sin(time * 0.31) + 1.0) * 2.5 | 0);
+    var d = pixels;
+    var n = W * H;
+    for (var i = 0, p = 0; i < n; i++, p += 4) {
+      var r = ((d[p] * fade) >> 8) + hazeR[i];
+      var g = ((d[p + 1] * fade) >> 8) + hazeG[i];
+      var b = ((d[p + 2] * fade) >> 8) + hazeB[i];
+      d[p] = r > 255 ? 255 : r;
+      d[p + 1] = g > 255 ? 255 : g;
+      d[p + 2] = b > 255 ? 255 : b;
+    }
+  }
+
+  function addRGB(index, r, g, b) {
+    var v = pixels[index] + r;
+    pixels[index] = v > 255 ? 255 : v;
+    v = pixels[index + 1] + g;
+    pixels[index + 1] = v > 255 ? 255 : v;
+    v = pixels[index + 2] + b;
+    pixels[index + 2] = v > 255 ? 255 : v;
+  }
+
+  function renderParticles(time, dt) {
+    var yaw = time * 0.072 + Math.sin(time * 0.047) * 0.42;
+    var pitch = 0.31 + Math.sin(time * 0.063) * 0.16;
+    var roll = Math.sin(time * 0.041) * 0.105;
+    var cy = Math.cos(yaw);
+    var sy = Math.sin(yaw);
+    var cp = Math.cos(pitch);
+    var sp = Math.sin(pitch);
+    var cr = Math.cos(roll);
+    var sr = Math.sin(roll);
+
+    var fA = 1.18 + Math.sin(time * 0.09) * 0.09;
+    var fB = 1.87 + Math.cos(time * 0.07) * 0.08;
+    var halfB = fB * 0.5;
+    var t0 = time * 0.63;
+    var t1 = time * 0.51 + 2.1;
+    var t2 = time * 0.58 + 4.2;
+    var t3 = time * 0.44 + 1.3;
+    var t4 = time * 0.49 + 3.6;
+    var t5 = time * 0.55 + 5.4;
+    var cameraZ = 7.35 + Math.sin(time * 0.12) * 0.34;
+    var step = dt * (0.66 + Math.sin(time * 0.19) * 0.045);
+    var d = pixels;
+    var w = W;
+    var h = H;
+    var localStride = stride;
+    var mouseKick = pointerHeat * 0.17;
+    var pxCenter = (pointerX - 0.5) * 1.9;
+    var pyCenter = (pointerY - 0.5) * -1.45;
+
+    for (var i = 0; i < activeCount; i++) {
+      var x = posX[i];
+      var y = posY[i];
+      var z = posZ[i];
+      var ph = phase[i];
+
+      var vx = -halfB * Math.sin(y * fB - t5 + ph * 0.12) - fA * Math.cos(z * fA + t2);
+      var vy = -halfB * Math.sin(z * fB - t1) - fA * Math.cos(x * fA + t4 + ph * 0.07);
+      var vz = -halfB * Math.sin(x * fB + t3) - fA * Math.cos(y * fA + t0 - ph * 0.09);
+
+      var r2 = x * x + y * y + z * z;
+      var inv = 1.0 / (0.42 + r2);
+      var torq = 0.76 * inv + 0.028 * Math.sin(y * 2.7 + time * 1.25);
+      vx += -z * torq + (3.2 - r2) * x * 0.010;
+      vz += x * torq + (3.2 - r2) * z * 0.010;
+      vy += (Math.sin((x - z) * 0.92 + time * 0.83) * 0.20) - y * 0.018;
+
+      if (mouseKick > 0.001) {
+        var mx = x - pxCenter * 2.7;
+        var my = y - pyCenter * 2.1;
+        var m = mouseKick / (0.55 + mx * mx + my * my + z * z * 0.24);
+        vx += -my * m + z * m * 0.24;
+        vy += mx * m;
+        vz += Math.sin(ph + time) * m * 0.65;
+      }
+
+      x += vx * step;
+      y += vy * step;
+      z += vz * step;
+      life[i] -= 1.0 + step * 9.0;
+
+      if (life[i] <= 0 || x * x + y * y + z * z > 22.5) {
+        spawn(i, true);
+        continue;
+      }
+
+      posX[i] = x;
+      posY[i] = y;
+      posZ[i] = z;
+
+      var x1 = x * cy - z * sy;
+      var z1 = x * sy + z * cy;
+      var y1 = y * cp - z1 * sp;
+      var z2 = y * sp + z1 * cp;
+      var xr = x1 * cr - y1 * sr;
+      var yr = x1 * sr + y1 * cr;
+      var depth = z2 + cameraZ;
+
+      if (depth <= 1.35 || depth > 12.8) {
+        continue;
+      }
+
+      var proj = focal / depth;
+      var sx = halfW + xr * proj;
+      var sy2 = halfH + yr * proj;
+      var ix = sx | 0;
+      var iy = sy2 | 0;
+
+      if (ix < 2 || ix >= w - 2 || iy < 2 || iy >= h - 2) {
+        continue;
+      }
+
+      var speed = Math.sqrt(vx * vx + vy * vy + vz * vz);
+      var near = clamp((8.9 - depth) * 0.142, 0, 1);
+      var hot = clamp(speed * 0.37, 0, 1);
+      var chroma = 0.5 + 0.5 * Math.sin(ph + time * 0.74 + z * 1.35);
+      var power = 0.26 + hot * 0.62 + near * 0.54;
+      var rr = (22 + near * 86 + hot * 138 + chroma * near * 62) * power;
+      var gg = (72 + (1 - near) * 68 + hot * 82 + (1 - chroma) * 28) * power;
+      var bb = (150 + (1 - near) * 78 + hot * 54 + chroma * 42) * power;
+
+      if (hot > 0.72) {
+        var white = (hot - 0.72) * 120;
+        rr += white;
+        gg += white * 0.86;
+        bb += white * 0.56;
+      }
+
+      var r = rr | 0;
+      var g = gg | 0;
+      var b = bb | 0;
+      var idx = (iy * w + ix) << 2;
+      var tier = near + hot * 0.38;
+
+      var v = d[idx] + r;
+      d[idx] = v > 255 ? 255 : v;
+      v = d[idx + 1] + g;
+      d[idx + 1] = v > 255 ? 255 : v;
+      v = d[idx + 2] + b;
+      d[idx + 2] = v > 255 ? 255 : v;
+
+      var r1 = (r * 0.42) | 0;
+      var g1 = (g * 0.42) | 0;
+      var b1 = (b * 0.42) | 0;
+      addRGB(idx - 4, r1, g1, b1);
+      addRGB(idx + 4, r1, g1, b1);
+      addRGB(idx - localStride, r1, g1, b1);
+      addRGB(idx + localStride, r1, g1, b1);
+
+      if (tier > 0.86) {
+        var r2c = (r * 0.20) | 0;
+        var g2c = (g * 0.20) | 0;
+        var b2c = (b * 0.20) | 0;
+        addRGB(idx - localStride - 4, r2c, g2c, b2c);
+        addRGB(idx - localStride + 4, r2c, g2c, b2c);
+        addRGB(idx + localStride - 4, r2c, g2c, b2c);
+        addRGB(idx + localStride + 4, r2c, g2c, b2c);
+      }
+
+      if (tier > 1.14) {
+        var r3 = (r * 0.105) | 0;
+        var g3 = (g * 0.105) | 0;
+        var b3 = (b * 0.105) | 0;
+        addRGB(idx - 8, r3, g3, b3);
+        addRGB(idx + 8, r3, g3, b3);
+        addRGB(idx - localStride * 2, r3, g3, b3);
+        addRGB(idx + localStride * 2, r3, g3, b3);
+      }
+    }
+  }
+
+  function present(time) {
+    ctx.putImageData(imageData, 0, 0);
+
+    ctx.save();
+    ctx.globalCompositeOperation = "screen";
+    ctx.fillStyle = coreGlow;
+    ctx.fillRect(0, 0, W, H);
+    ctx.restore();
+
+    ctx.save();
+    ctx.globalCompositeOperation = "lighter";
+    ctx.globalAlpha = 0.22;
+    ctx.filter = "blur(" + Math.max(4, Math.min(11, Math.min(W, H) * 0.011)) + "px) saturate(155%)";
+    ctx.drawImage(canvas, 0, 0);
+    ctx.restore();
+
+    ctx.save();
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = vignette;
+    ctx.fillRect(0, 0, W, H);
+    ctx.restore();
+
+    if ((time * 10 | 0) % 7 === 0) {
+      var grad = ctx.createRadialGradient(halfW * (0.84 + Math.sin(time * 0.21) * 0.08), halfH * 0.52, 0, halfW, halfH, Math.min(W, H) * 0.9);
+      grad.addColorStop(0, "rgba(255, 210, 155, 0.018)");
+      grad.addColorStop(0.32, "rgba(111, 214, 255, 0.010)");
+      grad.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+      ctx.restore();
+    }
+  }
+
+  function animate(now) {
+    if (!running) {
+      return;
+    }
+
+    if (!lastTime) {
+      lastTime = now;
+    }
+
+    var dtMs = Math.min(40, Math.max(8, now - lastTime));
+    lastTime = now;
+    frameMs = frameMs * 0.94 + dtMs * 0.06;
+    var dt = dtMs / 1000;
+    var time = now * 0.001;
+
+    if (frameMs > 25.5 && activeCount > Math.max(34000, count * 0.68)) {
+      activeCount -= 320;
+    } else if (frameMs < 18.2 && activeCount < count) {
+      activeCount += 180;
+      if (activeCount > count) {
+        activeCount = count;
+      }
+    }
+
+    pointerHeat *= 0.965;
+    fadeBuffer(time);
+    renderParticles(time, dt);
+    present(time);
+
+    requestAnimationFrame(animate);
+  }
+
+  function trackPointer(x, y) {
+    var rect = canvas.getBoundingClientRect();
+    pointerX = clamp((x - rect.left) / Math.max(1, rect.width), 0, 1);
+    pointerY = clamp((y - rect.top) / Math.max(1, rect.height), 0, 1);
+    pointerHeat = Math.min(1, pointerHeat + 0.16);
+  }
+
+  window.addEventListener("resize", resize, { passive: true });
+  window.addEventListener("pointermove", function (event) {
+    trackPointer(event.clientX, event.clientY);
+  }, { passive: true });
+  window.addEventListener("pointerdown", function (event) {
+    trackPointer(event.clientX, event.clientY);
+    pointerHeat = 1;
+  }, { passive: true });
+  document.addEventListener("visibilitychange", function () {
+    running = !document.hidden;
+    if (running) {
+      lastTime = 0;
+      requestAnimationFrame(animate);
+    }
+  });
+
+  resize();
+  requestAnimationFrame(animate);
+})();
+</script>
+</body>
+</html>

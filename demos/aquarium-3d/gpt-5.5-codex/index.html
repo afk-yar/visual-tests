@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>«3D-аквариум» — GPT-5.5 Codex</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scene" aria-label="Процедурный 3D-аквариум на 2D canvas"></canvas>
+
+  <header class="hud">
+    <h1>3D-аквариум</h1>
+    <p>Ручная перспектива, painter-sort, глубина, туман и живые стаи рыб.</p>
+  </header>
+
+  <section class="panel" aria-label="Параметры аквариума">
+    <button id="pauseBtn" type="button" aria-pressed="false">Пауза</button>
+    <label>
+      Камера
+      <input id="cameraRange" type="range" min="0" max="100" value="72">
+    </label>
+    <label>
+      Туман
+      <input id="fogRange" type="range" min="0" max="100" value="62">
+    </label>
+    <label>
+      Стая
+      <input id="schoolRange" type="range" min="0" max="100" value="76">
+    </label>
+  </section>
+
+  <script src="main.js"></script>
+</body>
+</html>

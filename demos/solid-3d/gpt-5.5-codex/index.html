@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CPU Solid 3D</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scene" aria-label="CPU 3D renderer"></canvas>
+
+  <section class="panel" aria-label="Renderer controls">
+    <div class="title-row">
+      <div>
+        <h1>CPU 3D</h1>
+        <p>Canvas 2D</p>
+      </div>
+      <output id="fps">-- fps</output>
+    </div>
+
+    <div class="control-row">
+      <label class="switch">
+        <input id="fillToggle" type="checkbox" checked>
+        <span>Заливка</span>
+      </label>
+      <label class="switch">
+        <input id="wireToggle" type="checkbox" checked>
+        <span>Каркас</span>
+      </label>
+    </div>
+
+    <div class="segmented" role="radiogroup" aria-label="Shading mode">
+      <label>
+        <input type="radio" name="shade" value="flat">
+        <span>Плоское</span>
+      </label>
+      <label>
+        <input type="radio" name="shade" value="gouraud" checked>
+        <span>Гуро</span>
+      </label>
+    </div>
+
+    <div class="meter">
+      <span id="meshInfo">0 tris</span>
+      <span>Z-buffer</span>
+    </div>
+  </section>
+
+  <script src="main.js"></script>
+</body>
+</html>
