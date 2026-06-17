@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>«Аналоговые часы» — Claude Opus 4.8</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="clock"></canvas>
+
+  <div class="hud">
+    <h1>Аналоговые часы</h1>
+    <p>Настенные часы — реальное системное время</p>
+  </div>
+
+  <div class="panel">
+    <div class="group">
+      <span class="lbl">Ход</span>
+      <div class="seg" data-act="motion">
+        <button data-val="tick" class="on">Тики</button>
+        <button data-val="sweep">Плавный</button>
+      </div>
+    </div>
+    <div class="group">
+      <span class="lbl">Цифры</span>
+      <div class="seg" data-act="numerals">
+        <button data-val="arabic" class="on">Арабские</button>
+        <button data-val="roman">Римские</button>
+      </div>
+    </div>
+    <div class="group">
+      <span class="lbl">Циферблат</span>
+      <div class="seg" data-act="theme">
+        <button data-val="classic" class="on">Классика</button>
+        <button data-val="dark">Тёмный</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

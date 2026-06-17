@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>«Аналоговые часы» — GPT-5.5 Codex</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="clockCanvas" aria-label="Аналоговые настенные часы"></canvas>
+
+  <header class="hud" aria-hidden="true">
+    <div class="hud__title">Аналоговые часы</div>
+    <div class="hud__subtitle">металлический корпус, стекло, реальное системное время</div>
+  </header>
+
+  <form class="controls" aria-label="Настройки часов">
+    <fieldset class="control-group">
+      <legend>Секундная</legend>
+      <label>
+        <input type="radio" name="secondsMode" value="sweep" checked>
+        <span>sweep</span>
+      </label>
+      <label>
+        <input type="radio" name="secondsMode" value="tick">
+        <span>тик</span>
+      </label>
+    </fieldset>
+
+    <fieldset class="control-group">
+      <legend>Цифры</legend>
+      <label>
+        <input type="radio" name="numerals" value="arabic" checked>
+        <span>12</span>
+      </label>
+      <label>
+        <input type="radio" name="numerals" value="roman">
+        <span>XII</span>
+      </label>
+    </fieldset>
+
+    <fieldset class="control-group">
+      <legend>Циферблат</legend>
+      <label>
+        <input type="radio" name="theme" value="pearl" checked>
+        <span>светлый</span>
+      </label>
+      <label>
+        <input type="radio" name="theme" value="midnight">
+        <span>тёмный</span>
+      </label>
+    </fieldset>
+  </form>
+
+  <script src="main.js"></script>
+</body>
+</html>
