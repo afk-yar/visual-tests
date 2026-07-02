@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«3D-аквариум» — Claude Fable 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div class="hud">
+  <h1>3D-аквариум</h1>
+  <p>Ручная перспективная проекция на canvas 2D — без WebGL и библиотек.
+     Стайка неонов, скалярии и золотые барбусы в объёмной воде.</p>
+</div>
+
+<div class="panel">
+  <button id="btnPause" type="button">⏸ Пауза</button>
+  <label class="ctl">
+    <span>Скорость</span>
+    <input id="speed" type="range" min="20" max="220" value="100">
+  </label>
+  <label class="ctl">
+    <span>Рыбы: <b id="fishCountLabel">17</b></span>
+    <input id="fishCount" type="range" min="6" max="34" value="17">
+  </label>
+  <label class="chk">
+    <input id="orbit" type="checkbox" checked>
+    <span>Облёт камеры</span>
+  </label>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

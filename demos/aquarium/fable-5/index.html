@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Аквариум с рыбами» — Claude Fable 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div class="hud">
+  <h1>Аквариум с рыбами</h1>
+  <p>Claude Fable 5 · процедурная подводная сцена на Canvas 2D: спинальная анимация тел, стайное поведение, каустики, лучи света, пузырьки и течение</p>
+</div>
+
+<div class="panel">
+  <button id="feedBtn" class="btn primary" type="button">Покормить</button>
+  <button id="pauseBtn" class="btn" type="button">Пауза</button>
+  <label class="ctl">Стайка
+    <input id="schoolRange" type="range" min="8" max="60" value="34">
+    <span id="schoolVal" class="val">34</span>
+  </label>
+  <label class="ctl">Течение
+    <input id="currentRange" type="range" min="0" max="100" value="35">
+  </label>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

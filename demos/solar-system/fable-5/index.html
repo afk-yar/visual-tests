@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Солнечная система» — Claude Fable 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div id="vignette"></div>
+
+<div id="hud">
+  <h1>Солнечная система</h1>
+  <p>Claude Fable 5 · 8 планет на эллиптических орбитах, кольца Сатурна, 6 лун</p>
+  <p class="hint">Перетаскивай мышью — вращение · колесо — масштаб</p>
+</div>
+
+<div id="panel">
+  <button id="btnPause" class="btn" title="Пауза / пуск">⏸ Пауза</button>
+  <div class="ctl">
+    <label for="speed">Скорость <span id="speedVal">×1</span></label>
+    <input id="speed" type="range" min="-1" max="2.2" step="0.01" value="0">
+  </div>
+  <div class="ctl">
+    <label for="zoom">Масштаб <span id="zoomVal">×0.75</span></label>
+    <input id="zoom" type="range" min="0.3" max="3.5" step="0.01" value="0.75">
+  </div>
+  <div class="chips">
+    <button class="chip on" id="tglTrails">Следы</button>
+    <button class="chip on" id="tglOrbits">Орбиты</button>
+    <button class="chip on" id="tglLabels">Подписи</button>
+    <button class="chip on" id="tglSpin">Автооблёт</button>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

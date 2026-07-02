@@ -1,0 +1,165 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #04060d;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: #dfe8f5;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+}
+#scene.dragging { cursor: grabbing; }
+
+/* ---------- HUD ---------- */
+.hud {
+  position: fixed;
+  top: 18px;
+  left: 20px;
+  max-width: 420px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(9, 14, 26, 0.55);
+  border: 1px solid rgba(150, 190, 255, 0.14);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  pointer-events: none;
+}
+.hud h1 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  color: #eaf2ff;
+  text-shadow: 0 0 14px rgba(90, 150, 255, 0.35);
+}
+.hud p {
+  margin: 5px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #9db2d0;
+}
+
+/* ---------- панель управления ---------- */
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: calc(100vw - 24px);
+  padding: 10px 16px;
+  border-radius: 16px;
+  background: rgba(9, 14, 26, 0.58);
+  border: 1px solid rgba(150, 190, 255, 0.14);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+  font-size: 12px;
+}
+
+.panel button {
+  font: inherit;
+  color: #eaf2ff;
+  background: rgba(80, 130, 220, 0.22);
+  border: 1px solid rgba(150, 190, 255, 0.3);
+  border-radius: 10px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.panel button:hover { background: rgba(100, 155, 245, 0.34); }
+
+.ctl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #b8c8e2;
+  white-space: nowrap;
+}
+.ctl input[type="range"] {
+  width: 96px;
+  accent-color: #7ab8ff;
+}
+
+.chk {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #b8c8e2;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.chk input { accent-color: #7ab8ff; }
+
+.hint {
+  color: #7488a8;
+  font-size: 11px;
+}
+
+/* ---------- экран генерации ---------- */
+#load {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 45%, #0a1224 0%, #04060d 70%);
+  z-index: 10;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+#load.done {
+  opacity: 0;
+  pointer-events: none;
+}
+.load-box {
+  width: min(320px, 70vw);
+  text-align: center;
+}
+.load-title {
+  font-size: 14px;
+  letter-spacing: 0.6px;
+  color: #cfe0f8;
+  margin-bottom: 12px;
+}
+.load-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(120, 160, 230, 0.15);
+  overflow: hidden;
+}
+#loadFill {
+  height: 100%;
+  width: 0%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #3d7bd6, #8fc1ff);
+  box-shadow: 0 0 12px rgba(120, 180, 255, 0.7);
+  transition: width 0.12s linear;
+}
+.load-note {
+  margin-top: 10px;
+  font-size: 11px;
+  color: #6d82a3;
+}
+
+@media (max-width: 760px) {
+  .hint { display: none; }
+  .hud { max-width: 300px; }
+}

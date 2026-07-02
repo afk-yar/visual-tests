@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Поток частиц 3D» — Claude Fable 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+
+<header class="hud">
+  <h1>Поток частиц 3D</h1>
+  <p class="sub">Curl-noise · десятки тысяч частиц · аддитивное свечение · Canvas 2D</p>
+  <p class="stats" id="stats">инициализация…</p>
+  <p class="hint">Тяните мышью — обзор · колесо — приближение · пробел — пауза</p>
+</header>
+
+<footer class="panel">
+  <div class="ctl">
+    <label for="ctl-count">Частицы <output id="out-count">30 000</output></label>
+    <input type="range" id="ctl-count" min="10000" max="80000" step="5000" value="30000">
+  </div>
+  <div class="ctl">
+    <label for="ctl-flow">Скорость <output id="out-flow">×1.00</output></label>
+    <input type="range" id="ctl-flow" min="0.2" max="2.5" step="0.05" value="1">
+  </div>
+  <div class="ctl">
+    <label for="ctl-trails">Шлейфы <output id="out-trails">55%</output></label>
+    <input type="range" id="ctl-trails" min="0" max="1" step="0.05" value="0.55">
+  </div>
+  <div class="ctl">
+    <label for="ctl-glow">Свечение <output id="out-glow">80%</output></label>
+    <input type="range" id="ctl-glow" min="0" max="1.5" step="0.05" value="0.8">
+  </div>
+  <div class="ctl ctl-mode">
+    <span class="lbl">Цвет</span>
+    <div class="seg">
+      <button id="btn-speed" class="active" type="button">Скорость</button>
+      <button id="btn-depth" type="button">Глубина</button>
+    </div>
+  </div>
+  <button id="btn-pause" class="pause" type="button">⏸ Пауза</button>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

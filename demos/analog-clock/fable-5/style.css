@@ -1,0 +1,132 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+  background: #b7b1a2;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#clock {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* HUD: заголовок и подпись сверху-слева */
+.hud {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  max-width: min(430px, calc(100vw - 32px));
+  padding: 11px 16px 12px;
+  border-radius: 14px;
+  background: rgba(24, 26, 31, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 10px 28px rgba(15, 14, 10, 0.28);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #f3f4f6;
+}
+
+.hud h1 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.hud p {
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: rgba(243, 244, 246, 0.72);
+}
+
+/* Стеклянная панель управления внизу */
+.panel {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 14px;
+  max-width: calc(100vw - 24px);
+  box-sizing: border-box;
+  padding: 10px 16px;
+  border-radius: 16px;
+  background: rgba(24, 26, 31, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 10px 28px rgba(15, 14, 10, 0.28);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.panel__label {
+  font-size: 13px;
+  color: rgba(243, 244, 246, 0.8);
+  white-space: nowrap;
+}
+
+.seg {
+  display: flex;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.seg__btn {
+  appearance: none;
+  border: 0;
+  margin: 0;
+  padding: 6px 13px;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(243, 244, 246, 0.72);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.seg__btn:hover {
+  color: #ffffff;
+}
+
+.seg__btn:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.65);
+  outline-offset: 1px;
+}
+
+.seg__btn[aria-pressed="true"] {
+  background: rgba(255, 255, 255, 0.92);
+  color: #17181c;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .hud {
+    padding: 9px 13px 10px;
+  }
+
+  .hud h1 {
+    font-size: 15px;
+  }
+
+  .hud p {
+    font-size: 11.5px;
+  }
+}

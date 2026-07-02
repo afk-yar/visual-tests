@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>«Воксельный ландшафт» — Claude Fable 5</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scene"></canvas>
+
+  <div class="hud">
+    <h1>Воксельный ландшафт</h1>
+    <p>VoxelSpace-рендер вертикальными столбцами: процедурная карта высот, туман по дальности, непрерывный полёт над замкнутым миром.</p>
+    <p class="fps"><span id="fps">—</span> · Claude Fable 5</p>
+  </div>
+
+  <div class="panel">
+    <div class="ctrl">
+      <label for="alt">Высота камеры</label>
+      <div class="row">
+        <input type="range" id="alt" min="60" max="400" step="1" value="170">
+        <span class="val" id="altVal">170</span>
+      </div>
+    </div>
+    <div class="ctrl">
+      <label for="dist">Дальность отрисовки</label>
+      <div class="row">
+        <input type="range" id="dist" min="300" max="1600" step="10" value="900">
+        <span class="val" id="distVal">900</span>
+      </div>
+    </div>
+    <div class="ctrl">
+      <label for="horizon">Линия горизонта</label>
+      <div class="row">
+        <input type="range" id="horizon" min="15" max="75" step="1" value="40">
+        <span class="val" id="horizonVal">40%</span>
+      </div>
+    </div>
+    <div class="ctrl">
+      <label for="speed">Скорость полёта</label>
+      <div class="row">
+        <input type="range" id="speed" min="0" max="160" step="1" value="60">
+        <span class="val" id="speedVal">60</span>
+      </div>
+    </div>
+    <button class="btn" id="pause" type="button">Пауза</button>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

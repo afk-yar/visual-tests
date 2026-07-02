@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«3D-тело (софт-рендер)» — Claude Fable 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<header class="hud">
+  <h1>3D-тело (софт-рендер)</h1>
+  <p>Тор на «голом» canvas: матрицы поворота → перспективная проекция → отсечение
+     нелицевых граней → z-буфер. Точечный источник света (Ламберт + Блинн),
+     плоское и гладкое (Гуро) затенение. Тяните мышью, чтобы довернуть.</p>
+  <p class="stats" id="stats">—</p>
+</header>
+
+<div class="panel">
+  <div class="group">
+    <span class="label">Режим</span>
+    <div class="seg" id="segMode">
+      <button type="button" data-v="fill" class="active">Заливка</button>
+      <button type="button" data-v="wire">Каркас</button>
+    </div>
+  </div>
+  <div class="group" id="groupShade">
+    <span class="label">Затенение</span>
+    <div class="seg" id="segShade">
+      <button type="button" data-v="flat">Плоское</button>
+      <button type="button" data-v="gouraud" class="active">Гуро</button>
+    </div>
+  </div>
+  <div class="group">
+    <span class="label">Детализация</span>
+    <div class="seg" id="segDetail">
+      <button type="button" data-v="0">Низкая</button>
+      <button type="button" data-v="1" class="active">Средняя</button>
+      <button type="button" data-v="2">Высокая</button>
+    </div>
+  </div>
+  <div class="group">
+    <span class="label">Скорость</span>
+    <input type="range" id="speed" min="0" max="2.5" step="0.05" value="1" aria-label="Скорость вращения">
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #02222e;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: #eaf6fb;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* HUD сверху-слева */
+.hud {
+  position: fixed;
+  top: 16px;
+  left: 18px;
+  pointer-events: none;
+  text-shadow: 0 1px 4px rgba(0, 12, 24, 0.7);
+}
+
+.hud h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+.hud p {
+  margin: 5px 0 0;
+  font-size: 12.5px;
+  opacity: 0.78;
+  max-width: 400px;
+  line-height: 1.45;
+}
+
+/* стеклянная панель с контролами внизу */
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 10px 16px;
+  max-width: calc(100% - 24px);
+  box-sizing: border-box;
+  background: rgba(10, 30, 48, 0.45);
+  border: 1px solid rgba(160, 220, 255, 0.18);
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  font-size: 12.5px;
+  user-select: none;
+}
+
+.btn {
+  font: inherit;
+  color: #eaf6fb;
+  background: rgba(120, 200, 240, 0.12);
+  border: 1px solid rgba(160, 220, 255, 0.25);
+  padding: 6px 14px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.05s;
+}
+
+.btn:hover { background: rgba(140, 215, 255, 0.22); }
+.btn:active { transform: translateY(1px); }
+
+.btn.primary {
+  background: rgba(255, 190, 90, 0.18);
+  border-color: rgba(255, 205, 120, 0.4);
+}
+.btn.primary:hover { background: rgba(255, 200, 110, 0.3); }
+
+.ctl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.92;
+  white-space: nowrap;
+}
+
+.ctl input[type="range"] {
+  width: 110px;
+  accent-color: #6fd3ff;
+}
+
+.ctl .val {
+  min-width: 2ch;
+  text-align: right;
+  opacity: 0.8;
+}

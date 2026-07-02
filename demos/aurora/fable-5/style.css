@@ -1,0 +1,107 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #02040c;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: #dfe8f2;
+  -webkit-font-smoothing: antialiased;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hud {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  padding: 12px 16px;
+  background: rgba(8, 14, 26, 0.55);
+  border: 1px solid rgba(140, 180, 220, 0.18);
+  border-radius: 14px;
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+  max-width: min(440px, calc(100vw - 32px));
+  user-select: none;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.hud h1 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+.hud p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: rgba(205, 220, 238, 0.75);
+}
+
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px 18px;
+  background: rgba(8, 14, 26, 0.55);
+  border: 1px solid rgba(140, 180, 220, 0.18);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  max-width: calc(100vw - 24px);
+  box-sizing: border-box;
+  user-select: none;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.ctl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: rgba(210, 225, 240, 0.85);
+  white-space: nowrap;
+}
+
+.ctl input[type="range"] {
+  width: 110px;
+  accent-color: #5ee8a8;
+}
+
+.ctl input[type="range"]:focus-visible,
+#pause:focus-visible {
+  outline: 2px solid rgba(94, 232, 168, 0.8);
+  outline-offset: 2px;
+}
+
+#pause {
+  font: inherit;
+  font-size: 12.5px;
+  color: #eaf4ff;
+  background: rgba(94, 232, 168, 0.12);
+  border: 1px solid rgba(94, 232, 168, 0.4);
+  border-radius: 10px;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+#pause:hover {
+  background: rgba(94, 232, 168, 0.22);
+}

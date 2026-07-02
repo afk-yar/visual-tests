@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Вращающийся земной шар» — Claude Fable 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div class="hud">
+  <h1>Вращающийся земной шар</h1>
+  <p>Процедурная Земля: терминатор, огни городов, облака, блик на океане · Claude Fable 5</p>
+</div>
+
+<div id="load">
+  <div class="load-box">
+    <div class="load-title">Генерация планеты…</div>
+    <div class="load-bar"><div id="loadFill"></div></div>
+    <div class="load-note" id="loadNote">рельеф и океаны</div>
+  </div>
+</div>
+
+<div class="panel">
+  <button id="pauseBtn" type="button" title="Пауза / продолжить">⏸ Пауза</button>
+  <label class="ctl">Вращение
+    <input id="speed" type="range" min="0" max="300" value="100">
+  </label>
+  <label class="ctl">Облака
+    <input id="clouds" type="range" min="0" max="160" value="100">
+  </label>
+  <label class="ctl">Огни
+    <input id="lights" type="range" min="0" max="200" value="100">
+  </label>
+  <label class="chk">
+    <input id="autosun" type="checkbox" checked>
+    Солнце по орбите
+  </label>
+  <span class="hint">Перетащите по глобусу — переместите солнце</span>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

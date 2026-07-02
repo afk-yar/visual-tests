@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«3D-поверхность функции» — Claude Fable 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<header class="hud">
+  <h1>3D-поверхность функции</h1>
+  <p>Сетка 64×64 · освещение по Ламберту · сортировка полигонов по глубине<br>
+     Перетащите мышью — поворот камеры, колесо — масштаб, клавиши 1–4 — функции</p>
+  <p class="formula" id="formula"></p>
+</header>
+
+<div class="panel">
+  <div class="seg" id="fnGroup" role="group" aria-label="Выбор функции">
+    <button type="button" class="active" data-fn="ripple" aria-pressed="true">Рябь</button>
+    <button type="button" data-fn="waves" aria-pressed="false">Интерференция</button>
+    <button type="button" data-fn="saddle" aria-pressed="false">Седло</button>
+    <button type="button" data-fn="gauss" aria-pressed="false">Гауссиана</button>
+  </div>
+  <div class="sliders">
+    <label>Скорость <input id="speed" type="range" min="0" max="2" step="0.05" value="1"></label>
+    <label>Высота <input id="heightScale" type="range" min="0.3" max="1.8" step="0.05" value="1"></label>
+  </div>
+  <div class="checks">
+    <label class="check"><input id="wire" type="checkbox"> Каркас</label>
+    <label class="check"><input id="spin" type="checkbox" checked> Автовращение</label>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

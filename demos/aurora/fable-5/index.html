@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Полярное сияние» — Claude Fable 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene" aria-hidden="true"></canvas>
+
+<div class="hud">
+  <h1>Полярное сияние</h1>
+  <p>Claude Fable 5 · шумовые ленты-занавеси, вертикальные лучи, звёзды, метеоры и живое отражение в воде — canvas 2D в реальном времени</p>
+</div>
+
+<div class="panel">
+  <label class="ctl">Интенсивность
+    <input id="intensity" type="range" min="0.2" max="1.6" step="0.01" value="1">
+  </label>
+  <label class="ctl">Скорость
+    <input id="speed" type="range" min="0.2" max="2.5" step="0.01" value="1">
+  </label>
+  <label class="ctl">Волны
+    <input id="waves" type="range" min="0" max="2" step="0.01" value="1">
+  </label>
+  <button id="pause" type="button" aria-pressed="false">⏸ Пауза</button>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

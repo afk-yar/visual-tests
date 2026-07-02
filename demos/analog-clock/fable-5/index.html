@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>«Аналоговые часы» — Claude Fable 5</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="clock"></canvas>
+
+  <header class="hud">
+    <h1>Аналоговые часы</h1>
+    <p>Металлический обод, стекло и непрерывный ход стрелок. Реальное системное время.</p>
+  </header>
+
+  <div class="panel">
+    <span class="panel__label" id="sec-label">Секундная стрелка</span>
+    <div class="seg" role="group" aria-labelledby="sec-label">
+      <button type="button" class="seg__btn" id="mode-tick" aria-pressed="true">Тик с отскоком</button>
+      <button type="button" class="seg__btn" id="mode-sweep" aria-pressed="false">Плавный ход</button>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
