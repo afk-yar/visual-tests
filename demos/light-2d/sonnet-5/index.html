@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>«2D-свет и тени» — «Claude Sonnet 5»</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<canvas id="stage"></canvas>
+
+<div class="hud">
+  <h1 class="hud-title">2D-свет и тени</h1>
+  <p class="hud-caption">
+    Источник света следует за курсором. Полигон видимости строится геометрически
+    точно: лучи к вершинам препятствий (с малыми угловыми смещениями),
+    пересечения луч–отрезок, сортировка по углу.
+  </p>
+</div>
+
+<div class="panel">
+  <label class="ctrl ctrl-checkbox">
+    <input type="checkbox" id="debug-toggle" />
+    <span>Отладка: лучи и вершины</span>
+  </label>
+
+  <label class="ctrl ctrl-slider">
+    <span>Радиус света</span>
+    <input type="range" id="radius-slider" min="220" max="900" step="10" value="520" />
+  </label>
+
+  <button class="ctrl-btn" id="regen-btn" type="button">Новые препятствия</button>
+</div>
+
+<script src="visibility.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

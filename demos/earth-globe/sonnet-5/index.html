@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>«Вращающийся земной шар» — «Claude Sonnet 5»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scene" aria-label="Вращающийся земной шар: анимация Земли из космоса"></canvas>
+
+  <div class="hud" aria-hidden="true">
+    <div class="hud-title">Вращающийся земной шар</div>
+    <div class="hud-subtitle">наклон оси 23.5° · день/ночь · атмосфера · облака · огни городов</div>
+  </div>
+
+  <div class="panel" role="group" aria-label="Управление сценой">
+    <button id="btn-pause" class="btn" type="button" aria-pressed="false">Пауза</button>
+
+    <label class="ctrl">
+      <span class="ctrl-label">Вращение</span>
+      <input id="rng-speed" type="range" min="0" max="3" step="0.01" value="1">
+    </label>
+
+    <label class="ctrl">
+      <span class="ctrl-label">Азимут солнца</span>
+      <input id="rng-az" type="range" min="-180" max="180" step="1" value="35">
+    </label>
+
+    <label class="ctrl">
+      <span class="ctrl-label">Высота солнца</span>
+      <input id="rng-el" type="range" min="-70" max="80" step="1" value="18">
+    </label>
+
+    <button id="btn-clouds" class="btn btn-toggle" type="button" aria-pressed="true">Облака</button>
+
+    <span class="hint">Перетащи по шару — подвинешь солнце</span>
+  </div>
+
+  <script src="globe.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

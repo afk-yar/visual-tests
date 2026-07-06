@@ -1,0 +1,131 @@
+:root {
+  --hud-text: #eef3f8;
+  --hud-muted: #a9b3c2;
+  --glass-bg: rgba(20, 22, 28, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --accent: #c9a24a;
+  --accent-strong: #e7c876;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #14161b;
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  color: var(--hud-text);
+}
+
+#clock-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+.hud {
+  position: fixed;
+  top: 18px;
+  left: 20px;
+  z-index: 2;
+  pointer-events: none;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
+}
+
+.hud-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.hud-sub {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--hud-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+#digital {
+  color: var(--accent-strong);
+  font-weight: 600;
+}
+
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.panel-label {
+  font-size: 12px;
+  color: var(--hud-muted);
+  white-space: nowrap;
+  padding-left: 4px;
+}
+
+.segments {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+.segment {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 14px;
+  color: #c6cfda;
+  background: transparent;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.segment.active {
+  color: #241a05;
+  background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+  box-shadow: 0 6px 18px rgba(201, 162, 74, 0.35);
+}
+
+@media (max-width: 560px) {
+  .panel {
+    flex-direction: column;
+    gap: 8px;
+    border-radius: 16px;
+    bottom: 12px;
+  }
+
+  .panel-label {
+    padding-left: 0;
+  }
+}

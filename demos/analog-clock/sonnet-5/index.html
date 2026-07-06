@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Аналоговые часы» — «Claude Sonnet 5»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="clock-canvas" aria-label="Аналоговые настенные часы, показывают текущее системное время"></canvas>
+
+  <div class="hud">
+    <div class="hud-title">Аналоговые часы</div>
+    <div class="hud-sub">Настенные · системное время · <span id="digital">--:--:--</span></div>
+  </div>
+
+  <div class="panel" role="group" aria-label="Управление секундной стрелкой">
+    <span class="panel-label">Секундная стрелка</span>
+    <div class="segments" role="tablist" aria-label="Режим хода секундной стрелки">
+      <button type="button" class="segment" data-mode="sweep" role="tab" aria-selected="false">Плавный ход</button>
+      <button type="button" class="segment" data-mode="tick" role="tab" aria-selected="false">Механический тик</button>
+    </div>
+  </div>
+
+  <script src="clock.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

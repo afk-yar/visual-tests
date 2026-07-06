@@ -1,0 +1,129 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #0b1220;
+  font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #eef2f7;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hud {
+  position: fixed;
+  top: 18px;
+  left: 20px;
+  z-index: 5;
+  pointer-events: none;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.65), 0 0 2px rgba(0, 0, 0, 0.5);
+  max-width: min(64vw, 440px);
+}
+
+.hud h1 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.hud p {
+  margin: 2px 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: #cfe0f5;
+  opacity: 0.92;
+}
+
+.hud .stats {
+  font-variant-numeric: tabular-nums;
+  color: #a9d6ff;
+}
+
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 22px;
+  padding: 12px 20px;
+  border-radius: 16px;
+  background: rgba(14, 20, 32, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  max-width: 92vw;
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #dbe7f5;
+}
+
+.control label {
+  white-space: nowrap;
+  opacity: 0.85;
+}
+
+.control input[type="range"] {
+  width: 130px;
+  accent-color: #6fc6ff;
+}
+
+.control output {
+  min-width: 34px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: #a9d6ff;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.buttons button {
+  padding: 7px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: #eef2f7;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.buttons button:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.buttons button:active {
+  transform: scale(0.96);
+}
+
+@media (max-width: 640px) {
+  .panel {
+    gap: 10px 14px;
+    padding: 10px 14px;
+  }
+  .control input[type="range"] {
+    width: 90px;
+  }
+  .hud {
+    max-width: 72vw;
+  }
+}

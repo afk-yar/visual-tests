@@ -8,6 +8,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/double-pendulum/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/double-pendulum/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/double-pendulum/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/double-pendulum/sonnet-5/' },
     ],
   },
   {
@@ -19,6 +20,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/svg-chess-knight/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/svg-chess-knight/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/svg-chess-knight/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/svg-chess-knight/sonnet-5/' },
     ],
   },
   {
@@ -30,6 +32,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/mandelbrot/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/mandelbrot/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/mandelbrot/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/mandelbrot/sonnet-5/' },
     ],
   },
   {
@@ -41,6 +44,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/lorenz/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/lorenz/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/lorenz/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/lorenz/sonnet-5/' },
     ],
   },
   {
@@ -52,6 +56,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/boids/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/boids/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/boids/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/boids/sonnet-5/' },
     ],
   },
   {
@@ -63,6 +68,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/verlet-cloth/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/verlet-cloth/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/verlet-cloth/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/verlet-cloth/sonnet-5/' },
     ],
   },
   {
@@ -74,6 +80,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/falling-sand/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/falling-sand/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/falling-sand/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/falling-sand/sonnet-5/' },
     ],
   },
   {
@@ -85,6 +92,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/raycaster-maze/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/raycaster-maze/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/raycaster-maze/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/raycaster-maze/sonnet-5/' },
     ],
   },
   {
@@ -96,6 +104,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/light-2d/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/light-2d/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/light-2d/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/light-2d/sonnet-5/' },
     ],
   },
   {
@@ -107,6 +116,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/procedural-walker/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/procedural-walker/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/procedural-walker/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/procedural-walker/sonnet-5/' },
     ],
   },
   {
@@ -118,6 +128,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/svg-bicycle/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/svg-bicycle/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/svg-bicycle/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/svg-bicycle/sonnet-5/' },
     ],
   },
   {
@@ -129,6 +140,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/css-newspaper/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/css-newspaper/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/css-newspaper/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/css-newspaper/sonnet-5/' },
     ],
   },
 
@@ -142,6 +154,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/solid-3d/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/solid-3d/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/solid-3d/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/solid-3d/sonnet-5/' },
     ],
   },
   {
@@ -153,6 +166,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/surface-plot/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/surface-plot/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/surface-plot/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/surface-plot/sonnet-5/' },
     ],
   },
   {
@@ -164,6 +178,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/voxel-terrain/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/voxel-terrain/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/voxel-terrain/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/voxel-terrain/sonnet-5/' },
     ],
   },
 
@@ -177,6 +192,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/earth-globe/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/earth-globe/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/earth-globe/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/earth-globe/sonnet-5/' },
     ],
   },
   {
@@ -188,6 +204,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/particle-flow/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/particle-flow/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/particle-flow/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/particle-flow/sonnet-5/' },
     ],
   },
   {
@@ -199,6 +216,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/aurora/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/aurora/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/aurora/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/aurora/sonnet-5/' },
     ],
   },
   {
@@ -210,6 +228,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/solar-system/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/solar-system/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/solar-system/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/solar-system/sonnet-5/' },
     ],
   },
   {
@@ -221,6 +240,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/aquarium/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/aquarium/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/aquarium/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/aquarium/sonnet-5/' },
     ],
   },
   {
@@ -232,6 +252,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/aquarium-3d/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/aquarium-3d/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/aquarium-3d/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/aquarium-3d/sonnet-5/' },
     ],
   },
 
@@ -245,6 +266,7 @@ window.TASKS = [
       { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/analog-clock/opus-4.8/' },
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/analog-clock/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/analog-clock/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/analog-clock/sonnet-5/' },
     ],
   },
 ];

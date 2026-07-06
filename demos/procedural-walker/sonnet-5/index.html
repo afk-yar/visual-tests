@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Идущий человечек» — «Claude Sonnet 5»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div class="hud">
+  <div class="hud-title">Идущий человечек</div>
+  <div class="hud-sub">Процедурная походка: обратная кинематика колена, фазы опоры/переноса, без спрайтов</div>
+</div>
+
+<div class="panel">
+  <div class="panel-row">
+    <label class="panel-label" for="speed">Скорость</label>
+    <input id="speed" class="slider" type="range" min="0" max="100" value="0" step="1">
+    <span id="gait-readout" class="gait-readout">Медленная ходьба</span>
+  </div>
+  <div class="panel-row panel-row-secondary">
+    <label class="check">
+      <input id="toggle-skeleton" type="checkbox">
+      <span>Показать скелет и цели IK</span>
+    </label>
+    <span id="speed-readout" class="speed-readout"></span>
+  </div>
+</div>
+
+<script src="walker.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

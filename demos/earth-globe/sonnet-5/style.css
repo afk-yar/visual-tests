@@ -1,0 +1,153 @@
+:root {
+  --bg-void: #05070c;
+  --panel-bg: rgba(15, 19, 26, 0.72);
+  --panel-border: rgba(255, 255, 255, 0.1);
+  --text: #eef3f8;
+  --muted: #9db0c4;
+  --accent: #57d8f2;
+  --accent-strong: #8be9fb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-void);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--text);
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  cursor: grab;
+}
+
+#scene:active {
+  cursor: grabbing;
+}
+
+.hud {
+  position: fixed;
+  top: 20px;
+  left: 22px;
+  z-index: 5;
+  pointer-events: none;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
+}
+
+.hud-title {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.hud-subtitle {
+  margin-top: 5px;
+  font-size: 12.5px;
+  color: var(--muted);
+  letter-spacing: 0.2px;
+}
+
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  max-width: calc(100vw - 24px);
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 14px;
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.4);
+  flex-wrap: wrap;
+}
+
+.btn {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.11);
+}
+
+.btn-toggle[aria-pressed="true"] {
+  background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+  color: #04222b;
+  border-color: transparent;
+}
+
+.ctrl {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.ctrl-label {
+  padding-left: 2px;
+  white-space: nowrap;
+}
+
+.ctrl input[type="range"] {
+  width: 108px;
+  accent-color: var(--accent);
+}
+
+.hint {
+  font-size: 11.5px;
+  color: var(--muted);
+  max-width: 156px;
+  line-height: 1.3;
+}
+
+@media (max-width: 760px) {
+  .panel {
+    gap: 9px;
+    padding: 8px 12px;
+    bottom: 10px;
+  }
+
+  .ctrl input[type="range"] {
+    width: 78px;
+  }
+
+  .hint {
+    display: none;
+  }
+
+  .hud {
+    top: 14px;
+    left: 14px;
+  }
+
+  .hud-title {
+    font-size: 17px;
+  }
+}

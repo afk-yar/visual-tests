@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Солнечная система» — «Claude Sonnet 5»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="stage"></canvas>
+
+<div class="hud">
+  <h1>Солнечная система</h1>
+  <p>8 планет, эллиптические орбиты, наклоны и спутники. Живая камера, реальный масштаб времени ускорен.</p>
+</div>
+
+<div class="panel" id="panel">
+  <button class="btn" id="btn-pause" title="Пауза / воспроизведение">⏸ Пауза</button>
+
+  <div class="ctrl">
+    <label for="sp-speed">Скорость</label>
+    <input type="range" id="sp-speed" min="-2" max="3" step="0.01" value="0">
+  </div>
+
+  <div class="ctrl">
+    <label for="sp-zoom">Масштаб</label>
+    <input type="range" id="sp-zoom" min="0.4" max="2.2" step="0.01" value="1">
+  </div>
+
+  <div class="ctrl">
+    <label for="sp-tilt">Наклон обзора</label>
+    <input type="range" id="sp-tilt" min="4" max="80" step="1" value="26">
+  </div>
+
+  <button class="btn toggle" id="btn-trails" title="Затухающие следы орбит" aria-pressed="true">Следы</button>
+  <button class="btn toggle" id="btn-labels" title="Подписи планет" aria-pressed="true">Подписи</button>
+  <button class="btn toggle" id="btn-belt" title="Пояс астероидов" aria-pressed="true">Астероиды</button>
+
+  <button class="btn" id="btn-reset" title="Сбросить вид">Сброс вида</button>
+</div>
+
+<div class="hint" id="hint">Перетаскивание — свободный обзор · колесо — масштаб</div>
+
+<script src="orbits.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Фрактал Мандельброта — Claude Sonnet 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="fractal" aria-label="Множество Мандельброта"></canvas>
+
+  <div class="hud" aria-hidden="true">
+    <div class="hud-title">Фрактал Мандельброта</div>
+    <div class="hud-sub">Claude Sonnet 5</div>
+    <div class="hud-row"><span class="hud-key">Зум</span><span id="hud-zoom" class="hud-val">1.00×</span></div>
+    <div class="hud-row"><span class="hud-key">Центр Re</span><span id="hud-re" class="hud-val">-0.6000000</span></div>
+    <div class="hud-row"><span class="hud-key">Центр Im</span><span id="hud-im" class="hud-val">0.0000000</span></div>
+    <div class="hud-row"><span class="hud-key">Итерации</span><span id="hud-iter" class="hud-val">100</span></div>
+  </div>
+
+  <div class="panel">
+    <button id="reset-btn" class="btn" type="button">Сброс вида</button>
+    <button id="palette-btn" class="btn" type="button">Другая палитра</button>
+    <div class="hint">Колесо мыши — зум к курсору · Перетаскивание — панорама</div>
+  </div>
+
+  <script src="mandelbrot.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«3D-поверхность функции» — «Claude Sonnet 5»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div class="hud">
+  <div class="hud-title">3D-поверхность функции</div>
+  <div class="hud-sub">z = f(x, y) · сетка, освещение по Ламберту, художник-сортировка по глубине</div>
+</div>
+
+<div class="panel">
+  <div class="panel-group" role="tablist" aria-label="Функция поверхности">
+    <button class="seg active" data-mode="ripple" role="tab" aria-selected="true">Рябь</button>
+    <button class="seg" data-mode="saddle" role="tab" aria-selected="false">Седло</button>
+    <button class="seg" data-mode="gaussian" role="tab" aria-selected="false">Гауссиана</button>
+  </div>
+  <div class="panel-group">
+    <button class="btn" id="wireframe-btn" aria-pressed="false">Каркас</button>
+    <button class="btn" id="pause-btn" aria-pressed="false">Пауза</button>
+  </div>
+</div>
+
+<script src="surface.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

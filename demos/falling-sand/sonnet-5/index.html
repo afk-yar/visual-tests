@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Падающий песок» — «Claude Sonnet 5»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="stage"></canvas>
+
+<div class="hud">
+  <h1>Падающий песок</h1>
+  <p>Клеточный автомат: песок сыплется и тонет в воде, вода растекается,
+  камень неподвижен, дерево горит, огонь поджигает соседей и гаснет дымом,
+  дым поднимается и тает.</p>
+</div>
+
+<div class="panel" id="panel">
+  <div class="materials" id="materials">
+    <button type="button" data-material="sand" class="mat-btn active" style="--swatch:#d9b35c">Песок</button>
+    <button type="button" data-material="water" class="mat-btn" style="--swatch:#3d8bd6">Вода</button>
+    <button type="button" data-material="stone" class="mat-btn" style="--swatch:#8a8f98">Камень</button>
+    <button type="button" data-material="wood" class="mat-btn" style="--swatch:#8a5a34">Дерево</button>
+    <button type="button" data-material="fire" class="mat-btn" style="--swatch:#e2601f">Огонь</button>
+    <button type="button" data-material="smoke" class="mat-btn" style="--swatch:#767f8c">Дым</button>
+    <button type="button" data-material="empty" class="mat-btn mat-btn-erase" style="--swatch:transparent">Ластик</button>
+  </div>
+  <div class="controls">
+    <label class="brush-size">
+      Кисть
+      <input type="range" id="brush-size" min="1" max="12" step="1" value="3">
+      <span id="brush-size-value">3</span>
+    </label>
+    <button type="button" id="btn-pause" class="ctrl-btn">Пауза</button>
+    <button type="button" id="btn-clear" class="ctrl-btn ctrl-btn-ghost">Очистить</button>
+  </div>
+</div>
+
+<script src="automaton.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

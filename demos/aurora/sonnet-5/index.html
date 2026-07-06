@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Полярное сияние» — «Claude Sonnet 5»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div class="hud">
+  <h1>Полярное сияние</h1>
+  <p>Занавеси света над зимним хребтом · Claude Sonnet 5</p>
+</div>
+
+<div class="panel" id="panel">
+  <div class="panel-row">
+    <label class="ctl">
+      <span>Яркость</span>
+      <input type="range" id="ctl-intensity" min="0.4" max="1.6" step="0.01" value="1">
+    </label>
+    <label class="ctl">
+      <span>Скорость</span>
+      <input type="range" id="ctl-speed" min="0.2" max="2.5" step="0.01" value="1">
+    </label>
+  </div>
+  <div class="panel-row">
+    <div class="theme-group" id="theme-group">
+      <button class="theme-btn active" data-theme="classic" type="button">Классика</button>
+      <button class="theme-btn" data-theme="emerald" type="button">Изумруд</button>
+      <button class="theme-btn" data-theme="violet" type="button">Ультрафиолет</button>
+    </div>
+  </div>
+  <div class="panel-row">
+    <label class="chk">
+      <input type="checkbox" id="ctl-reflection" checked>
+      <span>Отражение</span>
+    </label>
+    <label class="chk">
+      <input type="checkbox" id="ctl-stars" checked>
+      <span>Звёзды</span>
+    </label>
+    <button class="pause-btn" id="ctl-pause" type="button">Пауза</button>
+  </div>
+</div>
+
+<script src="wave.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

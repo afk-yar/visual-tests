@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Поток частиц 3D» — «Claude Sonnet 5»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="stage" aria-label="Поток частиц в трёхмерном поле скоростей"></canvas>
+
+<div class="hud">
+  <h1>Поток частиц 3D</h1>
+  <p>Десятки тысяч частиц несёт аналитическое curl-поле скоростей — как дым в невидимом ветре. Цвет по скорости, глубина тонет в дымке, камера медленно облетает сцену.</p>
+  <p class="stats" id="statsLine">— fps</p>
+</div>
+
+<div class="panel" role="group" aria-label="Управление сценой">
+  <button class="btn" id="pauseBtn" type="button" aria-pressed="false">Пауза</button>
+
+  <label class="ctrl">
+    Частиц
+    <input type="range" id="particlesRange">
+    <span class="val" id="particlesValue">0</span>
+  </label>
+
+  <label class="ctrl">
+    <input type="checkbox" id="autoToggle">
+    авто
+  </label>
+
+  <label class="ctrl">
+    Вращение
+    <input type="range" id="rotRange">
+    <span class="val" id="rotValue">1.0×</span>
+  </label>
+</div>
+
+<script src="field.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«SVG велосипед» — «Claude Sonnet 5»</title>
+<style>
+  :root{
+    --bg-1:#1b212c;
+    --bg-2:#05060a;
+    --line:#eef3fb;
+    --line-soft:rgba(238,243,251,.5);
+    --line-dim:rgba(238,243,251,.28);
+    --accent:#f2b84b;
+    --accent-soft:rgba(242,184,75,.6);
+  }
+  html,body{margin:0;height:100%;overflow:hidden;background:var(--bg-2);}
+  svg{position:fixed;inset:0;width:100%;height:100%;display:block;}
+  .hud{
+    position:fixed;top:18px;left:20px;max-width:270px;
+    font-family:-apple-system,"Segoe UI",Arial,sans-serif;
+    color:var(--line);pointer-events:none;user-select:none;
+  }
+  .hud h1{margin:0 0 4px;font-size:15px;font-weight:600;letter-spacing:.02em;}
+  .hud p{margin:0;font-size:11.5px;line-height:1.4;opacity:.55;}
+
+  .tube{stroke:var(--line);stroke-width:13;fill:none;}
+  .tube-thin{stroke-width:11;}
+  .headtube{stroke:var(--line);stroke-width:16;stroke-linecap:round;}
+  .lug{fill:var(--line);}
+  .fork{stroke:var(--line);stroke-width:9;fill:none;}
+  .tire{stroke:var(--line);stroke-width:7;fill:none;}
+  .rim{stroke:var(--line);stroke-width:3;fill:none;opacity:.85;}
+  .hub{fill:var(--line);}
+  .spoke{stroke:var(--line-soft);stroke-width:1.6;}
+  .bb-shell{fill:var(--bg-1);stroke:var(--line);stroke-width:4;}
+  .chainring{stroke:var(--accent);stroke-width:4;fill:none;}
+  .tooth{stroke:var(--accent);stroke-width:2.4;}
+  .sprocket{stroke:var(--accent);stroke-width:3.5;fill:none;}
+  .crank{stroke:var(--accent);stroke-width:10;stroke-linecap:round;}
+  .pedal{fill:var(--bg-2);stroke:var(--accent);stroke-width:3;}
+  .chain-line{stroke:var(--accent-soft);stroke-width:5;stroke-linecap:round;}
+  .chain-link{fill:var(--accent);}
+  .seatpost{stroke:var(--line);stroke-width:8;stroke-linecap:round;}
+  .saddle{fill:var(--line);stroke:none;}
+  .stem{stroke:var(--line);stroke-width:8;stroke-linecap:round;}
+  .handlebar{stroke:var(--line);stroke-width:7;fill:none;stroke-linecap:round;}
+  .lever{stroke:var(--line);stroke-width:3;fill:none;stroke-linecap:round;}
+  .brake{stroke:var(--line);stroke-width:5;fill:none;stroke-linecap:round;}
+  .brake-pivot{fill:var(--line);}
+  .brake-pad{fill:var(--line);}
+</style>
+</head>
+<body>
+
+<div class="hud">
+  <h1>Классический велосипед</h1>
+  <p>Ромбовидная рама из двух треугольников, вилка, цепь по касательным к звёздам, спицы</p>
+</div>
+
+<svg id="bike-svg" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#1b212c"/>
+      <stop offset="100%" stop-color="#05060a"/>
+    </radialGradient>
+    <radialGradient id="shadowGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000000" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- фон -->
+  <rect x="0" y="0" width="900" height="560" fill="url(#bgGrad)"/>
+
+  <!-- тень на земле -->
+  <ellipse cx="450" cy="475" rx="270" ry="16" fill="url(#shadowGrad)"/>
+
+  <g id="bicycle" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- ===== заднее колесо ===== -->
+    <g id="rear-wheel">
+      <circle class="tire" cx="256" cy="340" r="130"/>
+      <circle class="rim"  cx="256" cy="340" r="112"/>
+      <g id="rear-spokes"></g>
+      <circle class="hub"  cx="256" cy="340" r="14"/>
+    </g>
+
+    <!-- ===== переднее колесо ===== -->
+    <g id="front-wheel">
+      <circle class="tire" cx="644" cy="340" r="130"/>
+      <circle class="rim"  cx="644" cy="340" r="112"/>
+      <g id="front-spokes"></g>
+      <circle class="hub"  cx="644" cy="340" r="14"/>
+    </g>
+
+    <!-- ===== рама: два замкнутых треугольника ===== -->
+    <!-- передний треугольник: подседельная труба (BB–ST), верхняя труба (ST–HTj), нижняя труба (HTj–BB) -->
+    <line class="tube" x1="351" y1="116" x2="411" y2="313"/>
+    <line class="tube" x1="351" y1="116" x2="571" y2="144"/>
+    <line class="tube" x1="571" y1="144" x2="411" y2="313"/>
+
+    <!-- задний треугольник: перо цепи (BB–Rc), перо седла (SStop–Rc), общий отрезок подседельной трубы уже нарисован выше -->
+    <line class="tube tube-thin" x1="411" y1="313" x2="256" y2="340"/>
+    <line class="tube tube-thin" x1="357" y1="136" x2="256" y2="340"/>
+
+    <!-- рулевая труба (декоративный воротник в узле HTj) -->
+    <line class="headtube" x1="562" y1="116" x2="580" y2="172"/>
+
+    <!-- узловые муфты рамы -->
+    <circle class="lug" cx="411" cy="313" r="11"/>
+    <circle class="lug" cx="351" cy="116" r="9"/>
+    <circle class="lug" cx="571" cy="144" r="8"/>
+    <circle class="lug" cx="357" cy="136" r="6"/>
+    <circle class="lug" cx="580" cy="172" r="8"/>
+
+    <!-- ===== вилка: от рулевой трубы к оси переднего колеса ===== -->
+    <path class="fork" d="M580,172 Q629,256 644,340"/>
+
+    <!-- ===== каретка + ведущая звезда + шатуны + педали ===== -->
+    <circle class="bb-shell" cx="411" cy="313" r="16"/>
+    <circle class="chainring" cx="411" cy="313" r="48"/>
+    <g id="chainring-teeth"></g>
+
+    <line class="crank" x1="411" y1="313" x2="428" y2="249"/>
+    <line class="crank" x1="411" y1="313" x2="395" y2="377"/>
+    <rect class="pedal" x="415" y="243" width="26" height="9" rx="3"/>
+    <rect class="pedal" x="382" y="372" width="26" height="9" rx="3"/>
+
+    <!-- ===== задняя звёздочка на оси заднего колеса ===== -->
+    <circle class="sprocket" cx="256" cy="340" r="20"/>
+    <g id="sprocket-teeth"></g>
+
+    <!-- ===== цепь (генерируется скриптом — точные касательные) ===== -->
+    <g id="chain-group"></g>
+
+    <!-- ===== подседельный штырь + седло ===== -->
+    <line class="seatpost" x1="351" y1="116" x2="335" y2="63"/>
+    <path class="saddle" d="M305,61
+      C320,50 350,48 375,54
+      C388,57 396,64 397,72
+      C392,79 380,80 365,78
+      C340,75 315,72 305,68 Z"/>
+
+    <!-- ===== рулевая колонка, вынос, руль ===== -->
+    <line class="stem" x1="562" y1="116" x2="555" y2="93"/>
+    <line class="stem" x1="555" y1="93" x2="593" y2="75"/>
+    <path class="handlebar" d="M593,75 Q615,65 630,78 Q645,90 625,105 Q605,118 600,140"/>
+    <path class="lever" d="M624,78 q9,3 7,15"/>
+
+    <!-- ===== тормоза ===== -->
+    <g id="front-brake">
+      <line class="brake" x1="644" y1="188" x2="638" y2="175"/>
+      <circle class="brake-pivot" cx="644" cy="188" r="6"/>
+      <path class="brake" d="M644,188 Q624,200 618,220"/>
+      <path class="brake" d="M644,188 Q664,200 670,220"/>
+      <circle class="brake-pad" cx="618" cy="220" r="3.5"/>
+      <circle class="brake-pad" cx="670" cy="220" r="3.5"/>
+    </g>
+    <g id="rear-brake">
+      <line class="brake" x1="256" y1="188" x2="263" y2="175"/>
+      <circle class="brake-pivot" cx="256" cy="188" r="6"/>
+      <path class="brake" d="M256,188 Q236,200 230,220"/>
+      <path class="brake" d="M256,188 Q276,200 282,220"/>
+      <circle class="brake-pad" cx="230" cy="220" r="3.5"/>
+      <circle class="brake-pad" cx="282" cy="220" r="3.5"/>
+    </g>
+
+  </g>
+</svg>
+
+<script>
+(function(){
+  "use strict";
+  var svgNS = "http://www.w3.org/2000/svg";
+
+  function el(tag, attrs, cls){
+    var e = document.createElementNS(svgNS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (cls) e.setAttribute("class", cls);
+    return e;
+  }
+
+  // ---- спицы: перекрёстная (тангенциальная) шнуровка колеса ----
+  function addSpokes(groupId, cx, cy, hubR, rimR, count, cross){
+    var g = document.getElementById(groupId);
+    for (var i = 0; i < count; i++){
+      var baseAngle = (i / count) * Math.PI * 2;
+      var sign = (i % 2 === 0) ? 1 : -1;
+      var rimAngle = baseAngle + sign * cross * (Math.PI * 2 / count);
+      var hx = cx + hubR * Math.cos(baseAngle);
+      var hy = cy + hubR * Math.sin(baseAngle);
+      var rx = cx + rimR * Math.cos(rimAngle);
+      var ry = cy + rimR * Math.sin(rimAngle);
+      g.appendChild(el("line", {x1:hx, y1:hy, x2:rx, y2:ry}, "spoke"));
+    }
+  }
+  addSpokes("rear-spokes", 256, 340, 14, 112, 20, 3);
+  addSpokes("front-spokes", 644, 340, 14, 112, 20, 3);
+
+  // ---- зубья звёзд ----
+  function addTeeth(groupId, cx, cy, r, count, len){
+    var g = document.getElementById(groupId);
+    for (var i = 0; i < count; i++){
+      var a = (i / count) * Math.PI * 2;
+      var x1 = cx + r * Math.cos(a), y1 = cy + r * Math.sin(a);
+      var x2 = cx + (r + len) * Math.cos(a), y2 = cy + (r + len) * Math.sin(a);
+      g.appendChild(el("line", {x1:x1, y1:y1, x2:x2, y2:y2}, "tooth"));
+    }
+  }
+  addTeeth("chainring-teeth", 411, 313, 48, 26, 7);
+  addTeeth("sprocket-teeth", 256, 340, 20, 13, 5);
+
+  // ---- цепь: точные внешние касательные между окружностью ведущей звезды и задней звёздочки ----
+  function externalTangents(c1, r1, c2, r2){
+    var dx = c2.x - c1.x, dy = c2.y - c1.y;
+    var d = Math.sqrt(dx*dx + dy*dy);
+    var vx = dx / d, vy = dy / d;
+    var c = (r1 - r2) / d;
+    var h = Math.sqrt(Math.max(0, 1 - c*c));
+    var lines = [];
+    [1, -1].forEach(function(k){
+      var nx = vx * c - k * h * vy;
+      var ny = vy * c + k * h * vx;
+      lines.push({
+        t1: {x: c1.x + r1 * nx, y: c1.y + r1 * ny},
+        t2: {x: c2.x + r2 * nx, y: c2.y + r2 * ny}
+      });
+    });
+    return lines;
+  }
+
+  var chainCenter1 = {x:411, y:313}, r1 = 48;
+  var chainCenter2 = {x:256, y:340}, r2 = 20;
+  var tangents = externalTangents(chainCenter1, r1, chainCenter2, r2);
+  var chainGroup = document.getElementById("chain-group");
+
+  tangents.forEach(function(seg){
+    // основная линия цепи
+    chainGroup.appendChild(el("line", {
+      x1: seg.t1.x, y1: seg.t1.y, x2: seg.t2.x, y2: seg.t2.y
+    }, "chain-line"));
+
+    // звенья цепи вдоль касательной
+    var len = Math.hypot(seg.t2.x - seg.t1.x, seg.t2.y - seg.t1.y);
+    var step = 10;
+    var n = Math.round(len / step);
+    for (var i = 0; i <= n; i++){
+      var t = i / n;
+      var x = seg.t1.x + (seg.t2.x - seg.t1.x) * t;
+      var y = seg.t1.y + (seg.t2.y - seg.t1.y) * t;
+      chainGroup.appendChild(el("circle", {cx:x, cy:y, r:2.1}, "chain-link"));
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

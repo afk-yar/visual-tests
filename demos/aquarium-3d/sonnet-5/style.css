@@ -1,0 +1,131 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #030910;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  color: #eaf6f8;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+  touch-action: none;
+}
+
+#scene:active {
+  cursor: grabbing;
+}
+
+.hud {
+  position: fixed;
+  top: 18px;
+  left: 20px;
+  z-index: 5;
+  pointer-events: none;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.65);
+}
+
+.hud-title {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: #eafcff;
+}
+
+.hud-sub {
+  margin-top: 4px;
+  font-size: 12.5px;
+  color: #a9d8de;
+  opacity: 0.85;
+}
+
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(10, 26, 34, 0.55);
+  border: 1px solid rgba(140, 220, 230, 0.18);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px) saturate(1.2);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  max-width: calc(100vw - 24px);
+}
+
+.btn {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(140, 220, 230, 0.28);
+  background: rgba(255, 255, 255, 0.06);
+  color: #eafcff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.btn:hover {
+  background: rgba(140, 220, 230, 0.18);
+}
+
+.icon-play { display: none; }
+.btn.is-paused .icon-play { display: inline; }
+.btn.is-paused .icon-pause { display: none; }
+
+.ctrl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #cdeef2;
+  white-space: nowrap;
+}
+
+.ctrl input[type="range"] {
+  width: 90px;
+  accent-color: #4fd7e6;
+}
+
+.hint {
+  font-size: 11px;
+  color: #7fb6bd;
+  opacity: 0.8;
+  white-space: nowrap;
+  padding-left: 4px;
+  border-left: 1px solid rgba(140, 220, 230, 0.18);
+}
+
+@media (max-width: 720px) {
+  .panel {
+    gap: 10px;
+    padding: 8px 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .ctrl input[type="range"] {
+    width: 64px;
+  }
+  .hint { display: none; }
+}

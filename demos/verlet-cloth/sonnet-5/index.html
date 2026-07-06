@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Ткань (верлет)» — «Claude Sonnet 5»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene" aria-label="Симуляция ткани на верлет-интегрировании"></canvas>
+
+<div class="hud">
+  <div class="hud-title">Ткань (верлет)</div>
+  <div class="hud-sub">Тяните мышью, чтобы покачать полотно — при сильном рывке связи рвутся</div>
+</div>
+
+<div class="panel">
+  <button id="resetBtn" class="btn" type="button">Сброс</button>
+  <label class="ctl">
+    <span>Ветер</span>
+    <input id="windRange" type="range" min="0" max="200" value="70" step="1">
+  </label>
+  <label class="ctl">
+    <span>Прочность</span>
+    <input id="tearRange" type="range" min="120" max="320" value="190" step="1">
+  </label>
+</div>
+
+<script src="cloth.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

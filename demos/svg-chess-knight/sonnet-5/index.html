@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«SVG шахматный конь» — «Claude Sonnet 5»</title>
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #05070a;
+  }
+  svg {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .hud {
+    position: fixed;
+    top: 22px;
+    left: 26px;
+    pointer-events: none;
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    color: #e9dcc0;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+  }
+  .hud h1 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .hud p {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 400;
+    color: #8d7c5c;
+    letter-spacing: 0.02em;
+  }
+</style>
+</head>
+<body>
+
+<div class="hud">
+  <h1>Шахматный конь</h1>
+  <p>SVG · кривые Безье</p>
+</div>
+
+<svg viewBox="0 0 800 800" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+<defs>
+
+  <radialGradient id="bgGrad" cx="46%" cy="40%" r="75%">
+    <stop offset="0%"  stop-color="#1b2230"/>
+    <stop offset="55%" stop-color="#0d1119"/>
+    <stop offset="100%" stop-color="#05070a"/>
+  </radialGradient>
+
+  <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+    <stop offset="0%"  stop-color="#ffdd9e" stop-opacity="0.22"/>
+    <stop offset="55%" stop-color="#ffdd9e" stop-opacity="0.08"/>
+    <stop offset="100%" stop-color="#ffdd9e" stop-opacity="0"/>
+  </radialGradient>
+
+  <radialGradient id="groundGrad" cx="50%" cy="50%" r="50%">
+    <stop offset="0%"  stop-color="#000000" stop-opacity="0.65"/>
+    <stop offset="70%" stop-color="#000000" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+  </radialGradient>
+
+  <linearGradient id="knightGrad" x1="20%" y1="10%" x2="85%" y2="95%">
+    <stop offset="0%"   stop-color="#f7eed8"/>
+    <stop offset="42%"  stop-color="#dcc48f"/>
+    <stop offset="100%" stop-color="#7c5f36"/>
+  </linearGradient>
+
+  <linearGradient id="maneGrad" x1="20%" y1="0%" x2="80%" y2="100%">
+    <stop offset="0%"   stop-color="#caa96a"/>
+    <stop offset="100%" stop-color="#5f4322"/>
+  </linearGradient>
+
+  <radialGradient id="highlightGrad" cx="50%" cy="50%" r="50%">
+    <stop offset="0%"  stop-color="#fff6e0" stop-opacity="0.85"/>
+    <stop offset="60%" stop-color="#fff6e0" stop-opacity="0.22"/>
+    <stop offset="100%" stop-color="#fff6e0" stop-opacity="0"/>
+  </radialGradient>
+
+  <radialGradient id="shadowGrad" cx="50%" cy="50%" r="50%">
+    <stop offset="0%"  stop-color="#000000" stop-opacity="0.55"/>
+    <stop offset="70%" stop-color="#000000" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+  </radialGradient>
+
+  <!-- силуэт коня: используется и как заливка, и как маска для внутренних деталей,
+       чтобы никакая деталь (грива/блик/тень) не вышла за контур фигуры -->
+  <clipPath id="knightClip">
+    <path d="
+      M 360,708
+      C 352,690 349,668 354,651
+      C 368,636 388,622 402,609
+      C 380,585 360,560 375,538
+      C 400,515 408,488 402,464
+      C 385,445 360,420 353,399
+      C 335,398 312,388 300,374
+      C 285,372 265,364 255,354
+      C 248,338 262,312 282,314
+      C 275,295 280,270 293,254
+      C 290,225 308,205 322.5,189
+      C 318,165 308,145 312,126
+      C 322,135 330,142 338,148
+      C 345,175 380,210 413,228
+      C 445,185 485,200 498,254
+      C 525,270 520,320 533,351
+      C 552,380 566,420 555,456
+      C 548,490 545,540 563,569
+      C 570,590 572,615 567,636
+      C 575,655 570,680 558,696
+      C 500,715 420,718 360,708
+      Z
+    "/>
+  </clipPath>
+
+  <path id="lockShape" d="M0,-34 C13,-26 15,-6 6,4 C15,14 12,30 0,36 C-12,30 -15,14 -6,4 C-15,-6 -13,-26 0,-34 Z"/>
+
+  <filter id="dropshadow" x="-40%" y="-30%" width="180%" height="170%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blur"/>
+    <feOffset in="blur" dx="0" dy="14" result="offsetBlur"/>
+    <feFlood flood-color="#000000" flood-opacity="0.55" result="color"/>
+    <feComposite in="color" in2="offsetBlur" operator="in" result="shadow"/>
+    <feMerge>
+      <feMergeNode in="shadow"/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+
+  <filter id="softBlur" x="-100%" y="-200%" width="300%" height="500%">
+    <feGaussianBlur stdDeviation="9"/>
+  </filter>
+
+</defs>
+
+<!-- фон: тёмный виньетированный градиент -->
+<rect x="0" y="0" width="800" height="800" fill="url(#bgGrad)"/>
+
+<!-- тёплое рассеянное сияние позади фигуры -->
+<ellipse cx="460" cy="380" rx="300" ry="340" fill="url(#glowGrad)"/>
+
+<!-- контактная тень на "полу" -->
+<ellipse cx="460" cy="732" rx="150" ry="24" fill="url(#groundGrad)" filter="url(#softBlur)"/>
+
+<g id="knight" filter="url(#dropshadow)">
+
+  <!-- основной силуэт -->
+  <path fill="url(#knightGrad)" stroke="#3a2a15" stroke-width="2.5" stroke-opacity="0.5" stroke-linejoin="round" d="
+    M 360,708
+    C 352,690 349,668 354,651
+    C 368,636 388,622 402,609
+    C 380,585 360,560 375,538
+    C 400,515 408,488 402,464
+    C 385,445 360,420 353,399
+    C 335,398 312,388 300,374
+    C 285,372 265,364 255,354
+    C 248,338 262,312 282,314
+    C 275,295 280,270 293,254
+    C 290,225 308,205 322.5,189
+    C 318,165 308,145 312,126
+    C 322,135 330,142 338,148
+    C 345,175 380,210 413,228
+    C 445,185 485,200 498,254
+    C 525,270 520,320 533,351
+    C 552,380 566,420 555,456
+    C 548,490 545,540 563,569
+    C 570,590 572,615 567,636
+    C 575,655 570,680 558,696
+    C 500,715 420,718 360,708
+    Z
+  "/>
+
+  <!-- все внутренние детали строго обрезаны по силуэту коня -->
+  <g clip-path="url(#knightClip)">
+
+    <!-- объём: тёплый блик спереди-сверху -->
+    <ellipse cx="330" cy="300" rx="150" ry="210" fill="url(#highlightGrad)"/>
+
+    <!-- объём: сгущение тени сзади-снизу -->
+    <ellipse cx="480" cy="560" rx="190" ry="260" fill="url(#shadowGrad)"/>
+
+    <!-- грива: резные пряди вдоль загривка -->
+    <use href="#lockShape" fill="url(#maneGrad)" opacity="0.88" transform="translate(410,205) rotate(55) scale(0.5)"/>
+    <use href="#lockShape" fill="url(#maneGrad)" opacity="0.88" transform="translate(462,235) rotate(35) scale(0.65)"/>
+    <use href="#lockShape" fill="url(#maneGrad)" opacity="0.88" transform="translate(505,280) rotate(18) scale(0.8)"/>
+    <use href="#lockShape" fill="url(#maneGrad)" opacity="0.9"  transform="translate(530,340) rotate(8)  scale(0.95)"/>
+    <use href="#lockShape" fill="url(#maneGrad)" opacity="0.9"  transform="translate(548,405) rotate(2)  scale(1.0)"/>
+    <use href="#lockShape" fill="url(#maneGrad)" opacity="0.88" transform="translate(556,470) rotate(-5) scale(0.95)"/>
+
+    <!-- лёгкая резная линия гривы поверх прядей -->
+    <path d="M425,205 Q450,215 468,232" fill="none" stroke="#4a3620" stroke-width="2" stroke-opacity="0.35" stroke-linecap="round"/>
+    <path d="M470,255 Q500,275 515,300" fill="none" stroke="#4a3620" stroke-width="2" stroke-opacity="0.3" stroke-linecap="round"/>
+
+    <!-- фирменный диагональный вырез у основания (штаунтоновский конь) -->
+    <path d="M357,644 Q380,628 400,610" fill="none" stroke="#4a3620" stroke-width="2.5" stroke-opacity="0.4" stroke-linecap="round"/>
+
+    <!-- кольца-проточки на постаменте -->
+    <path d="M356,652 Q460,660 564,650" fill="none" stroke="#5c4526" stroke-width="3" stroke-opacity="0.45" stroke-linecap="round"/>
+    <path d="M357,690 Q460,700 562,688" fill="none" stroke="#5c4526" stroke-width="3" stroke-opacity="0.4"  stroke-linecap="round"/>
+
+    <!-- ноздря -->
+    <ellipse cx="266" cy="348" rx="8" ry="4.2" fill="#241708" opacity="0.6" transform="rotate(-12 266 348)"/>
+
+    <!-- глаз -->
+    <g transform="translate(298,272) rotate(-25)">
+      <ellipse rx="15" ry="8.5" fill="#2a1c10" opacity="0.5"/>
+      <ellipse rx="10" ry="6"   fill="#150d06"/>
+      <circle cx="-3" cy="-2" r="1.8" fill="#fbf1da" opacity="0.9"/>
+    </g>
+
+  </g>
+</g>
+
+</svg>
+
+</body>
+</html>

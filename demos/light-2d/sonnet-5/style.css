@@ -1,0 +1,135 @@
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #06070a;
+  font-family: "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #eef1f6;
+}
+
+#stage {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: none;
+  touch-action: none;
+}
+
+.hud {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  max-width: 380px;
+  padding: 14px 16px;
+  background: rgba(18, 20, 26, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.hud-title {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.hud-caption {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: rgba(230, 235, 245, 0.72);
+}
+
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 12px 20px;
+  background: rgba(18, 20, 26, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35);
+  z-index: 5;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: calc(100% - 24px);
+}
+
+.ctrl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: rgba(230, 235, 245, 0.85);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.ctrl-checkbox input {
+  accent-color: #ffb454;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.ctrl-slider input[type="range"] {
+  accent-color: #ffb454;
+  width: 130px;
+  cursor: pointer;
+}
+
+.ctrl-btn {
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1206;
+  background: linear-gradient(180deg, #ffcf82, #ffb454);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(255, 180, 84, 0.28);
+}
+
+.ctrl-btn:hover {
+  filter: brightness(1.06);
+}
+
+.ctrl-btn:active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 640px) {
+  .hud {
+    max-width: calc(100% - 36px);
+  }
+
+  .panel {
+    gap: 14px;
+    padding: 10px 14px;
+  }
+
+  .ctrl-slider input[type="range"] {
+    width: 90px;
+  }
+}

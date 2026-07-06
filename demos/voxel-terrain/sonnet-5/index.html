@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Воксельный ландшафт» — «Claude Sonnet 5»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+<canvas id="buffer" hidden></canvas>
+
+<div class="hud">
+  <h1>Воксельный ландшафт</h1>
+  <p>Процедурный рельеф по шуму · рендер вертикальными столбцами в стиле VoxelSpace/Comanche</p>
+  <p class="stats"><span id="fps">-- fps</span> · зерно <span id="seedval">--</span></p>
+</div>
+
+<div class="panel" id="panel">
+  <div class="control">
+    <label for="ctrl-height">Высота камеры</label>
+    <input type="range" id="ctrl-height" min="40" max="420" step="1" value="170">
+    <output id="ctrl-height-out" for="ctrl-height">170</output>
+  </div>
+  <div class="control">
+    <label for="ctrl-distance">Дальность отрисовки</label>
+    <input type="range" id="ctrl-distance" min="250" max="900" step="10" value="600">
+    <output id="ctrl-distance-out" for="ctrl-distance">600</output>
+  </div>
+  <div class="control">
+    <label for="ctrl-horizon">Линия горизонта</label>
+    <input type="range" id="ctrl-horizon" min="15" max="75" step="1" value="42">
+    <output id="ctrl-horizon-out" for="ctrl-horizon">42%</output>
+  </div>
+  <div class="buttons">
+    <button id="btn-pause" type="button">Пауза</button>
+    <button id="btn-regen" type="button">Новый рельеф</button>
+  </div>
+</div>
+
+<script src="voxel.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

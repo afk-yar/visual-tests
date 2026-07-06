@@ -1,0 +1,144 @@
+:root {
+  --bg-0: #05060a;
+  --bg-1: #0a0d16;
+  --panel: rgba(18, 21, 32, 0.62);
+  --panel-line: rgba(255, 255, 255, 0.09);
+  --text: #eef3f8;
+  --muted: #93a0b5;
+  --accent: #5ed7e7;
+  --accent-strong: #8be9f2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(ellipse 120% 90% at 50% 28%, var(--bg-1) 0%, var(--bg-0) 60%, #020204 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, ui-sans-serif, system-ui, sans-serif;
+  color: var(--text);
+}
+
+#stage {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hud {
+  position: fixed;
+  top: 16px;
+  left: 18px;
+  z-index: 3;
+  max-width: min(52vw, 460px);
+  pointer-events: none;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
+}
+
+.hud h1 {
+  margin: 0 0 4px;
+  font-size: 19px;
+  font-weight: 720;
+  letter-spacing: 0.01em;
+}
+
+.hud p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.hud .stats {
+  margin-top: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 11.5px;
+  color: var(--accent-strong);
+  opacity: 0.85;
+}
+
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  max-width: calc(100vw - 24px);
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  border-radius: 14px;
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+.ctrl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.ctrl output,
+.ctrl .val {
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  min-width: 3.4em;
+  text-align: right;
+}
+
+.ctrl input[type="range"] {
+  width: 128px;
+  accent-color: var(--accent);
+}
+
+.ctrl input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 15px;
+  height: 15px;
+}
+
+button.btn {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  color: var(--text);
+  font-size: 12.5px;
+  font-weight: 620;
+  cursor: pointer;
+}
+
+button.btn:hover {
+  border-color: rgba(94, 215, 231, 0.55);
+  background: linear-gradient(180deg, rgba(94, 215, 231, 0.18), rgba(94, 215, 231, 0.05));
+}
+
+button.btn:active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 720px) {
+  .hud {
+    max-width: 70vw;
+  }
+  .panel {
+    gap: 10px;
+    padding: 8px 12px;
+  }
+  .ctrl input[type="range"] {
+    width: 84px;
+  }
+}

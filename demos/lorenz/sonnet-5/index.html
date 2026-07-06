@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Система Лоренца» — «Claude Sonnet 5»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div class="hud">
+  <div class="hud-title">Система Лоренца</div>
+  <div class="hud-sub">σ=10, ρ=28, β=8/3 · RK4 · авто-вращение камеры</div>
+</div>
+
+<div class="panel">
+  <button id="btn-pause" class="btn" type="button" title="Пауза">⏸</button>
+  <button id="btn-reset" class="btn" type="button" title="Сброс траектории">⟲</button>
+  <label class="ctl">
+    <span>Скорость</span>
+    <input id="rng-speed" type="range" min="0.2" max="3" step="0.1" value="1">
+  </label>
+  <label class="ctl">
+    <span>Длина следа</span>
+    <input id="rng-trail" type="range" min="500" max="4000" step="100" value="2200">
+  </label>
+</div>
+
+<script src="lorenz.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«3D-аквариум» — «Claude Sonnet 5»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div class="hud">
+  <div class="hud-title">3D-аквариум</div>
+  <div class="hud-sub">Ручная перспектива и алгоритм художника, без WebGL</div>
+</div>
+
+<div class="panel">
+  <button id="btn-pause" class="btn" type="button" aria-label="Пауза">
+    <span class="icon-pause">❚❚</span><span class="icon-play">▶</span>
+  </button>
+  <div class="ctrl">
+    <label for="speed">Скорость</label>
+    <input id="speed" type="range" min="0.2" max="2.5" step="0.1" value="1">
+  </div>
+  <div class="ctrl">
+    <label for="camspeed">Облёт камеры</label>
+    <input id="camspeed" type="range" min="0" max="2" step="0.1" value="1">
+  </div>
+  <div class="hint">перетащи мышью — своя камера</div>
+</div>
+
+<script src="render3d.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
