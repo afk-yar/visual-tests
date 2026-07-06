@@ -1,17 +1,5 @@
 window.TASKS = [
   {
-    id: 'double-pendulum',
-    title: 'Двойной маятник',
-    tags: ['физика', 'canvas', 'хаос'],
-    prompt: 'Отобрази в HTML5 физику двойного маятника: два стержня, два точечных груза на шарнирах, корректные уравнения движения и численное интегрирование, реальное время. Добавь затухающий след нижнего груза, управление пуском/паузой и сбросом, ползунки масс и длин, и режим «призрак» с крошечным отклонением начального угла для демонстрации чувствительности к начальным условиям (хаос).',
-    solutions: [
-      { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/double-pendulum/opus-4.8/' },
-      { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/double-pendulum/gpt-5.5-codex/' },
-      { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/double-pendulum/fable-5/' },
-      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/double-pendulum/sonnet-5/' },
-    ],
-  },
-  {
     id: 'svg-chess-knight',
     title: 'SVG шахматный конь',
     tags: ['геометрия', 'svg', 'иконка'],
@@ -21,6 +9,18 @@ window.TASKS = [
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/svg-chess-knight/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/svg-chess-knight/fable-5/' },
       { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/svg-chess-knight/sonnet-5/' },
+    ],
+  },
+  {
+    id: 'solar-system',
+    title: 'Солнечная система',
+    tags: ['космос', '3D', 'орбиты'],
+    prompt: 'Солнечная система на canvas без библиотек: Солнце и планеты на эллиптических орбитах с правдоподобными относительными размерами орбит, наклонами и скоростями, кольца Сатурна, несколько крупных лун, освещение планет от Солнца с ночной стороной, затухающие орбитальные следы. Трёхмерный вид с медленным вращением камеры, масштаб настраивается. Планка: добивайся максимально кинематографичной, насыщенной и достоверной картинки в реальном времени; конкретные технические приёмы выбираешь сам — оценивается художественное качество и живость, а не следование рецепту.',
+    solutions: [
+      { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/solar-system/opus-4.8/' },
+      { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/solar-system/gpt-5.5-codex/' },
+      { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/solar-system/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/solar-system/sonnet-5/' },
     ],
   },
   {
@@ -132,6 +132,18 @@ window.TASKS = [
     ],
   },
   {
+    id: 'double-pendulum',
+    title: 'Двойной маятник',
+    tags: ['физика', 'canvas', 'хаос'],
+    prompt: 'Отобрази в HTML5 физику двойного маятника: два стержня, два точечных груза на шарнирах, корректные уравнения движения и численное интегрирование, реальное время. Добавь затухающий след нижнего груза, управление пуском/паузой и сбросом, ползунки масс и длин, и режим «призрак» с крошечным отклонением начального угла для демонстрации чувствительности к начальным условиям (хаос).',
+    solutions: [
+      { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/double-pendulum/opus-4.8/' },
+      { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/double-pendulum/gpt-5.5-codex/' },
+      { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/double-pendulum/fable-5/' },
+      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/double-pendulum/sonnet-5/' },
+    ],
+  },
+  {
     id: 'css-newspaper',
     title: 'Газетная полоса',
     tags: ['типографика', 'вёрстка', 'CSS'],
@@ -217,18 +229,6 @@ window.TASKS = [
       { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/aurora/gpt-5.5-codex/' },
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/aurora/fable-5/' },
       { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/aurora/sonnet-5/' },
-    ],
-  },
-  {
-    id: 'solar-system',
-    title: 'Солнечная система',
-    tags: ['космос', '3D', 'орбиты'],
-    prompt: 'Солнечная система на canvas без библиотек: Солнце и планеты на эллиптических орбитах с правдоподобными относительными размерами орбит, наклонами и скоростями, кольца Сатурна, несколько крупных лун, освещение планет от Солнца с ночной стороной, затухающие орбитальные следы. Трёхмерный вид с медленным вращением камеры, масштаб настраивается. Планка: добивайся максимально кинематографичной, насыщенной и достоверной картинки в реальном времени; конкретные технические приёмы выбираешь сам — оценивается художественное качество и живость, а не следование рецепту.',
-    solutions: [
-      { model: 'Claude Opus 4.8', slug: 'opus-4.8', dir: 'demos/solar-system/opus-4.8/' },
-      { model: 'GPT-5.5 Codex', slug: 'gpt-5.5-codex', dir: 'demos/solar-system/gpt-5.5-codex/' },
-      { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/solar-system/fable-5/' },
-      { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/solar-system/sonnet-5/' },
     ],
   },
   {

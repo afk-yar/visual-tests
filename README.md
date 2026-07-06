@@ -28,5 +28,6 @@ python serve.py 8473
 (`id`, `title`, `tags`, `prompt`, `solutions`).
 
 ## Тесты
+- `node assets/manifest-order.test.js`
 - `node demos/double-pendulum/opus-4.8/pendulum.test.js`
 - `node assets/shell.test.js`
