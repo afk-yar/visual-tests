@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#03060d">
+  <title>Солнечная система — GPT-5.6 Sol</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="space" aria-label="Интерактивная модель Солнечной системы"></canvas>
+  <header class="hud-title" aria-label="Заголовок">
+    <span class="eyebrow">ORBITAL OBSERVATORY / LIVE</span>
+    <h1>Солнечная система</h1>
+    <p><span class="pulse"></span><span id="missionTime">T + 0.00 земных лет</span></p>
+  </header>
+  <aside class="focus-card" id="focusCard" aria-live="polite">
+    <span class="focus-kicker">НАБЛЮДЕНИЕ</span>
+    <strong id="focusName">Солнце</strong>
+    <span id="focusMeta">G2V · центр системы</span>
+  </aside>
+  <section class="controls" aria-label="Управление моделью">
+    <div class="control-head"><span>Навигация</span><button id="pauseButton" class="icon-button" type="button" aria-pressed="false">Пауза</button></div>
+    <label><span>Масштаб <output id="zoomValue">100%</output></span><input id="zoom" type="range" min="55" max="220" value="100" step="1"></label>
+    <label><span>Ход времени <output id="speedValue">1.00×</output></span><input id="speed" type="range" min="0" max="200" value="100" step="1"></label>
+    <label><span>Длина следа <output id="trailValue">72%</output></span><input id="trail" type="range" min="0" max="100" value="72" step="1"></label>
+    <div class="button-row"><button id="labelsButton" type="button" aria-pressed="true">Метки: вкл</button><button id="resetButton" type="button">Сбросить вид</button></div>
+  </section>
+  <footer class="hint"><span>перетащите</span> вращать · <span>колесо</span> масштаб · <span>нажмите</span> выбрать</footer>
+  <script src="main.js"></script>
+</body>
+</html>

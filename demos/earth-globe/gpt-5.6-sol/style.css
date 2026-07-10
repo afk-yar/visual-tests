@@ -1,0 +1,19 @@
+:root{color-scheme:dark;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+html,body{margin:0;height:100%;overflow:hidden}
+body{background:#02050b;color:#f3f8ff;user-select:none}
+#scene{position:fixed;inset:0;width:100%;height:100%;cursor:grab;touch-action:none}
+#scene:active{cursor:grabbing}
+.hud{position:fixed;z-index:2;top:clamp(24px,5vw,64px);left:clamp(24px,6vw,88px);width:min(430px,calc(100vw - 48px));pointer-events:none;text-shadow:0 2px 24px rgba(0,0,0,.65)}
+.eyebrow{display:flex;align-items:center;gap:9px;color:rgba(173,221,255,.74);font-size:10px;font-weight:700;letter-spacing:.24em}
+.eyebrow i{width:6px;height:6px;border-radius:50%;background:#72d9ff;box-shadow:0 0 12px #26bfff;animation:pulse 2.4s ease-in-out infinite}
+.hud h1{margin:14px 0 9px;font-size:clamp(27px,4vw,52px);line-height:.98;letter-spacing:-.045em;font-weight:600}
+.hud p{max-width:370px;margin:0;color:rgba(218,233,247,.62);font-size:clamp(12px,1.35vw,15px);line-height:1.55}
+.controls{position:fixed;z-index:3;left:50%;bottom:clamp(18px,4vw,42px);transform:translateX(-50%);display:flex;align-items:center;gap:24px;width:min(760px,calc(100vw - 40px));box-sizing:border-box;padding:15px 18px 14px;border:1px solid rgba(150,210,255,.14);border-radius:18px;background:linear-gradient(135deg,rgba(17,32,50,.62),rgba(5,12,23,.72));box-shadow:0 18px 70px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.05);backdrop-filter:blur(18px) saturate(140%)}
+.control{flex:1;min-width:100px}.control label{display:flex;justify-content:space-between;gap:12px;margin-bottom:9px;color:rgba(211,230,244,.66);font-size:10px;font-weight:650;letter-spacing:.08em;text-transform:uppercase}.control output{color:#aadaf7;font-variant-numeric:tabular-nums}
+input[type="range"]{display:block;width:100%;height:3px;margin:0;border-radius:4px;appearance:none;background:linear-gradient(90deg,rgba(90,196,255,.65),rgba(126,187,226,.13));outline:none}
+input[type="range"]::-webkit-slider-thumb{width:13px;height:13px;border:2px solid #cceeff;border-radius:50%;appearance:none;background:#4db9ec;box-shadow:0 0 0 4px rgba(61,181,235,.12),0 0 14px rgba(61,181,235,.7)}
+input[type="range"]::-moz-range-thumb{width:10px;height:10px;border:2px solid #cceeff;border-radius:50%;background:#4db9ec;box-shadow:0 0 0 4px rgba(61,181,235,.12),0 0 14px rgba(61,181,235,.7)}
+button{align-self:stretch;padding:0 16px;border:1px solid rgba(131,205,247,.18);border-radius:12px;color:rgba(214,239,255,.82);background:rgba(74,155,202,.08);font:600 11px/1 system-ui,sans-serif;letter-spacing:.03em;cursor:pointer;transition:.2s ease}button:hover{background:rgba(80,180,232,.16);border-color:rgba(131,205,247,.35)}
+.drag-note{position:fixed;z-index:2;display:flex;align-items:center;gap:7px;opacity:0;padding:7px 10px;border:1px solid rgba(255,227,161,.2);border-radius:20px;color:rgba(255,231,179,.75);background:rgba(21,18,17,.48);backdrop-filter:blur(8px);font-size:8px;font-weight:700;letter-spacing:.15em;pointer-events:none;transition:opacity .25s ease}.drag-note.visible{opacity:1}.drag-note span{color:#ffe4a5;text-shadow:0 0 9px #ffb03b}
+@keyframes pulse{50%{opacity:.35;transform:scale(.72)}}
+@media(max-width:680px){.hud{top:24px;left:24px}.hud p{max-width:270px}.controls{gap:15px;padding:14px;bottom:14px}.control:nth-child(2){display:none}button{padding:0 13px;font-size:15px}button span{display:none}}

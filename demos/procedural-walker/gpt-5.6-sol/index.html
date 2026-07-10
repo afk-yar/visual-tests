@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Идущий человечек — GPT-5.6 Sol</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scene" aria-label="Процедурная анимация идущего человечка"></canvas>
+
+  <header class="hud">
+    <div class="eyebrow">PROCEDURAL MOTION / 01</div>
+    <h1>Живой шаг</h1>
+    <p>Ни одного спрайта — только фазы, геометрия и IK.</p>
+  </header>
+
+  <section class="controls" aria-label="Управление скоростью">
+    <div class="control-copy">
+      <span class="control-label">Скорость</span>
+      <strong id="paceLabel">Быстрый шаг</strong>
+    </div>
+    <div class="range-wrap">
+      <span aria-hidden="true">медленно</span>
+      <input id="speed" type="range" min="0" max="100" value="46" aria-label="Скорость ходьбы">
+      <span aria-hidden="true">бег</span>
+    </div>
+    <div class="metric">
+      <span id="speedValue">4.8</span>
+      <small>км/ч</small>
+    </div>
+  </section>
+
+  <script src="main.js"></script>
+</body>
+</html>

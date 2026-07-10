@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#081722">
+  <title>Воксельный ландшафт — GPT-5.6 Sol</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="terrain" role="img" aria-label="Процедурный воксельный ландшафт с непрерывно летящей камерой">Ваш браузер не поддерживает Canvas 2D.</canvas>
+  <main class="interface">
+    <header class="hud" aria-label="Информация о демонстрации">
+      <div class="eyebrow"><span class="signal" aria-hidden="true"></span>ПРОЦЕДУРНАЯ ЭКСПЕДИЦИЯ</div>
+      <h1>VOXEL / TERRAIN</h1>
+      <p>Полёт над миром, которого не существовало секунду назад.</p>
+      <div class="telemetry" aria-label="Телеметрия полёта"><span class="live"><i aria-hidden="true"></i> LIVE</span><span id="telemetry">генерация карты…</span></div>
+    </header>
+    <section class="control-panel" aria-label="Настройки полёта">
+      <div class="panel-heading"><div><span class="panel-kicker">FLIGHT CONTROL</span><h2>Параметры обзора</h2></div><span class="engine-state">ДВИЖЕНИЕ АВТО</span></div>
+      <div class="controls">
+        <div class="control">
+          <div class="control-label"><label for="cameraHeight">Высота камеры</label><output id="cameraHeightValue" for="cameraHeight">105 м</output></div>
+          <input id="cameraHeight" type="range" min="55" max="220" step="1" value="105" aria-label="Высота камеры над рельефом">
+          <div class="range-scale" aria-hidden="true"><span>НИЖЕ</span><span>ВЫШЕ</span></div>
+        </div>
+        <div class="control">
+          <div class="control-label"><label for="drawDistance">Дальность</label><output id="drawDistanceValue" for="drawDistance">720 м</output></div>
+          <input id="drawDistance" type="range" min="320" max="1100" step="10" value="720" aria-label="Дальность отрисовки ландшафта">
+          <div class="range-scale" aria-hidden="true"><span>БЛИЖЕ</span><span>ДАЛЬШЕ</span></div>
+        </div>
+        <div class="control">
+          <div class="control-label"><label for="horizon">Линия горизонта</label><output id="horizonValue" for="horizon">42%</output></div>
+          <input id="horizon" type="range" min="30" max="58" step="1" value="42" aria-label="Положение линии горизонта">
+          <div class="range-scale" aria-hidden="true"><span>ВЫШЕ</span><span>НИЖЕ</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <noscript><p class="noscript">Для запуска процедурного рендера нужен JavaScript.</p></noscript>
+  <script src="main.js"></script>
+</body>
+</html>

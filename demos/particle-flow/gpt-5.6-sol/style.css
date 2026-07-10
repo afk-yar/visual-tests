@@ -1,0 +1,220 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  background: #02040a;
+  color: #f4f7ff;
+}
+
+* { box-sizing: border-box; }
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: #02040a;
+  user-select: none;
+}
+
+#flow {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+}
+
+.hud {
+  position: fixed;
+  z-index: 2;
+  top: clamp(24px, 5vw, 64px);
+  left: clamp(24px, 6vw, 88px);
+  pointer-events: none;
+  text-shadow: 0 2px 22px rgba(0, 0, 0, .9);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 12px;
+  color: rgba(214, 226, 255, .48);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+}
+
+.eyebrow span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #6af5ff;
+  box-shadow: 0 0 10px rgba(46, 234, 255, .75);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(27px, 3.7vw, 54px);
+  font-weight: 270;
+  line-height: .98;
+  letter-spacing: -.045em;
+}
+
+h1 b {
+  color: #8ceaff;
+  font-weight: 600;
+}
+
+.hud p {
+  margin: 13px 0 0;
+  color: rgba(229, 236, 255, .43);
+  font-size: clamp(10px, .8vw, 12px);
+  letter-spacing: .06em;
+}
+
+.controls {
+  position: fixed;
+  z-index: 3;
+  left: 50%;
+  bottom: clamp(20px, 4vw, 46px);
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  min-height: 52px;
+  padding: 8px 12px;
+  border: 1px solid rgba(172, 213, 255, .1);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(15, 25, 44, .55), rgba(5, 9, 19, .76));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .4), inset 0 1px rgba(255, 255, 255, .04);
+  backdrop-filter: blur(18px) saturate(125%);
+  transform: translateX(-50%);
+}
+
+button,
+input { font: inherit; }
+
+button {
+  border: 0;
+  color: rgba(232, 242, 255, .7);
+  background: transparent;
+  cursor: pointer;
+}
+
+button:hover { color: #fff; }
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid rgba(95, 230, 255, .78);
+  outline-offset: 3px;
+}
+
+#pauseButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 9px;
+  font-size: 11px;
+  letter-spacing: .04em;
+}
+
+.button-icon {
+  color: #8eeeff;
+  font-size: 12px;
+  letter-spacing: -2px;
+}
+
+.divider {
+  width: 1px;
+  height: 23px;
+  background: rgba(184, 215, 255, .1);
+}
+
+.range-control {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: rgba(226, 238, 255, .48);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+input[type="range"] {
+  width: 84px;
+  height: 2px;
+  appearance: none;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #63eaff 0 77%, rgba(180, 209, 255, .14) 77%);
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  width: 10px;
+  height: 10px;
+  appearance: none;
+  border: 2px solid #b8f6ff;
+  border-radius: 50%;
+  background: #2edcf8;
+  box-shadow: 0 0 10px rgba(64, 225, 255, .65);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 7px;
+  height: 7px;
+  border: 2px solid #b8f6ff;
+  border-radius: 50%;
+  background: #2edcf8;
+  box-shadow: 0 0 10px rgba(64, 225, 255, .65);
+}
+
+.mode-button {
+  min-width: 126px;
+  padding: 7px 9px;
+  color: rgba(226, 238, 255, .42);
+  font-size: 10px;
+  letter-spacing: .07em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.mode-button strong {
+  margin-left: 4px;
+  color: #9befff;
+  font-weight: 650;
+}
+
+.hint {
+  position: fixed;
+  z-index: 2;
+  right: clamp(20px, 3vw, 42px);
+  bottom: 24px;
+  color: rgba(215, 228, 255, .22);
+  font-size: 9px;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: .4; transform: scale(.8); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+@media (max-width: 700px) {
+  .controls { gap: 8px; max-width: calc(100vw - 24px); }
+  .controls .divider:nth-of-type(2),
+  .mode-button { display: none; }
+  .hint { display: none; }
+  h1 { font-weight: 320; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eyebrow span { animation: none; }
+}
+

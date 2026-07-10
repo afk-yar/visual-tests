@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вращающийся земной шар — GPT-5.6 Sol</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scene" aria-label="Интерактивная визуализация вращающейся Земли"></canvas>
+  <header class="hud">
+    <div class="eyebrow"><i></i> LIVE ORBITAL VIEW</div>
+    <h1>Планета в движении</h1>
+    <p>Перетащите свет по небу, чтобы увидеть терминатор и ночные города</p>
+  </header>
+  <section class="controls" aria-label="Управление визуализацией">
+    <div class="control"><label for="speed"><span>Вращение</span><output id="speedOut">1.0×</output></label><input id="speed" type="range" min="0" max="2.5" value="1" step="0.05"></div>
+    <div class="control"><label for="clouds"><span>Облачность</span><output id="cloudsOut">68%</output></label><input id="clouds" type="range" min="0" max="1" value="0.68" step="0.01"></div>
+    <div class="control"><label for="exposure"><span>Экспозиция</span><output id="exposureOut">1.0</output></label><input id="exposure" type="range" min="0.65" max="1.35" value="1" step="0.01"></div>
+    <button id="resetLight" type="button" title="Вернуть источник света">↗ <span>Сбросить свет</span></button>
+  </section>
+  <div class="drag-note" id="dragNote"><span>✦</span> ИСТОЧНИК СВЕТА</div>
+  <script src="main.js"></script>
+</body>
+</html>

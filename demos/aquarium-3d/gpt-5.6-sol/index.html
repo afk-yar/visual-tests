@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>3D-аквариум — GPT-5.6 Sol</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="aquarium" aria-label="Анимированный трёхмерный аквариум"></canvas>
+  <header class="hud">
+    <div class="eyebrow">ЖИВАЯ СРЕДА · CANVAS 2D</div>
+    <h1>Пелагическая тишина</h1>
+    <p>Ручная перспектива · <span id="fishCount">0</span> рыб · <span id="fps">60</span> fps</p>
+  </header>
+  <aside class="controls" aria-label="Управление аквариумом">
+    <button id="pauseBtn" type="button" aria-pressed="false">
+      <span class="pauseIcon" aria-hidden="true"></span>
+      <span id="pauseLabel">Пауза</span>
+    </button>
+    <label><span>Стая</span><input id="density" type="range" min="6" max="30" value="18" step="1"></label>
+    <label><span>Камера</span><input id="cameraMotion" type="range" min="0" max="100" value="55" step="1"></label>
+  </aside>
+  <div class="hint">Проведите мышью, чтобы оглядеться</div>
+  <script src="main.js"></script>
+</body>
+</html>

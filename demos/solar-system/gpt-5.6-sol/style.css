@@ -1,0 +1,47 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --glass: rgba(8, 14, 26, 0.58);
+  --edge: rgba(173, 211, 255, 0.16);
+  --text: #edf6ff;
+  --muted: #88a0b9;
+}
+
+html, body { margin: 0; height: 100%; overflow: hidden; background: #02040a; }
+* { box-sizing: border-box; }
+button, input { font: inherit; }
+#space { position: fixed; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
+#space:active { cursor: grabbing; }
+.hud-title, .controls, .focus-card, .hint { position: fixed; z-index: 2; pointer-events: none; user-select: none; }
+.hud-title { top: clamp(22px, 4vw, 48px); left: clamp(22px, 4vw, 56px); text-shadow: 0 2px 18px rgba(0,0,0,.65); }
+.eyebrow, .focus-kicker { display: block; margin-bottom: 8px; color: #6fb9e9; font-size: 10px; font-weight: 700; letter-spacing: .22em; }
+.hud-title h1 { margin: 0; color: var(--text); font-size: clamp(25px, 3.2vw, 48px); font-weight: 380; letter-spacing: -.045em; }
+.hud-title p { display: flex; align-items: center; gap: 9px; margin: 10px 0 0; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; letter-spacing: .08em; text-transform: uppercase; }
+.pulse { width: 6px; height: 6px; border-radius: 50%; background: #76e4ff; box-shadow: 0 0 10px #65dfff; animation: breathe 2.2s ease-in-out infinite; }
+@keyframes breathe { 50% { opacity: .35; transform: scale(.72); } }
+.controls { right: clamp(16px, 3vw, 36px); bottom: clamp(18px, 4vw, 42px); width: min(292px, calc(100vw - 32px)); padding: 17px 18px 15px; border: 1px solid var(--edge); border-radius: 16px; background: linear-gradient(145deg, rgba(15,24,42,.72), var(--glass)); box-shadow: 0 18px 60px rgba(0,0,0,.35), inset 0 1px rgba(255,255,255,.04); backdrop-filter: blur(18px) saturate(125%); pointer-events: auto; }
+.control-head, .controls label > span, .button-row { display: flex; align-items: center; justify-content: space-between; }
+.control-head { margin-bottom: 13px; color: #d9ecff; font-size: 12px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; }
+.controls label { display: block; margin: 11px 0; }
+.controls label > span { margin-bottom: 7px; color: #91a7bc; font-size: 11px; }
+output { color: #d8edff; font-variant-numeric: tabular-nums; }
+input[type="range"] { width: 100%; height: 3px; margin: 4px 0 5px; border-radius: 9px; background: rgba(150,194,225,.15); accent-color: #79cfff; cursor: pointer; }
+button { border: 1px solid rgba(145,196,230,.16); border-radius: 9px; color: #a9bfd2; background: rgba(126,188,230,.055); cursor: pointer; transition: color 160ms ease, border-color 160ms ease, background 160ms ease; }
+button:hover { color: #eff8ff; border-color: rgba(136,211,255,.38); background: rgba(107,193,248,.12); }
+button:focus-visible, input:focus-visible { outline: 2px solid rgba(121,207,255,.72); outline-offset: 3px; }
+.icon-button { padding: 5px 9px; font-size: 10px; letter-spacing: .04em; text-transform: uppercase; }
+.button-row { gap: 8px; margin-top: 13px; }
+.button-row button { flex: 1; padding: 8px 7px; font-size: 10px; }
+.focus-card { left: clamp(22px, 4vw, 56px); bottom: clamp(24px, 5vw, 58px); width: 210px; padding-left: 14px; border-left: 1px solid rgba(109,202,255,.5); transition: opacity 200ms ease; }
+.focus-card strong, .focus-card > span:last-child { display: block; }
+.focus-card strong { margin: 2px 0 4px; color: #edf7ff; font-size: 18px; font-weight: 480; }
+.focus-card > span:last-child { color: #758ba0; font-size: 10px; letter-spacing: .045em; }
+.hint { left: 50%; bottom: 18px; transform: translateX(-50%); color: rgba(145,163,182,.55); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.hint span { color: rgba(202,224,240,.72); }
+@media (max-width: 700px) {
+  .controls { bottom: 14px; padding: 12px 14px 10px; }
+  .controls label { margin: 7px 0; }
+  .focus-card, .hint { display: none; }
+  .hud-title { top: 20px; }
+}
+@media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }

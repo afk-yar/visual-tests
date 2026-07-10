@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Аналоговые часы — GPT-5.6 Sol</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="clock-stage" aria-labelledby="page-title">
+    <canvas id="clock" aria-label="Аналоговые часы, показывающие текущее системное время">
+      Ваш браузер не поддерживает canvas.
+    </canvas>
+
+    <header class="hud">
+      <p class="eyebrow">SOL · WALL CLOCK</p>
+      <h1 id="page-title">Точное время</h1>
+      <p>Механика в ритме системы</p>
+    </header>
+
+    <section class="controls" aria-label="Настройки часов">
+      <div class="control-copy">
+        <span>Секундная стрелка</span>
+        <strong id="mode-name">Плавный ход</strong>
+      </div>
+      <div class="segmented" role="group" aria-label="Режим секундной стрелки">
+        <button class="mode-button is-active" type="button" data-mode="sweep" aria-pressed="true">
+          <span class="mode-icon mode-icon--sweep" aria-hidden="true"></span>
+          Плавно
+        </button>
+        <button class="mode-button" type="button" data-mode="tick" aria-pressed="false">
+          <span class="mode-icon mode-icon--tick" aria-hidden="true"></span>
+          Механика
+        </button>
+      </div>
+    </section>
+
+    <p id="spoken-time" class="sr-only" aria-live="polite"></p>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>

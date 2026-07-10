@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3D-тело (софт-рендер) — GPT-5.6 Sol</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scene" aria-label="Вращающийся тор, отрисованный программным 3D-рендерером"></canvas>
+
+  <header class="hud">
+    <div class="eyebrow"><span class="pulse"></span> CPU RENDER / CANVAS 2D</div>
+    <h1>Мягкий свет.<br><span>Жёсткая геометрия.</span></h1>
+    <p>Тор проходит ручной 3D-конвейер: матрицы, проекция,<br class="wide-only"> отсечение граней и пиксельный z-буфер.</p>
+    <div class="metrics" aria-hidden="true">
+      <span>40 × 20</span><i></i><span id="faceCount">0 граней</span><i></i><span id="fps">60 FPS</span>
+    </div>
+  </header>
+
+  <aside class="controls" aria-label="Параметры рендера">
+    <div class="control-group">
+      <span class="control-label">Отображение</span>
+      <div class="segmented" role="radiogroup" aria-label="Режим отображения">
+        <button id="fillMode" class="active" type="button" role="radio" aria-checked="true">Заливка</button>
+        <button id="wireMode" type="button" role="radio" aria-checked="false">Каркас</button>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="control-group">
+      <span class="control-label">Затенение</span>
+      <div class="segmented" role="radiogroup" aria-label="Режим затенения">
+        <button id="flatShade" type="button" role="radio" aria-checked="false">Плоское</button>
+        <button id="smoothShade" class="active" type="button" role="radio" aria-checked="true">Гуро</button>
+      </div>
+    </div>
+    <div class="pipeline" aria-hidden="true"><span></span>Z-BUFFER</div>
+  </aside>
+
+  <script src="main.js"></script>
+</body>
+</html>

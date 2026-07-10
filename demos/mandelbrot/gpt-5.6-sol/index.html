@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Фрактал Мандельброта — GPT-5.6 Sol</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="fractal" aria-label="Интерактивная визуализация множества Мандельброта"></canvas>
+
+  <div class="vignette" aria-hidden="true"></div>
+
+  <header class="hud hud--title">
+    <div class="eyebrow"><span class="pulse"></span> Живая визуализация</div>
+    <h1>Множество<br>Мандельброта</h1>
+    <p>Бесконечная граница между порядком и хаосом.</p>
+  </header>
+
+  <aside class="hud hud--stats" aria-live="polite">
+    <div class="stat stat--wide">
+      <span class="stat__label">Масштаб</span>
+      <strong id="zoomValue">1.00×</strong>
+    </div>
+    <div class="divider"></div>
+    <div class="stat">
+      <span class="stat__label">Центр · Re</span>
+      <strong id="realValue">−0.500000</strong>
+    </div>
+    <div class="stat">
+      <span class="stat__label">Центр · Im</span>
+      <strong id="imagValue">0.000000</strong>
+    </div>
+    <div class="divider"></div>
+    <div class="stat stat--compact">
+      <span class="stat__label">Итераций</span>
+      <strong id="iterationValue">180</strong>
+    </div>
+    <div class="stat stat--compact stat--status">
+      <span class="stat__label">Рендер</span>
+      <strong id="renderStatus"><i></i> расчёт</strong>
+    </div>
+  </aside>
+
+  <div class="hud hud--help">
+    <span><b>Колесо</b> — приблизить</span>
+    <span><b>Перетащить</b> — переместить</span>
+    <button id="resetView" type="button">Сбросить вид</button>
+  </div>
+
+  <output id="cursorCoords" class="hud cursor-coords" aria-label="Координаты курсора">
+    Re −0.500000&nbsp;&nbsp;·&nbsp;&nbsp;Im 0.000000
+  </output>
+
+  <script src="main.js"></script>
+</body>
+</html>

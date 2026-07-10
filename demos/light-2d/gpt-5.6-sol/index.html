@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2D-свет и тени — GPT-5.6 Sol</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scene" aria-label="Интерактивная сцена с источником света и препятствиями"></canvas>
+  <header class="hud">
+    <div class="eyebrow">GEOMETRIC LIGHT LAB</div>
+    <h1>Свет сквозь форму</h1>
+    <p>Ведите курсором — свет найдёт каждый просвет.</p>
+  </header>
+  <aside class="controls">
+    <label class="toggle">
+      <input id="debug" type="checkbox">
+      <span class="switch" aria-hidden="true"></span>
+      <span class="toggle-copy"><strong>Геометрия</strong><small>лучи и вершины</small></span>
+    </label>
+  </aside>
+  <div class="hint" aria-hidden="true"><span></span> источник следует за курсором</div>
+  <script src="main.js"></script>
+</body>
+</html>

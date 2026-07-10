@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Система Лоренца — GPT-5.6 Sol</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scene" aria-label="Трёхмерная визуализация аттрактора Лоренца"></canvas>
+
+  <header class="hud">
+    <div class="eyebrow">ДИНАМИЧЕСКАЯ СИСТЕМА · 1963</div>
+    <h1>Аттрактор <span>Лоренца</span></h1>
+    <p class="equations" aria-label="Параметры системы Лоренца">
+      <span>σ <b>10</b></span>
+      <span>ρ <b>28</b></span>
+      <span>β <b>8/3</b></span>
+    </p>
+  </header>
+
+  <aside class="telemetry" aria-live="polite">
+    <div><span>Время системы</span><strong id="sim-time">0.00</strong></div>
+    <div><span>Точек в следе</span><strong id="point-count">0</strong></div>
+    <div class="live-row"><span>Интегрирование</span><strong><i></i> RK4</strong></div>
+  </aside>
+
+  <div class="controls" aria-label="Управление визуализацией">
+    <button id="pause-button" type="button" aria-pressed="false">
+      <span class="button-icon" aria-hidden="true">Ⅱ</span>
+      <span class="button-label">Пауза</span>
+    </button>
+    <button id="reset-button" type="button">
+      <span class="button-icon reset-icon" aria-hidden="true">↻</span>
+      <span class="button-label">Заново</span>
+    </button>
+  </div>
+
+  <p class="hint"><span>Перетаскивайте</span> для обзора · <span>Колесо</span> для масштаба</p>
+
+  <noscript>Для визуализации необходимо включить JavaScript.</noscript>
+  <script src="main.js"></script>
+</body>
+</html>

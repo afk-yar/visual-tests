@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#02040a">
+  <title>Поток частиц 3D — GPT-5.6 Sol</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="flow" aria-label="Трёхмерный поток светящихся частиц"></canvas>
+
+  <header class="hud">
+    <div class="eyebrow"><span></span> живая симуляция</div>
+    <h1>Поток частиц <b>3D</b></h1>
+    <p>Турбулентное поле · 32 000 световых следов</p>
+  </header>
+
+  <aside class="controls" aria-label="Управление симуляцией">
+    <button id="pauseButton" type="button" aria-pressed="false">
+      <span class="button-icon" aria-hidden="true">Ⅱ</span>
+      <span class="button-text">Пауза</span>
+    </button>
+    <div class="divider" aria-hidden="true"></div>
+    <label class="range-control">
+      <span>Экспозиция</span>
+      <input id="glowControl" type="range" min="20" max="85" value="70" aria-label="Экспозиция свечения">
+    </label>
+    <div class="divider" aria-hidden="true"></div>
+    <button id="colorButton" class="mode-button" type="button">
+      Цвет <strong>скорость</strong>
+    </button>
+  </aside>
+
+  <div class="hint">Двигайте курсор, чтобы изменить ракурс</div>
+  <script src="main.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071012">
+  <title>Падающий песок — GPT-5.6 Sol</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="world" aria-label="Поле клеточного автомата"></canvas>
+
+  <main class="hud" aria-label="Управление симуляцией">
+    <section class="brand-card">
+      <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div>
+        <p class="eyebrow">Клеточная лаборатория</p>
+        <h1>Падающий песок</h1>
+      </div>
+      <div class="sim-state" id="simState"><i></i><span>В движении</span></div>
+    </section>
+
+    <section class="tool-card">
+      <div class="materials" role="group" aria-label="Выбор вещества">
+        <button class="material is-active" type="button" data-material="sand" style="--swatch:#e5b44f" aria-pressed="true"><span class="swatch"></span><span>Песок</span><kbd>1</kbd></button>
+        <button class="material" type="button" data-material="water" style="--swatch:#398dca" aria-pressed="false"><span class="swatch"></span><span>Вода</span><kbd>2</kbd></button>
+        <button class="material" type="button" data-material="stone" style="--swatch:#7a8585" aria-pressed="false"><span class="swatch"></span><span>Камень</span><kbd>3</kbd></button>
+        <button class="material" type="button" data-material="wood" style="--swatch:#8c4f2b" aria-pressed="false"><span class="swatch"></span><span>Дерево</span><kbd>4</kbd></button>
+        <button class="material" type="button" data-material="fire" style="--swatch:#ff7135" aria-pressed="false"><span class="swatch"></span><span>Огонь</span><kbd>5</kbd></button>
+        <button class="material" type="button" data-material="smoke" style="--swatch:#a6ada9" aria-pressed="false"><span class="swatch"></span><span>Дым</span><kbd>6</kbd></button>
+      </div>
+
+      <div class="tool-row">
+        <label class="brush-control" for="brushSize">
+          <span>Размер кисти</span>
+          <output id="brushValue" for="brushSize">24 px</output>
+          <input id="brushSize" type="range" min="6" max="72" value="24" step="2">
+        </label>
+        <div class="actions">
+          <button class="action-button" id="pauseButton" type="button" aria-pressed="false"><span class="pause-icon" aria-hidden="true"></span><span>Пауза</span><kbd>Space</kbd></button>
+          <button class="action-button action-clear" id="clearButton" type="button"><span class="clear-icon" aria-hidden="true"></span><span>Очистить</span><kbd>C</kbd></button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="hint"><span>Рисуйте мышью или пальцем</span><span class="hint-dot"></span><span>[ / ] — размер кисти</span></aside>
+  <script src="main.js"></script>
+</body>
+</html>

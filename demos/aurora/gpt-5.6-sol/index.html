@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#030610">
+  <title>Полярное сияние — GPT-5.6 Sol</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scene" aria-label="Анимированное полярное сияние над ночным фьордом"></canvas>
+  <header class="hud">
+    <div class="eyebrow"><span class="live-dot"></span> Живое небо</div>
+    <h1>Северное сияние</h1>
+    <p>Тихий свет над ночным фьордом</p>
+  </header>
+  <section class="controls" aria-label="Управление сценой">
+    <button id="toggle" type="button" aria-pressed="false">
+      <span class="pause-icon" aria-hidden="true"></span><span id="toggleLabel">Пауза</span>
+    </button>
+    <label><span>Сияние</span><input id="intensity" type="range" min="35" max="150" value="100" aria-label="Яркость сияния"></label>
+    <label><span>Течение</span><input id="motion" type="range" min="15" max="180" value="85" aria-label="Скорость движения"></label>
+  </section>
+  <div class="hint">Двигайте курсор, чтобы почувствовать глубину <span>·</span> Пробел — пауза</div>
+  <script src="main.js"></script>
+</body>
+</html>

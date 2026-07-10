@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Аквариум с рыбами — GPT-5.6 Sol</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="aquarium" aria-label="Интерактивный подводный аквариум">
+    <canvas id="scene" aria-label="Анимированный аквариум"></canvas>
+    <header class="hud">
+      <div class="eyebrow">ЖИВАЯ ЭКОСИСТЕМА · 04:26</div>
+      <h1>Тихая глубина</h1>
+      <p>Нажмите на воду, чтобы оставить корм</p>
+    </header>
+    <section class="controls" aria-label="Управление аквариумом">
+      <button id="feed" type="button" title="Покормить рыб"><span class="button-icon" aria-hidden="true">✦</span><span>Покормить</span></button>
+      <label class="slider-label" for="light"><span>Свет</span><input id="light" type="range" min="35" max="120" value="82"></label>
+      <span class="divider" aria-hidden="true"></span>
+      <button id="pause" class="icon-button" type="button" aria-label="Приостановить анимацию" title="Пауза"><span id="pauseIcon" aria-hidden="true">Ⅱ</span></button>
+    </section>
+    <div class="depth" aria-hidden="true"><span class="depth-line"></span><span>3.8 M</span></div>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>

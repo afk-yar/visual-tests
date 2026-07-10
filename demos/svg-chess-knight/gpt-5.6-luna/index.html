@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SVG шахматный конь — GPT-5.6 Luna</title>
+  <style>
+    :root { color-scheme: dark; background: #090d16; }
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #090d16; }
+    body { min-width: 240px; min-height: 240px; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    svg { display: block; width: 100%; height: 100%; }
+    .outline { fill: url(#horse); stroke: #ebce99; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+    .fine { fill: none; stroke: #f4dca9; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: .58; }
+    .quiet { fill: none; stroke: #493a3a; stroke-width: 4; stroke-linecap: round; opacity: .72; }
+  </style>
+</head>
+<body>
+  <svg viewBox="0 0 800 800" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Стилизованный силуэт шахматного коня">
+    <defs>
+      <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111a2a"/><stop offset=".5" stop-color="#090e18"/><stop offset="1" stop-color="#160f18"/></linearGradient>
+      <radialGradient id="glow"><stop stop-color="#c89b59" stop-opacity=".16"/><stop offset=".52" stop-color="#77543d" stop-opacity=".05"/><stop offset="1" stop-color="#090d16" stop-opacity="0"/></radialGradient>
+      <linearGradient id="horse" x1="0" y1="0" x2="1" y2=".8"><stop stop-color="#f1d8a3"/><stop offset=".38" stop-color="#c89558"/><stop offset=".72" stop-color="#895843"/><stop offset="1" stop-color="#4b3036"/></linearGradient>
+      <linearGradient id="mane" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#382b38"/><stop offset=".55" stop-color="#211d2b"/><stop offset="1" stop-color="#121722"/></linearGradient>
+      <linearGradient id="base" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d4ad71"/><stop offset=".45" stop-color="#805346"/><stop offset="1" stop-color="#3d2a37"/></linearGradient>
+      <radialGradient id="eye" cx="35%" cy="30%"><stop stop-color="#fff8dd"/><stop offset=".32" stop-color="#f1c16a"/><stop offset="1" stop-color="#b45c3c"/></radialGradient>
+      <filter id="shadow" x="-30%" y="-25%" width="160%" height="170%"><feGaussianBlur in="SourceAlpha" stdDeviation="13" result="b"/><feOffset dy="13" result="o"/><feFlood flood-color="#000" flood-opacity=".58"/><feComposite in2="o" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="eye-glow" x="-200%" y="-200%" width="400%" height="400%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <rect width="800" height="800" fill="url(#bg)"/>
+    <rect width="800" height="800" fill="url(#glow)"/>
+    <path d="M92 655H708M142 694H658" stroke="#d5a66b" stroke-opacity=".07"/>
+    <ellipse cx="450" cy="732" rx="220" ry="23" fill="#000" opacity=".5" filter="url(#shadow)"/>
+    <g filter="url(#shadow)">
+      <path class="outline" d="M398 151C390 119 396 79 417 49C435 70 443 104 437 139L429 166Z"/>
+      <path class="outline" d="M290 684C316 665 329 635 326 603C323 568 307 536 289 502C269 465 250 427 238 388C224 344 226 307 242 274C256 245 278 223 306 208C291 207 278 201 269 193C258 183 254 168 259 155C274 160 289 165 304 165C322 165 337 159 349 151C362 142 371 128 374 115C366 98 360 81 358 65C379 74 395 87 405 103C414 116 417 130 416 143C440 140 464 143 485 147C514 152 539 167 558 189C581 216 592 249 589 283C586 318 572 350 549 377C538 391 530 404 531 418C532 435 547 454 564 474C589 505 613 540 620 575C629 618 615 656 586 681C578 688 568 694 558 698H625C635 698 643 706 643 716V730H257V716C257 706 265 698 275 698H290Z"/>
+      <path d="M419 145C452 137 486 146 513 166C542 189 558 222 558 256C558 291 544 323 521 351C503 372 489 390 490 412C491 438 512 465 532 489C551 512 568 536 575 559C587 599 576 635 551 663C541 674 530 684 517 691C533 666 540 640 536 613C532 584 517 555 499 529C478 500 452 470 444 439C436 408 444 380 461 351C478 322 487 291 482 260C476 222 454 184 419 145Z" fill="url(#mane)" opacity=".92"/>
+      <path class="fine" d="M437 158C470 181 488 211 493 244C499 283 486 319 465 351M455 158C493 181 513 214 516 252C519 291 503 327 480 359M470 173C513 203 532 238 531 277C530 314 514 346 491 375" stroke-opacity=".24"/>
+      <path d="M282 188C302 190 324 184 344 170C363 157 377 140 383 119C390 139 400 153 416 163C385 180 366 205 354 235C342 265 337 300 341 334C344 373 355 410 370 445C345 408 325 370 314 330C302 286 303 244 318 213C305 211 292 204 282 196Z" fill="#f1d5a0" opacity=".3"/>
+      <path d="M375 112C369 96 365 82 365 74C380 82 392 93 399 106C404 116 406 127 405 139C394 131 384 122 375 112Z" fill="#6d4643" opacity=".58"/>
+      <path d="M286 177C297 180 309 181 320 178M268 193C278 197 291 198 306 194" class="quiet" stroke-width="3"/>
+      <ellipse cx="331" cy="174" rx="9" ry="11" fill="#2a1e2b" opacity=".75" filter="url(#eye-glow)"/>
+      <ellipse cx="331" cy="174" rx="5.5" ry="7" fill="url(#eye)"/><circle cx="329" cy="171" r="1.7" fill="#fff8df"/>
+      <path d="M252 170C264 174 276 175 288 172M248 319C245 356 257 394 276 430C294 464 315 493 326 522M326 603C329 635 316 669 290 684" class="fine"/>
+      <path d="M275 686H625C635 686 643 694 643 704V716H257V704C257 694 265 686 275 686Z" fill="url(#base)" stroke="#e7c994" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M257 716H643V730H257Z" fill="#332536" stroke="#b98155" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M291 697H609M280 722H620" stroke="#f5dca9" stroke-opacity=".36" stroke-width="3" stroke-linecap="round"/>
+    </g>
+  </svg>
+</body>
+</html>
