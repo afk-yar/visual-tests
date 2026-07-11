@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Полярное сияние — GPT-5.6 Luna</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="stage">
+      <canvas id="scene" aria-label="Анимированное полярное сияние над ночным ландшафтом"></canvas>
+      <section class="hero-copy" id="hud" aria-live="polite">
+        <div class="eyebrow"><span class="live-dot"></span> LIVE ATMOSPHERE <span class="eyebrow-rule"></span> 69.3° N</div>
+        <h1>Полярное<br><em>сияние</em></h1>
+        <p>Тишина, которую видно.</p>
+      </section>
+      <section class="control-dock" aria-label="Управление сценой">
+        <div class="scene-status"><span class="status-kicker">Ночное наблюдение</span><strong id="sceneState">Движение включено</strong></div>
+        <label class="intensity-control" for="intensity"><span>Интенсивность</span><input id="intensity" type="range" min="0.45" max="1.5" step="0.01" value="1"></label>
+        <button class="dock-button" id="motionButton" type="button" aria-pressed="true"><span class="button-icon">◌</span> Пауза</button>
+        <button class="dock-button dock-button--quiet" id="hudButton" type="button" aria-pressed="true"><span class="button-icon">◉</span> HUD</button>
+      </section>
+    </main>
+    <script src="main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3D-аквариум — GPT-5.6 Luna</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="scene-shell" aria-label="Кинематографичный трёхмерный аквариум">
+    <canvas id="aquarium" aria-label="Анимация аквариума"></canvas>
+    <section class="hud" aria-label="Описание сцены">
+      <div class="eyebrow"><span class="live-dot"></span> LIVE HABITAT · 03:17:24</div>
+      <h1>LUNA<br><em>AQUARIUM</em></h1>
+      <p>Тихая жизнь в трёх измерениях</p>
+    </section>
+    <section class="control-panel" aria-label="Управление сценой">
+      <button id="pauseButton" class="control-button" type="button" aria-label="Пауза"><span class="pause-icon">Ⅱ</span><span class="button-label">Пауза</span></button>
+      <div class="control-divider"></div>
+      <label class="slider-control"><span>Свет</span><input id="lightSlider" type="range" min="0.45" max="1.4" step="0.01" value="1"><span id="lightValue">100%</span></label>
+      <label class="slider-control"><span>Течение</span><input id="speedSlider" type="range" min="0.35" max="1.65" step="0.01" value="1"><span id="speedValue">1.0×</span></label>
+      <button id="schoolButton" class="school-button active" type="button"><span class="school-dot"></span> Стая: ON</button>
+    </section>
+    <div class="corner-mark">L / 03<br><span>FRESHWATER</span></div>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>

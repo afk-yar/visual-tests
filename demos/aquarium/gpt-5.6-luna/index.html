@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Аквариум с рыбами — GPT-5.6 Luna</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="aquarium" aria-label="Интерактивная сцена подводного аквариума">
+      <canvas id="aquarium-canvas" aria-label="Живой аквариум с рыбами, пузырьками и водорослями"></canvas>
+      <section class="hud" aria-label="Информация об аквариуме">
+        <div class="eyebrow"><span class="status-dot"></span> LUNA / OBSERVATORY 04</div>
+        <h1>Тихая вода,<br><em>живое течение</em></h1>
+        <p>Наблюдайте за подводным ритмом</p>
+      </section>
+      <section class="control-panel" aria-label="Управление сценой">
+        <button class="icon-button" id="pause-button" type="button" aria-label="Поставить анимацию на паузу" aria-pressed="false"><span class="pause-icon" aria-hidden="true"><i></i><i></i></span></button>
+        <div class="panel-copy"><span class="panel-label">ТЕЧЕНИЕ</span><strong id="flow-value">72%</strong></div>
+        <label class="range-wrap" for="flow-range"><span class="sr-only">Скорость течения</span><input id="flow-range" type="range" min="20" max="120" value="72"></label>
+        <div class="panel-divider"></div>
+        <div class="species-legend" aria-label="Обитатели"><span><b class="legend-dot dot-coral"></b>Рифовые</span><span><b class="legend-dot dot-school"></b>Стайные</span><span><b class="legend-dot dot-angel"></b>Скалярии</span></div>
+      </section>
+      <div class="hint"><span>ДВИГАЙТЕ КУРСОР</span><i></i><span>ПОЧУВСТВУЙТЕ ТЕЧЕНИЕ</span></div>
+    </main>
+    <script src="main.js"></script>
+  </body>
+</html>

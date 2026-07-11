@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3D-тело (софт-рендер) — GPT-5.6 Luna</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="renderCanvas" aria-label="Вращающийся тор, отрисованный программно на Canvas 2D">
+    Ваш браузер не поддерживает Canvas 2D.
+  </canvas>
+  <div class="vignette" aria-hidden="true"></div>
+  <main class="hud-layer">
+    <section class="intro" aria-labelledby="page-title">
+      <div class="eyebrow"><span class="status-dot"></span>SOFT RENDERER <span class="slash">/</span> CANVAS 2D</div>
+      <h1 id="page-title">Тело в движении<span class="accent">.</span></h1>
+      <p>Вручную собранный мини-конвейер: матрицы, перспектива, отсечение граней и пиксельный z-буфер.</p>
+      <div class="tech-line" aria-label="Используемые этапы рендера">
+        <span>ROTATE</span><i></i><span>PROJECT</span><i></i><span>SHADE</span><i></i><span>DEPTH</span>
+      </div>
+    </section>
+    <section class="control-panel" aria-label="Панель управления рендером">
+      <div class="panel-topline">
+        <div><span class="panel-kicker">СЦЕНА</span><strong>TORUS_042</strong></div>
+        <div class="live-pill"><span></span>LIVE</div>
+      </div>
+      <div class="control-grid">
+        <fieldset class="control-group">
+          <legend>Режим</legend>
+          <div class="segmented">
+            <button type="button" class="segment is-active" data-render-mode="fill" aria-pressed="true">Заливка</button>
+            <button type="button" class="segment" data-render-mode="wire" aria-pressed="false">Каркас</button>
+          </div>
+        </fieldset>
+        <fieldset class="control-group">
+          <legend>Затенение</legend>
+          <div class="segmented">
+            <button type="button" class="segment is-active" data-shading="flat" aria-pressed="true">Плоское</button>
+            <button type="button" class="segment" data-shading="smooth" aria-pressed="false">Гуро</button>
+          </div>
+        </fieldset>
+        <label class="speed-control" for="speedRange">
+          <span><span>Скорость</span><output id="speedValue">0.42×</output></span>
+          <input id="speedRange" type="range" min="0" max="1" step="0.01" value="0.42">
+        </label>
+        <button type="button" class="pause-button" id="pauseButton" aria-label="Поставить вращение на паузу" aria-pressed="false"><span id="pauseIcon" aria-hidden="true">Ⅱ</span></button>
+      </div>
+      <div class="panel-footer">
+        <div class="metric"><span>ГРАНИ</span><strong id="faceStat">—</strong></div>
+        <div class="metric"><span>FPS</span><strong id="fpsStat">—</strong></div>
+        <div class="metric metric-wide"><span>DEPTH TEST</span><strong><b class="metric-dot"></b>Z-BUFFER</strong></div>
+      </div>
+    </section>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>

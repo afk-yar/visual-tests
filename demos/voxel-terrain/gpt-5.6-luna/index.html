@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Воксельный ландшафт — GPT-5.6 Luna</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="scene-shell">
+    <canvas id="terrain-canvas" aria-label="Анимированный воксельный ландшафт"></canvas>
+    <section class="hud hud-top" aria-label="Информация о сцене">
+      <div class="eyebrow"><span class="status-dot" aria-hidden="true"></span> СИСТЕМА НАВИГАЦИИ · ONLINE</div>
+      <h1>ЛУННЫЙ РЕЛЬЕФ</h1>
+      <p>Процедурный полёт над картой высот</p>
+    </section>
+    <section class="hud telemetry" aria-label="Телеметрия">
+      <div class="telemetry-item"><span>СЕКТОР</span><strong id="sector-value">L-07 / 042</strong></div>
+      <div class="telemetry-item"><span>ВЫСОТА</span><strong id="altitude-value">042.0 m</strong></div>
+      <div class="telemetry-item"><span>FPS</span><strong id="fps-value">60</strong></div>
+    </section>
+    <aside class="control-panel" aria-label="Настройки полёта">
+      <div class="panel-heading">
+        <div><span class="panel-kicker">FLIGHT DECK / 01</span><h2>Параметры обзора</h2></div>
+        <button class="icon-button" id="pause-button" type="button" aria-label="Поставить полёт на паузу" aria-pressed="false"><span class="pause-icon" aria-hidden="true"></span></button>
+      </div>
+      <div class="controls-grid">
+        <label class="control-row" for="height-range"><span class="control-label"><span>Высота камеры</span><output id="height-output">42 m</output></span><input id="height-range" type="range" min="24" max="78" value="42" step="1"></label>
+        <label class="control-row" for="distance-range"><span class="control-label"><span>Дальность отрисовки</span><output id="distance-output">320 u</output></span><input id="distance-range" type="range" min="180" max="520" value="320" step="10"></label>
+        <label class="control-row" for="horizon-range"><span class="control-label"><span>Линия горизонта</span><output id="horizon-output">48%</output></span><input id="horizon-range" type="range" min="32" max="64" value="48" step="1"></label>
+      </div>
+      <div class="panel-footer"><span class="key-hint">DRAG / ROTATE</span><span class="footer-line"></span><span>CANVAS 2D</span></div>
+    </aside>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>

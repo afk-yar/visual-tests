@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Фрактал Мандельброта — GPT-5.6 Luna</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="scene" aria-label="Интерактивное множество Мандельброта">
+    <canvas id="fractal" role="img" aria-label="Пиксельная визуализация множества Мандельброта"></canvas>
+    <section class="hud hud--top" aria-label="Информация о фрактале">
+      <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> CPU / CANVAS 2D</p>
+      <h1>Множество<br><em>Мандельброта</em></h1>
+      <p class="subtitle">Бесконечная граница, вычисленная в реальном времени</p>
+    </section>
+    <section class="hud hud--metrics" aria-label="Параметры текущего вида">
+      <div class="metric"><span class="metric__label">Зум</span><strong id="zoomValue">1.00×</strong></div>
+      <div class="metric"><span class="metric__label">Центр · Re</span><strong id="realValue">−0.500000</strong></div>
+      <div class="metric"><span class="metric__label">Центр · Im</span><strong id="imagValue">0.000000</strong></div>
+      <div class="metric metric--iterations"><span class="metric__label">Глубина</span><strong id="iterationValue">160 итераций</strong></div>
+    </section>
+    <section class="hint" aria-label="Управление">
+      <span class="hint__key">Колесо</span><span>зум</span>
+      <span class="hint__separator" aria-hidden="true"></span>
+      <span class="hint__key">Drag</span><span>панорама</span>
+      <button id="resetView" type="button">Сбросить вид <span aria-hidden="true">↺</span></button>
+    </section>
+    <p id="renderStatus" class="render-status" aria-live="polite">Готово</p>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>

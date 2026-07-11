@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Вращающийся земной шар — GPT-5.6 Luna</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="globeCanvas" aria-label="Вращающийся земной шар"></canvas>
+  <main class="interface">
+    <header class="intro">
+      <div class="eyebrow"><span class="signal"></span> LIVE ORBITAL VIEW</div>
+      <h1>LUNA <span>/</span> EARTH</h1>
+      <p>Свет, облака и движение — в одном живом кадре</p>
+    </header>
+    <section class="telemetry" aria-label="Состояние симуляции">
+      <div class="telemetry-row"><span class="status-dot"></span><span id="sceneStatus">СИМУЛЯЦИЯ В ЭФИРЕ</span><span class="telemetry-separator"></span><span id="frameRate">60 FPS</span></div>
+      <div class="telemetry-data"><span><i>AXIAL TILT</i> 23.5°</span><span><i>ORBIT</i> <b id="orbitValue">000.0°</b></span><span><i>LIGHT</i> <b id="lightValue">DAY SIDE</b></span></div>
+    </section>
+    <section class="control-dock" aria-label="Управление сценой">
+      <div class="control-heading"><div class="mini-label">ATMOSPHERIC CONTROLS</div><div class="drag-hint"><span class="cursor-icon">✦</span> Тяни по сцене, чтобы двигать солнце</div></div>
+      <div class="control-grid">
+        <label class="range-control"><span class="range-label"><span>Положение солнца</span><b id="sunAngleLabel">+32°</b></span><input id="sunAngle" type="range" min="-180" max="180" value="32" aria-label="Положение солнца"></label>
+        <label class="range-control"><span class="range-label"><span>Скорость вращения</span><b id="speedLabel">0.18×</b></span><input id="speed" type="range" min="0" max="100" value="18" aria-label="Скорость вращения"></label>
+        <button id="pauseButton" class="pause-button" type="button"><span class="pause-glyph">Ⅱ</span><span id="pauseText">ПАУЗА</span></button>
+      </div>
+    </section>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>

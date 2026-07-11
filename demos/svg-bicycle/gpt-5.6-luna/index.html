@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SVG велосипед — GPT-5.6 Luna</title>
+  <style>
+    :root { color-scheme: dark; --night:#090e1b; --ink:#eef4ff; --muted:#8a9ab3; --line:#d8e4f5; --cyan:#61e4ff; --violet:#9d8cff; --warm:#ffc86d; }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body { margin:0; min-height:100dvh; display:grid; place-items:center; overflow:hidden; background:radial-gradient(circle at 50% 42%, #15213b 0, #0d1527 34%, var(--night) 72%); color:var(--ink); font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+    .scene { width:min(96vw, 1240px); filter:drop-shadow(0 24px 34px rgba(0,0,0,.34)); }
+    svg { display:block; width:100%; height:auto; }
+    .label { font-size:14px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; fill:var(--muted); }
+    .wheel-spoke { stroke:#7990ae; stroke-width:2; opacity:.7; }
+    @media (max-width:720px) { body { overflow:auto; padding:18px 0; } .scene { width:1120px; max-width:none; transform:scale(.82); transform-origin:center center; margin:-68px 0; } }
+    @media (prefers-reduced-motion:reduce) { * { scroll-behavior:auto !important; } }
+  </style>
+</head>
+<body>
+  <main class="scene">
+    <svg viewBox="0 0 1200 760" role="img" aria-labelledby="bike-title bike-desc" xmlns="http://www.w3.org/2000/svg">
+      <title id="bike-title">Классический велосипед в техническом векторном стиле</title>
+      <desc id="bike-desc">Светлый дорожный велосипед на тёмном фоне: два колеса со спицами, ромбовидная рама из двух треугольников, цепь, шатуны, педали, руль и тормозные механизмы.</desc>
+      <defs>
+        <linearGradient id="frameGradient" x1="340" y1="250" x2="820" y2="540" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#dff3ff"/><stop offset=".48" stop-color="#72e6ff"/><stop offset="1" stop-color="#a48fff"/></linearGradient>
+        <linearGradient id="rimGradient" x1="0" y1="280" x2="0" y2="670" gradientUnits="userSpaceOnUse"><stop stop-color="#f5f8ff"/><stop offset=".5" stop-color="#91a4bf"/><stop offset="1" stop-color="#e4edf9"/></linearGradient>
+        <linearGradient id="saddleGradient" x1="470" y1="220" x2="570" y2="255" gradientUnits="userSpaceOnUse"><stop stop-color="#fff0bd"/><stop offset="1" stop-color="#e1a95e"/></linearGradient>
+        <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="7" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <line id="spokeR" x1="380" y1="480" x2="380" y2="304" class="wheel-spoke"/>
+        <line id="spokeF" x1="900" y1="480" x2="900" y2="304" class="wheel-spoke"/>
+      </defs>
+
+      <g aria-hidden="true" opacity=".7">
+        <path d="M104 657H1088" stroke="#273650" stroke-width="2"/>
+        <path d="M180 650v14M300 650v10M420 650v14M540 650v10M660 650v14M780 650v10M900 650v14M1020 650v10" stroke="#344766" stroke-width="2"/>
+        <text x="104" y="695" class="label">CLASSIC / 01</text>
+        <text x="1088" y="695" class="label" text-anchor="end">LUNA CYCLE WORKS</text>
+      </g>
+
+      <g id="wheels" aria-label="Колёса со спицами">
+        <g id="rear-wheel">
+          <circle cx="380" cy="480" r="181" fill="#0b1221" stroke="#d6e2f3" stroke-width="12"/>
+          <circle cx="380" cy="480" r="169" fill="none" stroke="#536984" stroke-width="3"/>
+          <circle cx="380" cy="480" r="159" fill="none" stroke="url(#rimGradient)" stroke-width="4"/>
+          <g>
+            <use href="#spokeR"/><use href="#spokeR" transform="rotate(22.5 380 480)"/><use href="#spokeR" transform="rotate(45 380 480)"/><use href="#spokeR" transform="rotate(67.5 380 480)"/>
+            <use href="#spokeR" transform="rotate(90 380 480)"/><use href="#spokeR" transform="rotate(112.5 380 480)"/><use href="#spokeR" transform="rotate(135 380 480)"/><use href="#spokeR" transform="rotate(157.5 380 480)"/>
+            <use href="#spokeR" transform="rotate(180 380 480)"/><use href="#spokeR" transform="rotate(202.5 380 480)"/><use href="#spokeR" transform="rotate(225 380 480)"/><use href="#spokeR" transform="rotate(247.5 380 480)"/>
+            <use href="#spokeR" transform="rotate(270 380 480)"/><use href="#spokeR" transform="rotate(292.5 380 480)"/><use href="#spokeR" transform="rotate(315 380 480)"/><use href="#spokeR" transform="rotate(337.5 380 480)"/>
+          </g>
+          <circle cx="380" cy="480" r="13" fill="#0c1424" stroke="#eef4ff" stroke-width="4"/><circle cx="380" cy="480" r="4" fill="#61e4ff"/>
+        </g>
+        <g id="front-wheel">
+          <circle cx="900" cy="480" r="181" fill="#0b1221" stroke="#d6e2f3" stroke-width="12"/>
+          <circle cx="900" cy="480" r="169" fill="none" stroke="#536984" stroke-width="3"/>
+          <circle cx="900" cy="480" r="159" fill="none" stroke="url(#rimGradient)" stroke-width="4"/>
+          <g>
+            <use href="#spokeF"/><use href="#spokeF" transform="rotate(22.5 900 480)"/><use href="#spokeF" transform="rotate(45 900 480)"/><use href="#spokeF" transform="rotate(67.5 900 480)"/>
+            <use href="#spokeF" transform="rotate(90 900 480)"/><use href="#spokeF" transform="rotate(112.5 900 480)"/><use href="#spokeF" transform="rotate(135 900 480)"/><use href="#spokeF" transform="rotate(157.5 900 480)"/>
+            <use href="#spokeF" transform="rotate(180 900 480)"/><use href="#spokeF" transform="rotate(202.5 900 480)"/><use href="#spokeF" transform="rotate(225 900 480)"/><use href="#spokeF" transform="rotate(247.5 900 480)"/>
+            <use href="#spokeF" transform="rotate(270 900 480)"/><use href="#spokeF" transform="rotate(292.5 900 480)"/><use href="#spokeF" transform="rotate(315 900 480)"/><use href="#spokeF" transform="rotate(337.5 900 480)"/>
+          </g>
+          <circle cx="900" cy="480" r="13" fill="#0c1424" stroke="#eef4ff" stroke-width="4"/><circle cx="900" cy="480" r="4" fill="#61e4ff"/>
+        </g>
+      </g>
+
+      <g id="drivetrain" aria-label="Цепь, звёзды, шатуны и педали">
+        <path d="M380 452 L590 432 A48 48 0 0 1 590 528 L380 508 A27 27 0 0 1 380 452Z" fill="none" stroke="#d6e0ee" stroke-width="8" opacity=".86"/>
+        <path d="M380 453 L590 433 M380 507 L590 527" stroke="#61e4ff" stroke-width="2" opacity=".8"/>
+        <g stroke="#9db0ca" stroke-width="2" opacity=".9"><path d="M400 450l-3 12M420 448l-3 12M440 446l-3 12M460 444l-3 12M480 442l-3 12M500 440l-3 12M520 438l-3 12M540 436l-3 12M560 434l-3 12"/><path d="M400 496l-3 12M420 498l-3 12M440 500l-3 12M460 502l-3 12M480 504l-3 12M500 506l-3 12M520 508l-3 12M540 510l-3 12M560 512l-3 12"/></g>
+        <circle cx="380" cy="480" r="27" fill="#0b1221" stroke="#aabbd1" stroke-width="5"/><circle cx="380" cy="480" r="17" fill="none" stroke="#667c99" stroke-width="2"/>
+        <circle cx="590" cy="480" r="51" fill="#0b1221" stroke="#eef4ff" stroke-width="5"/><circle cx="590" cy="480" r="41" fill="none" stroke="#667c99" stroke-width="2"/>
+        <g stroke="#b9c9dc" stroke-width="3"><path d="M590 480L590 439M590 480L629 467M590 480L616 513M590 480L564 513M590 480L551 467"/></g>
+        <circle cx="590" cy="480" r="9" fill="#61e4ff" stroke="#ecf8ff" stroke-width="3"/>
+        <path d="M590 480L627 442" fill="none" stroke="#d8e4f5" stroke-width="9" stroke-linecap="round"/><rect x="623" y="432" width="49" height="13" rx="6.5" fill="#eef4ff" transform="rotate(-43 623 432)"/>
+        <path d="M590 480L552 521" fill="none" stroke="#d8e4f5" stroke-width="9" stroke-linecap="round"/><rect x="515" y="520" width="49" height="13" rx="6.5" fill="#eef4ff" transform="rotate(-43 515 520)"/>
+      </g>
+
+      <g id="frame" aria-label="Ромбовидная рама из двух треугольников">
+        <path d="M380 480 L520 270 L590 480 Z" fill="rgba(97,228,255,.055)" stroke="url(#frameGradient)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M520 270 L795 294 L590 480 Z" fill="rgba(157,140,255,.06)" stroke="url(#frameGradient)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M380 480 L520 270 M520 270 L795 294 M795 294 L590 480 M590 480 L380 480" stroke="#f3f7ff" stroke-width="3" opacity=".85" stroke-linecap="round"/>
+        <circle cx="520" cy="270" r="16" fill="#0b1221" stroke="#eff6ff" stroke-width="5"/><circle cx="590" cy="480" r="15" fill="#0b1221" stroke="#eff6ff" stroke-width="5"/><circle cx="795" cy="294" r="15" fill="#0b1221" stroke="#eff6ff" stroke-width="5"/><circle cx="380" cy="480" r="12" fill="#0b1221" stroke="#eff6ff" stroke-width="4"/>
+      </g>
+
+      <g id="fork-and-steering" aria-label="Рулевая труба и вилка">
+        <path d="M795 294 L810 354 L900 480" fill="none" stroke="#f4f8ff" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M810 354 L886 481" fill="none" stroke="#6e829f" stroke-width="5" stroke-linecap="round"/>
+        <path d="M795 294 L810 354" fill="none" stroke="#9b8aff" stroke-width="10" stroke-linecap="round"/>
+        <path d="M380 480 L520 270" fill="none" stroke="#eef4ff" stroke-width="8" stroke-linecap="round"/><path d="M380 480 L590 480" fill="none" stroke="#7f95b1" stroke-width="5" stroke-linecap="round"/>
+        <path d="M795 294 L808 237" fill="none" stroke="#eef4ff" stroke-width="11" stroke-linecap="round"/>
+        <path d="M808 240 C792 231 774 226 752 229 C739 231 731 240 732 251 C733 261 744 267 756 264" fill="none" stroke="#eef4ff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M750 230L737 218M756 264L744 274" stroke="#61e4ff" stroke-width="5" stroke-linecap="round"/><path d="M738 218L724 214M744 274L730 281" stroke="#eef4ff" stroke-width="5" stroke-linecap="round"/>
+        <path d="M741 220 C762 258 790 284 809 320" fill="none" stroke="#ffc86d" stroke-width="2" opacity=".85"/><path d="M744 220 C770 253 797 278 813 320" fill="none" stroke="#ffc86d" stroke-width="2" opacity=".5"/>
+      </g>
+
+      <g id="saddle" aria-label="Седло">
+        <path d="M520 270 L514 222" stroke="#e9f3ff" stroke-width="9" stroke-linecap="round"/>
+        <path d="M500 220 C516 213 553 213 574 222 L565 239 C544 243 513 241 492 234Z" fill="url(#saddleGradient)" stroke="#fff1c9" stroke-width="3" stroke-linejoin="round"/><path d="M506 229 C525 233 545 233 564 228" fill="none" stroke="#9b6c42" stroke-width="2" opacity=".75"/>
+      </g>
+
+      <g id="brakes" aria-label="Тормозные механизмы">
+        <path d="M380 310 C350 319 351 346 367 356 M380 310 C410 319 409 346 393 356" fill="none" stroke="#e9f2ff" stroke-width="7" stroke-linecap="round"/><path d="M367 356L347 361M393 356L413 361" stroke="#ffc86d" stroke-width="6" stroke-linecap="round"/><circle cx="380" cy="310" r="8" fill="#0b1221" stroke="#ffc86d" stroke-width="3"/>
+        <path d="M900 310 C870 319 871 346 887 356 M900 310 C930 319 929 346 913 356" fill="none" stroke="#e9f2ff" stroke-width="7" stroke-linecap="round"/><path d="M887 356L867 361M913 356L933 361" stroke="#ffc86d" stroke-width="6" stroke-linecap="round"/><circle cx="900" cy="310" r="8" fill="#0b1221" stroke="#ffc86d" stroke-width="3"/>
+        <path d="M737 218 C710 246 700 300 711 343 C721 382 735 414 733 454" fill="none" stroke="#ffc86d" stroke-width="2" opacity=".7"/><path d="M744 274 C660 309 590 318 520 270" fill="none" stroke="#ffc86d" stroke-width="2" opacity=".5"/>
+      </g>
+
+      <g aria-hidden="true"><circle cx="900" cy="480" r="8" fill="#61e4ff" stroke="#f2f8ff" stroke-width="3"/><circle cx="380" cy="480" r="8" fill="#61e4ff" stroke="#f2f8ff" stroke-width="3"/></g>
+      <g aria-hidden="true" filter="url(#softGlow)" opacity=".18"><circle cx="520" cy="270" r="18" fill="#61e4ff"/><circle cx="795" cy="294" r="18" fill="#9d8cff"/><circle cx="590" cy="480" r="21" fill="#61e4ff"/></g>
+    </svg>
+  </main>
+</body>
+</html>

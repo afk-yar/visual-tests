@@ -1,0 +1,203 @@
+:root {
+  color-scheme: dark;
+  --ink: #f4f2ff;
+  --muted: rgba(225, 221, 245, 0.67);
+  --faint: rgba(225, 221, 245, 0.42);
+  --line: rgba(237, 231, 255, 0.16);
+  --accent: #ffa76d;
+  --accent-cool: #a69cff;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #03030a;
+}
+
+body {
+  color: var(--ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: -0.01em;
+}
+
+button, canvas { -webkit-tap-highlight-color: transparent; }
+
+canvas {
+  position: fixed;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+  pointer-events: auto;
+}
+
+canvas.is-dragging { cursor: grabbing; }
+
+.scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  isolation: isolate;
+  pointer-events: none;
+}
+
+.hud, .hint, .render-status {
+  position: fixed;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.hud--top {
+  top: clamp(24px, 5.8vw, 82px);
+  left: clamp(22px, 5.2vw, 76px);
+  max-width: 390px;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 18px;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.21em;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(255, 167, 109, 0.12), 0 0 16px rgba(255, 167, 109, 0.95);
+}
+
+h1 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(36px, 5.5vw, 78px);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.065em;
+}
+
+h1 em { color: var(--accent); font-style: normal; }
+
+.subtitle {
+  max-width: 290px;
+  margin: 22px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.hud--metrics {
+  top: clamp(24px, 5.8vw, 82px);
+  right: clamp(22px, 5.2vw, 76px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(114px, 1fr));
+  gap: 0 28px;
+  min-width: 270px;
+  padding: 2px 0 2px 24px;
+  border-left: 1px solid var(--line);
+  background: linear-gradient(90deg, rgba(3, 3, 10, 0.05), rgba(3, 3, 10, 0.3));
+  backdrop-filter: blur(4px);
+}
+
+.metric { display: flex; flex-direction: column; gap: 6px; padding: 8px 0; }
+
+.metric__label {
+  color: var(--faint);
+  font-size: 9px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.metric strong {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.metric--iterations strong { color: var(--accent-cool); }
+
+.hint {
+  right: clamp(22px, 5.2vw, 76px);
+  bottom: clamp(24px, 5.8vw, 72px);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.01em;
+  user-select: none;
+}
+
+.hint__key {
+  padding: 5px 7px;
+  border: 1px solid rgba(237, 231, 255, 0.22);
+  border-radius: 4px;
+  color: var(--ink);
+  background: rgba(237, 231, 255, 0.07);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hint__separator { width: 1px; height: 16px; margin: 0 4px; background: var(--line); }
+
+.hint button {
+  margin-left: 12px;
+  padding: 5px 0 5px 12px;
+  border: 0;
+  border-left: 1px solid var(--line);
+  color: var(--muted);
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+  transition: color 160ms ease;
+}
+
+.hint button:hover, .hint button:focus-visible { color: var(--accent); outline: none; }
+.hint button span { display: inline-block; margin-left: 4px; color: var(--accent); font-size: 16px; line-height: 0.7; vertical-align: -2px; }
+
+.render-status {
+  bottom: clamp(24px, 5.8vw, 72px);
+  left: clamp(22px, 5.2vw, 76px);
+  color: var(--faint);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 180ms ease;
+}
+
+.render-status.is-busy { color: var(--accent); }
+
+@media (max-width: 680px) {
+  .hud--top { top: 24px; left: 20px; }
+  .hud--metrics { top: auto; right: 20px; bottom: 78px; min-width: 238px; padding-left: 14px; }
+  .hint { right: 20px; bottom: 22px; font-size: 10px; }
+  .render-status { bottom: 24px; left: 20px; }
+}
+
+@media (max-width: 430px) {
+  .subtitle { max-width: 220px; margin-top: 15px; font-size: 11px; }
+  .hud--metrics { right: 20px; left: 20px; min-width: 0; }
+  .hint { left: 20px; right: auto; }
+  .hint button { margin-left: 4px; }
+  .render-status { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hint button { transition: none; }
+}
+

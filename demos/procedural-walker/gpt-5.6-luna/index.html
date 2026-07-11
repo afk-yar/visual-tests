@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Идущий человечек — GPT-5.6 Luna</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <canvas id="scene" aria-label="Процедурная анимация идущего человечка"></canvas>
+
+    <main class="app-shell">
+      <header class="hud" aria-labelledby="page-title">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> PROCEDURAL MOTION / 2D</div>
+        <h1 id="page-title">Идущий человечек</h1>
+        <p>Обратная кинематика · фазы опоры и переноса</p>
+      </header>
+
+      <section class="control-panel" aria-label="Управление анимацией">
+        <div class="panel-heading">
+          <div>
+            <span class="panel-kicker">GAIT CONTROL</span>
+            <h2>Темп движения</h2>
+          </div>
+          <output id="speed-output" for="speed">34%</output>
+        </div>
+
+        <div class="range-wrap">
+          <label class="sr-only" for="speed">Скорость от ходьбы до бега</label>
+          <input id="speed" type="range" min="0" max="100" value="34" step="1" aria-describedby="speed-hint">
+          <div class="range-labels" aria-hidden="true">
+            <span>медленно</span>
+            <span>ходьба</span>
+            <span>бег</span>
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          <div class="status-line">
+            <span class="status-pulse"></span>
+            <span id="gait-mode">Спокойная ходьба</span>
+            <span class="status-separator">/</span>
+            <span id="phase-status">опора</span>
+          </div>
+          <span id="speed-hint" class="hint">Плавно меняет длину шага и каденс</span>
+          <button id="pause-button" class="pause-button" type="button" aria-pressed="false">
+            <span class="pause-icon" aria-hidden="true"><i></i><i></i></span>
+            <span id="pause-label">Пауза</span>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <script src="main.js"></script>
+  </body>
+</html>

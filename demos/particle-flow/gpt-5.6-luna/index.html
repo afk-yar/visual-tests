@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Поток частиц 3D — GPT-5.6 Luna</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="scene" aria-label="Интерактивная визуализация трёхмерного поля скоростей">
+    <canvas id="flowCanvas" aria-label="Живое поле частиц в трёхмерном пространстве"></canvas>
+    <header class="hud hud-top">
+      <div class="brand-lockup"><div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div><div><p class="eyebrow">LUNA / VELOCITY FIELD</p><h1>Particle flow</h1></div></div>
+      <div class="live-status" aria-live="polite"><i class="status-dot" aria-hidden="true"></i><span id="statusText">LIVE / CANVAS 2D</span></div>
+    </header>
+    <section class="hud hud-intro" aria-label="Описание визуализации"><p>Трёхмерная турбулентность</p><span>Наведите курсор, чтобы мягко сместить поле</span></section>
+    <section class="control-dock" aria-label="Управление сценой">
+      <div class="dock-heading"><div><p class="eyebrow">ATMOSPHERIC STUDY 01</p><h2>Параметры потока</h2></div><button class="icon-button" id="reseedButton" type="button" aria-label="Пересоздать частицы" title="Пересоздать частицы">↻</button></div>
+      <div class="control-grid">
+        <label class="control control-wide"><span class="control-label"><span>Плотность</span><output id="particleValue">22 000</output></span><input id="particleRange" type="range" min="8000" max="30000" step="1000" value="22000" aria-label="Плотность частиц"></label>
+        <label class="control"><span class="control-label"><span>Энергия поля</span><output id="energyValue">0.82</output></span><input id="energyRange" type="range" min="0.2" max="1.4" step="0.01" value="0.82" aria-label="Энергия поля"></label>
+        <label class="control"><span class="control-label"><span>Вращение камеры</span><output id="rotationValue">0.14×</output></span><input id="rotationRange" type="range" min="0" max="0.5" step="0.01" value="0.14" aria-label="Скорость вращения камеры"></label>
+        <div class="control palette-control"><span class="control-label"><span>Спектр</span><span class="palette-name" id="paletteValue">Aurora</span></span><div class="palette-switch" role="group" aria-label="Выбор цветового спектра"><button class="palette-swatch is-active" data-palette="aurora" type="button" aria-label="Спектр Aurora"></button><button class="palette-swatch" data-palette="ember" type="button" aria-label="Спектр Ember"></button><button class="palette-swatch" data-palette="polar" type="button" aria-label="Спектр Polar"></button></div></div>
+      </div>
+      <div class="dock-footer"><p><span class="key-hint">DRAG</span> исследовать поле <span class="footer-separator">•</span> <span class="key-hint">SPACE</span> пауза</p><button class="pause-button" id="pauseButton" type="button"><span class="pause-icon" aria-hidden="true">Ⅱ</span><span id="pauseText">Пауза</span></button></div>
+    </section>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>

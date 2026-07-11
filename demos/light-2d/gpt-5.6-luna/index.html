@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>2D-свет и тени — GPT-5.6 Luna</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scene" aria-label="Интерактивная демонстрация 2D-света и теней"></canvas>
+  <main class="hud">
+    <div class="eyebrow"><span class="live-dot"></span> CANVAS 2D · REAL-TIME GEOMETRY</div>
+    <h1>2D-свет и тени</h1>
+    <p>Перемещайте курсор — свет проходит только там,<br>где нет препятствий.</p>
+  </main>
+  <section class="control-panel" aria-label="Управление демонстрацией">
+    <div class="panel-copy"><span class="panel-kicker">СЦЕНА</span><strong>Полигон видимости</strong><span class="panel-note">Лучевая трассировка по вершинам</span></div>
+    <div class="panel-divider"></div>
+    <label class="toggle-row"><span class="toggle-label"><span class="toggle-title">Режим отладки</span><span class="toggle-hint">лучи и вершины</span></span><input id="debugToggle" type="checkbox"><span class="switch" aria-hidden="true"><span></span></span></label>
+    <div class="panel-divider short"></div>
+    <div class="metric"><span class="metric-label">ЛУЧИ</span><span id="rayCount" class="metric-value">—</span></div>
+    <div class="metric"><span class="metric-label">DPR</span><span id="dprValue" class="metric-value">—</span></div>
+  </section>
+  <div class="corner-mark" aria-hidden="true">LUNA / 02</div>
+  <script src="main.js"></script>
+</body>
+</html>

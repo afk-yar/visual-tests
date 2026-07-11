@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Двойной маятник — GPT-5.6 Luna</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scene" aria-label="Интерактивная визуализация двойного маятника"></canvas>
+  <header class="hud">
+    <div class="eyebrow"><span class="signal"></span> PHYSICS LAB / 02</div>
+    <h1>Двойной маятник</h1>
+    <p>Две почти одинаковые системы.<br><span>Но траектории расходятся.</span></p>
+  </header>
+  <div class="readout" aria-live="polite">
+    <div><span class="readout-label">Время</span><strong id="timeValue">00:00.0</strong></div>
+    <div><span class="readout-label">Статус</span><strong id="statusValue">ПАУЗА</strong></div>
+  </div>
+  <section class="control-panel" aria-label="Управление симуляцией">
+    <div class="control-topline">
+      <div class="mode-title"><span class="live-dot"></span><span id="modeLabel">СИМУЛЯЦИЯ</span></div>
+      <div class="formula">θ̈ = f(θ, ω, m, L, g)</div>
+    </div>
+    <div class="controls-grid">
+      <div class="control-group actions">
+        <button id="toggleButton" class="primary" type="button"><span class="button-icon" id="toggleIcon">▶</span><span id="toggleText">Запустить</span></button>
+        <button id="resetButton" class="secondary" type="button"><span class="button-icon">↺</span>Сбросить</button>
+      </div>
+      <label class="slider-control" for="mass1"><span class="slider-head"><span>Масса 1</span><output id="mass1Value">1.00 кг</output></span><input id="mass1" type="range" min="0.40" max="3.00" step="0.05" value="1.00"><span class="range-limits"><i>0.4</i><i>3.0 кг</i></span></label>
+      <label class="slider-control" for="mass2"><span class="slider-head"><span>Масса 2</span><output id="mass2Value">1.00 кг</output></span><input id="mass2" type="range" min="0.40" max="3.00" step="0.05" value="1.00"><span class="range-limits"><i>0.4</i><i>3.0 кг</i></span></label>
+      <label class="slider-control" for="length1"><span class="slider-head"><span>Длина 1</span><output id="length1Value">1.00 м</output></span><input id="length1" type="range" min="0.60" max="1.60" step="0.05" value="1.00"><span class="range-limits"><i>0.6</i><i>1.6 м</i></span></label>
+      <label class="slider-control" for="length2"><span class="slider-head"><span>Длина 2</span><output id="length2Value">1.00 м</output></span><input id="length2" type="range" min="0.60" max="1.60" step="0.05" value="1.00"><span class="range-limits"><i>0.6</i><i>1.6 м</i></span></label>
+      <label class="ghost-control" for="ghostToggle"><span class="ghost-copy"><span class="ghost-title">Режим «призрак»</span><span class="ghost-subtitle">δθ₀ = 0.001 рад</span></span><input id="ghostToggle" type="checkbox" checked><span class="switch" aria-hidden="true"><span></span></span></label>
+    </div>
+    <div class="footer-line"><span>RK4 · 240 Гц · g = 9.81 м/с²</span><span class="hint">Параметры можно менять во время работы</span></div>
+  </section>
+  <script src="main.js"></script>
+</body>
+</html>
+

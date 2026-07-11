@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Аналоговые часы — GPT-5.6 Luna</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <canvas id="clockCanvas" role="img" aria-label="Аналоговые настенные часы, показывающие местное системное время"></canvas>
+
+      <header class="hud" aria-label="Информация о часах">
+        <div class="brand-lockup">
+          <span class="brand-mark" aria-hidden="true"><span></span></span>
+          <div>
+            <p class="eyebrow">LUNA / 24-HOUR</p>
+            <h1>Аналоговые часы</h1>
+            <p class="subtitle">Точное системное время <span class="separator">•</span> плавный ход</p>
+          </div>
+        </div>
+        <div class="sync-badge"><span class="sync-dot" aria-hidden="true"></span><span>Синхронизировано</span></div>
+      </header>
+
+      <section class="control-panel" aria-label="Панель управления часами">
+        <div class="time-readout">
+          <span class="status-line"><span class="live-dot" aria-hidden="true"></span> МЕСТНОЕ ВРЕМЯ</span>
+          <strong id="digitalTime">00:00:00</strong>
+          <span id="digitalDate">—</span>
+        </div>
+        <div class="panel-divider" aria-hidden="true"></div>
+        <div class="motion-control">
+          <span class="control-label">Секундная стрелка</span>
+          <div class="mode-switch" role="group" aria-label="Режим движения секундной стрелки">
+            <button class="mode-button is-active" type="button" data-mode="sweep" aria-pressed="true">Плавный ход</button>
+            <button class="mode-button" type="button" data-mode="tick" aria-pressed="false">Тик + отскок</button>
+          </div>
+        </div>
+        <div class="panel-note"><span class="key-cap">DPR</span> <span id="dprReadout">1×</span><span class="note-divider">/</span> Canvas 2D</div>
+      </section>
+    </main>
+    <script src="main.js"></script>
+  </body>
+</html>

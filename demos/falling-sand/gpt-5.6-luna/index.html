@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Падающий песок — GPT-5.6 Luna</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="sandbox" aria-label="Интерактивная симуляция падающего песка"></canvas>
+  <header class="hud">
+    <div class="eyebrow"><span class="live-dot"></span> CELLULAR LAB / 01</div>
+    <h1>Падающий песок</h1>
+    <p>Нарисуйте стихию. Наблюдайте, как материя находит равновесие.</p>
+  </header>
+  <section class="controls" aria-label="Панель управления симуляцией">
+    <div class="control-topline">
+      <div class="material-heading"><span class="section-label">Материал</span><span class="selected-name" id="selectedName">Песок</span></div>
+      <div class="readout"><span id="particleCount">0</span> частиц</div>
+    </div>
+    <div class="material-grid" role="group" aria-label="Выбор материала">
+      <button class="material is-selected" data-material="sand" type="button" aria-label="Песок"><span class="swatch sand-swatch"></span><span>Песок</span><kbd>1</kbd></button>
+      <button class="material" data-material="water" type="button" aria-label="Вода"><span class="swatch water-swatch"></span><span>Вода</span><kbd>2</kbd></button>
+      <button class="material" data-material="stone" type="button" aria-label="Камень"><span class="swatch stone-swatch"></span><span>Камень</span><kbd>3</kbd></button>
+      <button class="material" data-material="wood" type="button" aria-label="Дерево"><span class="swatch wood-swatch"></span><span>Дерево</span><kbd>4</kbd></button>
+      <button class="material" data-material="fire" type="button" aria-label="Огонь"><span class="swatch fire-swatch"></span><span>Огонь</span><kbd>5</kbd></button>
+      <button class="material" data-material="smoke" type="button" aria-label="Дым"><span class="swatch smoke-swatch"></span><span>Дым</span><kbd>6</kbd></button>
+    </div>
+    <div class="toolbar">
+      <label class="brush-control" for="brushSize"><span class="section-label">Кисть</span><span class="brush-value"><span id="brushValue">6</span> клеток</span><input id="brushSize" type="range" min="1" max="18" value="6"></label>
+      <div class="actions">
+        <button class="action-button pause-button" id="pauseButton" type="button"><span class="action-icon" id="pauseIcon">Ⅱ</span><span id="pauseLabel">Пауза</span></button>
+        <button class="action-button clear-button" id="clearButton" type="button"><span class="action-icon">↺</span><span>Очистить</span></button>
+      </div>
+    </div>
+    <div class="hint"><span class="mouse-icon">✦</span> Ведите мышью по полю, чтобы рисовать</div>
+  </section>
+  <script src="main.js"></script>
+</body>
+</html>
