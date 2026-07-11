@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Стая boids — GPT-5.6 Luna</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="boidsCanvas" aria-label="Интерактивная визуализация стаи птиц"></canvas>
+<header class="hud">
+  <div class="eyebrow"><b></b> REAL-TIME SIMULATION</div>
+  <h1>Стая <em>boids</em></h1>
+  <p>Нажмите на птицу, чтобы исследовать её локальный мир</p>
+  <div class="stats"><span><strong>440</strong> агентов</span><i></i><span><strong id="fps">60</strong> FPS</span></div>
+</header>
+<section class="panel" aria-label="Настройки симуляции">
+  <div class="panel-top"><div><small>ПАРАМЕТРЫ СТАИ</small><h2>Настройте поведение</h2></div><button id="reset" type="button">↺ <span>Сбросить</span></button></div>
+  <div class="grid">
+    <label><span><i class="pink"></i>Разделение <output id="sepOut">1.40</output></span><input id="sep" type="range" min="0" max="3" step=".05" value="1.4"></label>
+    <label><span><i class="cyan"></i>Выравнивание <output id="aliOut">1.00</output></span><input id="ali" type="range" min="0" max="3" step=".05" value="1"></label>
+    <label><span><i class="green"></i>Сцепление <output id="cohOut">0.85</output></span><input id="coh" type="range" min="0" max="3" step=".05" value=".85"></label>
+    <label><span><i class="violet"></i>Радиус восприятия <output id="radOut">92<small> px</small></output></span><input id="rad" type="range" min="45" max="180" value="92"></label>
+    <label><span><i class="gold"></i>Макс. скорость <output id="speedOut">138<small> px/s</small></output></span><input id="speed" type="range" min="60" max="260" value="138"></label>
+  </div>
+  <div class="legend"><b></b> выбранная птица <i></i> её соседи</div>
+</section>
+<script src="main.js"></script>
+</body>
+</html>

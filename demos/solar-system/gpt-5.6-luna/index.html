@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Солнечная система — GPT-5.6 Luna</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="scene" aria-label="Интерактивная визуализация Солнечной системы">
+      <canvas id="space" aria-label="Солнечная система в реальном времени"></canvas>
+      <section class="hud hud-top" aria-label="Сведения о визуализации">
+        <div class="eyebrow"><span class="live-dot"></span> LIVE ORBITAL ATLAS</div>
+        <h1>Солнечная<br><em>система</em></h1>
+        <p class="intro">Гелиоцентрическая проекция · 3D-камера</p>
+        <div class="status-row"><span id="simStatus">СИМУЛЯЦИЯ АКТИВНА</span><span class="status-separator">/</span><span id="simDate">12 МАЯ 2026</span></div>
+      </section>
+      <section class="legend" aria-label="Легенда">
+        <div class="legend-line"><span class="legend-swatch orbit-swatch"></span> орбитальная плоскость</div>
+        <div class="legend-line"><span class="legend-swatch trail-swatch"></span> след движения</div>
+        <div class="legend-note">Размеры тел усилены для наблюдения</div>
+      </section>
+      <section class="control-deck" aria-label="Управление сценой">
+        <button id="pauseBtn" class="play-button" type="button" aria-label="Пауза" title="Пауза / продолжить">Ⅱ</button>
+        <div class="deck-divider"></div>
+        <div class="control-block speed-block">
+          <div class="control-label"><span>СКОРОСТЬ ВРЕМЕНИ</span><strong id="speedValue">× 8.0</strong></div>
+          <input id="speedRange" type="range" min="0.5" max="40" step="0.5" value="8" aria-label="Скорость времени">
+          <div class="range-hints"><span>МЕДЛЕННО</span><span>КИНЕМАТОГРАФИЧНО</span><span>БЫСТРО</span></div>
+        </div>
+        <div class="control-block zoom-block">
+          <div class="control-label"><span>МАСШТАБ</span><strong id="zoomValue">100%</strong></div>
+          <input id="zoomRange" type="range" min="0.65" max="1.45" step="0.01" value="1" aria-label="Масштаб">
+          <div class="range-hints"><span>−</span><span>ПАНОРАМА</span><span>+</span></div>
+        </div>
+        <button id="resetBtn" class="icon-button" type="button" title="Сбросить камеру и масштаб" aria-label="Сбросить камеру и масштаб">↺</button>
+      </section>
+      <div class="hint">Потяните, чтобы вращать камеру <span>·</span> колёсико — масштаб</div>
+      <div class="corner-mark">LUNA / 05<span></span></div>
+    </main>
+    <script src="main.js"></script>
+  </body>
+</html>

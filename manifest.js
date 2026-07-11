@@ -24,6 +24,7 @@ window.TASKS = [
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/solar-system/fable-5/' },
       { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/solar-system/sonnet-5/' },
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/solar-system/gpt-5.6-sol/' },
+      { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/solar-system/gpt-5.6-luna/' },
     ],
   },
   {
@@ -37,6 +38,7 @@ window.TASKS = [
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/mandelbrot/fable-5/' },
       { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/mandelbrot/sonnet-5/' },
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/mandelbrot/gpt-5.6-sol/' },
+      { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/mandelbrot/gpt-5.6-luna/' },
     ],
   },
   {
@@ -50,6 +52,7 @@ window.TASKS = [
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/lorenz/fable-5/' },
       { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/lorenz/sonnet-5/' },
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/lorenz/gpt-5.6-sol/' },
+      { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/lorenz/gpt-5.6-luna/' },
     ],
   },
   {
@@ -63,6 +66,7 @@ window.TASKS = [
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/boids/fable-5/' },
       { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/boids/sonnet-5/' },
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/boids/gpt-5.6-sol/' },
+      { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/boids/gpt-5.6-luna/' },
     ],
   },
   {
@@ -76,6 +80,7 @@ window.TASKS = [
       { model: 'Claude Fable 5', slug: 'fable-5', dir: 'demos/verlet-cloth/fable-5/' },
       { model: 'Claude Sonnet 5', slug: 'sonnet-5', dir: 'demos/verlet-cloth/sonnet-5/' },
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/verlet-cloth/gpt-5.6-sol/' },
+      { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/verlet-cloth/gpt-5.6-luna/' },
     ],
   },
   {

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ткань (верлет) — GPT-5.6 Luna</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <canvas id="cloth-canvas" aria-label="Интерактивная симуляция ткани"></canvas>
+    <section class="hud" aria-label="Описание симуляции">
+      <div class="eyebrow"><span class="status-dot"></span> PHYSICS LAB / 01</div>
+      <h1>Ткань <span>на верлете</span></h1>
+      <p>Потяни за сетку, чтобы увидеть, как материя уступает силе.</p>
+    </section>
+    <section class="control-panel" aria-label="Управление симуляцией">
+      <div class="panel-intro"><span class="panel-kicker">LIVE SIMULATION</span><span class="panel-state" id="state-label">RUNNING</span></div>
+      <div class="control-group"><label for="gravity">Гравитация <output id="gravity-value">980</output></label><input id="gravity" type="range" min="300" max="1600" value="980" step="10"></div>
+      <div class="control-group"><label for="wind">Ветер <output id="wind-value">24</output></label><input id="wind" type="range" min="0" max="80" value="24" step="1"></div>
+      <div class="control-group"><label for="tear">Предел разрыва <output id="tear-value">1.70×</output></label><input id="tear" type="range" min="1.25" max="2.25" value="1.70" step="0.05"></div>
+      <div class="panel-actions">
+        <button class="icon-button" id="pause-button" type="button" aria-label="Поставить на паузу"><span class="pause-icon" aria-hidden="true"><i></i><i></i></span><span id="pause-label">Пауза</span></button>
+        <button class="reset-button" id="reset-button" type="button"><span>↻</span> Сбросить ткань</button>
+      </div>
+    </section>
+    <div class="hint"><span class="mouse-icon" aria-hidden="true"></span><span>Зажми и потяни любой узел</span></div>
+    <div class="signature">VERLET / CLOTH<br><span>interaction study</span></div>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>

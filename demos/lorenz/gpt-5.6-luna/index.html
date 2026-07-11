@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Система Лоренца — GPT-5.6 Luna</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="scene" aria-label="Интерактивная визуализация аттрактора Лоренца">
+    <canvas id="lorenzCanvas" aria-label="Трёхмерная траектория аттрактора Лоренца"></canvas>
+
+    <section class="hud" aria-label="Описание системы">
+      <p class="eyebrow"><span class="pulse-dot" aria-hidden="true"></span> ДИНАМИЧЕСКАЯ СИСТЕМА</p>
+      <h1>Аттрактор<br><em>Лоренца</em></h1>
+      <p class="subtitle">Чувствительность к начальным условиям<br>в непрерывном движении.</p>
+      <div class="equation" aria-label="Параметры системы: сигма 10, ро 28, бета 8 на 3">
+        <span>σ</span> 10&nbsp;&nbsp; <span>ρ</span> 28&nbsp;&nbsp; <span>β</span> 8/3
+      </div>
+    </section>
+
+    <section class="control-panel" aria-label="Управление визуализацией">
+      <div class="panel-row panel-heading">
+        <span class="live-indicator"><span></span> LIVE</span>
+        <span class="panel-caption">КЛАССИЧЕСКИЙ РЕЖИМ</span>
+      </div>
+      <div class="panel-row controls">
+        <button id="pauseButton" class="icon-button" type="button" aria-label="Пауза" aria-pressed="false">
+          <span class="pause-icon" aria-hidden="true"><i></i><i></i></span>
+        </button>
+        <button id="resetButton" class="text-button" type="button">Сбросить</button>
+        <label class="range-control">
+          <span>Скорость <output id="speedValue">1.0×</output></span>
+          <input id="speedRange" type="range" min="0.2" max="2.4" step="0.1" value="1">
+        </label>
+        <label class="range-control trail-control">
+          <span>След <output id="trailValue">82%</output></span>
+          <input id="trailRange" type="range" min="35" max="100" step="1" value="82">
+        </label>
+      </div>
+    </section>
+
+    <div class="corner-mark" aria-hidden="true">L / 01</div>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>

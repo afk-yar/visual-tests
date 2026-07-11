@@ -8,7 +8,7 @@
 https://gpt-5-vs-opus-4-1-coding-examples.vercel.app/
 
 ## Стек
-Чистый статичный HTML/CSS/JS, **без сборки** (нет npm/Node/бандлера в рантайме).
+Чистый статичный HTML/CSS/JS, без WebGL/WebGL2/WebGPU, **без сборки** (нет npm/Node/бандлера в рантайме).
 Node используется только как dev-time раннер тестов (`node:assert`, без npm).
 
 ## Конвенции
