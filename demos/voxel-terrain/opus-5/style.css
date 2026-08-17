@@ -1,0 +1,284 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #05070d;
+  color: #eaf0f8;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #0a1018;
+}
+
+/* ---------- HUD ---------- */
+.hud {
+  position: fixed;
+  top: 16px;
+  left: 20px;
+  z-index: 5;
+  box-sizing: border-box;
+  max-width: min(46ch, calc(100vw - 40px));
+  pointer-events: none;
+  padding: 11px 16px 12px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, .13);
+  background: linear-gradient(180deg, rgba(11, 17, 28, .74), rgba(8, 13, 21, .60));
+  -webkit-backdrop-filter: blur(16px) saturate(1.25);
+  backdrop-filter: blur(16px) saturate(1.25);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, .44), inset 0 1px 0 rgba(255, 255, 255, .07);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .55);
+}
+
+.hud h1 {
+  margin: 0;
+  font-size: clamp(15px, 2.1vw, 21px);
+  font-weight: 650;
+  letter-spacing: .02em;
+}
+
+.hud p {
+  margin: 5px 0 0;
+  font-size: clamp(11px, 1.25vw, 13px);
+  line-height: 1.35;
+  color: rgba(228, 238, 250, .88);
+}
+
+.meter {
+  margin-top: 9px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, .10);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .04em;
+  color: rgba(174, 214, 255, .95);
+  text-transform: uppercase;
+}
+
+.meter .dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(174, 214, 255, .55);
+}
+
+/* ---------- Панель управления ---------- */
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 6;
+  /* Стабильная сетка: два ряда по два ползунка + колонка кнопок справа.
+     Ширина задаётся треками, поэтому раскладка не «рассыпается». */
+  display: grid;
+  box-sizing: border-box;
+  grid-template-columns: repeat(2, minmax(190px, 208px)) auto;
+  align-items: end;
+  gap: 12px 20px;
+  max-width: calc(100vw - 28px);
+  padding: 12px 18px 13px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, .13);
+  background: rgba(10, 15, 24, .55);
+  -webkit-backdrop-filter: blur(16px) saturate(1.25);
+  backdrop-filter: blur(16px) saturate(1.25);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .07);
+}
+
+.ctl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 3px 10px;
+  min-width: 0;
+}
+
+.ctl label {
+  grid-column: 1;
+  font-size: 11px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: rgba(214, 228, 244, .72);
+  white-space: nowrap;
+}
+
+.ctl output {
+  grid-column: 2;
+  justify-self: end;
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  color: #9fd0ff;
+  white-space: nowrap;
+}
+
+.ctl input[type="range"] {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin: 2px 0 0;
+  height: 16px;
+  background: transparent;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.ctl input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgba(120, 190, 255, .75), rgba(120, 190, 255, .2));
+}
+
+.ctl input[type="range"]::-moz-range-track {
+  height: 4px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgba(120, 190, 255, .75), rgba(120, 190, 255, .2));
+}
+
+.ctl input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  margin-top: -4.5px;
+  border-radius: 50%;
+  background: #eaf4ff;
+  border: 1px solid rgba(20, 40, 70, .5);
+  box-shadow: 0 2px 7px rgba(0, 0, 0, .55);
+}
+
+.ctl input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #eaf4ff;
+  border: 1px solid rgba(20, 40, 70, .5);
+  box-shadow: 0 2px 7px rgba(0, 0, 0, .55);
+}
+
+.ctl input[type="range"]:focus-visible {
+  outline: 2px solid rgba(150, 205, 255, .8);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+.ctl.btns {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  min-width: 140px;
+  padding-left: 16px;
+  border-left: 1px solid rgba(255, 255, 255, .10);
+}
+
+.panel button {
+  font: inherit;
+  font-size: 11.5px;
+  letter-spacing: .03em;
+  color: #e9f2ff;
+  padding: 7px 12px;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, .16);
+  background: rgba(255, 255, 255, .07);
+  cursor: pointer;
+  transition: background .16s ease, border-color .16s ease, transform .12s ease;
+}
+
+.panel button:hover {
+  background: rgba(140, 195, 255, .2);
+  border-color: rgba(160, 210, 255, .42);
+}
+
+.panel button:active { transform: translateY(1px); }
+
+.panel button:focus-visible {
+  outline: 2px solid rgba(150, 205, 255, .85);
+  outline-offset: 2px;
+}
+
+/* ---------- Загрузка ---------- */
+#boot {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 13px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: rgba(220, 234, 250, .9);
+  background: radial-gradient(120% 90% at 50% 40%, #16243a 0%, #070b12 70%);
+  transition: opacity .45s ease;
+}
+
+#boot.hidden { opacity: 0; pointer-events: none; }
+
+.spin {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid rgba(150, 200, 255, .28);
+  border-top-color: #9fd0ff;
+  animation: spin .9s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .spin { animation-duration: 3s; }
+}
+
+/* Узкое окно: ползунки остаются 2x2, кнопки уходят отдельной строкой вниз. */
+@media (max-width: 700px) {
+  .panel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: calc(100vw - 20px);
+    max-width: none;
+    gap: 10px 14px;
+    padding: 10px 12px 11px;
+  }
+
+  .ctl label { white-space: normal; font-size: 10px; }
+
+  .ctl.btns {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    flex-direction: row;
+    justify-content: center;
+    align-self: auto;
+    min-width: 0;
+    padding: 10px 0 0;
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, .10);
+  }
+
+  .ctl.btns button { flex: 1 1 0; }
+}
+
+@media (max-width: 760px) {
+  .hud {
+    top: 10px;
+    left: 10px;
+    padding: 9px 13px 10px;
+    border-radius: 13px;
+    max-width: calc(100vw - 20px);
+  }
+
+  .hud p { display: none; }
+  .meter { margin-top: 7px; padding-top: 7px; }
+}

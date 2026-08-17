@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Солнечная система — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div class="hud">
+  <h1>Солнечная система</h1>
+  <p>Canvas 2D · кеплеровы орбиты · попиксельное освещение от Солнца</p>
+  <div class="stat">
+    <span id="epoch">J2000</span><i></i><span id="fps">—</span><i></i><span class="dim">масштабы сжаты</span>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="ctrls">
+    <label class="ctl"><span>Скорость<b id="v-speed">—</b></span><input id="s-speed" type="range" min="0" max="1000" value="642"></label>
+    <label class="ctl"><span>Масштаб<b id="v-zoom">—</b></span><input id="s-zoom" type="range" min="0" max="1000" value="374"></label>
+    <label class="ctl"><span>Наклон<b id="v-tilt">—</b></span><input id="s-tilt" type="range" min="-80" max="80" value="28"></label>
+    <label class="ctl"><span>Размер тел<b id="v-size">—</b></span><input id="s-size" type="range" min="50" max="260" value="100"></label>
+  </div>
+  <div class="btns">
+    <button type="button" data-t="pause">Пауза</button>
+    <button type="button" data-t="orbits" class="on">Орбиты</button>
+    <button type="button" data-t="trails" class="on">Следы</button>
+    <button type="button" data-t="labels" class="on">Подписи</button>
+    <button type="button" data-t="bloom" class="on">Свечение</button>
+    <button type="button" data-t="spin" class="on">Облёт</button>
+    <button type="button" data-t="reset">Сброс</button>
+  </div>
+  <div class="hint">перетаскивание — облёт камеры · колесо — приближение · пробел — пауза</div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

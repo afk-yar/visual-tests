@@ -1,0 +1,317 @@
+:root {
+  --bg: #05060c;
+  --ink: #eef2ff;
+  --muted: #aab4d3;
+  --glass: rgba(9, 11, 19, 0.82);
+  --edge: rgba(255, 255, 255, 0.12);
+  --edge-soft: rgba(255, 255, 255, 0.08);
+  /* плашка не зависит от того, что под ней нарисовано: тёмный фон + притемнение фона */
+  --plate-blur: blur(18px) saturate(1.05) brightness(0.55);
+  --plate-shadow: 0 14px 38px rgba(0, 0, 0, .55), 0 0 0 1px rgba(0, 0, 0, .45);
+  --accent: #7fb4ff;
+  --sans: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "Cascadia Mono", "Consolas", "SFMono-Regular", "Menlo", monospace;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#view {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: var(--bg);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#view.dragging { cursor: grabbing; }
+
+/* ---------- прогресс рендера ---------- */
+
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 40;
+  opacity: 0;
+  transition: opacity .4s ease;
+  pointer-events: none;
+}
+
+.progress.on { opacity: 1; }
+
+.progress i {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #4d7fd6, #8ad0ff 55%, #ffd9a0);
+  box-shadow: 0 0 10px rgba(120, 180, 255, .55);
+  transition: width .12s linear;
+}
+
+/* ---------- HUD ---------- */
+
+.hud {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 30;
+  pointer-events: none;
+  max-width: min(60vw, 540px);
+  padding: 10px 15px 11px;
+  border-radius: 14px;
+  background: var(--glass);
+  border: 1px solid var(--edge);
+  box-shadow: var(--plate-shadow);
+  backdrop-filter: var(--plate-blur);
+  -webkit-backdrop-filter: var(--plate-blur);
+}
+
+.hud h1 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: .015em;
+  color: #f3f6ff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
+}
+
+.hud p {
+  margin: 5px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #b6c0dd;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
+}
+
+/* ---------- нижняя стеклянная панель ---------- */
+
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: calc(100vw - 28px);
+  padding: 9px 14px;
+  border-radius: 15px;
+  background: var(--glass);
+  border: 1px solid var(--edge);
+  box-shadow: var(--plate-shadow), inset 0 1px 0 rgba(255, 255, 255, .07);
+  backdrop-filter: var(--plate-blur);
+  -webkit-backdrop-filter: var(--plate-blur);
+}
+
+.readouts,
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.sep {
+  width: 1px;
+  align-self: stretch;
+  min-height: 26px;
+  background: var(--edge-soft);
+}
+
+.stat {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.stat .k {
+  font-size: 10px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .55);
+}
+
+.stat .v {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: #eaf0ff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .55);
+}
+
+.stat.wide .v { font-size: 11.5px; }
+
+button {
+  font: inherit;
+  font-size: 12px;
+  color: #e2e9ff;
+  background: rgba(255, 255, 255, .07);
+  border: 1px solid var(--edge);
+  border-radius: 9px;
+  padding: 6px 11px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .16s ease, border-color .16s ease, color .16s ease, transform .08s ease;
+}
+
+button b { font-weight: 600; color: #fff; }
+
+button:hover {
+  background: rgba(255, 255, 255, .10);
+  border-color: rgba(255, 255, 255, .2);
+}
+
+button:active { transform: translateY(1px); }
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button.tgl[aria-pressed="true"] {
+  background: rgba(127, 180, 255, .17);
+  border-color: rgba(127, 180, 255, .45);
+  color: #eaf3ff;
+}
+
+.range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.range b {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: #dfe7ff;
+  min-width: 32px;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 92px;
+  height: 16px;
+  background: transparent;
+  cursor: pointer;
+  margin: 0;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, .17);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4.5px;
+  border-radius: 50%;
+  background: #cfe0ff;
+  border: 1px solid rgba(0, 0, 0, .35);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .5);
+}
+
+input[type="range"]::-moz-range-track {
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, .17);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #cfe0ff;
+  border: 1px solid rgba(0, 0, 0, .35);
+}
+
+input[type="range"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* ---------- всплывающая подсказка ---------- */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 84px;
+  transform: translateX(-50%);
+  z-index: 35;
+  padding: 7px 13px;
+  border-radius: 10px;
+  font-size: 12px;
+  color: #eaf1ff;
+  background: var(--glass);
+  border: 1px solid var(--edge);
+  backdrop-filter: var(--plate-blur);
+  -webkit-backdrop-filter: var(--plate-blur);
+  box-shadow: var(--plate-shadow);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .25s ease;
+  white-space: nowrap;
+  max-width: calc(100vw - 32px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toast.on { opacity: 1; }
+
+/* ---------- узкие экраны ---------- */
+
+@media (max-width: 760px) {
+  .hud { padding: 8px 12px; top: 12px; left: 12px; }
+  .hud h1 { font-size: 14px; }
+  .hud p { display: none; }
+  .panel { gap: 10px; padding: 8px 11px; bottom: 12px; }
+  .sep { display: none; }
+  .readouts { gap: 10px; }
+  .range { display: none; }
+  .stat.wide { display: none; }
+}
+
+@media (max-height: 420px) {
+  .hud { top: 10px; left: 12px; padding: 7px 12px; }
+  .hud p { display: none; }
+}
+
+/* Если backdrop-filter не поддерживается — плашки становятся почти непрозрачными,
+   читаемость всё равно не зависит от картинки под ними. */
+@supports not ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))) {
+  .hud, .panel, .toast { background: rgba(7, 9, 16, .93); }
+}

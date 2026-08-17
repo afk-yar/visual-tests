@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Аналоговые часы — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="clock"></canvas>
+
+<div class="hud">
+  <h1>Настенные часы</h1>
+  <p>Canvas 2D · системное время · <span id="digital" class="mono">--:--:--</span></p>
+</div>
+
+<div class="panel">
+  <div class="group" id="grp-sweep">
+    <span class="glabel">Секундная</span>
+    <div class="seg">
+      <button type="button" data-v="sweep" class="on">Плавно</button>
+      <button type="button" data-v="tick">Тик</button>
+    </div>
+  </div>
+  <div class="sep"></div>
+  <div class="group" id="grp-style">
+    <span class="glabel">Циферблат</span>
+    <div class="seg">
+      <button type="button" data-v="classic" class="on">Классика</button>
+      <button type="button" data-v="minimal">Минимализм</button>
+      <button type="button" data-v="vintage">Винтаж</button>
+    </div>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

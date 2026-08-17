@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Стая boids — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="stage">
+  <canvas id="trails"></canvas>
+  <canvas id="overlay"></canvas>
+</div>
+
+<header class="hud">
+  <h1>Стая boids</h1>
+  <p class="sub">Разделение · выравнивание · сцепление на тороидальном поле</p>
+  <dl class="stats">
+    <div><dt>Агентов</dt><dd id="stAgents">—</dd></div>
+    <div><dt>FPS</dt><dd id="stFps">—</dd></div>
+    <div><dt>Видит соседей</dt><dd id="stNeighbors">—</dd></div>
+  </dl>
+  <p class="legend">
+    <span class="dot dot-focus"></span>наблюдаемый
+    <span class="dot dot-near"></span>его соседи
+    <span class="dot dot-sep"></span>зона разделения
+    <span class="dot dot-flock"></span>стая
+  </p>
+  <p class="hint">клик по полю — выбрать агента · пробел — пауза</p>
+</header>
+
+<section class="panel" aria-label="Параметры стаи">
+  <div class="ctl">
+    <div class="row"><label for="sep">Разделение</label><span class="val" id="sepV">1.80</span></div>
+    <input id="sep" type="range" min="0" max="3" step="0.05" value="1.8">
+  </div>
+  <div class="ctl">
+    <div class="row"><label for="ali">Выравнивание</label><span class="val" id="aliV">1.30</span></div>
+    <input id="ali" type="range" min="0" max="3" step="0.05" value="1.3">
+  </div>
+  <div class="ctl">
+    <div class="row"><label for="coh">Сцепление</label><span class="val" id="cohV">1.00</span></div>
+    <input id="coh" type="range" min="0" max="3" step="0.05" value="1">
+  </div>
+  <div class="ctl">
+    <div class="row"><label for="rad">Радиус восприятия</label><span class="val" id="radV">80&nbsp;px</span></div>
+    <input id="rad" type="range" min="20" max="180" step="1" value="80">
+  </div>
+  <div class="ctl">
+    <div class="row"><label for="spd">Макс. скорость</label><span class="val" id="spdV">170&nbsp;px/с</span></div>
+    <input id="spd" type="range" min="40" max="400" step="5" value="170">
+  </div>
+  <div class="ctl">
+    <div class="row"><label for="cnt">Агентов</label><span class="val" id="cntV">600</span></div>
+    <input id="cnt" type="range" min="200" max="1500" step="20" value="600">
+  </div>
+  <div class="btns">
+    <button class="btn" id="btnPause" type="button" aria-pressed="false">Пауза</button>
+    <button class="btn" id="btnShuffle" type="button">Перемешать</button>
+    <button class="btn on" id="btnTrails" type="button" aria-pressed="true">Следы</button>
+    <button class="btn" id="btnFocus" type="button">Другой агент</button>
+  </div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

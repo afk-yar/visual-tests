@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3D-поверхность функции — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div class="ui">
+  <header class="hud">
+    <h1>3D-поверхность функции</h1>
+    <p class="sub">Canvas 2D · алгоритм художника · Ламберт по нормалям в узлах</p>
+    <dl class="meta">
+      <div><dt>Функция</dt><dd id="m-fn">Рябь</dd></div>
+      <div><dt>Формула</dt><dd id="m-formula" class="mono">z = sin(k·r − ω·t) / (1 + a·k·r)</dd></div>
+      <div><dt>Полигонов</dt><dd id="m-quads">—</dd></div>
+      <div><dt>Кадр</dt><dd id="m-fps">—</dd></div>
+    </dl>
+    <p class="hint" id="m-hint">затухающая круговая волна от точечного возмущения</p>
+  </header>
+
+  <section class="panel" aria-label="Управление">
+    <div class="seg" id="funcs" role="group" aria-label="Функция поверхности"></div>
+
+    <div class="ctrls">
+      <label class="ctl"><span>Наклон<b id="v-elev">27°</b></span>
+        <input id="s-elev" type="range" min="3" max="82" step="1" value="27" aria-label="Наклон камеры"></label>
+      <label class="ctl"><span>Вращение<b id="v-spin">1.0×</b></span>
+        <input id="s-spin" type="range" min="0" max="200" step="2" value="100" aria-label="Скорость вращения камеры"></label>
+      <label class="ctl"><span>Скорость волны<b id="v-flow">1.0×</b></span>
+        <input id="s-flow" type="range" min="0" max="250" step="2" value="100" aria-label="Скорость анимации поверхности"></label>
+      <label class="ctl"><span>Амплитуда<b id="v-amp">0.42</b></span>
+        <input id="s-amp" type="range" min="4" max="90" step="1" value="42" aria-label="Амплитуда по высоте"></label>
+      <label class="ctl"><span>Сетка<b id="v-grid">72</b></span>
+        <input id="s-grid" type="range" min="32" max="132" step="4" value="72" aria-label="Плотность сетки"></label>
+    </div>
+
+    <div class="acts">
+      <button class="tgl" id="b-wire" type="button" aria-pressed="false">Каркас</button>
+      <button class="tgl" id="b-pause" type="button" aria-pressed="false">Пауза</button>
+      <button class="tgl" id="b-reset" type="button">Сброс вида</button>
+      <div class="legend" title="Цвет узла — по высоте">
+        <span>низ</span><i class="bar"></i><span>верх</span>
+      </div>
+      <p class="tip">тянуть — орбита · колесо — приближение · 1–5 · W · пробел</p>
+    </div>
+  </section>
+</div>
+
+<script src="surface.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

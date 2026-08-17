@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>2D-свет и тени — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div class="hud">
+  <h1>2D-свет и тени</h1>
+  <p>Полигон видимости строится честно: лучи к каждой вершине препятствий (и ±ε вокруг неё), точные пересечения луч–отрезок, сортировка по углу.</p>
+  <p class="stats" id="stats">—</p>
+</div>
+
+<div class="panel" id="panel">
+  <div class="row">
+    <label class="check"><input type="checkbox" id="cbDebug"><span>Отладка: лучи и вершины</span></label>
+    <label class="check"><input type="checkbox" id="cbAuto" checked><span>Авто-движение</span></label>
+    <label class="check"><input type="checkbox" id="cbSoft" checked><span>Мягкие тени</span></label>
+  </div>
+  <div class="row">
+    <label class="slider"><span>Радиус</span><input type="range" id="rgRadius" min="35" max="150" step="1" value="98"><output id="outRadius">98%</output></label>
+    <label class="slider"><span>Яркость</span><input type="range" id="rgPower" min="40" max="170" step="1" value="100"><output id="outPower">100%</output></label>
+    <label class="slider"><span>Тон</span><input type="range" id="rgHue" min="0" max="360" step="1" value="34"><output id="outHue">34°</output></label>
+    <button type="button" id="btnScene">Новая сцена</button>
+  </div>
+  <p class="hint">Мышь — источник света · <b>D</b> отладка · <b>A</b> авто · <b>S</b> мягкие тени · <b>R</b> новая сцена</p>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

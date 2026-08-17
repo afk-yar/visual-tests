@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Полярное сияние — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div class="hud">
+  <h1>Полярное сияние</h1>
+  <p>Canvas&nbsp;2D · занавеси с лучевой структурой, бегущие складки, отражение в озере</p>
+</div>
+
+<div class="panel" id="panel">
+  <div class="ctl">
+    <span class="lab">Яркость <b id="vIntensity">1.00</b></span>
+    <input id="sIntensity" type="range" min="40" max="180" value="100" aria-label="Яркость сияния">
+  </div>
+  <div class="ctl">
+    <span class="lab">Скорость <b id="vSpeed">1.00</b></span>
+    <input id="sSpeed" type="range" min="0" max="220" value="100" aria-label="Скорость движения">
+  </div>
+  <div class="ctl">
+    <span class="lab">Занавеси <b id="vCount">4</b></span>
+    <input id="sCount" type="range" min="2" max="6" value="4" aria-label="Количество занавесей">
+  </div>
+  <div class="ctl">
+    <span class="lab">Оттенок <b id="vHue">пурпур 42%</b></span>
+    <input id="sHue" type="range" min="0" max="100" value="42" aria-label="Баланс зелёного и пурпурного">
+  </div>
+  <div class="btns">
+    <button id="bPause" type="button">Пауза</button>
+    <button id="bBloom" type="button" class="on">Свечение</button>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

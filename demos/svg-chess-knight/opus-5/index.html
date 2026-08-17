@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SVG шахматный конь — Claude Opus 5</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  body {
+    background:
+      radial-gradient(130% 105% at 46% 28%, #212b3b 0%, #151d2a 38%, #0a0e16 72%, #04060a 100%);
+    color: #e8e2d6;
+    font: 13px/1.45 -apple-system, "Segoe UI", "Helvetica Neue", system-ui, sans-serif;
+  }
+  svg.stage { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+  .hud {
+    position: fixed; top: 20px; left: 22px;
+    padding: 10px 14px 11px;
+    border-radius: 12px;
+    background: rgba(15, 21, 31, .46);
+    border: 1px solid rgba(255, 255, 255, .07);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+    pointer-events: none;
+  }
+  .hud h1 {
+    margin: 0; font-size: 12.5px; font-weight: 600;
+    letter-spacing: .16em; text-transform: uppercase; color: #f0e9da;
+  }
+  .hud p { margin: 4px 0 0; font-size: 11.5px; color: #8b909b; letter-spacing: .02em; }
+</style>
+</head>
+<body>
+
+<svg class="stage" viewBox="0 0 360 500" preserveAspectRatio="xMidYMid meet" role="img"
+     aria-label="Шахматная фигура коня, векторный силуэт на тёмном фоне">
+  <defs>
+    <radialGradient id="halo" cx="47%" cy="40%" r="54%">
+      <stop offset="0"   stop-color="#54739e" stop-opacity=".28"/>
+      <stop offset=".5"  stop-color="#2c3d58" stop-opacity=".12"/>
+      <stop offset="1"   stop-color="#0a0e15" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="floorShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0"   stop-color="#000000" stop-opacity=".66"/>
+      <stop offset=".5"  stop-color="#000000" stop-opacity=".28"/>
+      <stop offset="1"   stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- материал: тёплая кость, свет сверху-слева -->
+    <linearGradient id="ivory" x1="6%" y1="0%" x2="94%" y2="96%">
+      <stop offset="0"    stop-color="#fdf9f0"/>
+      <stop offset=".2"   stop-color="#f2e9d8"/>
+      <stop offset=".44"  stop-color="#dccfb5"/>
+      <stop offset=".66"  stop-color="#b9aa8a"/>
+      <stop offset=".85"  stop-color="#8d7f62"/>
+      <stop offset="1"    stop-color="#6a5e46"/>
+    </linearGradient>
+
+    <linearGradient id="maneGrad" x1="12%" y1="6%" x2="96%" y2="94%">
+      <stop offset="0"   stop-color="#ece1cb"/>
+      <stop offset=".34" stop-color="#cbbb9b"/>
+      <stop offset=".7"  stop-color="#9b8a6a"/>
+      <stop offset="1"   stop-color="#645941"/>
+    </linearGradient>
+
+    <linearGradient id="plinth" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0"   stop-color="#f4ebd9"/>
+      <stop offset=".16" stop-color="#ddd0b3"/>
+      <stop offset=".6"  stop-color="#a39376"/>
+      <stop offset="1"   stop-color="#665c46"/>
+    </linearGradient>
+    <linearGradient id="torusGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0"   stop-color="#fbf5e7"/>
+      <stop offset=".34" stop-color="#e2d6bb"/>
+      <stop offset="1"   stop-color="#7d7157"/>
+    </linearGradient>
+    <linearGradient id="collarGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0"   stop-color="#fcf7ea"/>
+      <stop offset=".36" stop-color="#e5d9be"/>
+      <stop offset="1"   stop-color="#877a5e"/>
+    </linearGradient>
+    <linearGradient id="coveGrad" x1="16%" y1="0%" x2="84%" y2="100%">
+      <stop offset="0"   stop-color="#e3d8bf"/>
+      <stop offset=".42" stop-color="#bcad8e"/>
+      <stop offset="1"   stop-color="#6d624c"/>
+    </linearGradient>
+
+    <linearGradient id="volumeShade" x1="26%" y1="6%" x2="90%" y2="88%">
+      <stop offset="0"   stop-color="#2a2114" stop-opacity="0"/>
+      <stop offset=".5"  stop-color="#2a2114" stop-opacity=".07"/>
+      <stop offset="1"   stop-color="#221a10" stop-opacity=".48"/>
+    </linearGradient>
+
+    <linearGradient id="rimLightGrad" x1="4%" y1="2%" x2="76%" y2="88%">
+      <stop offset="0"   stop-color="#ffffff"/>
+      <stop offset=".4"  stop-color="#454545"/>
+      <stop offset="1"   stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="rimDarkGrad" x1="16%" y1="8%" x2="94%" y2="96%">
+      <stop offset="0"   stop-color="#000000"/>
+      <stop offset=".52" stop-color="#333333"/>
+      <stop offset="1"   stop-color="#ffffff"/>
+    </linearGradient>
+    <mask id="rimLight"><rect x="0" y="0" width="360" height="500" fill="url(#rimLightGrad)"/></mask>
+    <mask id="rimDark"><rect x="0" y="0" width="360" height="500" fill="url(#rimDarkGrad)"/></mask>
+
+    <!-- силуэт: шея, голова, морда, уши, гребень гривы -->
+    <path id="bodyPath" d="
+      M 118 400
+      C 112 372, 110 348, 112 330
+      C 116 306, 128 292, 124 264
+      C 112 276, 90 278, 68 266
+      C 56 262, 44 258, 44 248
+      C 42 240, 38 234, 39 227
+      C 56 212, 86 182, 119 153
+      C 126 145, 132 138, 140 132
+      C 144 116, 154 98, 164 84
+      C 166 100, 169 114, 170 126
+      C 172 130, 175 126, 178 122
+      C 184 108, 194 96, 202 88
+      C 206 104, 209 120, 210 134
+      C 226 138, 240 154, 244 176
+      C 240 182, 236 186, 232 190
+      C 250 198, 262 212, 266 232
+      C 262 238, 258 244, 254 248
+      C 270 258, 280 272, 282 292
+      C 278 298, 274 304, 270 308
+      C 282 318, 289 332, 290 352
+      C 287 358, 284 362, 280 366
+      C 281 378, 281 390, 281 400
+      Z"/>
+    <clipPath id="bodyClip"><use href="#bodyPath"/></clipPath>
+
+    <filter id="dropSoft" x="-30%" y="-20%" width="170%" height="150%">
+      <feDropShadow dx="3" dy="10" stdDeviation="12" flood-color="#03050a" flood-opacity=".6"/>
+    </filter>
+    <filter id="blurSmall" x="-45%" y="-45%" width="190%" height="190%">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+    <filter id="blurTiny" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+  </defs>
+
+  <ellipse cx="172" cy="212" rx="180" ry="212" fill="url(#halo)"/>
+
+  <g transform="translate(-17,-63) scale(1.12)">
+    <ellipse cx="190" cy="472" rx="152" ry="20" fill="url(#floorShadow)"/>
+
+    <g filter="url(#dropSoft)">
+      <!-- база: плинт, валик, вогнутая шейка -->
+      <path d="M 66 442 L 312 442 A 5 5 0 0 1 312 468 L 66 468 A 5 5 0 0 1 66 442 Z" fill="url(#plinth)"/>
+      <path d="M 78 428 L 300 428 A 8 8 0 0 1 300 444 L 78 444 A 8 8 0 0 1 78 428 Z" fill="url(#torusGrad)"/>
+      <path d="M 106 396 L 274 396 C 278 410, 288 422, 302 430 L 78 430 C 92 422, 102 410, 106 396 Z"
+            fill="url(#coveGrad)"/>
+
+      <!-- корпус -->
+      <use href="#bodyPath" fill="url(#ivory)"/>
+
+      <g clip-path="url(#bodyClip)">
+        <rect x="20" y="40" width="330" height="380" fill="url(#volumeShade)"/>
+
+        <!-- грива отдельным пластом -->
+        <path d="
+          M 210 134
+          C 226 138, 240 154, 244 176
+          C 240 182, 236 186, 232 190
+          C 250 198, 262 212, 266 232
+          C 262 238, 258 244, 254 248
+          C 270 258, 280 272, 282 292
+          C 278 298, 274 304, 270 308
+          C 282 318, 289 332, 290 352
+          C 287 358, 284 362, 280 366
+          C 281 378, 281 390, 281 400
+          L 252 400
+          C 252 356, 246 300, 236 252
+          C 226 200, 216 158, 202 138 Z" fill="url(#maneGrad)"/>
+        <path d="M 202 138 C 216 158, 226 200, 236 252 C 246 300, 252 356, 252 400"
+              fill="none" stroke="#5b5138" stroke-opacity=".45" stroke-width="2.6" stroke-linecap="round"/>
+
+        <!-- пряди -->
+        <g fill="none" stroke="#6a5d43" stroke-opacity=".4" stroke-width="2.2" stroke-linecap="round">
+          <path d="M 232 190 C 224 190, 216 194, 210 202"/>
+          <path d="M 254 248 C 244 248, 236 252, 229 261"/>
+          <path d="M 270 308 C 260 308, 251 312, 244 321"/>
+          <path d="M 280 366 C 271 366, 263 370, 257 378"/>
+        </g>
+
+        <!-- подсветка вдоль переносицы и лба -->
+        <ellipse cx="92" cy="192" rx="62" ry="17" transform="rotate(-42 92 192)"
+                 fill="#fffcf4" opacity=".22" filter="url(#blurSmall)"/>
+        <ellipse cx="140" cy="150" rx="26" ry="20" fill="#fffdf6" opacity=".16" filter="url(#blurSmall)"/>
+
+        <!-- тень от головы на шею -->
+        <ellipse cx="146" cy="290" rx="46" ry="26" transform="rotate(-24 146 290)"
+                 fill="#241b0f" opacity=".22" filter="url(#blurSmall)"/>
+
+        <!-- кромки: тень, рефлекс, свет -->
+        <use href="#bodyPath" fill="none" stroke="#33291a" stroke-opacity=".5"
+             stroke-width="8" mask="url(#rimDark)"/>
+        <use href="#bodyPath" fill="none" stroke="#e9dcbe" stroke-opacity=".5"
+             stroke-width="2.6" mask="url(#rimDark)"/>
+        <use href="#bodyPath" fill="none" stroke="#fffaf0" stroke-opacity=".8"
+             stroke-width="3" mask="url(#rimLight)"/>
+      </g>
+
+      <!-- воротник -->
+      <path d="M 108 386 L 284 386 A 9 9 0 0 1 284 404 L 108 404 A 9 9 0 0 1 108 386 Z"
+            fill="url(#collarGrad)"/>
+      <path d="M 112 387.5 L 280 387.5" stroke="#fffaef" stroke-opacity=".5" stroke-width="1.6"
+            stroke-linecap="round"/>
+
+      <!-- морда: рот, ноздря, скула -->
+      <path d="M 45 241 C 58 250, 72 257, 86 260 L 85 265 C 70 262, 56 255, 43 246 Z"
+            fill="#4b4030" opacity=".8"/>
+      <ellipse cx="60" cy="235" rx="6.4" ry="4" transform="rotate(-42 60 235)"
+               fill="#4b4030" opacity=".7"/>
+      <path d="M 108 214 C 117 228, 120 244, 116 258" fill="none" stroke="#6a5d45"
+            stroke-opacity=".35" stroke-width="2.2" stroke-linecap="round"/>
+
+      <!-- глаз -->
+      <g transform="rotate(-38 126 176)">
+        <ellipse cx="126" cy="176" rx="8.4" ry="5.4" fill="#2a2317"/>
+        <ellipse cx="126" cy="176" rx="8.4" ry="5.4" fill="none" stroke="#6d6047"
+                 stroke-opacity=".45" stroke-width="1.1"/>
+      </g>
+      <circle cx="122.5" cy="173" r="1.9" fill="#fffdf4" opacity=".85"/>
+      <path d="M 113 165 C 121 159, 132 158, 139 163" fill="none" stroke="#6a5d45"
+            stroke-opacity=".32" stroke-width="2" stroke-linecap="round"/>
+
+      <!-- тень внутри уха -->
+      <path d="M 152 104 C 156 114, 160 121, 165 126 C 157 122, 151 114, 149 106 Z"
+            fill="#4e4230" opacity=".35" filter="url(#blurTiny)"/>
+      <path d="M 190 106 C 194 116, 198 124, 203 130 C 195 126, 189 117, 187 108 Z"
+            fill="#4e4230" opacity=".32" filter="url(#blurTiny)"/>
+
+      <!-- фаски базы -->
+      <path d="M 82 429.5 L 296 429.5" stroke="#fffaef" stroke-opacity=".45" stroke-width="1.6"
+            stroke-linecap="round"/>
+      <path d="M 70 443.5 L 308 443.5" stroke="#fffaef" stroke-opacity=".4" stroke-width="1.6"
+            stroke-linecap="round"/>
+      <path d="M 74 464 L 304 464" stroke="#241c11" stroke-opacity=".3" stroke-width="2"
+            stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>
+
+<div class="hud">
+  <h1>SVG шахматный конь</h1>
+  <p>Инлайн-SVG, кривые Безье, без растровых вставок</p>
+</div>
+
+</body>
+</html>

@@ -12,6 +12,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/svg-chess-knight/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/svg-chess-knight/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/svg-chess-knight/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/svg-chess-knight/opus-5/' },
     ],
   },
   {
@@ -27,6 +28,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/solar-system/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/solar-system/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/solar-system/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/solar-system/opus-5/' },
     ],
   },
   {
@@ -42,6 +44,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/mandelbrot/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/mandelbrot/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/mandelbrot/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/mandelbrot/opus-5/' },
     ],
   },
   {
@@ -57,6 +60,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/lorenz/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/lorenz/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/lorenz/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/lorenz/opus-5/' },
     ],
   },
   {
@@ -72,6 +76,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/boids/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/boids/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/boids/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/boids/opus-5/' },
     ],
   },
   {
@@ -87,6 +92,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/verlet-cloth/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/verlet-cloth/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/verlet-cloth/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/verlet-cloth/opus-5/' },
     ],
   },
   {
@@ -102,6 +108,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/falling-sand/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/falling-sand/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/falling-sand/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/falling-sand/opus-5/' },
     ],
   },
   {
@@ -117,6 +124,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/raycaster-maze/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/raycaster-maze/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/raycaster-maze/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/raycaster-maze/opus-5/' },
     ],
   },
   {
@@ -132,6 +140,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/light-2d/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/light-2d/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/light-2d/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/light-2d/opus-5/' },
     ],
   },
   {
@@ -147,6 +156,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/procedural-walker/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/procedural-walker/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/procedural-walker/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/procedural-walker/opus-5/' },
     ],
   },
   {
@@ -162,6 +172,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/svg-bicycle/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/svg-bicycle/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/svg-bicycle/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/svg-bicycle/opus-5/' },
     ],
   },
   {
@@ -177,6 +188,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/double-pendulum/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/double-pendulum/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/double-pendulum/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/double-pendulum/opus-5/' },
     ],
   },
   {
@@ -192,6 +204,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/css-newspaper/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/css-newspaper/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/css-newspaper/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/css-newspaper/opus-5/' },
     ],
   },
 
@@ -209,6 +222,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/solid-3d/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/solid-3d/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/solid-3d/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/solid-3d/opus-5/' },
     ],
   },
   {
@@ -224,6 +238,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/surface-plot/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/surface-plot/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/surface-plot/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/surface-plot/opus-5/' },
     ],
   },
   {
@@ -239,6 +254,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/voxel-terrain/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/voxel-terrain/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/voxel-terrain/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/voxel-terrain/opus-5/' },
     ],
   },
 
@@ -256,6 +272,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/earth-globe/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/earth-globe/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/earth-globe/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/earth-globe/opus-5/' },
     ],
   },
   {
@@ -271,6 +288,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/particle-flow/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/particle-flow/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/particle-flow/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/particle-flow/opus-5/' },
     ],
   },
   {
@@ -286,6 +304,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/aurora/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/aurora/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/aurora/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/aurora/opus-5/' },
     ],
   },
   {
@@ -301,6 +320,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/aquarium/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/aquarium/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/aquarium/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/aquarium/opus-5/' },
     ],
   },
   {
@@ -316,6 +336,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/aquarium-3d/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/aquarium-3d/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/aquarium-3d/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/aquarium-3d/opus-5/' },
     ],
   },
 
@@ -333,6 +354,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Sol', slug: 'gpt-5.6-sol', dir: 'demos/analog-clock/gpt-5.6-sol/' },
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/analog-clock/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/analog-clock/kimi-k3/' },
+      { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/analog-clock/opus-5/' },
     ],
   },
 ];

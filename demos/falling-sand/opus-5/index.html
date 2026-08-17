@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Падающий песок — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="scene"></canvas>
+
+<div class="hud">
+  <h1>Падающий песок</h1>
+  <p class="sub">Песок тонет в воде, дерево горит, дым тает. Когда всё догорит — лес отрастает и занимается снова</p>
+  <p class="stat" id="stat">инициализация…</p>
+</div>
+
+<div class="panel">
+  <div class="group mats" id="mats">
+    <button type="button" class="mat is-on" data-mat="1" style="--c:#dcb469" title="Песок — сыплется, образует горки, тонет в воде"><i class="sw"></i>Песок<kbd>1</kbd></button>
+    <button type="button" class="mat" data-mat="2" style="--c:#3b7ed0" title="Вода — падает и растекается"><i class="sw"></i>Вода<kbd>2</kbd></button>
+    <button type="button" class="mat" data-mat="3" style="--c:#79808f" title="Камень — неподвижен"><i class="sw"></i>Камень<kbd>3</kbd></button>
+    <button type="button" class="mat" data-mat="4" style="--c:#8a5a32" title="Дерево — горит"><i class="sw"></i>Дерево<kbd>4</kbd></button>
+    <button type="button" class="mat" data-mat="5" style="--c:#ff8c2f" title="Огонь — поджигает дерево, гаснет дымом"><i class="sw"></i>Огонь<kbd>5</kbd></button>
+    <button type="button" class="mat" data-mat="6" style="--c:#98a0b0" title="Дым — поднимается и тает"><i class="sw"></i>Дым<kbd>6</kbd></button>
+    <button type="button" class="mat is-eraser" data-mat="0" style="--c:#c2cad8" title="Ластик — стирает вещество"><i class="sw"></i>Ластик<kbd>7</kbd></button>
+  </div>
+
+  <div class="group">
+    <label class="slider" for="brush">Кисть
+      <input id="brush" type="range" min="1" max="26" step="1" value="7" aria-label="Размер кисти">
+      <span class="val" id="brushVal">7</span>
+    </label>
+  </div>
+
+  <div class="group">
+    <button type="button" class="act" id="pause" title="Пауза (пробел)">Пауза</button>
+    <button type="button" class="act" id="sceneBtn" title="Собрать демо-сцену заново (R)">Сцена</button>
+    <button type="button" class="act" id="clear" title="Очистить холст (C)">Очистить</button>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

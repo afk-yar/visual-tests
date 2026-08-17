@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3D-тело (софт-рендер) — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="view"></canvas>
+
+<div class="hud">
+  <h1>3D-тело: софт-рендер на Canvas&nbsp;2D</h1>
+  <p class="sub">Матрицы поворота → перспектива → отсечение нелицевых → z-буфер → точечный свет.
+    Треугольники растеризуются вручную в <code>ImageData</code>, ни строчки WebGL.</p>
+  <div class="stats">
+    <span><b id="s-fps">—</b><i>fps</i></span>
+    <span><b id="s-tri">—</b><i>граней видно</i></span>
+    <span><b id="s-buf">—</b><i>буфер</i></span>
+  </div>
+  <p class="hint">перетаскивание — поворот · колесо — приближение · пробел — пауза</p>
+</div>
+
+<div class="panel" id="panel">
+  <div class="grp" data-ctl="model">
+    <span class="lbl">Модель</span>
+    <div class="seg" role="group" aria-label="Модель">
+      <button type="button" data-v="torus" class="on" aria-pressed="true">Тор</button>
+      <button type="button" data-v="knot" aria-pressed="false">Узел</button>
+      <button type="button" data-v="sphere" aria-pressed="false">Геосфера</button>
+    </div>
+  </div>
+
+  <div class="grp" data-ctl="mode">
+    <span class="lbl">Режим</span>
+    <div class="seg" role="group" aria-label="Режим отрисовки">
+      <button type="button" data-v="wire" aria-pressed="false">Каркас</button>
+      <button type="button" data-v="fill" class="on" aria-pressed="true">Заливка</button>
+      <button type="button" data-v="both" aria-pressed="false">Гибрид</button>
+    </div>
+  </div>
+
+  <div class="grp" data-ctl="shade">
+    <span class="lbl">Затенение</span>
+    <div class="seg" role="group" aria-label="Модель затенения">
+      <button type="button" data-v="flat" aria-pressed="false">Плоское</button>
+      <button type="button" data-v="smooth" class="on" aria-pressed="true">Гладкое</button>
+    </div>
+  </div>
+
+  <div class="grp" data-ctl="pal">
+    <span class="lbl">Палитра</span>
+    <div class="seg" role="group" aria-label="Палитра">
+      <button type="button" data-v="copper" class="on" aria-pressed="true">Медь</button>
+      <button type="button" data-v="ice" aria-pressed="false">Лёд</button>
+      <button type="button" data-v="spectrum" aria-pressed="false">Спектр</button>
+    </div>
+  </div>
+
+  <div class="grp slider">
+    <span class="lbl">Свет</span>
+    <input type="range" id="light" min="0" max="360" step="1" value="236" aria-label="Азимут источника света">
+  </div>
+
+  <div class="grp slider">
+    <span class="lbl">Скорость</span>
+    <input type="range" id="speed" min="0" max="200" step="1" value="100" aria-label="Скорость вращения">
+  </div>
+
+  <button type="button" class="btn" id="pause" aria-pressed="false">Пауза</button>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

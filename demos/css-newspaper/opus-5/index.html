@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Газетная полоса — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="desk">
+<div class="sheet">
+
+  <!-- ======================= ВЕРХНИЙ КОЛОНТИТУЛ ======================= -->
+  <div class="runhead">
+    <span class="runhead__l">Городской выпуск</span>
+    <span class="runhead__c">Воскресенье, 16&nbsp;августа 2026&nbsp;года</span>
+    <span class="runhead__r">Полоса&nbsp;1</span>
+  </div>
+
+  <!-- ============================= ШАПКА ============================= -->
+  <header class="masthead">
+    <p class="masthead__over">Ежедневная городская газета&nbsp;· Основана в&nbsp;1908&nbsp;году&nbsp;· Выходит шесть раз в&nbsp;неделю</p>
+    <h1 class="masthead__title">Вечерний Меридиан</h1>
+    <div class="masthead__bar">
+      <span class="masthead__cell">№&nbsp;187 (24&nbsp;536)</span>
+      <span class="masthead__cell masthead__cell--mid">Воскресенье, 16&nbsp;августа 2026&nbsp;года</span>
+      <span class="masthead__cell">Цена свободная&nbsp;· 16&nbsp;полос</span>
+    </div>
+  </header>
+
+  <nav class="rubrics" aria-label="Разделы номера">
+    <ul>
+      <li>Город</li>
+      <li>Экономика</li>
+      <li>Наука</li>
+      <li>Культура</li>
+      <li>Спорт</li>
+      <li>Мнения</li>
+      <li>Письма</li>
+      <li>Погода</li>
+    </ul>
+  </nav>
+
+  <hr class="rule rule--double">
+
+  <main>
+
+    <!-- ======================== ВЕРХНИЙ ЭТАЖ ======================== -->
+    <div class="deck-top">
+
+      <!-- ---------------------- ГЛАВНЫЙ МАТЕРИАЛ ---------------------- -->
+      <article class="story story--lead">
+        <p class="kicker">Город&nbsp;· Транспорт</p>
+
+        <h2 class="headline headline--lead">Трамвай возвращается на&nbsp;Морскую</h2>
+
+        <p class="deck">Через одиннадцать лет по&nbsp;восстановленной линии прошёл первый маршрут. Вместе с&nbsp;рельсами в&nbsp;квартал вернулись пешеходы, вечерние очереди у&nbsp;пекарен&nbsp;— и&nbsp;давний спор о&nbsp;том, кому всё-таки принадлежит проезжая часть</p>
+
+        <p class="byline"><span class="byline__name">Мария Соколова</span>, специальный корреспондент&nbsp;<span class="byline__sep"></span>&nbsp;Фотографии&nbsp;— Илья Гринберг</p>
+
+        <figure class="photo photo--wide">
+          <div class="photo__frame photo__frame--wide">
+            <svg class="photo__img" viewBox="0 0 960 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Трамвай на Морской улице ранним утром">
+              <defs>
+                <linearGradient id="p1-sky" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#6f6a5c"/><stop offset=".58" stop-color="#b3aa97"/><stop offset="1" stop-color="#d9d1bf"/>
+                </linearGradient>
+                <linearGradient id="p1-road" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#a49b8a"/><stop offset="1" stop-color="#514c43"/>
+                </linearGradient>
+                <linearGradient id="p1-car" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#f0e9d9"/><stop offset=".62" stop-color="#cdc4b1"/><stop offset="1" stop-color="#9d9481"/>
+                </linearGradient>
+                <radialGradient id="p1-glow" cx=".5" cy=".5" r=".5">
+                  <stop offset="0" stop-color="#fdf8ea" stop-opacity=".9"/><stop offset="1" stop-color="#fdf8ea" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="p1-vig" cx=".5" cy=".46" r=".78">
+                  <stop offset=".45" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#1b1812" stop-opacity=".5"/>
+                </radialGradient>
+                <pattern id="p1-win" width="30" height="38" patternUnits="userSpaceOnUse">
+                  <rect x="7" y="9" width="14" height="19" fill="#e9e2d0" opacity=".38"/>
+                </pattern>
+                <pattern id="p1-win2" width="26" height="34" patternUnits="userSpaceOnUse">
+                  <rect x="6" y="8" width="12" height="16" fill="#e9e2d0" opacity=".28"/>
+                </pattern>
+              </defs>
+
+              <rect width="960" height="400" fill="url(#p1-sky)"/>
+
+              <!-- дальний силуэт города -->
+              <path d="M0 252 L0 168 L64 168 L64 138 L146 138 L146 182 L232 182 L232 120 L298 120 L298 190 L378 190 L378 152 L452 152 L452 196 L524 196 L524 158 L602 158 L602 132 L688 132 L688 178 L778 178 L778 124 L874 124 L874 170 L960 170 L960 252 Z" fill="#8a8272" opacity=".5"/>
+
+              <!-- дома слева -->
+              <rect x="0" y="46" width="236" height="208" fill="#4a453c"/>
+              <rect x="0" y="46" width="236" height="208" fill="url(#p1-win)"/>
+              <rect x="0" y="40" width="236" height="10" fill="#3a352d"/>
+              <rect x="0" y="128" width="236" height="5" fill="#3a352d" opacity=".7"/>
+              <rect x="0" y="218" width="236" height="36" fill="#332f28" opacity=".8"/>
+
+              <!-- дома справа -->
+              <rect x="742" y="28" width="218" height="226" fill="#443f37"/>
+              <rect x="742" y="28" width="218" height="226" fill="url(#p1-win2)"/>
+              <rect x="742" y="22" width="218" height="10" fill="#332f28"/>
+              <rect x="742" y="212" width="218" height="42" fill="#2e2a24" opacity=".82"/>
+              <rect x="700" y="96" width="46" height="158" fill="#3c382f"/>
+
+              <!-- мостовая -->
+              <rect x="0" y="252" width="960" height="148" fill="url(#p1-road)"/>
+              <rect x="0" y="252" width="960" height="7" fill="#e4dcc9" opacity=".35"/>
+              <rect x="0" y="356" width="200" height="44" fill="#6d6659" opacity=".55"/>
+              <rect x="812" y="340" width="148" height="60" fill="#6d6659" opacity=".55"/>
+
+              <!-- рельсы -->
+              <g stroke="#efe8d6" stroke-opacity=".5" stroke-width="3" fill="none">
+                <path d="M108 400 L470 256"/>
+                <path d="M322 400 L492 256"/>
+                <path d="M556 400 L516 256"/>
+                <path d="M812 400 L540 256"/>
+              </g>
+              <g stroke="#2f2b24" stroke-opacity=".28" stroke-width="2" fill="none">
+                <path d="M96 392 L826 392"/><path d="M196 336 L742 336"/><path d="M280 296 L676 296"/>
+              </g>
+
+              <!-- контактная сеть -->
+              <g stroke="#312d26" fill="none" opacity=".72">
+                <path d="M0 96 Q480 124 960 92" stroke-width="2"/>
+                <path d="M0 62 Q480 92 960 58" stroke-width="1.5" opacity=".7"/>
+                <path d="M160 74 L160 104" stroke-width="1.5"/>
+                <path d="M420 88 L420 116" stroke-width="1.5"/>
+                <path d="M700 84 L700 112" stroke-width="1.5"/>
+              </g>
+
+              <!-- фонарь -->
+              <rect x="150" y="132" width="7" height="140" fill="#312d26"/>
+              <path d="M153 138 q34 -8 48 10" stroke="#312d26" stroke-width="6" fill="none"/>
+              <circle cx="204" cy="152" r="34" fill="url(#p1-glow)"/>
+              <ellipse cx="204" cy="150" rx="10" ry="7" fill="#fdf8ea" opacity=".92"/>
+
+              <!-- вагон -->
+              <g>
+                <path d="M700 158 L768 196 L768 306 L700 332 Z" fill="#8f8674"/>
+                <rect x="516" y="152" width="186" height="180" rx="12" fill="url(#p1-car)"/>
+                <rect x="516" y="152" width="186" height="26" rx="10" fill="#3a352d" opacity=".85"/>
+                <rect x="534" y="188" width="150" height="72" rx="6" fill="#33302a"/>
+                <rect x="540" y="194" width="66" height="60" fill="#5d574b" opacity=".55"/>
+                <rect x="534" y="164" width="150" height="14" fill="#e9e2d0" opacity=".55"/>
+                <rect x="556" y="272" width="106" height="9" fill="#7d7462" opacity=".8"/>
+                <ellipse cx="546" cy="304" rx="16" ry="11" fill="#fdf8ea" opacity=".92"/>
+                <ellipse cx="672" cy="304" rx="16" ry="11" fill="#fdf8ea" opacity=".92"/>
+                <circle cx="546" cy="304" r="30" fill="url(#p1-glow)" opacity=".55"/>
+                <circle cx="672" cy="304" r="30" fill="url(#p1-glow)" opacity=".55"/>
+                <rect x="516" y="326" width="186" height="10" fill="#2c2922" opacity=".7"/>
+                <path d="M596 152 L586 112 L646 112" stroke="#312d26" stroke-width="3" fill="none"/>
+                <rect x="580" y="106" width="72" height="5" fill="#312d26"/>
+              </g>
+              <ellipse cx="612" cy="352" rx="126" ry="16" fill="#221f19" opacity=".3"/>
+              <rect x="530" y="336" width="160" height="52" fill="#e9e2d0" opacity=".08"/>
+
+              <!-- прохожие -->
+              <g fill="#2b2822" opacity=".88">
+                <circle cx="268" cy="292" r="10"/>
+                <path d="M256 306 q12 -8 24 0 l4 42 -9 0 -4 -22 -6 22 -9 0 Z"/>
+                <circle cx="306" cy="298" r="9"/>
+                <path d="M295 310 q11 -7 22 0 l3 38 -8 0 -4 -20 -5 20 -8 0 Z"/>
+                <circle cx="866" cy="286" r="11"/>
+                <path d="M853 302 q13 -9 26 0 l4 48 -10 0 -4 -25 -6 25 -10 0 Z"/>
+              </g>
+
+              <rect width="960" height="400" fill="url(#p1-vig)"/>
+            </svg>
+            <span class="photo__grain" aria-hidden="true"></span>
+          </div>
+          <figcaption><b>На&nbsp;снимке:</b> первый вагон 12-го&nbsp;маршрута на&nbsp;перекрёстке Морской и&nbsp;Косой линии в&nbsp;5:40&nbsp;утра. Движение открыли на&nbsp;три недели раньше объявленного срока.</figcaption>
+        </figure>
+
+        <div class="story__body cols-3">
+          <p class="lede"><span class="lede__caps">Первый вагон</span> вышел из депо в&nbsp;чет&shy;верть шес&shy;того утра, когда на Мор&shy;ской ещё го&shy;рели фо&shy;нари, а&nbsp;у&nbsp;пе&shy;карни на углу только сни&shy;мали ставни. Во&shy;ди&shy;тель Сер&shy;гей Ильин, от&shy;ра&shy;бо&shy;тав&shy;ший на этом мар&shy;шруте до са&shy;мого его за&shy;кры&shy;тия, дал ко&shy;рот&shy;кий зво&shy;нок&nbsp;— и&nbsp;линия, один&shy;над&shy;цать лет про&shy;ле&shy;жав&shy;шая под слоем ас&shy;фальта, снова ожила.</p>
+
+          <p>Дви&shy;же&shy;ние по вос&shy;ста&shy;нов&shy;лен&shy;ному учас&shy;тку от пло&shy;щади Ко&shy;ра&shy;бе&shy;лов до Га&shy;вани от&shy;крыли вчера в&nbsp;де&shy;вять утра. Про&shy;тя&shy;жён&shy;ность линии&nbsp;— 4,2&nbsp;км, на ней де&shy;вять ос&shy;та&shy;но&shy;воч&shy;ных пунк&shy;тов и&nbsp;два разъ&shy;езда, рас&shy;чёт&shy;ный ин&shy;тер&shy;вал в&nbsp;часы пик&nbsp;— семь минут. Пер&shy;вые две не&shy;дели про&shy;езд будет бес&shy;плат&shy;ным: город про&shy;сит пас&shy;са&shy;жи&shy;ров при&shy;вык&shy;нуть к&nbsp;но&shy;вому рас&shy;пи&shy;са&shy;нию и&nbsp;за&shy;одно рас&shy;ска&shy;зать о&nbsp;не&shy;у&shy;доб&shy;ствах.</p>
+
+          <p>—&nbsp;Мы не просто вер&shy;нули рельсы, мы пе&shy;ре&shy;ло&shy;жили под ними всё, что можно было пе&shy;ре&shy;ло&shy;жить,&nbsp;— ска&shy;зал на от&shy;кры&shy;тии за&shy;мес&shy;ти&shy;тель главы го&shy;рода А.&nbsp;И.&nbsp;Куз&shy;не&shy;цов.&nbsp;— Лив&shy;не&shy;вую ка&shy;на&shy;ли&shy;за&shy;цию, теп&shy;ло&shy;трассу, ка&shy;бель&shy;ные ка&shy;налы. Сле&shy;ду&shy;ю&shy;щий раз вскры&shy;вать эту улицу при&shy;дётся не раньше чем через трид&shy;цать лет.</p>
+
+          <p>За один&shy;над&shy;цать лет квар&shy;тал успел из&shy;ме&shy;ниться дважды. Сна&shy;чала, ли&shy;шив&shy;шись трам&shy;вая, он пре&shy;вра&shy;тился в&nbsp;тран&shy;зит&shy;ный про&shy;езд: две по&shy;лосы в&nbsp;каж&shy;дую сто&shy;рону, сплош&shy;ной поток, сто&shy;янка в&nbsp;два ряда. Потом с&nbsp;улицы на&shy;чали ухо&shy;дить ма&shy;га&shy;зины&nbsp;— сперва ме&shy;бель&shy;ный, за ним бу&shy;ки&shy;нист, по&shy;след&shy;ней за&shy;кры&shy;лась «Гас&shy;тро&shy;но&shy;мия №&nbsp;4», про&shy;ра&shy;бо&shy;тав&shy;шая на углу с&nbsp;1956&nbsp;года.</p>
+
+          <aside class="pull">
+            <p class="pull__text">Мы боялись, что за&nbsp;одиннадцать лет улица отвыкла от&nbsp;рельсов. Оказалось, наоборот: она всё это время их&nbsp;ждала.</p>
+            <p class="pull__src">Анна Верещагина,<br>главный архитектор проекта</p>
+          </aside>
+
+          <p>Воз&shy;вра&shy;ще&shy;ние линии об&shy;суж&shy;дали с&nbsp;2019&nbsp;года, про&shy;ект пе&shy;ре&shy;де&shy;лы&shy;вали трижды. В&nbsp;по&shy;след&shy;ней ре&shy;дак&shy;ции по&shy;лосы для ав&shy;то&shy;мо&shy;би&shy;лей су&shy;зили до одной в&nbsp;каж&shy;дом на&shy;прав&shy;ле&shy;нии, тро&shy;ту&shy;ары рас&shy;ши&shy;рили на пол&shy;тора метра, а&nbsp;две&shy;над&shy;цать пар&shy;ко&shy;воч&shy;ных кар&shy;ма&shy;нов у&nbsp;чёт&shy;ной сто&shy;роны уб&shy;рали сов&shy;сем&nbsp;— именно этот пункт вы&shy;звал больше всего воз&shy;ра&shy;же&shy;ний на пуб&shy;лич&shy;ных слу&shy;ша&shy;ниях.</p>
+
+          <p>—&nbsp;Я&nbsp;держу здесь мас&shy;тер&shy;скую двад&shy;цать два года и&nbsp;пока не по&shy;ни&shy;маю, куда те&shy;перь ста&shy;вить ма&shy;шину кли&shy;ента,&nbsp;— го&shy;во&shy;рит Артём Ко&shy;ва&shy;лёв, хо&shy;зяин ча&shy;со&shy;вой мас&shy;тер&shy;ской в&nbsp;доме 17.&nbsp;— Но если люди снова пой&shy;дут по этой улице пеш&shy;ком, я&nbsp;пер&shy;вый скажу, что был не прав.</p>
+
+          <p>На линию вышли шесть трёх&shy;сек&shy;ци&shy;он&shy;ных ва&shy;го&shy;нов по&shy;след&shy;ней по&shy;ставки и&nbsp;два вос&shy;ста&shy;нов&shy;лен&shy;ных ва&shy;гона прош&shy;лого века&nbsp;— их обе&shy;щают вы&shy;пус&shy;кать по вы&shy;ход&shy;ным как экс&shy;кур&shy;си&shy;он&shy;ные. Депо на Косой линии, за&shy;кон&shy;сер&shy;ви&shy;ро&shy;ван&shy;ное в&nbsp;2015&nbsp;году, при&shy;няло пер&shy;вые ма&shy;шины ещё в&nbsp;июне: там за&shy;ново со&shy;брали смот&shy;ро&shy;вые ка&shy;навы, по&shy;ста&shy;вили мойку и&nbsp;вер&shy;нули на место чу&shy;гун&shy;ные во&shy;рота.</p>
+
+          <p>По оценке транс&shy;порт&shy;ного ко&shy;ми&shy;тета, линия при&shy;мет до 26&nbsp;тысяч пас&shy;са&shy;жи&shy;ров в&nbsp;сутки и&nbsp;сни&shy;мет часть на&shy;грузки с&nbsp;ав&shy;то&shy;бус&shy;ных мар&shy;шру&shy;тов №&nbsp;14 и&nbsp;№&nbsp;29. Про&shy;ве&shy;рить рас&shy;чёт можно будет не раньше но&shy;ября: летом пас&shy;са&shy;жи&shy;ро&shy;по&shy;ток на Мор&shy;ской тра&shy;ди&shy;ци&shy;онно ниже, а&nbsp;по&shy;ло&shy;вина домов на чёт&shy;ной сто&shy;роне ещё стоит в&nbsp;стро&shy;и&shy;тель&shy;ных лесах.</p>
+
+          <p>Ве&shy;че&shy;ром у&nbsp;ос&shy;та&shy;новки «Га&shy;вань» вы&shy;строи&shy;лась оче&shy;редь&nbsp;— не за би&shy;ле&shy;тами, ко&shy;то&shy;рых пока нет, а&nbsp;просто чтобы про&shy;е&shy;хать че&shy;тыре ки&shy;ло&shy;метра туда и&nbsp;об&shy;ратно. Нина Пет&shy;ровна Гу&shy;щина, про&shy;жив&shy;шая на Мор&shy;ской во&shy;семь&shy;де&shy;сят лет, села у&nbsp;окна и&nbsp;ска&shy;зала кон&shy;дук&shy;тору, что те&shy;перь дом на&shy;ко&shy;нец слышно снова.</p>
+
+          <p class="jump">Репортаж с&nbsp;открытия линии&nbsp;— на&nbsp;с.&nbsp;3. Как менялась схема городского трамвая за&nbsp;сто лет&nbsp;— карта на&nbsp;с.&nbsp;4—5.</p>
+        </div>
+      </article>
+
+      <!-- -------------------------- ПРАВЫЙ БОРТ -------------------------- -->
+      <aside class="rail">
+
+        <section class="box box--figure">
+          <h3 class="box__title">Цифра дня</h3>
+          <p class="bignum">26&nbsp;000</p>
+          <p class="bignum__cap">пас&shy;са&shy;жи&shy;ров в&nbsp;сутки дол&shy;жна при&shy;нять вос&shy;ста&shy;нов&shy;лен&shy;ная линия&nbsp;— таков рас&shy;чёт транс&shy;порт&shy;ного ко&shy;ми&shy;тета на пер&shy;вый год ра&shy;боты</p>
+        </section>
+
+        <section class="box">
+          <h3 class="box__title">Коротко</h3>
+          <ul class="briefs">
+            <li>Ре&shy;монт Ка&shy;мен&shy;ного моста за&shy;вер&shy;шат к&nbsp;1&nbsp;сен&shy;тября&nbsp;— на месяц раньше срока. Раз&shy;вод по ночам во&shy;зоб&shy;но&shy;вится с&nbsp;по&shy;не&shy;дель&shy;ника.</li>
+            <li>Фонд ред&shy;кой книги оциф&shy;ро&shy;вал 12&nbsp;тысяч стра&shy;ниц до&shy;ре&shy;во&shy;лю&shy;ци&shy;он&shy;ной пе&shy;ри&shy;о&shy;дики. До&shy;ступ к&nbsp;ар&shy;хиву от&shy;крыт бес&shy;платно.</li>
+            <li>На Се&shy;вер&shy;ной на&shy;бе&shy;реж&shy;ной вы&shy;са&shy;дят 340&nbsp;лип вза&shy;мен по&shy;гиб&shy;ших после ян&shy;вар&shy;ского шторма.</li>
+            <li>Пла&shy;ву&shy;чий кран «Аргус» под&shy;нял со дна баржу, за&shy;то&shy;нув&shy;шую у&nbsp;Гу&shy;ту&shy;ев&shy;ского ос&shy;трова в&nbsp;1972&nbsp;году.</li>
+            <li>Ста&shy;дион «Заря» при&shy;мет матч 24&nbsp;ав&shy;густа. Би&shy;леты по&shy;сту&shy;пят в&nbsp;про&shy;дажу в&nbsp;чет&shy;верг, цена&nbsp;— от 350&nbsp;руб&shy;лей.</li>
+          </ul>
+        </section>
+
+        <section class="box">
+          <h3 class="box__title">Погода</h3>
+          <div class="wx">
+            <svg class="wx__icon" viewBox="0 0 48 48" role="img" aria-label="Облачно, дождь">
+              <circle cx="18" cy="17" r="8" fill="#8c8471"/>
+              <path d="M14 30 a9 9 0 0 1 8.6-9 11 11 0 0 1 20.4 3.4 A7 7 0 0 1 41 34 H16 a6 6 0 0 1-2-4 Z" fill="#3d3830"/>
+              <g stroke="#3d3830" stroke-width="2.4" stroke-linecap="round">
+                <path d="M19 38 L16 44"/><path d="M28 38 L25 44"/><path d="M37 38 L34 44"/>
+              </g>
+            </svg>
+            <p class="wx__now"><b>+21°</b><span>днём, к&nbsp;вечеру дождь</span></p>
+          </div>
+          <table class="tbl">
+            <tr class="tbl__head"><th></th><td>день</td><td>ночь</td></tr>
+            <tr><th>Сегодня</th><td>+21°</td><td>+14°</td></tr>
+            <tr><th>Понедельник</th><td>+19°</td><td>+13°</td></tr>
+            <tr><th>Вторник</th><td>+23°</td><td>+15°</td></tr>
+          </table>
+          <p class="box__note">Ветер се&shy;веро-за&shy;пад&shy;ный, 4—6&nbsp;м/с. Дав&shy;ле&shy;ние 754&nbsp;мм&nbsp;рт.&nbsp;ст., влаж&shy;ность 71%.</p>
+        </section>
+
+        <section class="box">
+          <h3 class="box__title">Курсы Банка России</h3>
+          <table class="tbl tbl--rates">
+            <tr><th>Доллар США</th><td>78,40</td><td class="up">+0,32</td></tr>
+            <tr><th>Евро</th><td>91,15</td><td class="down">−0,08</td></tr>
+            <tr><th>Юань</th><td>10,84</td><td class="up">+0,05</td></tr>
+            <tr><th>Нефть Brent</th><td>71,30</td><td class="down">−0,90</td></tr>
+          </table>
+          <p class="box__note">Курсы ус&shy;та&shy;нов&shy;лены на 16&nbsp;ав&shy;густа. Цена нефти&nbsp;— в&nbsp;дол&shy;ла&shy;рах за бар&shy;рель на за&shy;кры&shy;тие пят&shy;ницы.</p>
+        </section>
+
+      </aside>
+    </div>
+
+    <hr class="rule rule--double">
+
+    <!-- ======================== НИЖНИЙ ЭТАЖ ======================== -->
+    <div class="deck-bottom">
+
+      <article class="story story--sub">
+        <p class="kicker">Наука</p>
+        <h2 class="headline headline--sub">Пулковский спектрограф увидел первый свет</h2>
+        <p class="byline"><span class="byline__name">Олег Дьяконов</span></p>
+
+        <div class="story__body">
+        <figure class="photo">
+          <div class="photo__frame">
+            <svg class="photo__img" viewBox="0 0 480 320" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Купол обсерватории ночью">
+              <defs>
+                <linearGradient id="p2-sky" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#2a2721"/><stop offset=".65" stop-color="#6a6355"/><stop offset="1" stop-color="#a49b88"/>
+                </linearGradient>
+                <radialGradient id="p2-vig" cx=".5" cy=".45" r=".75">
+                  <stop offset=".4" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#15130f" stop-opacity=".55"/>
+                </radialGradient>
+              </defs>
+              <rect width="480" height="320" fill="url(#p2-sky)"/>
+              <g fill="#efe8d6">
+                <circle cx="52" cy="38" r="2.4" opacity=".9"/><circle cx="118" cy="70" r="1.6" opacity=".7"/>
+                <circle cx="186" cy="30" r="2" opacity=".85"/><circle cx="252" cy="62" r="1.4" opacity=".6"/>
+                <circle cx="322" cy="26" r="2.6" opacity=".95"/><circle cx="392" cy="58" r="1.8" opacity=".7"/>
+                <circle cx="438" cy="106" r="2.2" opacity=".8"/><circle cx="86" cy="122" r="1.5" opacity=".55"/>
+                <circle cx="286" cy="112" r="1.7" opacity=".65"/><circle cx="152" cy="146" r="1.3" opacity=".5"/>
+                <circle cx="352" cy="150" r="1.6" opacity=".55"/><circle cx="222" cy="88" r="1.2" opacity=".5"/>
+              </g>
+              <path d="M232 148 L196 18 L296 18 L262 148 Z" fill="#efe8d6" opacity=".14"/>
+              <path d="M0 246 L92 226 L188 240 L268 216 L360 236 L480 214 L480 320 L0 320 Z" fill="#221f19"/>
+              <g>
+                <rect x="176" y="196" width="132" height="58" fill="#3f3a31"/>
+                <rect x="176" y="190" width="132" height="9" fill="#544e43"/>
+                <path d="M182 192 a60 46 0 0 1 120 0 Z" fill="#57503f"/>
+                <path d="M182 192 a60 46 0 0 1 44-43 l0 43 Z" fill="#6a6252" opacity=".7"/>
+                <rect x="232" y="146" width="18" height="48" rx="9" fill="#c9c0aa"/>
+                <rect x="236" y="152" width="10" height="40" rx="5" fill="#211e18"/>
+                <g fill="#e9e2d0" opacity=".45">
+                  <rect x="192" y="212" width="14" height="20"/><rect x="220" y="212" width="14" height="20"/>
+                  <rect x="248" y="212" width="14" height="20"/><rect x="276" y="212" width="14" height="20"/>
+                </g>
+              </g>
+              <g fill="#1a1813">
+                <path d="M74 258 l16 -46 16 46 Z"/><path d="M104 262 l13 -38 13 38 Z"/>
+                <path d="M366 256 l15 -42 15 42 Z"/><path d="M398 262 l12 -34 12 34 Z"/>
+              </g>
+              <rect width="480" height="320" fill="url(#p2-vig)"/>
+            </svg>
+            <span class="photo__grain" aria-hidden="true"></span>
+          </div>
+          <figcaption><b>Западный павильон</b> обсерватории: под куполом собрана двухметровая башня нового спектрографа.</figcaption>
+        </figure>
+
+        <p class="lede-sub">Спек&shy;тро&shy;граф вы&shy;со&shy;кого раз&shy;ре&shy;ше&shy;ния, ус&shy;та&shy;нов&shy;лен&shy;ный в&nbsp;За&shy;пад&shy;ном па&shy;виль&shy;оне об&shy;сер&shy;ва&shy;то&shy;рии, по&shy;лу&shy;чил пер&shy;вые спек&shy;тры. У&nbsp;ас&shy;тро&shy;но&shy;мов это на&shy;зы&shy;ва&shy;ется «пер&shy;вым све&shy;том» и&nbsp;оз&shy;на&shy;чает, что при&shy;бор в&nbsp;прин&shy;ципе ра&shy;бо&shy;тает.</p>
+        <p>Ус&shy;та&shy;новку со&shy;би&shy;рали че&shy;тыре года. Из им&shy;порт&shy;ных де&shy;та&shy;лей в&nbsp;ней ос&shy;та&shy;лись только диф&shy;рак&shy;ци&shy;он&shy;ная ре&shy;шётка и&nbsp;часть оп&shy;то&shy;во&shy;локна&nbsp;— ос&shy;таль&shy;ное, вклю&shy;чая тер&shy;мос&shy;та&shy;ти&shy;ро&shy;ван&shy;ный кор&shy;пус, сде&shy;лано на двух оте&shy;чест&shy;вен&shy;ных пред&shy;при&shy;я&shy;тиях.</p>
+        <p>Пер&shy;вой целью вы&shy;брали звезду 51&nbsp;Пе&shy;гаса&nbsp;— ту самую, у&nbsp;ко&shy;то&shy;рой в&nbsp;1995&nbsp;году нашли пер&shy;вую пла&shy;нету у&nbsp;солн&shy;це&shy;по&shy;доб&shy;ного све&shy;тила. «Это была про&shy;верка на чест&shy;ность: спектр из&shy;вес&shy;тен до по&shy;след&shy;ней линии, со&shy;врать не по&shy;лу&shy;чится»,&nbsp;— объ&shy;яс&shy;няет на&shy;уч&shy;ный ру&shy;ко&shy;во&shy;ди&shy;тель про&shy;екта О.&nbsp;Р.&nbsp;Ти&shy;ма&shy;шева.</p>
+        <p>Точ&shy;ность из&shy;ме&shy;ре&shy;ния лу&shy;че&shy;вых ско&shy;рос&shy;тей на пер&shy;вых сним&shy;ках&nbsp;— около 3&nbsp;м/с. Этого хва&shy;тит, чтобы ис&shy;кать пла&shy;неты раз&shy;ме&shy;ром с&nbsp;Неп&shy;тун; для пла&shy;нет зем&shy;ного типа при&shy;бор при&shy;дётся ка&shy;либ&shy;ро&shy;вать ещё год.</p>
+        </div>
+      </article>
+
+      <article class="story story--sub">
+        <p class="kicker">Экономика</p>
+        <h2 class="headline headline--sub">Порт заканчивает лето с&nbsp;прибавкой в&nbsp;шесть процентов</h2>
+        <p class="byline"><span class="byline__name">Даниил Ершов</span></p>
+
+        <div class="story__body">
+        <p class="lede-sub">Гру&shy;зо&shy;о&shy;бо&shy;рот порта за ян&shy;варь&nbsp;— июль вырос на 6,1% к&nbsp;прош&shy;ло&shy;год&shy;нему уровню и&nbsp;со&shy;ста&shy;вил 19,8&nbsp;млн&nbsp;т. Ос&shy;нов&shy;ной вклад дали кон&shy;тей&shy;неры и&nbsp;зерно; на&shy;лив&shy;ные грузы, на&shy;о&shy;бо&shy;рот, про&shy;сели на 4%.</p>
+        <p>В&nbsp;порту рост объ&shy;яс&shy;няют двумя при&shy;чи&shy;нами: новой оче&shy;редью кон&shy;тей&shy;нер&shy;ного тер&shy;ми&shy;нала, за&shy;пу&shy;щен&shy;ной в&nbsp;марте, и&nbsp;пе&shy;ре&shy;рас&shy;пре&shy;де&shy;ле&shy;нием зер&shy;но&shy;вого экс&shy;порта на время ре&shy;монта у&nbsp;со&shy;се&shy;дей.</p>
+
+        <figure class="chart">
+          <figcaption class="chart__title">Грузооборот порта, млн&nbsp;т</figcaption>
+          <div class="chart__plot">
+            <div class="bar" style="--h:63%"><span class="bar__val">15,2</span><span class="bar__lbl">2022</span></div>
+            <div class="bar" style="--h:69%"><span class="bar__val">16,1</span><span class="bar__lbl">2023</span></div>
+            <div class="bar" style="--h:78%"><span class="bar__val">17,4</span><span class="bar__lbl">2024</span></div>
+            <div class="bar" style="--h:88%"><span class="bar__val">18,7</span><span class="bar__lbl">2025</span></div>
+            <div class="bar bar--now" style="--h:100%"><span class="bar__val">19,8</span><span class="bar__lbl">2026*</span></div>
+          </div>
+          <p class="chart__note">* ян&shy;варь&nbsp;— июль. По дан&shy;ным ди&shy;рек&shy;ции порта.</p>
+        </figure>
+
+        <p>«Мы вышли на до&shy;кри&shy;зис&shy;ные объ&shy;ёмы, но струк&shy;тура груза из&shy;ме&shy;ни&shy;лась не&shy;об&shy;ра&shy;тимо&nbsp;— и&nbsp;это на&shy;долго»,&nbsp;— го&shy;во&shy;рит фи&shy;нан&shy;со&shy;вый ди&shy;рек&shy;тор Д.&nbsp;С.&nbsp;Ме&shy;лен&shy;тьев.</p>
+        <p>Вто&shy;рую оче&shy;редь тер&shy;ми&shy;нала обе&shy;щают ввести к&nbsp;весне. Тогда же в&nbsp;порту рас&shy;счи&shy;ты&shy;вают пе&shy;ре&shy;вести на круг&shy;ло&shy;су&shy;точ&shy;ный режим тре&shy;тий и&nbsp;чет&shy;вёр&shy;тый при&shy;чалы, до&shy;ба&shy;вив к&nbsp;го&shy;до&shy;вой мощ&shy;ности ещё 2,4&nbsp;млн&nbsp;т.</p>
+        </div>
+      </article>
+
+      <article class="story story--sub">
+        <p class="kicker">Культура</p>
+        <h2 class="headline headline--sub">В&nbsp;Манеже показали афиши, которые считали утраченными</h2>
+        <p class="byline"><span class="byline__name">Вера Лунц</span></p>
+
+        <div class="story__body">
+        <figure class="photo">
+          <div class="photo__frame">
+            <svg class="photo__img" viewBox="0 0 480 320" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Театральные афиши на стене">
+              <defs>
+                <linearGradient id="p3-wall" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#b9b0a0"/><stop offset="1" stop-color="#8b8474"/>
+                </linearGradient>
+                <radialGradient id="p3-vig" cx=".5" cy=".45" r=".78">
+                  <stop offset=".42" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#191710" stop-opacity=".5"/>
+                </radialGradient>
+              </defs>
+              <rect width="480" height="320" fill="url(#p3-wall)"/>
+              <g stroke="#7b7464" stroke-width="1" opacity=".45">
+                <path d="M0 84 H480"/><path d="M0 186 H480"/><path d="M0 268 H480"/>
+                <path d="M118 0 V320"/><path d="M300 0 V320"/>
+              </g>
+
+              <g transform="rotate(-4 130 170)">
+                <rect x="42" y="66" width="152" height="212" fill="#2a2620" opacity=".22" transform="translate(6 8)"/>
+                <rect x="42" y="66" width="152" height="212" fill="#e7e0ce"/>
+                <rect x="56" y="82" width="124" height="6" fill="#3b362d"/>
+                <rect x="56" y="102" width="124" height="20" fill="#332f27"/>
+                <rect x="56" y="132" width="96" height="10" fill="#57503f"/>
+                <g fill="#6a6252">
+                  <rect x="56" y="156" width="124" height="5"/><rect x="56" y="168" width="110" height="5"/>
+                  <rect x="56" y="180" width="118" height="5"/><rect x="56" y="192" width="88" height="5"/>
+                </g>
+                <rect x="56" y="212" width="124" height="34" fill="#453f34"/>
+                <rect x="56" y="256" width="70" height="6" fill="#6a6252"/>
+              </g>
+
+              <g transform="rotate(3 268 158)">
+                <rect x="196" y="44" width="146" height="226" fill="#2a2620" opacity=".22" transform="translate(6 8)"/>
+                <rect x="196" y="44" width="146" height="226" fill="#efe8d6"/>
+                <rect x="210" y="60" width="118" height="26" fill="#2f2b23"/>
+                <rect x="210" y="96" width="86" height="9" fill="#615a4a"/>
+                <circle cx="269" cy="150" r="34" fill="#3f3a2f"/>
+                <circle cx="269" cy="150" r="20" fill="#efe8d6" opacity=".35"/>
+                <g fill="#6a6252">
+                  <rect x="210" y="200" width="118" height="5"/><rect x="210" y="212" width="100" height="5"/>
+                  <rect x="210" y="224" width="112" height="5"/>
+                </g>
+                <rect x="210" y="242" width="118" height="16" fill="#453f34"/>
+              </g>
+
+              <g transform="rotate(-2 400 176)">
+                <rect x="342" y="82" width="124" height="188" fill="#2a2620" opacity=".2" transform="translate(5 7)"/>
+                <rect x="342" y="82" width="124" height="188" fill="#ddd5c2"/>
+                <rect x="354" y="96" width="100" height="18" fill="#3b362d"/>
+                <rect x="354" y="124" width="72" height="7" fill="#615a4a"/>
+                <g fill="#7b7361">
+                  <rect x="354" y="146" width="100" height="4"/><rect x="354" y="156" width="84" height="4"/>
+                  <rect x="354" y="166" width="94" height="4"/><rect x="354" y="176" width="66" height="4"/>
+                </g>
+                <rect x="354" y="196" width="100" height="46" fill="#4c4639"/>
+                <path d="M342 244 l22 12 -22 10 Z" fill="#8b8474"/>
+              </g>
+
+              <rect width="480" height="320" fill="url(#p3-vig)"/>
+            </svg>
+            <span class="photo__grain" aria-hidden="true"></span>
+          </div>
+          <figcaption><b>Афиша спектакля</b> «Три сестры», 1924&nbsp;год. Литография найдена в&nbsp;третьем слое склейки.</figcaption>
+        </figure>
+
+        <p class="lede-sub">Двести сорок те&shy;ат&shy;раль&shy;ных афиш 1918—1935&nbsp;годов про&shy;ле&shy;жали в&nbsp;под&shy;вале ти&shy;по&shy;гра&shy;фии на Ли&shy;гов&shy;ском больше по&shy;лу&shy;века. Их нашли прош&shy;лой осенью, когда зда&shy;ние го&shy;то&shy;вили к&nbsp;сносу.</p>
+        <p>Рес&shy;тав&shy;ра&shy;торы ра&shy;бо&shy;тали де&shy;сять ме&shy;ся&shy;цев. По&shy;ло&shy;вину лис&shy;тов приш&shy;лось раз&shy;де&shy;лять по слоям: афиши кле&shy;или одну на дру&shy;гую прямо в&nbsp;цехе, и&nbsp;ниж&shy;ние, ли&shy;шён&shy;ные света, со&shy;хра&shy;ни&shy;лись за&shy;метно лучше вер&shy;хних.</p>
+        <p>«Мы дер&shy;жали в&nbsp;руках лист, ко&shy;то&shy;рый по&shy;след&shy;ний раз ви&shy;дели живым в&nbsp;двад&shy;цать чет&shy;вёр&shy;том году. Краска на нём&nbsp;— как вчера»,&nbsp;— го&shy;во&shy;рит ку&shy;ра&shy;тор вы&shy;ставки М.&nbsp;В.&nbsp;Хо&shy;да&shy;се&shy;вич.</p>
+        <p>Вы&shy;ставка от&shy;крыта до 12&nbsp;ок&shy;тября, по втор&shy;ни&shy;кам вход сво&shy;бод&shy;ный. Ка&shy;та&shy;лог с&nbsp;пол&shy;ным пе&shy;реч&shy;нем на&shy;хо&shy;док вый&shy;дет в&nbsp;но&shy;ябре.</p>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- ======================= НИЖНИЙ КОЛОНТИТУЛ ======================= -->
+  <footer class="colophon">
+    <hr class="rule rule--double">
+    <div class="colophon__bar">
+      <span class="colophon__brand">Вечерний Меридиан</span>
+      <span class="colophon__mid">№&nbsp;187 (24&nbsp;536)&nbsp;· воскресенье, 16&nbsp;августа 2026&nbsp;года</span>
+      <span class="colophon__page">1</span>
+    </div>
+    <p class="colophon__fine">Глав&shy;ный ре&shy;дак&shy;тор Е.&nbsp;П.&nbsp;Лав&shy;рова.&nbsp;· Адрес ре&shy;дак&shy;ции: 190000, Мор&shy;ская на&shy;бе&shy;реж&shy;ная, 14.&nbsp;· Отдел писем и&nbsp;под&shy;писки: 8 (812) 000-00-00.&nbsp;· Тираж 42&nbsp;300&nbsp;экз. Заказ №&nbsp;1187. Под&shy;пи&shy;сано в&nbsp;пе&shy;чать 15.08.2026 в&nbsp;22:40, по гра&shy;фику&nbsp;— 23:00.&nbsp;· Ру&shy;ко&shy;писи не ре&shy;цен&shy;зи&shy;ру&shy;ются и&nbsp;не воз&shy;вра&shy;ща&shy;ются. Пе&shy;ре&shy;пе&shy;чатка ма&shy;те&shy;ри&shy;а&shy;лов&nbsp;— только по со&shy;гла&shy;со&shy;ва&shy;нию с&nbsp;ре&shy;дак&shy;цией.</p>
+  </footer>
+
+</div>
+</div>
+
+</body>
+</html>

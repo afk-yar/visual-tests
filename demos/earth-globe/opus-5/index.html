@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Вращающийся земной шар — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view"></canvas>
+
+<div class="hud">
+  <h1>Земля</h1>
+  <p class="lead">Canvas 2D, попиксельный рендер сферы</p>
+  <ul class="tags">
+    <li>терминатор</li><li>огни городов</li><li>атмосфера</li>
+    <li>облака</li><li>блик на океане</li>
+  </ul>
+  <p class="hint">Перетаскивай по холсту — двигаешь Солнце</p>
+</div>
+
+<div class="panel" id="panel">
+  <div class="grid">
+    <label class="ctl">
+      <span class="ctl-name">Вращение</span>
+      <input type="range" id="spin" min="0" max="240" value="60" step="1">
+      <span class="ctl-val" id="spinVal">1.0×</span>
+    </label>
+    <label class="ctl">
+      <span class="ctl-name">Облака</span>
+      <input type="range" id="clouds" min="0" max="140" value="100" step="1">
+      <span class="ctl-val" id="cloudsVal">100%</span>
+    </label>
+    <label class="ctl">
+      <span class="ctl-name">Экспозиция</span>
+      <input type="range" id="expo" min="60" max="160" value="100" step="1">
+      <span class="ctl-val" id="expoVal">1.00</span>
+    </label>
+    <label class="ctl">
+      <span class="ctl-name">Азимут&nbsp;Солнца</span>
+      <input type="range" id="sunAz" min="-180" max="180" value="-74" step="1">
+      <span class="ctl-val" id="sunAzVal">-74°</span>
+    </label>
+    <label class="ctl">
+      <span class="ctl-name">Высота&nbsp;Солнца</span>
+      <input type="range" id="sunEl" min="-60" max="60" value="14" step="1">
+      <span class="ctl-val" id="sunElVal">14°</span>
+    </label>
+    <label class="ctl">
+      <span class="ctl-name">Огни&nbsp;городов</span>
+      <input type="range" id="lights" min="0" max="180" value="100" step="1">
+      <span class="ctl-val" id="lightsVal">100%</span>
+    </label>
+  </div>
+  <div class="btns">
+    <button id="pause" type="button">Пауза</button>
+    <button id="reset" type="button">Сброс</button>
+  </div>
+</div>
+
+<div class="fps" id="fps">— FPS</div>
+
+<script src="main.js"></script>
+</body>
+</html>

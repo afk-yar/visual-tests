@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Рейкастер-лабиринт — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="view" tabindex="0" aria-label="Псевдо-3D лабиринт с видом от первого лица"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+
+<header class="hud">
+  <h1>Рейкастер-лабиринт</h1>
+  <p>DDA по сетке · перспектива без «рыбьего глаза» · чистый Canvas&nbsp;2D</p>
+  <div class="stat">
+    <span id="fps">— fps</span>
+    <span class="sep"></span>
+    <span id="res">—</span>
+    <span class="sep"></span>
+    <span id="size">—</span>
+  </div>
+</header>
+
+<section class="panel">
+  <div class="keys">
+    <span class="grp"><kbd>W</kbd><kbd>S</kbd><i>вперёд / назад</i></span>
+    <span class="grp"><kbd>A</kbd><kbd>D</kbd><i>стрейф</i></span>
+    <span class="grp"><kbd>&larr;</kbd><kbd>&rarr;</kbd><i>поворот</i></span>
+    <span class="grp"><kbd>Shift</kbd><i>бег</i></span>
+  </div>
+  <div class="ctl">
+    <button id="btnNew" type="button">Новый лабиринт</button>
+    <button id="btnMap" type="button" class="on">Мини-карта</button>
+    <label class="rng"><span>Обзор</span><input id="fov" type="range" min="55" max="100" step="1" value="70" aria-label="Угол обзора"><b id="fovVal">70°</b></label>
+  </div>
+  <p class="hint">клик по сцене — фокус управления · перетаскивание мышью — осмотреться · <kbd>R</kbd> новый лабиринт · <kbd>M</kbd> карта</p>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3D-аквариум — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="scene"></canvas>
+
+<div class="hud" id="hud">
+  <h1>3D-аквариум</h1>
+  <p>Canvas 2D без библиотек · ручная перспективная проекция, алгоритм художника,
+     объёмный свет и туман глубины</p>
+  <div class="stat"><b id="fps">—</b> fps<span class="dot">·</span><span id="cnt">—</span></div>
+</div>
+
+<div class="panel" id="panel">
+  <div class="row">
+    <div class="ctl">
+      <label for="sTime">Время</label>
+      <input id="sTime" type="range" min="0" max="200" value="100" step="1" aria-label="Скорость времени">
+      <span class="val" id="vTime">1.00×</span>
+    </div>
+    <div class="ctl">
+      <label for="sOrbit">Облёт</label>
+      <input id="sOrbit" type="range" min="0" max="200" value="100" step="1" aria-label="Скорость облёта камеры">
+      <span class="val" id="vOrbit">1.00×</span>
+    </div>
+    <div class="ctl">
+      <label for="sFog">Мутность</label>
+      <input id="sFog" type="range" min="20" max="200" value="100" step="1" aria-label="Мутность воды">
+      <span class="val" id="vFog">1.00×</span>
+    </div>
+    <div class="ctl">
+      <label for="sLight">Свет</label>
+      <input id="sLight" type="range" min="30" max="180" value="100" step="1" aria-label="Яркость света">
+      <span class="val" id="vLight">1.00×</span>
+    </div>
+  </div>
+  <div class="row btns">
+    <button id="bPause" type="button" aria-pressed="false">Пауза</button>
+    <button id="bRays" type="button" class="on" aria-pressed="true">Лучи</button>
+    <button id="bCaus" type="button" class="on" aria-pressed="true">Каустики</button>
+    <button id="bBloom" type="button" class="on" aria-pressed="true">Блум</button>
+    <span class="hint">перетаскивание — обзор, колесо — зум</span>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Ткань (верлет) — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="cv"></canvas>
+
+<div class="hud">
+  <h1>Ткань · верлет</h1>
+  <p>Сетка частиц со связями-констрейнтами, гравитация и переменный ветер.
+     Тяни мышью — при сильном растяжении связи рвутся.</p>
+  <p class="stats" id="stats">…</p>
+</div>
+
+<section class="panel" aria-label="Управление симуляцией">
+  <div class="ctrls">
+    <label class="ctl">
+      <span class="cap">Гравитация <b id="vGrav">1500</b></span>
+      <input id="grav" type="range" min="0" max="3000" step="25" value="1500">
+    </label>
+    <label class="ctl">
+      <span class="cap">Ветер <b id="vWind">520</b></span>
+      <input id="wind" type="range" min="0" max="1800" step="20" value="520">
+    </label>
+    <label class="ctl">
+      <span class="cap">Жёсткость <b id="vIter">5</b></span>
+      <input id="iter" type="range" min="1" max="8" step="1" value="5">
+    </label>
+    <label class="ctl">
+      <span class="cap">Прочность <b id="vTear">2.10×</b></span>
+      <input id="tear" type="range" min="1.25" max="3.2" step="0.05" value="2.1">
+    </label>
+    <label class="ctl">
+      <span class="cap">Плотность <b id="vDens">36×25</b></span>
+      <input id="dens" type="range" min="18" max="52" step="2" value="36">
+    </label>
+    <label class="ctl">
+      <span class="cap">Креплений <b id="vPins">5</b></span>
+      <input id="pins" type="range" min="2" max="12" step="1" value="5">
+    </label>
+  </div>
+  <div class="btns">
+    <button id="bReset" type="button">Сброс</button>
+    <button id="bPause" type="button">Пауза</button>
+    <button id="bDrop" type="button">Отцепить</button>
+    <button id="bMode" type="button">Вид: ткань + сетка</button>
+    <span class="hint">ЛКМ — тянуть · ПКМ или Shift — резать · R — сброс · Пробел — пауза · G — вид</span>
+  </div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

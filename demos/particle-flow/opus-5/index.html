@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Поток частиц 3D — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="view"></canvas>
+
+<div class="hud" id="hud">
+  <h1>Поток частиц 3D</h1>
+  <p class="sub">Curl-noise поле · HDR-штрихи с авто-экспозицией · Canvas 2D</p>
+  <p class="stats">
+    <b id="v-particles">—</b> частиц
+    <i>·</i> <b id="v-fps">—</b> fps
+    <i>·</i> <span id="v-res">—</span>
+  </p>
+  <p class="hint">перетаскивание — камера · колесо — наезд · H — скрыть интерфейс</p>
+</div>
+
+<div class="panel" id="panel">
+  <div class="grp">
+    <label for="s-count">Частицы</label>
+    <input type="range" id="s-count" min="8000" max="90000" step="1000" value="40000">
+    <span class="val" id="o-count">40 000</span>
+  </div>
+  <div class="grp">
+    <label for="s-flow">Поток</label>
+    <input type="range" id="s-flow" min="15" max="240" step="1" value="100">
+    <span class="val" id="o-flow">1.00</span>
+  </div>
+  <div class="grp">
+    <label for="s-exp">Экспозиция</label>
+    <input type="range" id="s-exp" min="30" max="280" step="1" value="115">
+    <span class="val" id="o-exp">1.15</span>
+  </div>
+  <div class="grp">
+    <label for="s-trail">След</label>
+    <input type="range" id="s-trail" min="55" max="97" step="1" value="89">
+    <span class="val" id="o-trail">0.89</span>
+  </div>
+  <div class="grp">
+    <label for="s-bloom">Свечение</label>
+    <input type="range" id="s-bloom" min="0" max="180" step="1" value="100">
+    <span class="val" id="o-bloom">1.00</span>
+  </div>
+  <div class="btns">
+    <button type="button" id="b-pause">Пауза</button>
+    <button type="button" id="b-pal">Туманность</button>
+    <button type="button" id="b-orbit">Облёт: вкл</button>
+    <button type="button" id="b-quality">Чёткость: ср.</button>
+    <button type="button" id="b-reset">Заново</button>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

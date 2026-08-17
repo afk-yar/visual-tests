@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Двойной маятник — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="scene"></canvas>
+
+<header class="hud" id="hud">
+  <h1>Двойной маятник</h1>
+  <p class="sub">Уравнения Лагранжа · RK4, шаг 0,5&nbsp;мс · реальное время</p>
+  <dl class="stats">
+    <div><dt>время</dt><dd id="oTime">0,00 с</dd></div>
+    <div><dt>энергия</dt><dd id="oEnergy">—</dd></div>
+    <div><dt>дрейф E</dt><dd id="oDrift">—</dd></div>
+    <div id="rowDiv"><dt>расхождение</dt><dd id="oDiv">—</dd></div>
+  </dl>
+</header>
+
+<section class="panel" id="panel">
+  <div class="ctl">
+    <button type="button" id="btnPlay" class="btn primary">Пауза</button>
+    <button type="button" id="btnReset" class="btn">Сброс</button>
+    <button type="button" id="btnRandom" class="btn">Случайно</button>
+    <button type="button" id="btnGhost" class="btn tgl on" aria-pressed="true">Призрак</button>
+    <button type="button" id="btnTrail" class="btn tgl on" aria-pressed="true">След</button>
+    <span class="hint">потяни за груз — задашь начальный угол · пробел, R, N, G, T</span>
+  </div>
+
+  <div class="sliders">
+    <label class="sl"><span class="k">масса m<sub>1</sub><b id="om1">1,40 кг</b></span>
+      <input id="sm1" type="range" min="0.2" max="5" step="0.05" value="1.4" aria-label="Масса первого груза"></label>
+    <label class="sl"><span class="k">масса m<sub>2</sub><b id="om2">1,00 кг</b></span>
+      <input id="sm2" type="range" min="0.2" max="5" step="0.05" value="1" aria-label="Масса второго груза"></label>
+    <label class="sl"><span class="k">длина L<sub>1</sub><b id="oL1">1,00 м</b></span>
+      <input id="sL1" type="range" min="0.35" max="1.3" step="0.01" value="1" aria-label="Длина первого стержня"></label>
+    <label class="sl"><span class="k">длина L<sub>2</sub><b id="oL2">0,90 м</b></span>
+      <input id="sL2" type="range" min="0.35" max="1.3" step="0.01" value="0.9" aria-label="Длина второго стержня"></label>
+    <label class="sl"><span class="k">тяжесть g<b id="og">9,81 м/с²</b></span>
+      <input id="sg" type="range" min="0" max="20" step="0.05" value="9.81" aria-label="Ускорение свободного падения"></label>
+    <label class="sl"><span class="k">сдвиг призрака<b id="oeps">1,0e-3 рад</b></span>
+      <input id="seps" type="range" min="-7" max="-1" step="0.25" value="-3" aria-label="Отклонение начального угла призрака"></label>
+  </div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

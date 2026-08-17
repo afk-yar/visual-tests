@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Воксельный ландшафт — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div id="boot">
+  <span class="spin"></span>
+  <span>Генерация ландшафта</span>
+  <span id="bootPct">0 %</span>
+</div>
+
+<header class="hud">
+  <h1>Воксельный ландшафт</h1>
+  <p>VoxelSpace / Comanche на чистом Canvas&nbsp;2D: процедурный шум, столбцовый рендер, туман по дальности</p>
+  <div class="meter">
+    <span><b id="fps">—</b> fps</span>
+    <span class="dot"></span>
+    <span><b id="alt">—</b> м над рельефом</span>
+    <span class="dot"></span>
+    <span>X&nbsp;:&nbsp;Y <b id="pos">—</b></span>
+  </div>
+</header>
+
+<section class="panel">
+  <div class="ctl">
+    <label for="cHeight">Высота камеры, м</label>
+    <output id="vHeight" for="cHeight">72</output>
+    <input id="cHeight" type="range" min="18" max="320" step="1" value="72">
+  </div>
+  <div class="ctl">
+    <label for="cDist">Дальность, м</label>
+    <output id="vDist" for="cDist">900</output>
+    <input id="cDist" type="range" min="220" max="1500" step="10" value="900">
+  </div>
+  <div class="ctl">
+    <label for="cHorizon">Линия горизонта, %</label>
+    <output id="vHorizon" for="cHorizon">46</output>
+    <input id="cHorizon" type="range" min="10" max="85" step="1" value="46">
+  </div>
+  <div class="ctl">
+    <label for="cSpeed">Скорость, м/с</label>
+    <output id="vSpeed" for="cSpeed">110</output>
+    <input id="cSpeed" type="range" min="0" max="260" step="2" value="110">
+  </div>
+  <div class="ctl btns">
+    <button id="bQuality" type="button" data-prefix="Качество: " data-labels="низкое|среднее|высокое">Качество: среднее</button>
+    <button id="bPause" type="button" data-play="Продолжить" data-pause="Пауза">Пауза</button>
+  </div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

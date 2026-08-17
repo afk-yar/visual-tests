@@ -1,0 +1,177 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #06131c;
+  color: #e8f6fa;
+  font-family: "Segoe UI", "Inter", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+/* ---------- HUD ---------- */
+.hud {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  padding: 13px 18px 14px;
+  pointer-events: none;
+  z-index: 5;
+  max-width: min(560px, calc(100vw - 32px));
+  border-radius: 14px;
+  border: 1px solid rgba(168, 226, 240, .16);
+  background: linear-gradient(180deg, rgba(7, 26, 37, .74), rgba(3, 14, 22, .82));
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
+  backdrop-filter: blur(10px) saturate(130%);
+  box-shadow: 0 14px 34px rgba(0, 8, 14, .48), inset 0 1px 0 rgba(255, 255, 255, .07);
+}
+.hud h1 {
+  margin: 0 0 5px;
+  font-size: clamp(18px, 2.2vw, 25px);
+  font-weight: 300;
+  letter-spacing: .30em;
+  text-transform: uppercase;
+  color: #f2fbff;
+  text-shadow: 0 1px 2px rgba(0, 12, 20, .8);
+}
+.hud p {
+  margin: 0;
+  font-size: clamp(11px, 1.05vw, 12.5px);
+  line-height: 1.5;
+  letter-spacing: .045em;
+  color: rgba(222, 243, 250, .92);
+  text-shadow: 0 1px 2px rgba(0, 12, 20, .8);
+}
+
+/* ---------- панель ---------- */
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: calc(100vw - 24px);
+  padding: 11px 16px;
+  border-radius: 15px;
+  border: 1px solid rgba(168, 226, 240, .17);
+  background: linear-gradient(180deg, rgba(12, 34, 45, .58), rgba(6, 20, 29, .68));
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  box-shadow: 0 18px 44px rgba(0, 10, 18, .55), inset 0 1px 0 rgba(255, 255, 255, .09);
+}
+.ctl {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 92px;
+}
+.ctl label {
+  font-size: 9.5px;
+  letter-spacing: .19em;
+  text-transform: uppercase;
+  color: rgba(178, 216, 228, .82);
+}
+.ctl output {
+  font-size: 10px;
+  letter-spacing: .06em;
+  color: rgba(140, 214, 232, .95);
+  font-variant-numeric: tabular-nums;
+}
+.sep {
+  width: 1px;
+  align-self: stretch;
+  margin: 2px 2px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(168, 226, 240, .22), rgba(255, 255, 255, 0));
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 104px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #6fdbe4, #1d5c78);
+  outline: none;
+  margin: 5px 0 1px;
+  cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #eefaff;
+  border: 0;
+  box-shadow: 0 0 0 3px rgba(122, 220, 236, .20), 0 2px 6px rgba(0, 8, 14, .6);
+  cursor: pointer;
+}
+input[type=range]::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #eefaff;
+  border: 0;
+  box-shadow: 0 0 0 3px rgba(122, 220, 236, .20), 0 2px 6px rgba(0, 8, 14, .6);
+  cursor: pointer;
+}
+input[type=range]:focus-visible {
+  box-shadow: 0 0 0 2px rgba(122, 220, 236, .5);
+}
+
+.btns {
+  display: flex;
+  gap: 8px;
+}
+button {
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #dff4fa;
+  padding: 8px 13px;
+  border-radius: 9px;
+  border: 1px solid rgba(168, 226, 240, .22);
+  background: linear-gradient(180deg, rgba(46, 104, 126, .48), rgba(18, 52, 68, .5));
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease, transform .1s ease;
+}
+button:hover {
+  background: linear-gradient(180deg, rgba(66, 140, 164, .62), rgba(24, 70, 90, .6));
+  border-color: rgba(168, 226, 240, .4);
+}
+button:active { transform: translateY(1px); }
+button.on {
+  background: linear-gradient(180deg, rgba(122, 220, 236, .8), rgba(58, 148, 176, .75));
+  color: #04222e;
+  border-color: rgba(210, 246, 255, .6);
+}
+
+.note {
+  font-size: 9.5px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: rgba(150, 196, 210, .6);
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .note, .sep { display: none; }
+  .panel { gap: 11px; padding: 9px 12px; bottom: 10px; }
+  input[type=range] { width: 74px; }
+  .ctl { min-width: 74px; }
+}

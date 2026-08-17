@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Система Лоренца — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<header class="hud">
+  <h1>Система Лоренца</h1>
+  <p class="sub">σ&nbsp;=&nbsp;10 · ρ&nbsp;=&nbsp;<b id="rhoOut">28.0</b> · β&nbsp;=&nbsp;8/3 — интегрирование RK4</p>
+  <p class="sub dim">Три почти одинаковых старта расходятся: чувствительность к начальным условиям</p>
+  <p class="stat"><span id="statTime">t = 0.0</span><span class="sep">·</span><span id="statPts">0 точек</span></p>
+</header>
+
+<section class="panel" aria-label="Управление">
+  <div class="ctl">
+    <label for="speed">Скорость <span class="val" id="speedOut">1.00×</span></label>
+    <input type="range" id="speed" min="0.2" max="3" step="0.05" value="1">
+  </div>
+  <div class="ctl">
+    <label for="trail">След <span class="val" id="trailOut">1400</span></label>
+    <input type="range" id="trail" min="300" max="4200" step="50" value="1400">
+  </div>
+  <div class="ctl">
+    <label for="spin">Вращение <span class="val" id="spinOut">1.00×</span></label>
+    <input type="range" id="spin" min="0" max="3" step="0.05" value="1">
+  </div>
+  <div class="ctl">
+    <label for="rho">Параметр ρ <span class="val" id="rhoOut2">28.0</span></label>
+    <input type="range" id="rho" min="14" max="45" step="0.1" value="28">
+  </div>
+  <div class="btns">
+    <button type="button" id="btnPause">Пауза</button>
+    <button type="button" id="btnReset">Сброс</button>
+    <button type="button" id="btnGlow" class="on" aria-pressed="true">Свечение</button>
+  </div>
+  <p class="hint">перетаскивание — поворот · колесо — масштаб · пробел — пауза · R — сброс</p>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Фрактал Мандельброта — Claude Opus 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="view"></canvas>
+
+<div class="progress" id="progress"><i id="progBar"></i></div>
+
+<header class="hud">
+  <h1>Множество Мандельброта</h1>
+  <p>Колесо — зум к курсору&nbsp;· тянуть — панорама&nbsp;· двойной клик — приблизить</p>
+</header>
+
+<section class="panel" id="panel">
+
+  <div class="readouts">
+    <div class="stat">
+      <span class="k">Зум</span>
+      <span class="v" id="zoom">1,00×</span>
+    </div>
+    <div class="stat wide">
+      <span class="k">Центр</span>
+      <span class="v" id="re">+0.0000</span>
+      <span class="v" id="im">+0.0000i</span>
+    </div>
+    <div class="stat">
+      <span class="k">Итераций</span>
+      <span class="v" id="iter">200</span>
+    </div>
+    <div class="stat">
+      <span class="k">Рендер</span>
+      <span class="v" id="status">—</span>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <div class="controls">
+    <button type="button" id="btnPal" title="Сменить палитру (P)">Палитра:&nbsp;<b id="palName">Ультрафиолет</b></button>
+    <button type="button" id="btnRelief" class="tgl" aria-pressed="true" title="Объёмная подсветка по производной (S)">Рельеф</button>
+    <label class="range" title="Множитель предела итераций">
+      <span>Детализация</span>
+      <input type="range" id="quality" min="0.5" max="2.5" step="0.1" value="1" aria-label="Детализация">
+      <b id="qval">1,0×</b>
+    </label>
+    <button type="button" id="btnTour" title="Облёт интересных мест (T)">Места</button>
+    <button type="button" id="btnReset" title="Вернуться к общему виду (R)">Сброс</button>
+  </div>
+
+</section>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="main.js"></script>
+</body>
+</html>
