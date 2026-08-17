@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Аквариум с рыбами» — «Kimi K3»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<header class="hud">
+  <h1>Аквариум с рыбами</h1>
+  <p>Kimi K3 · canvas, без библиотек</p>
+</header>
+
+<div class="panel">
+  <label class="ctl"><span>Рыбы</span><input id="ui-fish" type="range" min="6" max="42" step="1" value="26"><em id="ui-fish-v">26</em></label>
+  <label class="ctl"><span>Пузырьки</span><input id="ui-bub" type="range" min="0" max="3" step="0.1" value="1"><em id="ui-bub-v">×1.0</em></label>
+  <label class="ctl"><span>Скорость</span><input id="ui-spd" type="range" min="0.25" max="2" step="0.05" value="1"><em id="ui-spd-v">100%</em></label>
+  <label class="chk"><input id="ui-rays" type="checkbox" checked><span>Лучи света</span></label>
+  <label class="chk"><input id="ui-caus" type="checkbox" checked><span>Каустика</span></label>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

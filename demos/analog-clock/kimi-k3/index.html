@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Аналоговые часы» — «Kimi K3»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="clock"></canvas>
+
+<header class="hud">
+  <h1>Аналоговые часы</h1>
+  <p>Canvas 2D &middot; реальное системное время</p>
+</header>
+
+<footer class="panel">
+  <span class="panel-label">Секундная стрелка</span>
+  <div class="seg" role="group" aria-label="Режим секундной стрелки">
+    <button id="btnSweep" class="seg-btn active" type="button">Плавный ход</button>
+    <button id="btnTick" class="seg-btn" type="button">Тиканье</button>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

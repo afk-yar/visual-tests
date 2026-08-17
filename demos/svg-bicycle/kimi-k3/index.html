@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«SVG велосипед» — «Kimi K3»</title>
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+  body {
+    background: radial-gradient(1200px 720px at 50% 40%, #141c26 0%, #0b0f14 72%);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    color: #e9eff5;
+  }
+  svg.scene {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* --- HUD --- */
+  .hud {
+    position: fixed;
+    top: 18px;
+    left: 22px;
+    z-index: 2;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hud h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+  }
+  .hud p {
+    margin: 4px 0 0;
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8fa3b5;
+  }
+
+  /* --- SVG parts --- */
+  .ground   { stroke: rgba(233, 239, 245, 0.14); stroke-width: 2; stroke-linecap: round; }
+  .tire     { fill: none; stroke: #eef3f8; stroke-width: 8; }
+  .rim      { fill: none; stroke: #6fc3df; stroke-width: 3; opacity: 0.9; }
+  .spokes   { stroke: #a7b6c4; stroke-width: 1.6; opacity: 0.85; }
+  .hub      { fill: #e9eff5; }
+  .axle-dot { fill: #0b0f14; }
+  .tube     { fill: none; stroke: #e9eff5; stroke-width: 7; stroke-linecap: round; }
+  .tube-thin{ fill: none; stroke: #e9eff5; stroke-width: 5; stroke-linecap: round; }
+  .head-tube{ fill: none; stroke: #e9eff5; stroke-width: 10; stroke-linecap: round; }
+  .joint    { fill: #0b0f14; stroke: #e9eff5; stroke-width: 4; }
+  .chain    { fill: none; stroke: #c9d5e0; stroke-width: 3.5; stroke-dasharray: 5 3.5; stroke-linejoin: round; }
+  .ring     { fill: none; stroke: #e9eff5; stroke-width: 5; }
+  .ring-in  { fill: none; stroke: #e9eff5; stroke-width: 2.5; }
+  .bolt     { fill: #e9eff5; }
+  .crank    { stroke: #e9eff5; stroke-width: 8; stroke-linecap: round; }
+  .pedal    { fill: #e9eff5; }
+  .saddle   { fill: #1c2531; stroke: #e9eff5; stroke-width: 2.5; stroke-linejoin: round; }
+  .post     { stroke: #e9eff5; stroke-width: 5; stroke-linecap: round; }
+  .bar      { fill: none; stroke: #e9eff5; stroke-width: 6; stroke-linecap: round; }
+  .brake    { fill: none; stroke: #e9eff5; stroke-width: 4; stroke-linecap: round; }
+  .brake-pivot { fill: #e9eff5; }
+</style>
+</head>
+<body>
+
+<div class="hud">
+  <h1>«SVG велосипед»</h1>
+  <p>Kimi K3</p>
+</div>
+
+<svg class="scene" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" role="img"
+     aria-label="Классический дорожный велосипед, вид сбоку">
+  <defs>
+    <!-- Одна спица, от ступицы к ободу (колесо построено вокруг точки 0,0) -->
+    <line id="spoke" x1="0" y1="-12" x2="0" y2="-108"/>
+
+    <!-- Колесо: шина, обод, 24 спицы, ступица -->
+    <g id="wheel">
+      <circle class="tire" r="120"/>
+      <circle class="rim" r="111"/>
+      <g class="spokes">
+        <use href="#spoke"/>
+        <use href="#spoke" transform="rotate(15)"/>
+        <use href="#spoke" transform="rotate(30)"/>
+        <use href="#spoke" transform="rotate(45)"/>
+        <use href="#spoke" transform="rotate(60)"/>
+        <use href="#spoke" transform="rotate(75)"/>
+        <use href="#spoke" transform="rotate(90)"/>
+        <use href="#spoke" transform="rotate(105)"/>
+        <use href="#spoke" transform="rotate(120)"/>
+        <use href="#spoke" transform="rotate(135)"/>
+        <use href="#spoke" transform="rotate(150)"/>
+        <use href="#spoke" transform="rotate(165)"/>
+        <use href="#spoke" transform="rotate(180)"/>
+        <use href="#spoke" transform="rotate(195)"/>
+        <use href="#spoke" transform="rotate(210)"/>
+        <use href="#spoke" transform="rotate(225)"/>
+        <use href="#spoke" transform="rotate(240)"/>
+        <use href="#spoke" transform="rotate(255)"/>
+        <use href="#spoke" transform="rotate(270)"/>
+        <use href="#spoke" transform="rotate(285)"/>
+        <use href="#spoke" transform="rotate(300)"/>
+        <use href="#spoke" transform="rotate(315)"/>
+        <use href="#spoke" transform="rotate(330)"/>
+        <use href="#spoke" transform="rotate(345)"/>
+      </g>
+      <circle class="hub" r="8"/>
+      <circle class="axle-dot" r="3"/>
+    </g>
+  </defs>
+
+  <!-- Земля -->
+  <line class="ground" x1="130" y1="544" x2="870" y2="544"/>
+
+  <!-- Колёса: заднее (300,420), переднее (700,420), R=120 -->
+  <use href="#wheel" transform="translate(300 420)"/>
+  <use href="#wheel" transform="translate(700 420)"/>
+
+  <!-- Передняя вилка: от низа рулевой трубы к оси переднего колеса -->
+  <line class="tube" x1="656" y1="330" x2="700" y2="420"/>
+
+  <!-- Задний треугольник: перья (верхние и нижние) -->
+  <line class="tube-thin" x1="390" y1="270" x2="300" y2="420"/>
+  <line class="tube-thin" x1="430" y1="440" x2="300" y2="420"/>
+
+  <!-- Передний треугольник: подседельная, верхняя и нижняя трубы -->
+  <line class="tube" x1="430" y1="440" x2="390" y2="270"/>
+  <line class="tube" x1="390" y1="270" x2="628" y2="252"/>
+  <line class="tube" x1="656" y1="330" x2="430" y2="440"/>
+
+  <!-- Рулевая труба -->
+  <line class="head-tube" x1="628" y1="252" x2="656" y2="330"/>
+
+  <!-- Узлы рамы -->
+  <circle class="joint" cx="430" cy="440" r="9"/>
+  <circle class="joint" cx="390" cy="270" r="5"/>
+  <circle class="joint" cx="628" cy="252" r="5"/>
+  <circle class="joint" cx="656" cy="330" r="5"/>
+
+  <!-- Задняя звёздочка на оси заднего колеса -->
+  <circle class="ring-in" cx="300" cy="420" r="14"/>
+
+  <!-- Ведущая звезда в каретке -->
+  <circle class="ring" cx="430" cy="440" r="42"/>
+  <circle class="ring-in" cx="430" cy="440" r="26"/>
+  <circle class="bolt" cx="430" cy="420" r="2.6"/>
+  <circle class="bolt" cx="449" cy="433.8" r="2.6"/>
+  <circle class="bolt" cx="441.8" cy="456.2" r="2.6"/>
+  <circle class="bolt" cx="418.2" cy="456.2" r="2.6"/>
+  <circle class="bolt" cx="411" cy="433.8" r="2.6"/>
+
+  <!-- Цепь: касательные линии + огибание звёздочки и звезды -->
+  <path class="chain" d="M427.4 398.1 L299.1 406 A14 14 0 0 0 295 433.1 L414.9 479.2 A42 42 0 1 0 427.4 398.1 Z"/>
+
+  <!-- Шатуны и педали -->
+  <line class="crank" x1="430" y1="440" x2="475" y2="471.5"/>
+  <line class="crank" x1="430" y1="440" x2="385" y2="408.5"/>
+  <rect class="pedal" x="462" y="467.5" width="26" height="8" rx="2"/>
+  <rect class="pedal" x="372" y="404.5" width="26" height="8" rx="2"/>
+
+  <!-- Подседельный штырь и седло -->
+  <line class="post" x1="390" y1="270" x2="386" y2="246"/>
+  <path class="saddle" d="M356 246 Q358 236 374 235 L404 239 Q416 241 414 247 Q412 251 402 250 L366 251 Q354 250 356 246 Z"/>
+
+  <!-- Вынос и руль с нижними изгибами (баран) -->
+  <line class="post" x1="628" y1="252" x2="652" y2="224"/>
+  <path class="bar" d="M652 224 L676 222 Q696 224 694 246 Q692 266 674 266"/>
+
+  <!-- Тормоза: клещевые суппорты у ободьев -->
+  <path class="brake" d="M638 328 Q650 306 666 314"/>
+  <circle class="brake-pivot" cx="652" cy="315" r="3"/>
+  <path class="brake" d="M282 306 Q300 292 318 306"/>
+  <circle class="brake-pivot" cx="300" cy="298" r="3"/>
+</svg>
+
+</body>
+</html>

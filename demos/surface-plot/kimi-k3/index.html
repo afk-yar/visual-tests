@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«3D-поверхность функции» — «Kimi K3»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<header class="hud">
+  <h1>3D-поверхность функции</h1>
+  <p>Kimi K3</p>
+</header>
+
+<div class="panel">
+  <div class="funcs" role="group" aria-label="Функция">
+    <button type="button" data-fn="ripple" class="active">Рябь</button>
+    <button type="button" data-fn="saddle">Седло</button>
+    <button type="button" data-fn="gauss">Гауссиана</button>
+  </div>
+  <label class="wire-toggle">
+    <input type="checkbox" id="wire" checked>
+    <span>Каркас</span>
+  </label>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

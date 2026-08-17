@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>«Газетная полоса» — «Kimi K3»</title>
+<style>
+  :root {
+    --paper: #f6f1e6;
+    --paper-shadow: rgba(0, 0, 0, .45);
+    --ink: #1c1a17;
+    --ink-soft: #4a463f;
+    --rule: #3b382f;
+    --accent: #8a1f1f;
+  }
+
+  html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    background: #26242a radial-gradient(1200px 700px at 50% 30%, #34313a, #211f25 70%);
+    font-family: Georgia, "Times New Roman", "PT Serif", serif;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ---------- HUD ---------- */
+  .hud {
+    position: fixed;
+    top: 18px;
+    left: 22px;
+    color: #cfc9bd;
+    font-family: Georgia, serif;
+    user-select: none;
+    pointer-events: none;
+  }
+  .hud .hud-title {
+    font-size: 15px;
+    letter-spacing: .04em;
+    margin: 0 0 3px;
+  }
+  .hud .hud-sub {
+    font-size: 12px;
+    opacity: .65;
+    font-style: italic;
+  }
+
+  /* ---------- Полоса ---------- */
+  .sheet {
+    position: relative;
+    width: min(1120px, 94vw);
+    height: min(1480px, 92vh);
+    background: var(--paper);
+    background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,.012) 0 2px, transparent 2px 4px);
+    box-shadow: 0 30px 60px var(--paper-shadow), 0 4px 14px rgba(0,0,0,.35);
+    padding: 26px 34px 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---------- Шапка ---------- */
+  .masthead {
+    text-align: center;
+    border-bottom: 3px double var(--rule);
+    padding-bottom: 10px;
+  }
+  .masthead .tagline {
+    font-size: 11px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 4px;
+  }
+  .masthead h1 {
+    margin: 0;
+    font-size: clamp(38px, 6vw, 64px);
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: .02em;
+    font-variant: small-caps;
+  }
+  .masthead .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px solid var(--rule);
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .masthead .meta .price { font-weight: bold; color: var(--ink); }
+
+  /* ---------- Основная сетка ---------- */
+  .page {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 2.1fr 1fr;
+    gap: 22px;
+    padding-top: 14px;
+  }
+
+  .rule { border: 0; border-top: 1px solid var(--rule); margin: 12px 0; }
+  .rule.double { border-top: 3px double var(--rule); }
+
+  /* ---------- Главная статья ---------- */
+  .main-article h2 {
+    margin: 0 0 6px;
+    font-size: clamp(26px, 3.4vw, 40px);
+    line-height: 1.08;
+    font-weight: 900;
+    text-align: center;
+  }
+  .main-article .subtitle {
+    text-align: center;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin: 0 0 10px;
+  }
+  .main-article .lead {
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 1.45;
+    text-align: justify;
+    hyphens: auto;
+    margin: 0 0 10px;
+  }
+  .main-article .body {
+    columns: 3;
+    column-gap: 18px;
+    column-rule: 1px solid #d8d1c0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    text-align: justify;
+    hyphens: auto;
+  }
+  .main-article .body p { margin: 0 0 8px; }
+  .main-article .body p:first-of-type::first-letter {
+    font-size: 52px;
+    line-height: .85;
+    font-weight: 900;
+    float: left;
+    padding: 4px 6px 0 0;
+    color: var(--accent);
+  }
+
+  /* ---------- Врезка с цитатой ---------- */
+  .pullquote {
+    break-inside: avoid;
+    margin: 6px 0 10px;
+    padding: 8px 10px;
+    border-top: 2px solid var(--rule);
+    border-bottom: 2px solid var(--rule);
+    font-size: 15px;
+    font-style: italic;
+    line-height: 1.4;
+    text-align: center;
+  }
+  .pullquote .who {
+    display: block;
+    margin-top: 5px;
+    font-size: 11px;
+    font-style: normal;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- Фото-плейсхолдеры ---------- */
+  figure { margin: 0; }
+  .photo {
+    background:
+      repeating-linear-gradient(45deg, #d9d2c1 0 6px, #cfc7b4 6px 12px);
+    border: 1px solid #b3a98f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6f6752;
+    font-size: 11px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+  }
+  .main-article .photo { height: 150px; }
+  .side .photo { height: 120px; }
+  figcaption {
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    font-style: italic;
+    line-height: 1.35;
+    margin-top: 4px;
+    text-align: justify;
+  }
+
+  /* ---------- Боковая колонка ---------- */
+  .side {
+    border-left: 1px solid var(--rule);
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .side h3 {
+    margin: 0 0 5px;
+    font-size: 17px;
+    line-height: 1.2;
+    font-weight: 800;
+  }
+  .side p {
+    margin: 0 0 8px;
+    font-size: 11.5px;
+    line-height: 1.45;
+    text-align: justify;
+    hyphens: auto;
+  }
+  .kicker {
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 4px;
+  }
+
+  /* ---------- Нижняя лента мелких новостей ---------- */
+  .briefs {
+    border-top: 3px double var(--rule);
+    margin-top: 12px;
+    padding-top: 8px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .briefs h4 {
+    margin: 0 0 4px;
+    font-size: 12.5px;
+    font-weight: 800;
+  }
+  .briefs p {
+    margin: 0;
+    font-size: 10.5px;
+    line-height: 1.4;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  /* ---------- Колонтитул ---------- */
+  .colophon {
+    margin-top: 10px;
+    padding-top: 6px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    letter-spacing: .06em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<div class="hud">
+  <p class="hud-title">Газетная полоса</p>
+  <p class="hud-sub">Kimi K3 — чистый HTML/CSS, без JavaScript</p>
+</div>
+
+<main class="sheet">
+
+  <!-- Шапка -->
+  <header class="masthead">
+    <p class="tagline">Независимое ежедневное издание</p>
+    <h1>Северный Вестник</h1>
+    <div class="meta">
+      <span>Пятница, 15 августа 2026 года</span>
+      <span class="price">Цена: 12 руб.</span>
+      <span>№ 128 (5471) · Год издания XV</span>
+    </div>
+  </header>
+
+  <div class="page">
+    <!-- Главная статья -->
+    <article class="main-article">
+      <h2>Город открывает обновлённую набережную после трёх лет работ</h2>
+      <p class="subtitle">Пешеходный маршрут протяжённостью четыре километра свяжет старый порт с ботаническим садом</p>
+      <p class="lead">Торжественное открытие первой очереди набережной состоится в ближайшую субботу. По словам городских властей, это крупнейший проект благоустройства за последние полвека: вдоль берега высадят более тысячи деревьев, установят современное освещение и восстановят исторические спуски к воде.</p>
+
+      <div class="body">
+        <p>Работы над проектом начались ещё в 2023 году, когда городская дума утвердила генеральный план развития прибрежных территорий. За это время строителям пришлось не только обновить инженерные сети, проложенные ещё в середине прошлого века, но и укрепить береговую линию, пострадавшую во время осенних штормов.</p>
+        <p>Архитекторы постарались сохранить исторический облик кварталов, примыкающих к набережной: фасады складских зданий XIX века отреставрированы, а в бывших пакгаузах разместятся мастерские ремесленников, книжные лавки и небольшие кафе. Проектировщики уверяют, что новое пространство будет одинаково удобным и для жителей города, и для туристов.</p>
+
+        <blockquote class="pullquote">
+          «Мы возвращаем городу его берег — место, где поколения горожан встречали рассвет и провожали корабли»
+          <span class="who">Елена Морозова, главный архитектор проекта</span>
+        </blockquote>
+
+        <p>Особое внимание уделено экологии: покрытие дорожек выполнено из водопроницаемых материалов, а дождевая вода собирается в специальные резервуары и используется для полива зелёных насаждений. Опросы показывают, что большинство горожан поддержали проект, хотя на этапе согласований обсуждались и альтернативные варианты застройки.</p>
+        <p>В день открытия для посетителей организуют бесплатные экскурсии, а вечером над водой пройдёт концерт духового оркестра. Городская администрация обещает, что вторая очередь набережной — от старого маяка до рыбацкой пристани — будет сдана уже к следующему летнему сезону.</p>
+
+        <figure>
+          <div class="photo">Фото</div>
+          <figcaption>Панорама обновлённой набережной накануне открытия. Справа — восстановленные спуски к воде, сооружённые по чертежам 1898 года.</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <!-- Боковая колонка -->
+    <aside class="side">
+      <section>
+        <p class="kicker">Экономика</p>
+        <h3>Рынок зерна ждёт рекордный урожай</h3>
+        <p>Аналитики аграрного союза прогнозируют рост сбора пшеницы на восемь процентов по сравнению с прошлым годом. Благоприятная погода в июле позволила завершить уборку ранних сортов раньше обычного срока.</p>
+        <p>Экспортные контракты уже заключены с двенадцатью странами, а внутренние цены, по оценкам экспертов, останутся стабильными до конца сезона.</p>
+      </section>
+
+      <hr class="rule">
+
+      <section>
+        <p class="kicker">Культура</p>
+        <h3>Филармония объявила новый сезон</h3>
+        <p>В афише — цикл из десяти симфонических концертов, камерные вечера и премьера балета по мотивам северных легенд. Абонементы поступят в продажу в понедельник.</p>
+        <figure>
+          <div class="photo">Фото</div>
+          <figcaption>Большой зал филармонии после реставрации акустических панелей.</figcaption>
+        </figure>
+      </section>
+
+      <hr class="rule">
+
+      <section>
+        <p class="kicker">Погода</p>
+        <h3>Тепло удержится до выходных</h3>
+        <p>Днём ожидается до +24°, ночью около +14°. В воскресенье возможен кратковременный дождь, ветер северо-западный, умеренный.</p>
+      </section>
+    </aside>
+  </div>
+
+  <!-- Нижняя лента -->
+  <section class="briefs">
+    <div>
+      <h4>Трамвай вернётся на Литейный проспект</h4>
+      <p>Движение по обновлённым путям откроется в сентябре. Интервал — семь минут в часы пик.</p>
+    </div>
+    <div>
+      <h4>Университет запускает наблюдение за птицами</h4>
+      <p>Орнитологи приглашают волонтёров к участию в осеннем учёте перелётных видов на городских водоёмах.</p>
+    </div>
+    <div>
+      <h4>Библиотека получила дар в три тысячи томов</h4>
+      <p>Собрание краеведа И. П. Сомова, включая редкие издания начала XX века, будет оцифровано.</p>
+    </div>
+  </section>
+
+  <!-- Колонтитул -->
+  <footer class="colophon">
+    <span>Учредитель: издательский дом «Север»</span>
+    <span>«Северный Вестник» · 15.08.2026</span>
+    <span>Стр. 1 · Тираж 48 000 экз.</span>
+  </footer>
+
+</main>
+
+</body>
+</html>

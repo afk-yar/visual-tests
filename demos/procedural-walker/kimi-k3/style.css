@@ -1,0 +1,89 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #0b1020;
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  color: #dfe8ff;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hud {
+  position: fixed;
+  top: 18px;
+  left: 22px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hud h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.hud p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  opacity: 0.65;
+  letter-spacing: 0.04em;
+}
+
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px;
+  border-radius: 14px;
+  background: rgba(20, 28, 52, 0.45);
+  border: 1px solid rgba(160, 190, 255, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  user-select: none;
+}
+
+.panel-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+}
+
+#speed {
+  width: min(320px, 42vw);
+  accent-color: #6ea8ff;
+  cursor: pointer;
+}
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  min-width: 86px;
+  line-height: 1.25;
+}
+
+#speed-val {
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.gait {
+  font-size: 11px;
+  opacity: 0.6;
+  letter-spacing: 0.05em;
+}

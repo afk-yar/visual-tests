@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>«Падающий песок» — «Kimi K3»</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view"></canvas>
+
+<header class="hud">
+  <h1>Падающий песок</h1>
+  <p>Kimi K3 · клеточный автомат на canvas</p>
+</header>
+
+<div class="panel" id="panel">
+  <div class="row materials" id="materials">
+    <button data-mat="1" class="active" title="Песок (1)">Песок</button>
+    <button data-mat="2" title="Вода (2)">Вода</button>
+    <button data-mat="3" title="Камень (3)">Камень</button>
+    <button data-mat="4" title="Дерево (4)">Дерево</button>
+    <button data-mat="5" title="Огонь (5)">Огонь</button>
+    <button data-mat="6" title="Дым (6)">Дым</button>
+    <button data-mat="0" title="Ластик (0)">Ластик</button>
+  </div>
+  <div class="row controls">
+    <label class="size">
+      Размер кисти
+      <input type="range" id="brushSize" min="1" max="24" value="6" step="1">
+      <span id="brushValue">6</span>
+    </label>
+    <button id="pauseBtn" title="Пробел">Пауза</button>
+    <button id="clearBtn" title="Клавиша C">Очистить</button>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

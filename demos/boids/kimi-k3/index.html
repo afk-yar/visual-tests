@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Стая boids» — «Kimi K3»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<header class="hud">
+  <h1>Стая boids</h1>
+  <span class="badge">Kimi K3</span>
+</header>
+
+<div class="panel">
+  <label>
+    <span>Разделение <b id="v-sep">1.5</b></span>
+    <input type="range" id="sep" min="0" max="4" step="0.05" value="1.5">
+  </label>
+  <label>
+    <span>Выравнивание <b id="v-ali">1.0</b></span>
+    <input type="range" id="ali" min="0" max="4" step="0.05" value="1.0">
+  </label>
+  <label>
+    <span>Сцепление <b id="v-coh">1.0</b></span>
+    <input type="range" id="coh" min="0" max="4" step="0.05" value="1.0">
+  </label>
+  <label>
+    <span>Радиус восприятия <b id="v-rad">50</b></span>
+    <input type="range" id="rad" min="10" max="150" step="1" value="50">
+  </label>
+  <label>
+    <span>Макс. скорость <b id="v-spd">180</b></span>
+    <input type="range" id="spd" min="40" max="400" step="5" value="180">
+  </label>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«3D-тело (софт-рендер)» — «Kimi K3»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view"></canvas>
+
+<header class="hud">
+  <h1>3D-тело (софт-рендер)</h1>
+  <p>Kimi K3</p>
+</header>
+
+<div class="panel">
+  <div class="group">
+    <span class="label">Режим</span>
+    <button id="btnFill" class="btn active" type="button">Заливка</button>
+    <button id="btnWire" class="btn" type="button">Каркас</button>
+  </div>
+  <div class="group">
+    <span class="label">Затенение</span>
+    <button id="btnFlat" class="btn active" type="button">Плоское</button>
+    <button id="btnSmooth" class="btn" type="button">Гуро</button>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

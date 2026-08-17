@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Воксельный ландшафт» — «Kimi K3»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view"></canvas>
+
+<header class="hud">
+  <h1>Воксельный ландшафт</h1>
+  <p>Kimi K3</p>
+</header>
+
+<div class="panel">
+  <label class="ctl">
+    <span class="name">Высота камеры</span>
+    <input type="range" id="alt" min="15" max="220" step="1" value="90">
+    <span class="val" id="altVal">90</span>
+  </label>
+  <label class="ctl">
+    <span class="name">Дальность отрисовки</span>
+    <input type="range" id="dist" min="200" max="1400" step="10" value="700">
+    <span class="val" id="distVal">700</span>
+  </label>
+  <label class="ctl">
+    <span class="name">Линия горизонта</span>
+    <input type="range" id="hor" min="10" max="80" step="1" value="42">
+    <span class="val" id="horVal">42%</span>
+  </label>
+  <span class="fps" id="fps">—</span>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

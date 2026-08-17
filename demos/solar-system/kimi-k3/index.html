@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Солнечная система» — «Kimi K3»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div class="hud">
+  <h1>Солнечная система</h1>
+  <p>Kimi K3 · canvas · без библиотек</p>
+  <p class="day" id="dayLabel">День 0</p>
+</div>
+
+<div class="panel">
+  <label>Масштаб <input id="zoom" type="range" min="0.35" max="2.6" step="0.01" value="1"></label>
+  <label>Скорость <input id="speed" type="range" min="0" max="4" step="0.05" value="1"></label>
+  <label><input id="trails" type="checkbox" checked> Следы</label>
+  <label><input id="labels" type="checkbox" checked> Подписи</label>
+  <label><input id="spin" type="checkbox" checked> Камера</label>
+  <button id="pause" type="button">Пауза</button>
+  <span class="hint">колесо — масштаб · тяни мышью — обзор</span>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Полярное сияние» — «Kimi K3»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<header class="hud">
+  <h1>Полярное сияние</h1>
+  <p>Kimi K3</p>
+</header>
+
+<div class="panel">
+  <label class="ctl">
+    <span>Яркость</span>
+    <input id="intensity" type="range" min="0.3" max="1.8" step="0.01" value="1">
+  </label>
+  <label class="ctl">
+    <span>Скорость</span>
+    <input id="speed" type="range" min="0.1" max="2.5" step="0.01" value="1">
+  </label>
+  <label class="ctl chk">
+    <input id="meteors" type="checkbox" checked>
+    <span>Метеоры</span>
+  </label>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Вращающийся земной шар» — «Kimi K3»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view"></canvas>
+
+<header class="hud">
+  <h1>Вращающийся земной шар</h1>
+  <p>Kimi K3</p>
+</header>
+
+<div class="panel">
+  <label class="ctl">Скорость
+    <input id="speed" type="range" min="0" max="2.5" step="0.05" value="1">
+  </label>
+  <button id="pause" type="button">Пауза</button>
+  <label class="ctl"><input id="clouds" type="checkbox" checked> Облака</label>
+  <label class="ctl"><input id="lights" type="checkbox" checked> Огни городов</label>
+  <span class="hint">Тяните по экрану — двигается солнце</span>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

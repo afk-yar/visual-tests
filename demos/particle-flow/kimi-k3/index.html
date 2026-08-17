@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Поток частиц 3D» — «Kimi K3»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div class="vignette"></div>
+
+<header class="hud">
+  <h1>«Поток частиц 3D»</h1>
+  <p class="sub">Kimi K3 · десятки тысяч частиц в трёхмерном поле скоростей</p>
+  <p class="stats" id="stats"></p>
+</header>
+
+<div class="panel">
+  <label class="ctl">
+    <span>Частицы</span>
+    <input type="range" id="count" min="5000" max="80000" step="1000" value="26000">
+    <b id="countVal">26 000</b>
+  </label>
+  <label class="ctl">
+    <span>Скорость</span>
+    <input type="range" id="speed" min="0.2" max="2.2" step="0.05" value="1">
+    <b id="speedVal">1.00</b>
+  </label>
+  <label class="ctl">
+    <span>Шлейф</span>
+    <input type="range" id="trail" min="0" max="0.97" step="0.01" value="0.86">
+    <b id="trailVal">0.86</b>
+  </label>
+  <label class="ctl">
+    <span>Цвет</span>
+    <select id="colorMode">
+      <option value="speed" selected>по скорости</option>
+      <option value="depth">по глубине</option>
+      <option value="nebula">туманность</option>
+    </select>
+  </label>
+  <button id="pause" type="button">Пауза</button>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

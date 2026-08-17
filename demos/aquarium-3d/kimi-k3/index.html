@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«3D-аквариум» — «Kimi K3»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<header class="hud">
+  <h1>3D-аквариум</h1>
+  <p>Kimi K3 · честная 3D-математика на canvas, без библиотек</p>
+</header>
+
+<div class="panel">
+  <label>Стайка
+    <input id="uiNeons" type="range" min="6" max="40" step="1" value="22">
+    <span class="val" id="uiNeonsV">22</span>
+  </label>
+  <label>Пузырьки
+    <input id="uiBubbles" type="range" min="0" max="90" step="1" value="42">
+    <span class="val" id="uiBubblesV">42</span>
+  </label>
+  <label class="chk">
+    <input id="uiOrbit" type="checkbox" checked> Облёт камеры
+  </label>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

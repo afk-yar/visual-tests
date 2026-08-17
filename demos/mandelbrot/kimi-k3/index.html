@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Фрактал Мандельброта» — «Kimi K3»</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view"></canvas>
+
+<header class="hud">
+  <h1>Фрактал Мандельброта</h1>
+  <p class="subtitle">Kimi K3</p>
+</header>
+
+<div class="panel">
+  <div class="stat"><span class="label">Зум</span><span id="stat-zoom" class="value">×1</span></div>
+  <div class="stat"><span class="label">Центр Re</span><span id="stat-re" class="value">−0.6</span></div>
+  <div class="stat"><span class="label">Центр Im</span><span id="stat-im" class="value">0</span></div>
+  <div class="stat"><span class="label">Итерации</span><span id="stat-iter" class="value">—</span></div>
+  <button id="btn-palette" type="button">Палитра</button>
+  <button id="btn-reset" type="button">Сброс</button>
+</div>
+
+<div class="hint">Колесо — зум к курсору · перетаскивание — панорама</div>
+
+<script src="main.js"></script>
+</body>
+</html>
