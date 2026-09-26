@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вращающийся земной шар — Claude Opus 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div class="vignette"></div>
+
+<header class="hud">
+  <h1>Земля</h1>
+  <p>Canvas 2D без библиотек · процедурные текстуры · наклон оси 23,4°</p>
+  <p class="hint">Тяните мышью — двигайте Солнце · двойной клик — сброс</p>
+  <p id="stats" class="stats"></p>
+</header>
+
+<div id="loader" class="loader">
+  <div class="ltitle">Собираем планету</div>
+  <div class="lbar"><div id="lprog"></div></div>
+  <div class="lsub"><span id="lpct">0</span>% · материки, климат, облака, огни</div>
+</div>
+
+<nav class="panel">
+  <div class="grp">
+    <button id="bPause">❚❚ Пауза</button>
+    <label class="spd">Вращение <input id="rSpeed" type="range" min="0" max="5" step="0.05" value="1"></label>
+  </div>
+  <div class="grp">
+    <button id="bClouds" class="on">Облака</button>
+    <button id="bLights" class="on">Огни</button>
+    <button id="bAuto">Авто-Солнце</button>
+  </div>
+  <div class="grp">
+    <button data-preset="dawn">Рассвет</button>
+    <button data-preset="dusk" class="on">Вечер</button>
+    <button data-preset="day">День</button>
+    <button data-preset="night">Ночь</button>
+    <button data-preset="eclipse">Затмение</button>
+  </div>
+</nav>
+
+<script src="noise.js"></script>
+<script src="geo.js"></script>
+<script src="planet.js"></script>
+<script src="render.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

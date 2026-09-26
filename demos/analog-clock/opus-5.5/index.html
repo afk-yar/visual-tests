@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Аналоговые часы — Claude Opus 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="classic">
+<canvas id="scene" role="img" aria-label="Настенные аналоговые часы, показывающие текущее системное время"></canvas>
+
+<header class="hud" id="hud">
+  <h1>Аналоговые часы</h1>
+  <p class="sub" id="hud-sub">&nbsp;</p>
+  <p class="meta" id="hud-meta">&nbsp;</p>
+</header>
+
+<nav class="panel" id="panel" aria-label="Настройки часов">
+  <div class="group">
+    <span class="label">Стиль</span>
+    <div class="seg" role="group" aria-label="Стиль часов">
+      <button type="button" data-theme="classic" aria-pressed="true" title="Клавиша 1">Классика</button>
+      <button type="button" data-theme="vintage" aria-pressed="false" title="Клавиша 2">Винтаж</button>
+      <button type="button" data-theme="minimal" aria-pressed="false" title="Клавиша 3">Минимал</button>
+    </div>
+  </div>
+  <div class="group">
+    <span class="label">Секундная</span>
+    <div class="seg" role="group" aria-label="Ход секундной стрелки">
+      <button type="button" data-sec="tick" aria-pressed="true" title="Клавиша S">Тик</button>
+      <button type="button" data-sec="sweep" aria-pressed="false" title="Клавиша S">Плавно</button>
+    </div>
+  </div>
+</nav>
+
+<script src="main.js"></script>
+</body>
+</html>

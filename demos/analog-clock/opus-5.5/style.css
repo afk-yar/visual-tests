@@ -1,0 +1,180 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  --fg: #15232a;
+  --fg-soft: rgba(21, 35, 42, 0.66);
+  --glass-bg: rgba(255, 255, 255, 0.32);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --glass-shadow: 0 10px 30px rgba(18, 30, 38, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  --seg-bg: rgba(18, 30, 38, 0.08);
+  --seg-hover: rgba(18, 30, 38, 0.08);
+  --seg-on: rgba(255, 255, 255, 0.9);
+  --seg-on-fg: #0f1417;
+  --focus: rgba(18, 30, 38, 0.55);
+  background: #9aabb3;
+  color: var(--fg);
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.5s ease;
+}
+
+body[data-theme="vintage"] {
+  --fg: #f0e7cf;
+  --fg-soft: rgba(240, 231, 207, 0.66);
+  --glass-bg: rgba(18, 30, 24, 0.36);
+  --glass-border: rgba(255, 236, 190, 0.16);
+  --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 236, 190, 0.12);
+  --seg-bg: rgba(255, 255, 255, 0.06);
+  --seg-hover: rgba(255, 236, 190, 0.08);
+  --seg-on: rgba(226, 196, 128, 0.94);
+  --seg-on-fg: #2a1f0e;
+  --focus: rgba(240, 220, 170, 0.7);
+  background: #23352c;
+}
+
+body[data-theme="minimal"] {
+  --fg: #1c1d1f;
+  --fg-soft: rgba(28, 29, 31, 0.6);
+  --glass-bg: rgba(255, 255, 255, 0.34);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-shadow: 0 10px 30px rgba(30, 30, 28, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  --seg-bg: rgba(28, 29, 31, 0.07);
+  --seg-hover: rgba(28, 29, 31, 0.07);
+  --seg-on: #1f2124;
+  --seg-on-fg: #f3f3f1;
+  --focus: rgba(28, 29, 31, 0.5);
+  background: #cbcac5;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+/* ---------- HUD ---------- */
+.hud {
+  position: fixed;
+  top: max(18px, env(safe-area-inset-top));
+  left: max(20px, env(safe-area-inset-left));
+  max-width: min(340px, calc(100% - 40px));
+  pointer-events: none;
+  user-select: none;
+  color: var(--fg);
+  transition: color 0.5s ease;
+}
+
+.hud h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+.hud .sub {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--fg-soft);
+}
+
+.hud .meta {
+  margin: 6px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--fg-soft);
+}
+
+/* ---------- панель ---------- */
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  max-width: calc(100% - 24px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 20px;
+  padding: 9px 14px;
+  border-radius: 16px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  color: var(--fg);
+  user-select: none;
+  transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.label {
+  font-size: 12px;
+  color: var(--fg-soft);
+  white-space: nowrap;
+}
+
+.seg {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 11px;
+  background: var(--seg-bg);
+}
+
+.seg button {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  margin: 0;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1;
+  padding: 7px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.seg button:hover:not([aria-pressed="true"]) {
+  background: var(--seg-hover);
+}
+
+.seg button[aria-pressed="true"] {
+  background: var(--seg-on);
+  color: var(--seg-on-fg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+}
+
+.seg button:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+@media (max-width: 540px) {
+  .hud h1 { font-size: 17px; }
+  .hud .sub { font-size: 12px; }
+  .label { display: none; }
+  .panel { gap: 8px 10px; padding: 7px 8px; }
+  .seg button { padding: 7px 9px; font-size: 12px; }
+}

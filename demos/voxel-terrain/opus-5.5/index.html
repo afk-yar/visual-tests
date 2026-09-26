@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Воксельный ландшафт — Claude Opus 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view" aria-label="Воксельный ландшафт, камера летит над рельефом"></canvas>
+
+<header class="hud">
+  <h1>Воксельный ландшафт</h1>
+  <p class="sub">VoxelSpace на Canvas 2D · рендер по столбцам экрана · y-буфер · туман и небо</p>
+  <p class="stats" id="stats">…</p>
+  <p class="seed" id="seed"></p>
+  <p class="keys">← → поворот · ↑ ↓ высота · пробел — пауза · перетаскивание — курс и горизонт</p>
+</header>
+
+<figure class="minimap" aria-label="Миникарта">
+  <canvas id="mini"></canvas>
+  <figcaption>карта цвета · 1024²</figcaption>
+</figure>
+
+<div class="panel" role="group" aria-label="Управление полётом">
+  <label class="ctl">
+    <span class="lbl">Высота камеры <output id="o-alt"></output></span>
+    <input id="s-alt" type="range" min="15" max="300" step="1">
+  </label>
+  <label class="ctl">
+    <span class="lbl">Дальность <output id="o-dist"></output></span>
+    <input id="s-dist" type="range" min="300" max="2400" step="10">
+  </label>
+  <label class="ctl">
+    <span class="lbl">Линия горизонта <output id="o-hor"></output></span>
+    <input id="s-hor" type="range" min="15" max="85" step="1">
+  </label>
+  <label class="ctl">
+    <span class="lbl">Скорость <output id="o-speed"></output></span>
+    <input id="s-speed" type="range" min="0" max="220" step="1">
+  </label>
+  <label class="ctl">
+    <span class="lbl">Туман <output id="o-fog"></output></span>
+    <input id="s-fog" type="range" min="0.2" max="2.5" step="0.1">
+  </label>
+  <div class="btns">
+    <button id="b-auto" type="button" aria-pressed="true">Автопилот</button>
+    <button id="b-pause" type="button" aria-pressed="false">Пауза</button>
+    <button id="b-new" type="button">Новый мир</button>
+  </div>
+</div>
+
+<div id="loader" role="status"><div class="spin"></div><span>Генерация мира…</span></div>
+
+<script src="terrain.js"></script>
+<script src="render.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

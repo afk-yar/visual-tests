@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SVG велосипед — Claude Opus 5.5</title>
+<style>
+:root{--ink:#e9eef4;--muted:#8f9cad;--accent:#f2b872}
+html,body{margin:0;height:100%;overflow:hidden}
+body{background:radial-gradient(120% 90% at 50% 45%,#1a2434 0%,#111823 48%,#070b11 100%);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
+.hud{position:fixed;top:16px;left:18px;max-width:min(460px,calc(100vw - 36px));pointer-events:none;z-index:2}
+.hud h1{margin:0;font-size:18px;font-weight:650;letter-spacing:.01em}
+.hud p{margin:5px 0 0;font-size:12.5px;line-height:1.45;color:var(--muted)}
+.panel{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:2;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 14px;padding:10px 14px;width:max-content;max-width:calc(100vw - 32px);box-sizing:border-box;border-radius:14px;background:rgba(24,33,46,.55);border:1px solid rgba(255,255,255,.10);box-shadow:0 10px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.06);backdrop-filter:blur(12px) saturate(1.2);-webkit-backdrop-filter:blur(12px) saturate(1.2);font-size:13px}
+.panel button{font:inherit;color:var(--ink);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:6px 12px;cursor:pointer;transition:background .2s,border-color .2s}
+.panel button:hover{background:rgba(255,255,255,.12)}
+.panel button[aria-pressed="true"]{background:rgba(242,184,114,.18);border-color:rgba(242,184,114,.55)}
+.panel label{display:flex;align-items:center;gap:8px;color:var(--muted)}
+.panel input[type=range]{width:120px;accent-color:var(--accent)}
+.panel output{min-width:5.5em;color:var(--ink);font-variant-numeric:tabular-nums}
+#stage .labels,#stage .tri{opacity:0;transition:opacity .35s ease;pointer-events:none}
+#stage.show-labels .labels,#stage.show-tri .tri{opacity:1}
+#stage .labels text{font-size:12.5px;fill:#d6dee8;paint-order:stroke;stroke:#0a0f16;stroke-width:4px;stroke-linejoin:round;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+#stage .labels text.sub{font-size:10.5px;fill:#8f9cad}
+</style>
+</head>
+<body>
+<svg id="stage" viewBox="20 115 1050 700" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Классический шоссейный велосипед: ромбовидная рама, вилка, цепная передача 52×18, спицевые колёса, седло, руль и тормоза">
+  <defs>
+    <radialGradient id="shadowGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#000" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="groundGrad" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#8391a3" stop-opacity="0"/>
+      <stop offset=".18" stop-color="#8391a3" stop-opacity=".55"/>
+      <stop offset=".82" stop-color="#8391a3" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#8391a3" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="padGrad" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#4a5566"/>
+      <stop offset="1" stop-color="#2b333f"/>
+    </linearGradient>
+  </defs>
+  <g id="scene"></g>
+</svg>
+
+<div class="hud">
+  <h1>SVG велосипед</h1>
+  <p>Классическая шоссейная рама из двух треугольников, вилка с выносом, передача 52×18, колёса 700c на 32 спицах (3-cross), клещевые тормоза. Шатуны, цепь и колёса связаны передаточным числом.</p>
+</div>
+
+<div class="panel" role="group" aria-label="Управление">
+  <button id="btnPlay" type="button" aria-pressed="true">Пауза</button>
+  <label for="rngCad">Каденс <input id="rngCad" type="range" min="0" max="20" step="1" value="10"><output id="outCad">10 об/мин</output></label>
+  <button id="btnLabels" type="button" aria-pressed="false">Подписи</button>
+  <button id="btnTri" type="button" aria-pressed="false">Треугольники</button>
+</div>
+
+<script>
+(function(){
+'use strict';
+var NS='http://www.w3.org/2000/svg';
+var svg=document.getElementById('stage'), scene=document.getElementById('scene');
+var DEG=Math.PI/180;
+var C={frame:'#f2eee6',frameHi:'#ffffff',chrome:'#d3dbe4',metal:'#b3bfcc',metalHi:'#e6ecf2',metalDk:'#6f7c8c',
+  tire:'#e2e7ed',gum:'#c99f6c',leather:'#d8a66c',leatherDk:'#9c6d42',pad:'url(#padGrad)',cut:'#0d131c',accent:'#f2b872'};
+
+/* ---------- helpers ---------- */
+function el(tag,a,parent){var e=document.createElementNS(NS,tag);if(a)for(var k in a)e.setAttribute(k,a[k]);(parent||scene).appendChild(e);return e;}
+function P(x,y){return{x:x,y:y};}
+function add(a,b){return P(a.x+b.x,a.y+b.y);}
+function sub(a,b){return P(a.x-b.x,a.y-b.y);}
+function mul(a,k){return P(a.x*k,a.y*k);}
+function len(a){return Math.hypot(a.x,a.y);}
+function unit(a){var l=len(a)||1;return P(a.x/l,a.y/l);}
+function perp(a){return P(-a.y,a.x);}
+function lerp(a,b,t){return P(a.x+(b.x-a.x)*t,a.y+(b.y-a.y)*t);}
+function dot(a,b){return a.x*b.x+a.y*b.y;}
+function n2(v){return Math.round(v*100)/100;}
+function pt(p){return n2(p.x)+','+n2(p.y);}
+function mix(o,a){if(a)for(var k in a)o[k]=a[k];return o;}
+function line(a,b,w,stroke,parent,extra){return el('line',mix({x1:n2(a.x),y1:n2(a.y),x2:n2(b.x),y2:n2(b.y),stroke:stroke,'stroke-width':w,'stroke-linecap':'round'},extra),parent);}
+function circ(c,r,a,parent){return el('circle',mix({cx:n2(c.x),cy:n2(c.y),r:n2(r)},a),parent);}
+function pathEl(d,a,parent){return el('path',mix({d:d},a),parent);}
+function grp(a,parent){return el('g',a||{},parent);}
+function upNormal(dir){var n=perp(dir);if(n.y>0.2||(Math.abs(n.y)<=0.2&&n.x>0))n=mul(n,-1);return n;}
+
+/* ---------- геометрия (масштаб 0.5 px/мм, велосипед смотрит вправо) ---------- */
+var S=0.5;
+var R=P(300,520);                                   // ось заднего колеса
+var WB=1000*S, F=P(R.x+WB,R.y);                     // ось переднего колеса (база 1000 мм)
+var R_TIRE=161.5, R_RIM=153, R_SPOKE=150;           // 700c: шина ~335 мм радиус
+var CS=420*S, DROP=70*S;                            // перья 420 мм, падение каретки 70 мм
+var B=P(R.x+Math.sqrt(CS*CS-DROP*DROP),R.y+DROP);  // каретка
+var SA=73.5*DEG, HA=73*DEG;                         // углы подседельной и рулевой
+var uSeat=P(-Math.cos(SA),-Math.sin(SA));           // вверх по подседельной трубе
+var ST=560*S, Stop=add(B,mul(uSeat,ST));            // верх подседельной трубы
+var dAx=P(Math.cos(HA),Math.sin(HA));               // вниз по оси рулевой колонки
+var nF=P(Math.sin(HA),-Math.cos(HA));               // вперёд, перпендикулярно оси
+var RAKE=45*S;                                      // вынос вилки 45 мм
+var axFoot=sub(F,mul(nF,RAKE));                     // проекция оси колеса на рулевую ось
+var Crown=sub(axFoot,mul(dAx,180));                 // коронка вилки
+var H2=sub(Crown,mul(dAx,6));                       // низ рулевой трубы
+var H1=sub(H2,mul(dAx,140*S));                      // верх рулевой трубы (140 мм)
+var STj=add(B,mul(uSeat,ST-16));                    // стык верхней трубы с подседельной
+var SSj=add(B,mul(uSeat,ST-30));                    // стык верхних перьев
+var Htt=add(H1,mul(dAx,13));                        // стык верхней трубы с рулевой
+var Hdt=sub(H2,mul(dAx,13));                        // стык нижней трубы с рулевой
+var Pc=add(B,mul(uSeat,350));                       // верх подседельного штыря (замок седла)
+var Qtop=sub(H1,mul(dAx,55));                       // верх штока выноса (quill)
+var Cl=add(Qtop,P(50,5));                           // хомут руля
+var PITCH=12.7*S;                                   // шаг цепи 1/2"
+var T1=52, T2=18;                                   // зубья звёзд
+function pitchR(n){return PITCH/(2*Math.sin(Math.PI/n));}
+var r1=pitchR(T1), r2=pitchR(T2);
+var CRANK=170*S;                                    // шатун 170 мм
+var GROUND=R.y+R_TIRE+6;
+
+/* ---------- слои (порядок = z-order) ---------- */
+var Lr={};
+['ground','farCrank','wheels','tri','frame','fork','cockpit','brakes','ring','chain','crank','labels'].forEach(function(n){
+  Lr[n]=grp({'class':n==='labels'?'labels':(n==='tri'?'tri':'layer-'+n)});
+});
+
+/* ---------- земля и тень ---------- */
+var gg=document.getElementById('groundGrad');
+mix2(gg,{gradientUnits:'userSpaceOnUse',x1:40,x2:1050,y1:0,y2:0});
+function mix2(e,a){for(var k in a)e.setAttribute(k,a[k]);}
+el('ellipse',{cx:(R.x+F.x)/2,cy:GROUND+3,rx:440,ry:16,fill:'url(#shadowGrad)'},Lr.ground);
+line(P(40,GROUND),P(1050,GROUND),1.4,'url(#groundGrad)',Lr.ground);
+var groundTicks=line(P(40,GROUND+8),P(1050,GROUND+8),1.2,'url(#groundGrad)',Lr.ground,{'stroke-dasharray':'3 22','stroke-linecap':'butt',opacity:.8});
+
+/* ---------- зубчатый венец (локальные координаты, центр 0,0) ---------- */
+function gearPath(n,r,rIn){
+  var s=2*Math.PI/n, rt=r+2.6, rr=r-2.2, d='';
+  function q(rad,a){return n2(rad*Math.cos(a))+','+n2(rad*Math.sin(a));}
+  for(var k=0;k<n;k++){
+    var a=k*s;
+    d+=(k?'L':'M')+q(rr,a-0.18*s)+'A'+rr+','+rr+' 0 0 1 '+q(rr,a+0.18*s)+'L'+q(rt,a+0.38*s)+'L'+q(rt,a+0.62*s);
+  }
+  d+='Z';
+  if(rIn)d+='M'+n2(rIn)+',0A'+n2(rIn)+','+n2(rIn)+' 0 1 0 '+n2(-rIn)+',0A'+n2(rIn)+','+n2(rIn)+' 0 1 0 '+n2(rIn)+',0Z';
+  return d;
+}
+function hexNut(c,r,parent){
+  var d='';for(var k=0;k<6;k++){var a=(k*60+30)*DEG;d+=(k?'L':'M')+pt(add(c,P(r*Math.cos(a),r*Math.sin(a))));}
+  pathEl(d+'Z',{fill:C.metalHi,stroke:C.metalDk,'stroke-width':1},parent);
+  circ(c,1.8,{fill:C.metalDk},parent);
+}
+
+/* ---------- колёса: 32 спицы, перекрёст 3 ---------- */
+var rotators=[];
+function buildWheel(c,withCog){
+  var w=grp({},Lr.wheels);
+  var rot=grp({},w);
+  var far=grp({opacity:.5},rot), hub=grp({},rot), near=grp({},rot);
+  circ(c,12.5,{fill:'none',stroke:C.metalDk,'stroke-width':3},far);
+  circ(c,10,{fill:C.metal},hub);
+  circ(c,15,{fill:'none',stroke:C.chrome,'stroke-width':3.4},near);
+  for(var i=0;i<32;i++){
+    var k=i>>1, ah=i*11.25*DEG, ar=ah+(k%2?1:-1)*67.5*DEG, isNear=(i%2===0);
+    var hr=isNear?15:12.5;
+    var h=add(c,P(hr*Math.cos(ah),hr*Math.sin(ah))), e=add(c,P(R_SPOKE*Math.cos(ar),R_SPOKE*Math.sin(ar)));
+    line(h,e,isNear?1.15:1,isNear?C.metalHi:C.metal,isNear?near:far,{'stroke-linecap':'butt'});
+    circ(e,1.5,{fill:C.metalHi},isNear?near:far);
+  }
+  if(withCog){ // звёздочка в плоскости цепи — поверх дропаута, вращается вместе с колесом
+    var cogG=grp({},Lr.ring);
+    circ(c,13.5,{fill:C.metalDk,stroke:C.metal,'stroke-width':1},cogG);
+    pathEl(gearPath(T2,r2,r2-5.2),{transform:'translate('+n2(c.x)+' '+n2(c.y)+')',fill:C.chrome,'fill-rule':'evenodd'},cogG);
+    circ(c,9.5,{fill:'none',stroke:C.metal,'stroke-width':1.6,'stroke-dasharray':'2 2.2'},cogG);
+    rotators.push({g:cogG,c:c});
+  }
+  circ(c,R_RIM,{fill:'none',stroke:C.metal,'stroke-width':6.5},rot);
+  circ(c,R_RIM+2.4,{fill:'none',stroke:C.metalHi,'stroke-width':1,'stroke-opacity':.8},rot);
+  circ(c,R_RIM-2.6,{fill:'none',stroke:C.metalDk,'stroke-width':.8},rot);
+  var va=200*DEG, vu=P(Math.cos(va),Math.sin(va));
+  line(add(c,mul(vu,R_RIM-3)),add(c,mul(vu,R_RIM-13)),3,C.metalHi,rot);
+  circ(c,R_TIRE,{fill:'none',stroke:C.tire,'stroke-width':12},w);
+  circ(c,R_TIRE-3.4,{fill:'none',stroke:C.gum,'stroke-width':4.6},w);
+  var tread=grp({},w);
+  circ(c,R_TIRE+3.6,{fill:'none',stroke:'#0b1018','stroke-opacity':.3,'stroke-width':2,'stroke-dasharray':'1.6 4.4'},tread);
+  rotators.push({g:rot,c:c},{g:tread,c:c});
+}
+buildWheel(R,true);
+buildWheel(F,false);
+
+/* ---------- рама: два замкнутых треугольника ---------- */
+function tube(a,b,w,parent,extra){
+  parent=parent||Lr.frame;
+  line(a,b,w,C.frame,parent,extra);
+  var dir=unit(sub(b,a)), n=upNormal(dir), o=mul(n,w*0.24), ins=mul(dir,w*0.35);
+  line(add(add(a,o),ins),sub(add(b,o),ins),Math.max(1,w*0.18),C.frameHi,parent,{'stroke-opacity':.75});
+  line(sub(add(a,ins),o),sub(sub(b,o),ins),Math.max(.8,w*0.16),'#a9a296',parent,{'stroke-opacity':.55});
+}
+var Fr=Lr.frame;
+tube(add(R,P(8,1)),B,7.5);              // нижние перья
+tube(add(R,P(5,-4)),SSj,6.5);           // верхние перья
+tube(Hdt,B,12.5);                       // нижняя труба
+tube(B,Stop,11);                        // подседельная труба
+tube(STj,Htt,11);                       // верхняя труба
+tube(H1,H2,17,Fr,{'stroke-linecap':'butt'}); // рулевая труба
+// задний дропаут (горизонтальный, «трековый»)
+pathEl('M'+pt(add(R,P(-15,-6)))+'L'+pt(add(R,P(12,-14)))+'L'+pt(add(R,P(20,-2)))+'L'+pt(add(R,P(16,7)))+'L'+pt(add(R,P(-15,6)))+'Q'+pt(add(R,P(-21,0)))+' '+pt(add(R,P(-15,-6)))+'Z',{fill:C.chrome},Fr);
+line(add(R,P(-20,0)),add(R,P(3,0)),4.2,C.cut,Fr,{'stroke-linecap':'butt'});
+hexNut(R,6,Lr.crank);                   // гайка оси — внешняя деталь, поверх звёздочки и цепи
+// муфты (lugs)
+var dTT=unit(sub(Htt,STj)), dDT=unit(sub(B,Hdt));
+line(H1,add(H1,mul(dAx,11)),20.5,C.chrome,Fr,{'stroke-linecap':'butt'});
+line(sub(H2,mul(dAx,11)),H2,20.5,C.chrome,Fr,{'stroke-linecap':'butt'});
+line(Htt,sub(Htt,mul(dTT,11)),13,C.chrome,Fr);
+line(Hdt,add(Hdt,mul(dDT,12)),14.5,C.chrome,Fr);
+line(sub(STj,mul(uSeat,12)),Stop,14.5,C.chrome,Fr,{'stroke-linecap':'butt'});
+line(STj,add(STj,mul(dTT,10)),13,C.chrome,Fr);
+circ(SSj,4.6,{fill:C.chrome},Fr);
+var binder=add(lerp(STj,Stop,.55),mul(perp(uSeat),-9));
+line(lerp(STj,Stop,.55),binder,6,C.chrome,Fr);
+circ(binder,2.6,{fill:C.metalDk},Fr);
+circ(lerp(H1,H2,.5),4.4,{fill:C.accent,stroke:'#b07b3e','stroke-width':1},Fr); // эмблема
+circ(B,16.5,{fill:C.chrome},Fr);         // каретка (BB shell)
+circ(B,10.5,{fill:C.metalDk},Fr);
+var uSS=unit(sub(SSj,R)), Bb=add(R,mul(uSS,183));
+circ(Bb,3.6,{fill:C.chrome},Fr);         // мостик заднего тормоза
+
+/* ---------- вилка и рулевая колонка ---------- */
+var Fk=Lr.fork;
+line(H1,sub(H1,mul(dAx,9)),15,C.chrome,Fk,{'stroke-linecap':'butt'});   // верхняя чашка + контргайка
+line(sub(H1,mul(dAx,9)),sub(H1,mul(dAx,12)),11,C.metal,Fk,{'stroke-linecap':'butt'});
+line(H2,Crown,15,C.chrome,Fk,{'stroke-linecap':'butt'});                // нижняя чашка
+var bladeD='M'+pt(add(Crown,mul(dAx,4)))+'C'+pt(add(Crown,mul(dAx,100)))+' '+pt(sub(F,mul(dAx,58)))+' '+pt(F);
+pathEl(bladeD,{fill:'none',stroke:C.frame,'stroke-width':8.5,'stroke-linecap':'round'},Fk);
+pathEl(bladeD,{fill:'none',stroke:C.frameHi,'stroke-width':1.6,'stroke-opacity':.75,transform:'translate(1.8 -0.4)'},Fk);
+line(sub(Crown,mul(dAx,1)),add(Crown,mul(dAx,8)),22,C.chrome,Fk);      // коронка
+circ(F,7.5,{fill:C.chrome},Fk);
+hexNut(F,5.6,Fk);
+
+/* ---------- подседельный штырь и седло ---------- */
+var Ck=Lr.cockpit;
+line(sub(Stop,mul(uSeat,2)),Pc,7.5,C.metal,Ck,{'stroke-linecap':'butt'});
+line(add(sub(Stop,mul(uSeat,2)),mul(perp(uSeat),1.6)),add(Pc,mul(perp(uSeat),1.6)),1.4,C.metalHi,Ck,{'stroke-opacity':.8});
+var sd=grp({transform:'translate('+pt(Pc)+')'},Ck);
+pathEl('M50,-12C40,-2 30,0 18,0L-34,0C-46,0 -52,-4 -56,-9',{fill:'none',stroke:C.metalHi,'stroke-width':2.2,'stroke-linecap':'round'},sd);
+pathEl('M-40,0C-44,-3 -48,-4 -50,-8M-36,0C-40,-4 -45,-6 -47,-9',{fill:'none',stroke:C.metal,'stroke-width':1.4},sd);
+el('rect',{x:-9,y:-3.5,width:18,height:8,rx:2,fill:C.metal,stroke:C.metalDk,'stroke-width':1},sd);
+pathEl('M64,-18C50,-24 20,-26 -10,-26C-40,-26 -60,-30 -68,-26C-74,-22 -72,-10 -64,-8C-40,-10 20,-12 48,-12C58,-12 64,-14 64,-18Z',{fill:C.leather,stroke:C.leatherDk,'stroke-width':1.2},sd);
+pathEl('M58,-19.2C44,-23 18,-24.6 -10,-24.6C-36,-24.6 -54,-27.6 -64,-25.6',{fill:'none',stroke:'#f3d2a4','stroke-width':1.4,'stroke-opacity':.85,'stroke-linecap':'round'},sd);
+[[-67,-19],[-64.5,-12],[58,-16.5]].forEach(function(p){circ(P(p[0],p[1]),1.3,{fill:'#f3dcb8'},sd);});
+
+/* ---------- вынос (quill) и руль-баран ---------- */
+line(sub(H1,mul(dAx,12)),Qtop,8,C.chrome,Ck,{'stroke-linecap':'butt'});
+line(Qtop,Cl,8.5,C.chrome,Ck);
+line(add(Qtop,P(2,-2.6)),add(Cl,P(-4,-2.2)),1.5,C.frameHi,Ck,{'stroke-opacity':.7});
+circ(Qtop,5.2,{fill:C.chrome,stroke:C.metal,'stroke-width':1},Ck);
+circ(Qtop,2,{fill:C.metalDk},Ck);
+var bar=grp({transform:'translate('+pt(Cl)+')'},Ck);
+pathEl('M0,0C14,-2 26,-1 32,3',{fill:'none',stroke:C.chrome,'stroke-width':6.5,'stroke-linecap':'round'},bar);
+var tapeD='M32,3C42,9 45,22 44,32C43,46 34,56 18,58L2,58';
+pathEl(tapeD,{fill:'none',stroke:C.leather,'stroke-width':7}, bar);
+pathEl(tapeD,{fill:'none',stroke:C.leatherDk,'stroke-width':7,'stroke-dasharray':'1.1 3.2','stroke-opacity':.65},bar);
+circ(P(1.5,58),3.7,{fill:C.leatherDk},bar);
+circ(P(0,0),8.5,{fill:C.chrome,stroke:C.metal,'stroke-width':1.2},bar);
+circ(P(0,0),4.2,{fill:C.metal,stroke:C.metalDk,'stroke-width':.8},bar);
+line(P(0,8),P(0,12),3,C.metal,bar);
+// тормозная ручка: резиновый капюшон + рычаг
+pathEl('M46,12C52,26 51,42 44,54',{fill:'none',stroke:C.metalHi,'stroke-width':3.6,'stroke-linecap':'round'},bar);
+pathEl('M30,3C31,-6 43,-10 49,-4C53,0 51,8 46,15L40,16C36,11 32,7 30,3Z',{fill:C.gum,stroke:C.leatherDk,'stroke-width':1.1},bar);
+circ(P(45,10),1.8,{fill:C.leatherDk},bar);
+
+/* ---------- клещевые тормоза (side-pull) ---------- */
+function caliper(M,Cw,hint){
+  var u=unit(sub(M,Cw)), t=perp(u); if(dot(t,hint)<0)t=mul(t,-1);
+  var pad=add(Cw,mul(u,R_RIM-0.5)), g=grp({},Lr.brakes);
+  pathEl('M'+pt(M)+'C'+pt(add(M,mul(t,7)))+' '+pt(add(pad,add(mul(t,7),mul(u,6))))+' '+pt(pad),{fill:'none',stroke:C.metal,'stroke-width':4,'stroke-linecap':'round','stroke-opacity':.7},g);
+  pathEl('M'+pt(add(M,mul(u,2)))+'C'+pt(add(M,mul(t,17)))+' '+pt(add(pad,add(mul(t,14),mul(u,10))))+' '+pt(add(pad,mul(t,4))),{fill:'none',stroke:C.metalHi,'stroke-width':5.5,'stroke-linecap':'round'},g);
+  var ang=Math.atan2(t.y,t.x)/DEG;
+  el('rect',{x:-8.5,y:-3,width:17,height:6,rx:2,fill:C.pad,stroke:'#aab4c0','stroke-width':.8,transform:'translate('+pt(pad)+') rotate('+n2(ang)+')'},g);
+  circ(M,5.5,{fill:C.chrome,stroke:C.metalDk,'stroke-width':1},g);
+  circ(M,1.8,{fill:C.metalDk},g);
+  var anc=add(M,add(mul(u,8),mul(t,11)));
+  line(anc,add(anc,mul(u,8)),4,C.metal,g);
+  circ(anc,2.4,{fill:C.metalHi},g);
+  return add(anc,mul(u,8));
+}
+var Mf=add(Crown,add(mul(nF,10),mul(dAx,3)));
+var Af=caliper(Mf,F,nF);
+var tR=perp(uSS); if(tR.x<0)tR=mul(tR,-1);
+var Mr=add(Bb,mul(tR,-7));
+var Ar=caliper(Mr,R,P(-1,-0.3));
+
+/* ---------- тросики ---------- */
+var Bk=Lr.brakes, HOUSING='#98a4b3';
+var Lf=add(Cl,P(45,-9)), Lb=add(Cl,P(39,-8));
+pathEl('M'+pt(Lf)+'C'+pt(add(Lf,P(26,-46)))+' '+pt(add(Af,mul(unit(sub(Af,F)),62)))+' '+pt(Af),{fill:'none',stroke:HOUSING,'stroke-width':3,'stroke-linecap':'round'},Bk);
+var nTop=upNormal(dTT);
+var Tf=add(lerp(STj,Htt,.88),mul(nTop,7.5)), Tb=add(lerp(STj,Htt,.13),mul(nTop,7.5));
+pathEl('M'+pt(Lb)+'C'+pt(add(Lb,P(-6,-54)))+' '+pt(add(Tf,P(36,-46)))+' '+pt(Tf),{fill:'none',stroke:HOUSING,'stroke-width':3,'stroke-linecap':'round'},Bk);
+line(Tf,Tb,1.2,C.metalHi,Bk);
+[.4,.64].forEach(function(t){var b0=lerp(STj,Htt,t);line(add(b0,mul(nTop,4.5)),add(b0,mul(nTop,9)),3,C.chrome,Bk);});
+circ(Tf,3,{fill:C.chrome},Bk); circ(Tb,3,{fill:C.chrome},Bk);
+pathEl('M'+pt(Tb)+'C'+pt(add(Tb,P(-38,0)))+' '+pt(add(Ar,mul(unit(sub(Ar,R)),42)))+' '+pt(Ar),{fill:'none',stroke:HOUSING,'stroke-width':3,'stroke-linecap':'round'},Bk);
+
+/* ---------- привод: звезда 52T с пауком BCD 144, шатуны 170 мм ---------- */
+var ringG=grp({},Lr.ring);
+pathEl(gearPath(T1,r1,r1-11),{fill:C.chrome,'fill-rule':'evenodd'},ringG);
+circ(P(0,0),r1-6,{fill:'none',stroke:C.metal,'stroke-width':.9,'stroke-opacity':.8},ringG);
+for(var k=0;k<5;k++){
+  var a=(k*72+18)*DEG, bp=P(36*Math.cos(a),36*Math.sin(a));
+  line(P(0,0),P(41*Math.cos(a),41*Math.sin(a)),9,C.metal,ringG);
+  circ(bp,2.7,{fill:C.metalDk,stroke:C.metalHi,'stroke-width':.8},ringG);
+}
+circ(P(0,0),14,{fill:C.metal},ringG);
+
+// цепь: внешние касательные к делительным окружностям звёзд
+function chainD(){
+  var dv=sub(B,R), D=len(dv), u=mul(dv,1/D), v=perp(u);
+  var c=(r2-r1)/D, s=Math.sqrt(1-c*c);
+  var nT=add(mul(u,c),mul(v,-s)), nB=add(mul(u,c),mul(v,s));
+  var cT=add(R,mul(nT,r2)), kT=add(B,mul(nT,r1)), cB=add(R,mul(nB,r2)), kB=add(B,mul(nB,r1));
+  return {d:'M'+pt(cT)+'L'+pt(kT)+'A'+n2(r1)+','+n2(r1)+' 0 1 1 '+pt(kB)+'L'+pt(cB)+'A'+n2(r2)+','+n2(r2)+' 0 0 1 '+pt(cT)+'Z',
+    top:lerp(cT,kT,.5), bot:lerp(cB,kB,.45)};
+}
+var chain=chainD();
+var chBase=pathEl(chain.d,{fill:'none',stroke:'#7b8797','stroke-width':6.2,'stroke-linejoin':'round'},Lr.chain);
+var chPlates=pathEl(chain.d,{fill:'none',stroke:C.metalHi,'stroke-width':6.4,'stroke-linejoin':'round','stroke-linecap':'butt'},Lr.chain);
+var chPins=pathEl(chain.d,{fill:'none',stroke:'#1a212b','stroke-width':2.3,'stroke-linecap':'round'},Lr.chain);
+var chainLen=1000, cp=PITCH;
+try{chainLen=chBase.getTotalLength();var nL=Math.round(chainLen/PITCH);if(nL%2)nL++;cp=chainLen/nL;}catch(e){}
+chPlates.setAttribute('stroke-dasharray',n2(cp*1.6)+' '+n2(cp*0.4));
+chPins.setAttribute('stroke-dasharray','0 '+cp.toFixed(4));
+
+// шатуны и педали
+function crankArm(parent){
+  var g=grp({},parent);
+  pathEl('M0,-8L'+CRANK+',-5.2A5.2,5.2 0 0 1 '+CRANK+',5.2L0,8A8,8 0 0 1 0,-8Z',{fill:C.metalHi,stroke:C.metalDk,'stroke-width':1},g);
+  line(P(8,-4.6),P(CRANK-4,-2.8),1.4,'#ffffff',g,{'stroke-opacity':.75});
+  circ(P(0,0),7,{fill:C.chrome,stroke:C.metalDk,'stroke-width':1},g);
+  circ(P(0,0),2.5,{fill:C.metalDk},g);
+  circ(P(CRANK,0),2.6,{fill:C.metalDk},g);
+  return g;
+}
+function pedal(parent){
+  var g=grp({},parent);
+  pathEl('M20,-5C29,-8 31,-20 22,-25L8,-26',{fill:'none',stroke:C.metal,'stroke-width':2,'stroke-linecap':'round'},g);
+  pathEl('M-3,-5C-3,-17 3,-24 12,-26',{fill:'none',stroke:C.leatherDk,'stroke-width':2.4,'stroke-linecap':'round'},g);
+  el('rect',{x:-20,y:-5.5,width:40,height:11,rx:3,fill:'rgba(13,19,28,.6)',stroke:C.metalHi,'stroke-width':2},g);
+  line(P(-17,-7.4),P(17,-7.4),1.6,C.metalHi,g,{'stroke-dasharray':'1.5 3','stroke-linecap':'butt'});
+  line(P(-17,7.4),P(17,7.4),1.6,C.metalHi,g,{'stroke-dasharray':'1.5 3','stroke-linecap':'butt'});
+  circ(P(0,0),3.4,{fill:C.chrome,stroke:C.metalDk,'stroke-width':1},g);
+  return g;
+}
+var farG=grp({opacity:.42},Lr.farCrank);
+var farCrankG=crankArm(farG), pedalFar=pedal(farG);
+var crankG=crankArm(Lr.crank), pedalNear=pedal(Lr.crank);
+
+/* ---------- наложение «два треугольника» ---------- */
+var TXT={'font-size':12,'text-anchor':'middle','font-family':'system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif',
+  'paint-order':'stroke',stroke:'#0a0f16','stroke-width':4,'stroke-linejoin':'round',fill:C.accent};
+function poly(pts,a,parent){return el('polygon',mix({points:pts.map(pt).join(' ')},a),parent);}
+var triStyle={fill:C.accent,'fill-opacity':.12,stroke:C.accent,'stroke-width':1.6,'stroke-dasharray':'7 5','stroke-linejoin':'round'};
+poly([B,STj,Htt,Hdt],triStyle,Lr.tri);
+poly([B,SSj,R],triStyle,Lr.tri);
+var tf=el('text',mix({x:592,y:392},TXT),Lr.tri); tf.textContent='передний треугольник';
+var trr=el('text',mix({x:n2((B.x+SSj.x+R.x)/3+8),y:n2((B.y+SSj.y+R.y)/3+14)},TXT),Lr.tri); trr.textContent='задний треугольник';
+
+/* ---------- подписи узлов ---------- */
+function bez(p0,p1,p2,p3,t){var m=1-t;return P(m*m*m*p0.x+3*m*m*t*p1.x+3*m*t*t*p2.x+t*t*t*p3.x,m*m*m*p0.y+3*m*m*t*p1.y+3*m*t*t*p2.y+t*t*t*p3.y);}
+function label(an,lp,txt,side,sub){
+  var g=grp({},Lr.labels);
+  line(an,lp,1,'#7f8ea0',g,{'stroke-opacity':.9});
+  circ(an,2.7,{fill:C.accent,stroke:'#0a0f16','stroke-width':1},g);
+  circ(lp,1.6,{fill:'#7f8ea0'},g);
+  var tx=lp.x, ty=lp.y+4, ta='start';
+  if(side==='l'){tx-=6;ta='end';}
+  else if(side==='r'){tx+=6;}
+  else if(side==='u'){ta='middle';ty=lp.y-(sub?20:7);}
+  else{ta='middle';ty=lp.y+15;}
+  var t=el('text',{x:n2(tx),y:n2(ty),'text-anchor':ta},g); t.textContent=txt;
+  if(sub){var s=el('text',{x:n2(tx),y:n2(ty+13),'text-anchor':ta,'class':'sub'},g); s.textContent=sub;}
+}
+var uFront=unit(sub(Mf,F)), uRear=unit(sub(Mr,R)), a40=40*DEG;
+label(add(Pc,P(-18,-25)),P(300,172),'Седло','l','кожаное, на рельсах');
+label(lerp(B,Stop,.6),P(262,262),'Подседельная труба','l','угол 73.5°');
+label(lerp(STj,Htt,.56),P(600,238),'Верхняя труба','u');
+label(lerp(H1,H2,.35),P(655,196),'Рулевая труба','u','угол 73°');
+label(add(Cl,P(44,34)),P(872,242),'Руль «баран»','r','и тормозные ручки');
+label(add(F,mul(uFront,R_RIM)),P(882,316),'Передний тормоз','r','клещевой, side-pull');
+label(bez(add(Crown,mul(dAx,4)),add(Crown,mul(dAx,100)),sub(F,mul(dAx,58)),F,.55),P(992,420),'Вилка','r','вынос 45 мм');
+label(add(R,mul(uRear,R_RIM)),P(214,318),'Задний тормоз','l');
+label(add(F,P(R_TIRE*Math.cos(-15*DEG),R_TIRE*Math.sin(-15*DEG))),P(990,520),'Шина 700c','r','гамвол');
+label(add(R,P(-r2*.72,r2*.72)),P(232,722),'Звёздочка 18T','d','на оси заднего колеса');
+label(chain.bot,P(372,722),'Цепь','d','шаг 1/2″');
+label(B,P(508,722),'Каретка','d','шатуны 170 мм');
+label(add(B,P(r1*Math.cos(a40),r1*Math.sin(a40))),P(652,722),'Ведущая звезда 52T','d','паук BCD 144');
+label(add(F,P(96,58)),P(880,722),'Спицы','d','32 шт., перекрёст 3');
+
+/* ---------- анимация: шатун → цепь → звёздочка → колёса ---------- */
+var ratio=T1/T2, OUTER=R_TIRE+6;
+var state={playing:true,cad:10,theta:-25*DEG};
+function render(){
+  var th=state.theta, deg=n2(th/DEG), tr='translate('+pt(B)+') rotate(';
+  ringG.setAttribute('transform',tr+deg+')');
+  crankG.setAttribute('transform',tr+deg+')');
+  farCrankG.setAttribute('transform',tr+n2(th/DEG+180)+')');
+  var cs=Math.cos(th), sn=Math.sin(th);
+  pedalNear.setAttribute('transform','translate('+pt(add(B,P(CRANK*cs,CRANK*sn)))+') rotate('+n2(-4+7*cs)+')');
+  pedalFar.setAttribute('transform','translate('+pt(add(B,P(-CRANK*cs,-CRANK*sn)))+') rotate('+n2(-4-7*cs)+')');
+  var wd=n2(((th*ratio/DEG)%360+360)%360);
+  for(var i=0;i<rotators.length;i++){var r=rotators[i];r.g.setAttribute('transform','rotate('+wd+','+pt(r.c)+')');}
+  var per=2*cp, s=((th*r1)%per+per)%per;
+  chPlates.setAttribute('stroke-dashoffset',n2(cp*0.3-s));
+  chPins.setAttribute('stroke-dashoffset',n2(-s));
+  var gt=((th*ratio*OUTER)%25+25)%25;
+  groundTicks.setAttribute('stroke-dashoffset',n2(gt));
+}
+var last=null;
+function tick(t){
+  if(last===null)last=t;
+  var dt=Math.min(Math.max((t-last)/1000,0),0.05); last=t;
+  if(state.playing&&state.cad>0){state.theta+=state.cad/60*2*Math.PI*dt;render();}
+  requestAnimationFrame(tick);
+}
+
+/* ---------- панель ---------- */
+var btnPlay=document.getElementById('btnPlay'), rng=document.getElementById('rngCad'), out=document.getElementById('outCad');
+var btnL=document.getElementById('btnLabels'), btnT=document.getElementById('btnTri');
+function setPlay(v){state.playing=v;btnPlay.textContent=v?'Пауза':'Пуск';btnPlay.setAttribute('aria-pressed',String(v));}
+function setToggle(btn,cls,v){svg.classList.toggle(cls,v);btn.setAttribute('aria-pressed',String(v));}
+btnPlay.addEventListener('click',function(){setPlay(!state.playing);});
+rng.addEventListener('input',function(){state.cad=+rng.value;out.textContent=rng.value+' об/мин';});
+btnL.addEventListener('click',function(){setToggle(btnL,'show-labels',!svg.classList.contains('show-labels'));});
+btnT.addEventListener('click',function(){setToggle(btnT,'show-tri',!svg.classList.contains('show-tri'));});
+document.addEventListener('keydown',function(e){
+  if(e.target&&(e.target.tagName==='INPUT'||e.target.tagName==='BUTTON'))return;
+  if(e.key===' '){e.preventDefault();setPlay(!state.playing);}
+  else if(e.key==='l'||e.key==='д'){btnL.click();}
+  else if(e.key==='t'||e.key==='е'){btnT.click();}
+});
+var hash=(location.hash||'').toLowerCase();
+if(hash.indexOf('labels')>=0)setToggle(btnL,'show-labels',true);
+if(hash.indexOf('tri')>=0)setToggle(btnT,'show-tri',true);
+try{if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)setPlay(false);}catch(e){}
+if(hash.indexOf('still')>=0)setPlay(false);
+render();
+requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

@@ -13,6 +13,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/svg-chess-knight/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/svg-chess-knight/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/svg-chess-knight/opus-5/' },
+      { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/svg-chess-knight/opus-5.5/' },
     ],
   },
   {
@@ -157,6 +158,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/procedural-walker/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/procedural-walker/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/procedural-walker/opus-5/' },
+      { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/procedural-walker/opus-5.5/' },
     ],
   },
   {
@@ -173,6 +175,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/svg-bicycle/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/svg-bicycle/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/svg-bicycle/opus-5/' },
+      { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/svg-bicycle/opus-5.5/' },
     ],
   },
   {
@@ -255,6 +258,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/voxel-terrain/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/voxel-terrain/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/voxel-terrain/opus-5/' },
+      { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/voxel-terrain/opus-5.5/' },
     ],
   },
 
@@ -273,6 +277,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/earth-globe/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/earth-globe/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/earth-globe/opus-5/' },
+      { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/earth-globe/opus-5.5/' },
     ],
   },
   {
@@ -355,6 +360,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/analog-clock/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/analog-clock/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/analog-clock/opus-5/' },
+      { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/analog-clock/opus-5.5/' },
     ],
   },
 ];

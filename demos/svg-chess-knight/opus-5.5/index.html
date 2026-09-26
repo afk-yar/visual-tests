@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SVG шахматный конь — Claude Opus 5.5</title>
+<style>
+  :root {
+    /* слоновая кость */
+    --b0: #fffaf0; --b1: #efe3c9; --b2: #cfb792; --b3: #957a58;
+    --base0: #6f5b42; --base1: #b39c78; --base2: #f7eedd; --base3: #e6d5b4;
+    --base4: #bba27b; --base5: #86704f; --base6: #5e4b35;
+    --hl: #fffdf6; --sh: #3a2410;
+    --groove: #5a3d22; --groove-o: .55; --ghl: #fffaf0; --ghl-o: .7;
+    --eye: #22160d; --eye-iris: #6a4526;
+    --rimk: rgba(255, 248, 232, .9); --rimb: rgba(190, 210, 255, .5);
+    --hl-k: 1;
+    --bg0: #2c313d; --bg1: #161920; --bg2: #07080b;
+    --accent: #f0c46e;
+  }
+  :root[data-theme="ebony"] {
+    --b0: #5d5866; --b1: #312e37; --b2: #1b191f; --b3: #0d0c0f;
+    --base0: #07070a; --base1: #1f1d24; --base2: #5a5563; --base3: #35323b;
+    --base4: #1a181e; --base5: #0e0d11; --base6: #060608;
+    --hl: #b9c3de; --sh: #000;
+    --groove: #000; --groove-o: .8; --ghl: #aab5d6; --ghl-o: .3;
+    --eye: #020203; --eye-iris: #23212b;
+    --rimk: rgba(205, 216, 242, .6); --rimb: rgba(150, 180, 245, .9);
+    --hl-k: .6;
+    --bg0: #3b4150; --bg1: #1b1e26; --bg2: #08090c;
+    --accent: #8fb4ff;
+  }
+
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  body {
+    background: radial-gradient(120% 95% at 50% 40%, var(--bg0) 0%, var(--bg1) 48%, var(--bg2) 100%);
+    color: #ece8df;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  #stage { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+  stop { transition: stop-color .6s ease; }
+  .fb  { fill: url(#gBody); }
+  .fbs { fill: url(#gBase); }
+  .shf { fill: var(--sh); }
+  .hlf { fill: var(--hl); }
+  .hls { stroke: var(--hl); fill: none; }
+  .hl-group { opacity: var(--hl-k); transition: opacity .6s ease; }
+  .grv    { fill: var(--groove); opacity: var(--groove-o); }
+  .grv-hl { fill: var(--ghl);    opacity: var(--ghl-o); }
+  .str    { fill: var(--groove); opacity: calc(var(--groove-o) * .55); }
+  .str-hl { fill: var(--ghl);    opacity: calc(var(--ghl-o) * .55); }
+  .eye  { fill: var(--eye); }
+  .rimk { stroke: var(--rimk); fill: none; }
+  .rimb { stroke: var(--rimb); fill: none; }
+
+  .piece { transition: opacity .5s ease; }
+  #wire { opacity: 0; transition: opacity .5s ease; pointer-events: none; }
+  .wire-on .piece { opacity: .2; }
+  .wire-on #wire { opacity: 1; }
+  .w-path   { fill: none; stroke: var(--accent); stroke-width: 1.3; stroke-linejoin: round; }
+  .w-handle { stroke: var(--accent); stroke-opacity: .5; stroke-width: 1; }
+  .w-ctrl   { fill: #14161c; stroke: var(--accent); stroke-width: 1.1; }
+  .w-anchor { fill: #ffffff; stroke: #14161c; stroke-width: .8; }
+
+  .hud {
+    position: fixed; top: 20px; left: 24px; pointer-events: none;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, .5);
+  }
+  .hud h1 {
+    margin: 0 0 4px; font-size: 17px; font-weight: 600; letter-spacing: .02em; color: #f3eee4;
+  }
+  .hud p { margin: 0; font-size: 12.5px; line-height: 1.45; color: rgba(236, 232, 223, .58); }
+
+  .panel {
+    position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 10px; padding: 7px;
+    border-radius: 15px;
+    background: rgba(24, 26, 33, .42);
+    border: 1px solid rgba(255, 255, 255, .1);
+    box-shadow: 0 12px 34px rgba(0, 0, 0, .38), inset 0 1px 0 rgba(255, 255, 255, .06);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
+    white-space: nowrap;
+  }
+  .seg { display: flex; gap: 2px; padding: 3px; border-radius: 11px; background: rgba(0, 0, 0, .22); }
+  .panel button {
+    appearance: none; border: 0; cursor: pointer;
+    font-family: inherit; font-size: 13px; font-weight: 500; line-height: 1;
+    color: rgba(236, 232, 223, .68);
+    background: transparent;
+    padding: 9px 14px; border-radius: 9px;
+    transition: background .25s, color .25s;
+  }
+  .panel button:hover { color: #fff; background: rgba(255, 255, 255, .06); }
+  .panel button[aria-pressed="true"] { color: #fff; background: rgba(255, 255, 255, .13); }
+  .panel button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .sep { width: 1px; height: 22px; background: rgba(255, 255, 255, .12); }
+  #btnWire .dot {
+    display: inline-block; width: 7px; height: 7px; margin-right: 8px; vertical-align: 1px;
+    border-radius: 2px; border: 1.2px solid currentColor; transform: rotate(45deg);
+  }
+  #btnWire[aria-pressed="true"] .dot { background: var(--accent); border-color: var(--accent); }
+  @media (max-width: 520px) {
+    .panel { gap: 6px; bottom: 14px; }
+    .panel button { padding: 8px 10px; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<svg id="stage" viewBox="-81 -24 580 580" preserveAspectRatio="xMidYMid meet"
+     role="img" aria-label="Шахматный конь: векторный силуэт на тёмном фоне">
+  <defs>
+    <!-- ===== Геометрия (все контуры — кубические кривые Безье) ===== -->
+    <path id="pBody" d="M 198 36 C 205 48 211 66 212 88 C 216.9 84.3 232.6 85.1 231.6 94.2 C 238.4 90.3 255.8 96 252 105.5 C 260.4 103.6 277.3 114.6 270.6 123.6 C 279.7 123.9 294.5 139.8 285.2 147.5 C 294.4 150.1 305.7 169.5 294.6 175.5 C 303.4 179.8 312.2 200.6 300.3 205.4 C 308.6 210.6 315.3 232 302.9 235.8 C 310.6 241.5 315.4 262.8 303.1 265.5 C 310 271.4 313.4 291.7 301.6 293.8 C 307.9 299.6 310.6 318.3 299.4 319.9 C 305.1 325.3 307.2 342.3 297.1 343.5 C 302.1 348.3 296.6 358.5 296 364.1 C 294.6 376.6 293.2 388.6 292 400 L 292 408 L 134 408 L 134 400 C 126 392 119 380 122 362 C 125 338 152 318 172 296 C 178 290 180 279 170 278 C 150 280 124 290 100 286 C 88 284 82 274 86 262 C 94 258 104 256 112 254 C 102 251 92 249 82 250 C 74 252 66 250 62 244 C 56 236 58 224 66 214 C 80 196 100 172 118 148 C 132 128 150 110 172 96 C 176 76 184 54 198 36 Z"/>
+    <path id="pEar2" d="M 206 84 C 210 70 216 58 226 46 C 230 60 234 78 234 96 Z"/>
+    <path id="pCollar" d="M 129 392 L 295 392 C 301.1 392 306 396.9 306 403 C 306 409.1 301.1 414 295 414 L 129 414 C 122.9 414 118 409.1 118 403 C 118 396.9 122.9 392 129 392 Z"/>
+    <path id="pCove" d="M 128 410 L 296 410 C 299 426 316 437 336 441 L 88 441 C 108 437 125 426 128 410 Z"/>
+    <path id="pTorus" d="M 93 436 L 331 436 C 339.3 436 346 442.7 346 451 C 346 459.3 339.3 466 331 466 L 93 466 C 84.7 466 78 459.3 78 451 C 78 442.7 84.7 436 93 436 Z"/>
+    <path id="pFoot" d="M 72 464 L 352 464 C 356.4 464 360 467.6 360 472 L 360 484 C 360 488 357 491 353 492 L 71 492 C 67 491 64 488 64 484 L 64 472 C 64 467.6 67.6 464 72 464 Z"/>
+
+    <!-- резные бороздки: грива, щека, чёлка, губы, глаз, ноздря -->
+    <g id="gGrooves">
+      <path d="M 231.7 94 C 230.9 100.5 234.8 109.6 243.7 115 C 237.4 108.2 233.4 99.1 231.7 94 Z M 252.1 105.4 C 248.7 113 249.3 124.8 256.8 133.2 C 252.2 124.3 251.5 112.5 252.1 105.4 Z M 270.7 123.5 C 263.5 131.6 259.2 145.1 264.2 155.9 C 262.1 145.7 266.4 132.1 270.7 123.5 Z M 285.4 147.4 C 274.4 154.5 264.9 167.9 267.4 181.1 C 267.4 169.2 277 155.9 285.4 147.4 Z M 294.8 175.5 C 282.1 180.9 270.2 193.9 271.1 208 C 272.6 195.6 284.4 182.6 294.8 175.5 Z M 300.5 205.4 C 287.2 209.4 274.1 221.2 273.7 235.7 C 276.3 223.1 289.4 211.3 300.5 205.4 Z M 303.1 235.8 C 289.6 238.5 275.5 248.9 273.9 263.1 C 277.5 251.1 291.6 240.6 303.1 235.8 Z M 303.3 265.5 C 289.6 267 274.8 276.3 272.5 290.3 C 276.7 278.6 291.4 269.3 303.3 265.5 Z M 301.8 293.8 C 288.5 294.7 274.1 303 271.6 316.1 C 275.8 305.4 290.3 297 301.8 293.8 Z M 299.6 320 C 287.4 320.5 273.9 327.7 271.4 339.7 C 275.5 330.1 289 322.9 299.6 320 Z M 297.3 343.6 C 286 343.6 273.5 349.8 271.2 360.4 C 275 352.2 287.6 346.1 297.3 343.6 Z"/>
+      <path d="M 221.1 106.4 C 222.5 107.2 227 109.2 229.7 111.1 C 232.4 113 234.9 115.3 237.2 117.7 C 239.5 120.1 241.4 122.8 243.3 125.5 C 245.1 128.2 246.7 131.1 248.2 134 C 249.6 136.9 250.8 139.9 252 142.9 C 253.1 145.9 254 148.9 254.9 151.9 C 255.8 154.9 256.6 158 257.4 161 C 258.2 163.9 258.8 166.6 259.6 169.7 C 260.5 172.8 261.5 176.2 262.4 179.6 C 263.3 183 264.2 186.5 265 189.9 C 265.8 193.4 266.4 196.8 267 200.4 C 267.7 204 268.2 207.6 268.7 211.3 C 269.2 214.9 269.6 218.6 269.9 222.2 C 270.2 225.9 270.5 229.5 270.7 233.2 C 270.9 236.9 271 240.6 271.1 244.4 C 271.2 248.1 271.2 251.8 271.2 255.6 C 271.1 259.3 271 263.1 270.9 266.9 C 270.8 270.7 270.6 274.7 270.6 278.6 C 270.5 282.6 270.5 286.6 270.5 290.5 C 270.5 294.5 270.5 298.4 270.5 302.4 C 270.5 306.3 270.6 310.3 270.5 314.3 C 270.5 318.4 270.5 322.5 270.4 326.5 C 270.4 330.6 270.3 334.6 270.2 338.6 C 270 342.6 269.8 346.6 269.6 350.6 C 269.3 354.7 269 358.8 268.6 362.9 C 268.2 367 267.3 373 267.1 375.1 L 267.1 375.1 C 267.2 373 267.8 366.9 268 362.8 C 268.3 358.8 268.5 354.6 268.7 350.5 C 268.8 346.5 268.9 342.5 269 338.4 C 269 334.4 269 330.4 269 326.4 C 269 322.3 268.9 318.2 268.9 314.2 C 268.8 310.2 268.7 306.2 268.7 302.2 C 268.6 298.3 268.5 294.3 268.5 290.4 C 268.4 286.4 268.4 282.5 268.4 278.5 C 268.4 274.6 268.5 270.6 268.6 266.8 C 268.6 263 268.8 259.3 268.8 255.5 C 268.8 251.8 268.8 248.1 268.7 244.4 C 268.6 240.7 268.4 237 268.2 233.4 C 268 229.7 267.7 226.1 267.4 222.4 C 267.1 218.8 266.7 215.2 266.2 211.6 C 265.8 208 265.2 204.3 264.6 200.8 C 264 197.3 263.4 193.9 262.7 190.4 C 261.9 187 261.1 183.5 260.2 180.2 C 259.4 176.9 258.3 173.5 257.6 170.4 C 256.8 167.3 256.3 164.7 255.6 161.8 C 254.9 158.9 254.1 155.9 253.3 152.9 C 252.5 149.9 251.6 146.9 250.6 143.9 C 249.6 140.9 248.5 137.9 247.1 135 C 245.8 132.1 244.2 129.1 242.5 126.4 C 240.8 123.6 238.9 121 236.7 118.5 C 234.5 116 232.1 113.7 229.5 111.6 C 226.9 109.6 222.5 107.3 221.1 106.4 Z"/>
+      <path d="M 198 150 C 221.5 179.3 223.5 237.3 184 274 C 226.5 237.7 224.5 179.7 198 150 Z"/>
+      <path d="M 186 94 C 177.2 102 165.2 109 154 120 C 166.8 111 178.8 104 186 94 Z"/>
+      <path d="M 194 101 C 187.2 109.2 177.2 117.2 168 126 C 178.8 118.8 188.8 110.8 194 101 Z"/>
+      <path d="M 111 254 C 116.3 254.3 121.3 252.3 127 248 C 120.7 250.7 115.7 252.7 111 254 Z"/>
+      <path d="M 90 271 C 94.8 275.8 101.8 277.8 110 276 C 102.2 276.2 95.2 274.2 90 271 Z"/>
+      <g transform="translate(152 150) rotate(-32)">
+        <path d="M -16 -9 C -8 -17 8 -19 19 -10 C 8 -16.6 -8 -14.8 -16 -9 Z"/>
+        <path d="M -12.5 -0.5 C -6.5 -8.6 6 -9.6 12.8 -2.2 C 6 -7.4 -6 -6.6 -12.5 -0.5 Z"/>
+      </g>
+      <g transform="translate(80 223) rotate(-48)">
+        <path d="M -7 1 C -4 -5 5 -6 8 -1 C 9.5 2 7 5 4.5 3 C 3 0.5 -1 -0.5 -7 1 Z"/>
+      </g>
+    </g>
+    <!-- тонкие пряди между прядями-бороздками -->
+    <g id="gStrands">
+      <path d="M 224 89.5 C 224 95.2 228.7 100.4 234.1 103.1 C 229.9 99.5 225.2 94.3 224 89.5 Z M 244.8 98.4 C 243 104.8 246.5 112.2 251.4 116.9 C 247.9 111.7 244.4 104.3 244.8 98.4 Z M 264.8 114.1 C 260.3 121.1 261.1 130.6 264.8 137.1 C 262.6 130.6 261.8 121.1 264.8 114.1 Z M 281.5 136.1 C 274 142.9 271.3 153.3 273 161.1 C 272.7 153.8 275.5 143.3 281.5 136.1 Z M 293.2 163 C 283.4 168.4 278.1 179.1 278.4 188.1 C 279.3 179.9 284.7 169.1 293.2 163 Z M 300.3 192.5 C 289.9 196.8 283.4 207.2 282.8 216.5 C 284.6 208.1 291.1 197.7 300.3 192.5 Z M 304.1 222.9 C 293.4 226.1 286 236 284.6 245.2 C 287.1 237 294.5 227.1 304.1 222.9 Z M 305.3 253 C 294.4 255.4 286.2 264.4 284.1 273.5 C 287.2 265.5 295.4 256.5 305.3 253 Z M 304.3 282 C 293.4 283.6 284.9 292.1 282.6 300.8 C 285.9 293.3 294.4 284.7 304.3 282 Z M 302.4 309.1 C 292.1 310.4 283.9 318 281.6 326.2 C 284.9 319.1 293 311.6 302.4 309.1 Z M 300.1 333.9 C 290.5 334.7 282.9 341.5 280.7 349 C 283.8 342.7 291.4 335.8 300.1 333.9 Z"/>
+    </g>
+
+    <clipPath id="cBody"><use href="#pBody"/></clipPath>
+    <clipPath id="cEye"><path d="M -11 0 C -6 -6.5 5 -7.5 11 -1.5 C 6 5 -5 5.5 -11 0 Z"/></clipPath>
+
+    <!-- ===== Градиенты ===== -->
+    <linearGradient id="gBody" gradientUnits="userSpaceOnUse" x1="86" y1="56" x2="300" y2="420">
+      <stop offset="0"   style="stop-color: var(--b0)"/>
+      <stop offset=".38" style="stop-color: var(--b1)"/>
+      <stop offset=".74" style="stop-color: var(--b2)"/>
+      <stop offset="1"   style="stop-color: var(--b3)"/>
+    </linearGradient>
+    <linearGradient id="gBase" gradientUnits="userSpaceOnUse" x1="64" y1="0" x2="360" y2="0">
+      <stop offset="0"   style="stop-color: var(--base0)"/>
+      <stop offset=".12" style="stop-color: var(--base1)"/>
+      <stop offset=".3"  style="stop-color: var(--base2)"/>
+      <stop offset=".46" style="stop-color: var(--base3)"/>
+      <stop offset=".7"  style="stop-color: var(--base4)"/>
+      <stop offset=".9"  style="stop-color: var(--base5)"/>
+      <stop offset="1"   style="stop-color: var(--base6)"/>
+    </linearGradient>
+    <linearGradient id="gRingV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   style="stop-color: var(--hl)" stop-opacity=".1"/>
+      <stop offset=".24" style="stop-color: var(--hl)" stop-opacity=".42"/>
+      <stop offset=".5"  style="stop-color: var(--hl)" stop-opacity="0"/>
+      <stop offset=".78" style="stop-color: var(--sh)" stop-opacity=".22"/>
+      <stop offset="1"   style="stop-color: var(--sh)" stop-opacity=".58"/>
+    </linearGradient>
+    <linearGradient id="gCoveV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   style="stop-color: var(--sh)" stop-opacity=".6"/>
+      <stop offset=".45" style="stop-color: var(--sh)" stop-opacity=".16"/>
+      <stop offset="1"   style="stop-color: var(--hl)" stop-opacity=".14"/>
+    </linearGradient>
+    <linearGradient id="gFootV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   style="stop-color: var(--hl)" stop-opacity=".5"/>
+      <stop offset=".12" style="stop-color: var(--hl)" stop-opacity=".12"/>
+      <stop offset=".45" style="stop-color: var(--sh)" stop-opacity="0"/>
+      <stop offset="1"   style="stop-color: var(--sh)" stop-opacity=".58"/>
+    </linearGradient>
+    <linearGradient id="gEdge" gradientUnits="userSpaceOnUse" x1="178" y1="0" x2="314" y2="0">
+      <stop offset="0" style="stop-color: var(--sh)" stop-opacity="0"/>
+      <stop offset="1" style="stop-color: var(--sh)" stop-opacity=".62"/>
+    </linearGradient>
+    <linearGradient id="gAO" gradientUnits="userSpaceOnUse" x1="0" y1="352" x2="0" y2="410">
+      <stop offset="0" style="stop-color: var(--sh)" stop-opacity="0"/>
+      <stop offset="1" style="stop-color: var(--sh)" stop-opacity=".55"/>
+    </linearGradient>
+    <radialGradient id="gIris" cx=".4" cy=".35" r=".75">
+      <stop offset="0"   style="stop-color: var(--eye-iris)"/>
+      <stop offset="1"   style="stop-color: var(--eye)"/>
+    </radialGradient>
+    <radialGradient id="gPool" cx=".5" cy=".5" r=".5">
+      <stop offset="0"  stop-color="#ffffff" stop-opacity=".075"/>
+      <stop offset=".6" stop-color="#ffffff" stop-opacity=".025"/>
+      <stop offset="1"  stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- маски для контрового света -->
+    <linearGradient id="gMaskKey" gradientUnits="userSpaceOnUse" x1="70" y1="30" x2="215" y2="250">
+      <stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#000"/>
+    </linearGradient>
+    <linearGradient id="gMaskBack" gradientUnits="userSpaceOnUse" x1="236" y1="0" x2="302" y2="0">
+      <stop offset="0" stop-color="#000"/><stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+    <mask id="mKey" maskUnits="userSpaceOnUse" x="0" y="0" width="420" height="520">
+      <rect x="0" y="0" width="420" height="520" fill="url(#gMaskKey)"/>
+    </mask>
+    <mask id="mBack" maskUnits="userSpaceOnUse" x="0" y="0" width="420" height="520">
+      <rect x="0" y="0" width="420" height="520" fill="url(#gMaskBack)"/>
+    </mask>
+
+    <!-- ===== Размытия ===== -->
+    <filter id="fb1"  x="-30%"  y="-300%" width="160%" height="700%"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="fRim" x="-5%"   y="-5%"   width="110%" height="110%"><feGaussianBlur stdDeviation=".7"/></filter>
+    <filter id="fb3"  x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="fb7"  x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="7"/></filter>
+    <filter id="fb11" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="11"/></filter>
+    <filter id="fb15" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="15"/></filter>
+    <filter id="fEdge" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="12"/></filter>
+  </defs>
+
+  <!-- пол: световое пятно и контактная тень -->
+  <g id="ground">
+    <ellipse cx="212" cy="494" rx="270" ry="52" fill="url(#gPool)"/>
+    <ellipse cx="212" cy="497" rx="196" ry="15" fill="#000" opacity=".45" filter="url(#fb7)"/>
+    <ellipse cx="212" cy="493" rx="154" ry="6"  fill="#000" opacity=".75" filter="url(#fb3)"/>
+  </g>
+
+  <g class="piece">
+    <!-- дальнее ухо -->
+    <use href="#pEar2" class="fb"/>
+    <use href="#pEar2" class="shf" opacity=".42"/>
+
+    <!-- основание -->
+    <use href="#pFoot" class="fbs"/>
+    <use href="#pFoot" fill="url(#gFootV)"/>
+    <use href="#pCove" class="fbs"/>
+    <use href="#pCove" fill="url(#gCoveV)"/>
+    <use href="#pTorus" class="fbs"/>
+    <use href="#pTorus" fill="url(#gRingV)"/>
+    <g class="hl-group">
+      <ellipse cx="160" cy="465.6" rx="66" ry="1.2" class="hlf" opacity=".55" filter="url(#fb1)"/>
+      <ellipse cx="166" cy="441.6" rx="62" ry="1.8" class="hlf" opacity=".6"  filter="url(#fb1)"/>
+    </g>
+
+    <!-- голова и шея -->
+    <use href="#pBody" class="fb"/>
+
+    <!-- объём: тени и блики внутри силуэта -->
+    <g clip-path="url(#cBody)">
+      <use href="#pBody" fill="none" stroke="url(#gEdge)" stroke-width="46" filter="url(#fEdge)"/>
+      <rect x="100" y="340" width="220" height="80" fill="url(#gAO)"/>
+      <ellipse cx="178" cy="318" rx="44" ry="21" transform="rotate(-40 178 318)" class="shf" opacity=".42" filter="url(#fb11)"/>
+      <ellipse cx="138" cy="292" rx="56" ry="9" transform="rotate(-3 138 292)" class="shf" opacity=".3" filter="url(#fb7)"/>
+      <path d="M 98 262 C 110 268 116 280 104 290" fill="none" style="stroke: var(--sh)" stroke-width="8" stroke-linecap="round" opacity=".18" filter="url(#fb3)"/>
+      <ellipse cx="195" cy="104" rx="10" ry="26" transform="rotate(20 195 104)" class="shf" opacity=".22" filter="url(#fb7)"/>
+      <g class="hl-group">
+        <path d="M 172 104 C 150 120 130 138 116 160 C 104 178 90 196 76 213" class="hls" stroke-width="13" stroke-linecap="round" opacity=".55" filter="url(#fb7)"/>
+        <ellipse cx="168" cy="210" rx="30" ry="42" transform="rotate(-25 168 210)" class="hlf" opacity=".26" filter="url(#fb15)"/>
+        <ellipse cx="246" cy="112" rx="34" ry="11" transform="rotate(30 246 112)" class="hlf" opacity=".3" filter="url(#fb11)"/>
+        <ellipse cx="140" cy="350" rx="13" ry="30" transform="rotate(18 140 350)" class="hlf" opacity=".24" filter="url(#fb11)"/>
+        <ellipse cx="70" cy="232" rx="6" ry="12" class="hlf" opacity=".35" filter="url(#fb3)"/>
+      </g>
+    </g>
+
+    <!-- резьба: грива, щека, чёлка, глаз, ноздря -->
+    <g clip-path="url(#cBody)">
+      <path d="M 201 46 C 193.8 56.2 188.8 74.2 189 92 C 195.2 75.8 200.2 57.8 201 46 Z" class="shf" opacity=".26" filter="url(#fb1)"/>
+      <use href="#gStrands" class="str-hl" transform="translate(.8 .8)"/>
+      <use href="#gStrands" class="str"/>
+      <use href="#gGrooves" class="grv-hl" transform="translate(.9 .9)"/>
+      <use href="#gGrooves" class="grv"/>
+
+      <!-- глаз -->
+      <g transform="translate(152 150) rotate(-32)">
+        <ellipse cx="0" cy="0" rx="17" ry="11" class="shf" opacity=".14" filter="url(#fb3)"/>
+        <path d="M -11 0 C -6 -6.5 5 -7.5 11 -1.5 C 6 5 -5 5.5 -11 0 Z" class="eye"/>
+        <g clip-path="url(#cEye)">
+          <ellipse cx="1" cy="-0.6" rx="5.4" ry="4.6" fill="url(#gIris)"/>
+        </g>
+        <ellipse cx="3.4" cy="-2.9" rx="1.9" ry="1.3" fill="#fff" opacity=".9"/>
+        <path d="M -9.6 2.8 C -4 6.6 5 6.2 10.4 0.8" class="hls" stroke-width=".9" stroke-linecap="round" opacity=".6"/>
+      </g>
+    </g>
+
+    <!-- контровой свет по краю силуэта -->
+    <g clip-path="url(#cBody)">
+      <use href="#pBody" class="rimk" stroke-width="2.6" mask="url(#mKey)"/>
+      <use href="#pBody" class="rimb" stroke-width="3.2" mask="url(#mBack)" filter="url(#fRim)"/>
+    </g>
+
+    <!-- воротничок поверх шеи -->
+    <use href="#pCollar" class="fbs"/>
+    <use href="#pCollar" fill="url(#gRingV)"/>
+    <g class="hl-group">
+      <ellipse cx="170" cy="396.2" rx="36" ry="1.3" class="hlf" opacity=".6" filter="url(#fb1)"/>
+    </g>
+  </g>
+
+  <!-- каркас: опорные точки и рычаги кривых Безье -->
+  <g id="wire"></g>
+</svg>
+
+<div class="hud">
+  <h1>Шахматный конь</h1>
+  <p>Инлайн-SVG без растра · <span id="stat">кривые Безье</span></p>
+</div>
+
+<div class="panel" role="toolbar" aria-label="Управление">
+  <div class="seg" role="group" aria-label="Материал">
+    <button type="button" data-theme="ivory" aria-pressed="true" title="Клавиша 1">Слоновая кость</button>
+    <button type="button" data-theme="ebony" aria-pressed="false" title="Клавиша 2">Эбен</button>
+  </div>
+  <span class="sep" aria-hidden="true"></span>
+  <button type="button" id="btnWire" aria-pressed="false" title="Клавиша B"><span class="dot"></span>Каркас Безье</button>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var NS = 'http://www.w3.org/2000/svg';
+  var root = document.documentElement;
+  var stage = document.getElementById('stage');
+
+  // Разбор абсолютных команд M/L/C/Z (контуры написаны только ими)
+  function parsePath(d) {
+    var tok = d.match(/[MLCZmlcz]|-?\d*\.?\d+(?:e[-+]?\d+)?/g) || [];
+    var i = 0, cmd = null, cur = [0, 0], start = [0, 0], out = [];
+    function num() { return parseFloat(tok[i++]); }
+    while (i < tok.length) {
+      if (/[A-Za-z]/.test(tok[i])) cmd = tok[i++].toUpperCase();
+      if (cmd === 'M') {
+        cur = [num(), num()]; start = cur.slice();
+        out.push({ t: 'M', p: cur }); cmd = 'L';
+      } else if (cmd === 'L') {
+        var p = [num(), num()];
+        out.push({ t: 'L', p0: cur, p: p }); cur = p;
+      } else if (cmd === 'C') {
+        var c1 = [num(), num()], c2 = [num(), num()], q = [num(), num()];
+        out.push({ t: 'C', p0: cur, c1: c1, c2: c2, p: q }); cur = q;
+      } else if (cmd === 'Z') {
+        out.push({ t: 'Z' }); cur = start.slice(); cmd = null;
+      } else {
+        i++;
+      }
+    }
+    return out;
+  }
+
+  function el(name, attrs, parent) {
+    var e = document.createElementNS(NS, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    e.setAttribute('vector-effect', 'non-scaling-stroke');
+    parent.appendChild(e);
+    return e;
+  }
+
+  function buildWire() {
+    var wire = document.getElementById('wire');
+    var ids = ['pEar2', 'pBody', 'pFoot', 'pCove', 'pTorus', 'pCollar'];
+    var gPaths = el('g', {}, wire), gHandles = el('g', {}, wire),
+        gCtrls = el('g', {}, wire), gAnchors = el('g', {}, wire);
+    var curves = 0, seen = {};
+    function anchor(p) {
+      var key = p[0] + ',' + p[1];
+      if (seen[key]) return; seen[key] = 1;
+      el('rect', { x: p[0] - 1.6, y: p[1] - 1.6, width: 3.2, height: 3.2, 'class': 'w-anchor' }, gAnchors);
+    }
+    ids.forEach(function (id) {
+      var d = document.getElementById(id).getAttribute('d');
+      el('path', { d: d, 'class': 'w-path' }, gPaths);
+      parsePath(d).forEach(function (s) {
+        if (s.t === 'C') {
+          curves++;
+          el('line', { x1: s.p0[0], y1: s.p0[1], x2: s.c1[0], y2: s.c1[1], 'class': 'w-handle' }, gHandles);
+          el('line', { x1: s.c2[0], y1: s.c2[1], x2: s.p[0], y2: s.p[1], 'class': 'w-handle' }, gHandles);
+          el('circle', { cx: s.c1[0], cy: s.c1[1], r: 1.45, 'class': 'w-ctrl' }, gCtrls);
+          el('circle', { cx: s.c2[0], cy: s.c2[1], r: 1.45, 'class': 'w-ctrl' }, gCtrls);
+          anchor(s.p);
+        } else if (s.t === 'M' || s.t === 'L') {
+          anchor(s.p);
+        }
+      });
+    });
+    return curves;
+  }
+
+  var curves = buildWire();
+  document.getElementById('stat').textContent = 'контур: ' + curves + ' сегментов Безье';
+
+  var themeBtns = Array.prototype.slice.call(document.querySelectorAll('.seg [data-theme]'));
+  var wireBtn = document.getElementById('btnWire');
+
+  function setTheme(name) {
+    if (name === 'ebony') root.setAttribute('data-theme', 'ebony');
+    else root.removeAttribute('data-theme');
+    themeBtns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme') === name));
+    });
+  }
+  function toggleWire(force) {
+    var on = typeof force === 'boolean' ? force : !stage.classList.contains('wire-on');
+    stage.classList.toggle('wire-on', on);
+    wireBtn.setAttribute('aria-pressed', String(on));
+  }
+
+  themeBtns.forEach(function (b) {
+    b.addEventListener('click', function () { setTheme(b.getAttribute('data-theme')); });
+  });
+  wireBtn.addEventListener('click', function () { toggleWire(); });
+  window.addEventListener('keydown', function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    var k = e.key.toLowerCase();
+    if (k === '1') setTheme('ivory');
+    else if (k === '2') setTheme('ebony');
+    else if (k === 'b' || k === 'и') toggleWire();
+  });
+})();
+</script>
+</body>
+</html>
