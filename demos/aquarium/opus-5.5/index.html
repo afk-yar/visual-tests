@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Аквариум с рыбами — Claude Opus 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene" aria-label="Подводная сцена с рыбами"></canvas>
+
+<div class="hud">
+  <h1>Аквариум</h1>
+  <p>Canvas 2D, без библиотек · клик по воде — покормить рыб</p>
+</div>
+
+<div class="panel" role="group" aria-label="Управление">
+  <button id="feed" type="button">Покормить</button>
+  <label>Свет <input id="light" type="range" min="0" max="160" value="100"></label>
+  <label>Течение <input id="current" type="range" min="0" max="160" value="60"></label>
+  <button id="pause" type="button">Пауза</button>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

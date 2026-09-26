@@ -1,0 +1,242 @@
+:root {
+  --glass: rgba(12, 16, 28, 0.55);
+  --glass-hi: rgba(255, 255, 255, 0.06);
+  --line: rgba(255, 255, 255, 0.09);
+  --text: #e9edf7;
+  --muted: rgba(214, 222, 242, 0.62);
+  --accent: #ffb86e;
+  --accent-soft: rgba(255, 184, 110, 0.16);
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  color: var(--text);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  cursor: grab;
+}
+#scene.dragging { cursor: grabbing; }
+
+/* виньетка — CSS-слой поверх canvas (не тратит растр кадра) */
+.vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0) 42%, rgba(0, 0, 0, 0.18) 68%, rgba(0, 0, 0, 0.66) 100%);
+}
+
+/* ---------- HUD ---------- */
+.hud {
+  position: fixed;
+  left: 22px;
+  top: 18px;
+  max-width: min(520px, calc(100% - 44px));
+  pointer-events: none;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.75);
+}
+.hud h1 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+.hud .sub {
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.hud .date {
+  margin: 10px 0 0;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: #f4e6d2;
+}
+.hud .sep { margin: 0 8px; opacity: 0.45; }
+.hud .gen { margin-left: 10px; color: var(--accent); opacity: 0.85; font-size: 11.5px; }
+.hud .slow { margin-left: 10px; color: var(--muted); font-size: 11.5px; }
+.hud .hint {
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: rgba(214, 222, 242, 0.42);
+}
+
+/* ---------- карточка тела ---------- */
+.card {
+  position: fixed;
+  right: 18px;
+  top: 18px;
+  width: 236px;
+  padding: 12px 14px 10px;
+  border-radius: 14px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.4);
+  font-size: 12px;
+}
+.card-h { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.card-h i {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 12px var(--c);
+}
+.card-h b { display: block; font-size: 15px; font-weight: 650; }
+.card-h span { display: block; font-size: 11px; color: var(--muted); margin-top: 1px; }
+.card dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; }
+.card dt { color: var(--muted); }
+.card dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ---------- панель ---------- */
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  width: min(1000px, calc(100% - 24px));
+  box-sizing: border-box;
+  padding: 10px 12px 11px;
+  border-radius: 16px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 var(--glass-hi);
+}
+.chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 1px;
+}
+.chips::-webkit-scrollbar { display: none; }
+.chip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px 5px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.chip i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 6px var(--c);
+}
+.chip:hover { background: rgba(255, 255, 255, 0.08); }
+.chip.on { background: var(--accent-soft); border-color: rgba(255, 184, 110, 0.55); }
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  margin-top: 10px;
+}
+.ctl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 190px;
+  min-width: 170px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.ctl output {
+  min-width: 62px;
+  text-align: right;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.ctl input { flex: 1; min-width: 60px; }
+
+input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 18px;
+  background: transparent;
+  margin: 0;
+  cursor: pointer;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgba(255, 184, 110, 0.55), rgba(255, 255, 255, 0.14));
+}
+input[type=range]::-moz-range-track {
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgba(255, 184, 110, 0.55), rgba(255, 255, 255, 0.14));
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 13px;
+  height: 13px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: #fff4e6;
+  border: none;
+  box-shadow: 0 0 0 3px rgba(255, 184, 110, 0.25), 0 0 12px rgba(255, 184, 110, 0.7);
+}
+input[type=range]::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff4e6;
+  border: none;
+  box-shadow: 0 0 0 3px rgba(255, 184, 110, 0.25), 0 0 12px rgba(255, 184, 110, 0.7);
+}
+
+.toggles { display: flex; gap: 5px; flex-wrap: wrap; }
+.tg {
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--muted);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.tg:hover { color: var(--text); }
+.tg.on { color: var(--text); background: rgba(255, 255, 255, 0.09); border-color: rgba(255, 255, 255, 0.2); }
+.tg[data-t="pause"].on { background: var(--accent-soft); border-color: rgba(255, 184, 110, 0.55); }
+
+@media (max-width: 760px) {
+  .card { display: none; }
+  .hud { left: 14px; top: 12px; }
+  .hud h1 { font-size: 17px; }
+  .hud .hint { display: none; }
+  .ctl { flex-basis: 100%; }
+}
+@media (max-height: 520px) {
+  .hud .hint, .hud .sub { display: none; }
+}

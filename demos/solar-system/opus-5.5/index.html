@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Солнечная система — Claude Opus 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene" aria-label="Трёхмерная модель Солнечной системы"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+
+<header class="hud">
+  <h1>Солнечная система</h1>
+  <p class="sub">Кеплеровы орбиты по элементам JPL · реальные наклоны, периоды и оси</p>
+  <p class="date"><span id="date">—</span><span class="sep">·</span><span id="rate">—</span><span id="slow" class="slow"></span><span id="gen" class="gen"></span></p>
+  <p class="hint">Перетаскивание — вращение · колесо — масштаб · клик по телу — фокус · пробел — пауза</p>
+</header>
+
+<aside class="card" id="card" aria-live="polite"></aside>
+
+<div class="panel" role="group" aria-label="Управление">
+  <div class="chips" id="chips"></div>
+  <div class="row">
+    <label class="ctl"><span>Масштаб</span><input id="zoom" type="range" min="0" max="1000" value="500"><output id="zoomOut">—</output></label>
+    <label class="ctl"><span>Время</span><input id="speed" type="range" min="0" max="1000" value="577"><output id="speedOut">—</output></label>
+    <label class="ctl"><span>Расстояния</span><input id="dist" type="range" min="0" max="1000" value="833"><output id="distOut">—</output></label>
+    <div class="toggles">
+      <button type="button" class="tg on" data-t="orbits">Орбиты</button>
+      <button type="button" class="tg on" data-t="trails">Следы</button>
+      <button type="button" class="tg on" data-t="labels">Подписи</button>
+      <button type="button" class="tg on" data-t="rotate">Облёт</button>
+      <button type="button" class="tg" data-t="pause">Пауза</button>
+    </div>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

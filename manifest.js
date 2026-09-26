@@ -30,6 +30,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/solar-system/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/solar-system/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/solar-system/opus-5/' },
+      { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/solar-system/opus-5.5/' },
     ],
   },
   {
@@ -310,6 +311,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/aurora/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/aurora/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/aurora/opus-5/' },
+      { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/aurora/opus-5.5/' },
     ],
   },
   {
@@ -326,6 +328,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/aquarium/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/aquarium/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/aquarium/opus-5/' },
+      { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/aquarium/opus-5.5/' },
     ],
   },
   {
@@ -342,6 +345,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/aquarium-3d/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/aquarium-3d/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/aquarium-3d/opus-5/' },
+      { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/aquarium-3d/opus-5.5/' },
     ],
   },
 

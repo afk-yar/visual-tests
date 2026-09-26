@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Полярное сияние — Claude Opus 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="c" aria-label="Полярное сияние над ночным озером"></canvas>
+
+<header class="hud" id="hud">
+  <h1>Полярное сияние</h1>
+  <p>Занавеси кислородной зелени и азотного пурпура над северным озером</p>
+</header>
+
+<div class="panel" id="panel">
+  <label class="ctl"><span>Активность</span><input id="act" type="range" min="0.2" max="1.8" step="0.01" value="1"></label>
+  <label class="ctl"><span>Скорость</span><input id="spd" type="range" min="0" max="3" step="0.01" value="1"></label>
+  <button id="burst" type="button" title="Клавиша B">Всплеск</button>
+  <button id="pause" type="button" title="Пробел">Пауза</button>
+  <button id="hide" type="button" title="Клавиша H">Скрыть</button>
+  <span class="fps" id="fps"></span>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
