@@ -254,8 +254,11 @@
   TASKS.forEach(function (t) {
     t.solutions.forEach(function (s) { if (!seen[s.slug]) { seen[s.slug] = 1; allSolutions.push(s); } });
   });
-  var order = window.VisualShell.groupSolutions(allSolutions)
-    .reduce(function (acc, g) { return acc.concat(g.items.map(function (it) { return it.solution.slug; })); }, []);
+  // Без shell.js (например, из кеша браузера пришла старая версия) — порядок manifest.
+  var order = window.VisualShell
+    ? window.VisualShell.groupSolutions(allSolutions)
+      .reduce(function (acc, g) { return acc.concat(g.items.map(function (it) { return it.solution.slug; })); }, [])
+    : allSolutions.map(function (s) { return s.slug; }).reverse();
 
   var modelBySlug = {};
   D.models.forEach(function (m) { modelBySlug[m.slug] = m; });
