@@ -47,12 +47,26 @@
     const task = tasks.find((t) => t.id === taskId) || tasks[0] || null;
     if (!task) return null;
     const freshest = groupSolutions(task.solutions).map((g) => g.items[0].solution)[0] || null;
-    const solution = task.solutions.find((s) => s.slug === slug) || freshest;
-    return { task, solution };
+    const picked = slug ? task.solutions.find((s) => s.slug === slug) : null;
+    return { task, solution: picked || freshest, explicit: !!picked };
+  }
+
+  // Ссылка на задачу из сайдбара: несёт выбранную пользователем модель, если она у задачи есть.
+  function taskHref(task, preferredSlug) {
+    const has = preferredSlug && task.solutions.some((s) => s.slug === preferredSlug);
+    return '#' + task.id + (has ? '/' + preferredSlug : '');
+  }
+
+  // Служебные страницы оболочки (не задачи): hash "#<id>" → файл в iframe.
+  const PAGES = { compare: 'compare.html' };
+
+  function pageRoute(hash) {
+    const id = (hash || '').replace(/^#/, '').split('/')[0];
+    return Object.prototype.hasOwnProperty.call(PAGES, id) ? id : '';
   }
 
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { resolveActiveSelection, splitModelName, groupSolutions };
+    module.exports = { resolveActiveSelection, splitModelName, groupSolutions, taskHref, pageRoute };
     return;
   }
 
@@ -62,16 +76,27 @@
   const frameEl = document.getElementById('stage');
   const labelEl = document.getElementById('frame-label');
   const promptEl = document.getElementById('prompt-text');
+  const promptBoxEl = document.getElementById('prompt-box');
+  const toolbarEl = document.querySelector('.model-toolbar');
+  const compareLink = document.getElementById('compare-link');
+
+  // Модель, которую пользователь выбрал явно; переживает переход на задачу, где её нет.
+  let preferredSlug = '';
 
   function render() {
-    const sel = resolveActiveSelection(tasks, location.hash);
+    const page = pageRoute(location.hash);
+    const sel = page ? null : resolveActiveSelection(tasks, location.hash);
+    if (sel && sel.explicit) preferredSlug = sel.solution.slug;
+    if (compareLink) compareLink.classList.toggle('active', page === 'compare');
+    toolbarEl.hidden = !!page;
+    promptBoxEl.hidden = !!page;
 
     listEl.innerHTML = '';
     for (const t of tasks) {
       const li = document.createElement('li');
       const a = document.createElement('a');
       a.className = 'task-link' + (sel && t.id === sel.task.id ? ' active' : '');
-      a.href = '#' + t.id;
+      a.href = taskHref(t, preferredSlug);
       const name = document.createElement('span');
       name.className = 'task-name';
       name.textContent = t.title;
@@ -85,6 +110,11 @@
     }
 
     switchEl.innerHTML = '';
+    if (page) {
+      frameEl.src = PAGES[page];
+      labelEl.textContent = PAGES[page];
+      return;
+    }
     if (!sel || !sel.solution) return;
     for (const g of groupSolutions(sel.task.solutions)) {
       const group = document.createElement('div');

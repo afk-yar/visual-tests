@@ -1,6 +1,6 @@
 'use strict';
 const assert = require('node:assert');
-const { resolveActiveSelection, splitModelName, groupSolutions } = require('./shell.js');
+const { resolveActiveSelection, splitModelName, groupSolutions, taskHref, pageRoute } = require('./shell.js');
 
 const tasks = [
   { id: 'dp', solutions: [{ slug: 'opus' }, { slug: 'gpt5' }] },
@@ -23,6 +23,23 @@ r = resolveActiveSelection(tasks, '#zzz');               // неизвестна
 assert.equal(r.task.id, 'dp');
 
 assert.equal(resolveActiveSelection([], '#x'), null);    // пустой реестр → null
+
+// explicit: модель пришла из hash и нашлась у задачи — её запоминаем как выбор пользователя.
+assert.equal(resolveActiveSelection(tasks, '#dp/opus').explicit, true);
+assert.equal(resolveActiveSelection(tasks, '#dp').explicit, false);
+assert.equal(resolveActiveSelection(tasks, '#dp/nope').explicit, false);
+
+// Ссылка на задачу несёт выбранную модель, если она у задачи есть.
+assert.equal(taskHref(tasks[0], 'gpt5'), '#dp/gpt5');
+assert.equal(taskHref(tasks[1], 'gpt5'), '#knight');     // у задачи нет модели → самая свежая
+assert.equal(taskHref(tasks[1], ''), '#knight');
+
+// Служебная страница сравнения — не задача.
+assert.equal(pageRoute('#compare'), 'compare');
+assert.equal(pageRoute('#compare/opus-5'), 'compare');
+assert.equal(pageRoute('#dp/opus'), '');
+assert.equal(pageRoute(''), '');
+assert.equal(pageRoute('#constructor'), '');              // не ловит унаследованные свойства объекта
 
 // Вендор выносится в подпись группы, в кнопке остаётся короткое имя.
 assert.deepEqual(splitModelName('Claude Opus 5.5'), { vendor: 'Claude', short: 'Opus 5.5' });
