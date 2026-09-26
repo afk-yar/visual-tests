@@ -70,8 +70,12 @@
     return;
   }
 
+  // Чистые функции нужны и служебным страницам (compare.html), у которых нет разметки оболочки.
+  window.VisualShell = { splitModelName, groupSolutions };
+
   const tasks = (typeof window !== 'undefined' && window.TASKS) || [];
   const listEl = document.getElementById('task-list');
+  if (!listEl) return;
   const switchEl = document.getElementById('model-switch');
   const frameEl = document.getElementById('stage');
   const labelEl = document.getElementById('frame-label');

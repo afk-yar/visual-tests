@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сравнение моделей — visual-tests</title>
+<style>
+  :root {
+    --bg: #11141a;
+    --panel: #1e2128;
+    --line: #303642;
+    --line-soft: #252a34;
+    --grid: #2a2f39;
+    --text: #eef3f8;
+    --text-2: #c6cfda;
+    --muted: #98a3b3;
+    --muted-2: #6f7a8b;
+    --accent: #37c6d9;
+    --accent-strong: #5ed7e7;
+    --ink-on-fill: #11141a;
+    /* категориальные слоты справочника dataviz (тёмный режим), проверены валидатором на #1e2128 */
+    --s-input: #3987e5;
+    --s-cw: #d95926;
+    --s-cr: #199e70;
+    --s-out: #c98500;
+    --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 14px/1.5 var(--sans);
+  }
+
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-block: 28px 56px;
+    padding-inline: clamp(16px, 3vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  h1 { margin: 0; font-size: 24px; line-height: 1.2; font-weight: 760; text-wrap: balance; }
+  h2 { margin: 0; font-size: 17px; line-height: 1.3; font-weight: 720; text-wrap: balance; }
+
+  .lead { margin: 8px 0 0; max-width: 76ch; color: var(--text-2); }
+  .meta { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px 20px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+  }
+
+  .card > p.sub { margin: -8px 0 0; color: var(--muted); font-size: 13px; max-width: 90ch; }
+
+  .findings { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .findings li { position: relative; padding-left: 18px; max-width: 92ch; color: var(--text-2); }
+  .findings li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 0.62em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .findings b { color: var(--text); font-weight: 650; }
+
+  .table-wrap { overflow-x: auto; }
+
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th, td { padding: 8px 10px; text-align: right; vertical-align: top; border-bottom: 1px solid var(--line-soft); }
+  th:first-child, td:first-child { text-align: left; }
+  thead th { color: var(--muted); font-size: 12px; font-weight: 620; line-height: 1.3; vertical-align: bottom; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.model { font-weight: 650; white-space: nowrap; }
+  td .note { display: block; color: var(--muted-2); font-size: 12px; font-weight: 400; white-space: normal; }
+  td.dash { color: var(--muted-2); }
+
+  .tasks td { white-space: nowrap; }
+  .tasks td.task { white-space: normal; min-width: 150px; font-weight: 600; }
+  .tasks .c-min { color: var(--text); }
+  .tasks .c-usd { color: var(--muted); font-size: 12px; }
+  .tasks .c-flag { color: var(--muted-2); font-size: 11.5px; }
+  .tasks .best .c-min { color: var(--accent-strong); font-weight: 700; }
+
+  .chart { position: relative; width: 100%; }
+  .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .chart text { font-family: var(--sans); }
+
+  .hit { fill: transparent; cursor: default; }
+  .hit:focus { outline: none; }
+  .hit:focus-visible { stroke: var(--accent-strong); stroke-width: 2; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; list-style: none; color: var(--text-2); font-size: 13px; }
+  .legend li { display: inline-flex; align-items: center; gap: 7px; }
+  .legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+
+  .tooltip {
+    position: fixed;
+    z-index: 20;
+    pointer-events: none;
+    min-width: 150px;
+    max-width: 280px;
+    padding: 8px 10px;
+    background: #262a33;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+    font-size: 12.5px;
+    line-height: 1.4;
+  }
+  .tooltip .tv { display: block; color: var(--text); font-size: 14px; font-weight: 700; }
+  .tooltip .tl { display: block; color: var(--text-2); }
+  .tooltip .tm { display: block; color: var(--muted); }
+
+  .missing { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .missing li { display: grid; grid-template-columns: minmax(130px, 170px) 1fr; gap: 4px 16px; color: var(--text-2); }
+  .missing b { color: var(--text); font-weight: 650; }
+
+  .method { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; color: var(--text-2); max-width: 96ch; }
+  .method code { font-family: var(--mono); font-size: 12.5px; color: var(--text); }
+  .src { color: var(--accent-strong); word-break: break-all; }
+
+  @media (max-width: 640px) {
+    .missing li { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+  <header>
+    <h1>Сравнение моделей</h1>
+    <p class="lead">Сколько времени и денег ушло у моделей на решения витрины. Время и токены взяты из логов Claude Code и Codex, стоимость посчитана по прейскуранту API.</p>
+    <p class="meta" id="meta"></p>
+  </header>
+
+  <section class="card" aria-labelledby="h-main">
+    <h2 id="h-main">Главное</h2>
+    <ul class="findings" id="findings"></ul>
+  </section>
+
+  <section class="card" aria-labelledby="h-summary">
+    <h2 id="h-summary">Итоги по моделям</h2>
+    <p class="sub">Медианы по задачам. Первая версия — то, что модель сдала до единственного раунда критики. «Потрачено всего» включает доработку и перезапуски.</p>
+    <div class="table-wrap"><table id="summary"></table></div>
+  </section>
+
+  <section class="card" aria-labelledby="h-time">
+    <h2 id="h-time">Минут до первой версии</h2>
+    <p class="sub">Точка — одна задача, вертикальная черта — медиана. Время — от старта исполнителя до сдачи первой версии, паузы ожидания вычтены.</p>
+    <div class="chart" id="chart-time"></div>
+  </section>
+
+  <section class="card" aria-labelledby="h-cost">
+    <h2 id="h-cost">Стоимость первой версии, $ за задачу</h2>
+    <p class="sub">Шкала логарифмическая: цены моделей различаются в сотни раз.</p>
+    <div class="chart" id="chart-cost"></div>
+  </section>
+
+  <section class="card" aria-labelledby="h-comp">
+    <h2 id="h-comp">Из чего складывается стоимость первой версии</h2>
+    <p class="sub">Доли в долларах, сумма по всем задачам модели. Чтение кеша дёшево за токен, но токенов в нём больше всего.</p>
+    <ul class="legend" id="comp-legend"></ul>
+    <div class="chart" id="chart-comp"></div>
+  </section>
+
+  <section class="card" aria-labelledby="h-tasks">
+    <h2 id="h-tasks">По задачам</h2>
+    <p class="sub">Минуты и стоимость первой версии. Выделено самое быстрое решение в строке.</p>
+    <div class="table-wrap"><table class="tasks" id="tasks"></table></div>
+  </section>
+
+  <section class="card" aria-labelledby="h-missing">
+    <h2 id="h-missing">Без данных</h2>
+    <ul class="missing" id="missing"></ul>
+  </section>
+
+  <section class="card" aria-labelledby="h-method">
+    <h2 id="h-method">Как считали</h2>
+    <ul class="method" id="method"></ul>
+    <div class="table-wrap"><table id="prices"></table></div>
+  </section>
+</main>
+<div class="tooltip" id="tooltip" hidden></div>
+
+<script src="manifest.js"></script>
+<script src="assets/shell.js"></script>
+<script src="assets/compare-data.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var D = window.COMPARE_DATA;
+  var TASKS = window.TASKS || [];
+  var SVGNS = 'http://www.w3.org/2000/svg';
+
+  // ---------- формат ----------
+  var nf0 = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 0 });
+  var nf1 = new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  var nf2 = new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  function fmtMin(v) { return (v >= 10 ? nf0.format(v) : nf1.format(v)) + ' мин'; }
+  function fmtUsd(v) { return '$' + (v >= 100 ? nf0.format(v) : nf2.format(v)); }
+  function fmtTok(v) {
+    if (v >= 1e6) return nf1.format(v / 1e6) + ' млн';
+    if (v >= 1e3) return nf0.format(v / 1e3) + ' тыс.';
+    return nf0.format(v);
+  }
+  function fmtPct(v) { return nf0.format(v * 100) + '%'; }
+  function fmtPrice(v) { return v ? '$' + (v < 1 ? nf2.format(v) : String(v).replace('.', ',')) : '—'; }
+
+  function median(a) {
+    if (!a.length) return NaN;
+    var s = a.slice().sort(function (x, y) { return x - y; });
+    var m = s.length >> 1;
+    return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+  }
+  function sum(a) { return a.reduce(function (x, y) { return x + y; }, 0); }
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function svg(tag, attrs, parent) {
+    var e = document.createElementNS(SVGNS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  var taskTitle = {};
+  TASKS.forEach(function (t) { taskTitle[t.id] = t.title; });
+
+  // ---------- порядок моделей: как в переключателе оболочки, свежие первыми ----------
+  var allSolutions = [];
+  var seen = {};
+  TASKS.forEach(function (t) {
+    t.solutions.forEach(function (s) { if (!seen[s.slug]) { seen[s.slug] = 1; allSolutions.push(s); } });
+  });
+  var order = window.VisualShell.groupSolutions(allSolutions)
+    .reduce(function (acc, g) { return acc.concat(g.items.map(function (it) { return it.solution.slug; })); }, []);
+
+  var modelBySlug = {};
+  D.models.forEach(function (m) { modelBySlug[m.slug] = m; });
+
+  // ---------- агрегаты ----------
+  function runAll(r) {
+    return r.v1.cost_usd + (r.revision ? r.revision.cost_usd || 0 : 0) +
+      sum(r.restarts.map(function (x) { return x.cost_usd; }));
+  }
+
+  function compCost(r) {
+    var p = D.pricing[r.model_id];
+    var t = r.v1.tokens;
+    return {
+      input: t.input * p.input / 1e6,
+      cw: (t.cache_write_5m * p.cache_write_5m + t.cache_write_1h * p.cache_write_1h) / 1e6,
+      cr: t.cache_read * p.cache_read / 1e6,
+      out: t.output * p.output / 1e6
+    };
+  }
+
+  var stats = order.filter(function (slug) {
+    return D.runs.some(function (r) { return r.slug === slug; });
+  }).map(function (slug) {
+    var runs = D.runs.filter(function (r) { return r.slug === slug; });
+    var clean = runs.filter(function (r) { return r.shared === 1; });
+    var sharedSessions = {};
+    runs.forEach(function (r) { if (r.shared > 1) sharedSessions[r.session_key] = r; });
+    var sharedList = Object.keys(sharedSessions).map(function (k) { return sharedSessions[k]; });
+    var comp = { input: 0, cw: 0, cr: 0, out: 0 };
+    clean.forEach(function (r) { var c = compCost(r); for (var k in comp) comp[k] += c[k]; });
+    return {
+      slug: slug,
+      label: modelBySlug[slug] ? modelBySlug[slug].label : slug,
+      runs: runs,
+      clean: clean,
+      n: clean.length,
+      sharedTasks: runs.length - clean.length,
+      medMin: median(clean.map(function (r) { return r.v1.minutes; })),
+      medV1: median(clean.map(function (r) { return r.v1.cost_usd; })),
+      medWithRev: median(clean.map(function (r) { return r.v1.cost_usd + (r.revision ? r.revision.cost_usd || 0 : 0); })),
+      total: sum(clean.map(runAll)) + sum(sharedList.map(runAll)),
+      restartsUsd: sum(runs.map(function (r) { return sum(r.restarts.map(function (x) { return x.cost_usd; })); })),
+      medOut: median(clean.map(function (r) { return r.v1.tokens.output; })),
+      comp: comp
+    };
+  });
+
+  // ---------- шапка и выводы ----------
+  var withData = D.models.filter(function (m) { return m.tasks_with_data > 0; }).length;
+  document.getElementById('meta').textContent =
+    'Данные на ' + D.generated.split('-').reverse().join('.') + '. Есть по ' + withData + ' моделям из ' + D.models.length + '.';
+
+  (function findings() {
+    var ul = document.getElementById('findings');
+    var byMin = stats.slice().sort(function (a, b) { return a.medMin - b.medMin; });
+    var byUsd = stats.slice().sort(function (a, b) { return a.medV1 - b.medV1; });
+    var fast = byMin[0], slow = byMin[byMin.length - 1];
+    var cheap = byUsd[0], dear = byUsd[byUsd.length - 1];
+
+    function li(parts) {
+      var l = el('li');
+      parts.forEach(function (p) { l.appendChild(typeof p === 'string' ? document.createTextNode(p) : p); });
+      ul.appendChild(l);
+    }
+    li(['Быстрее всех первую версию сдаёт ', el('b', null, fast.label), ': медиана ' + fmtMin(fast.medMin) + '. Дольше всех — ',
+      el('b', null, slow.label), ', ' + fmtMin(slow.medMin) + '.']);
+    li(['Дешевле всех ', el('b', null, cheap.label), ': ' + fmtUsd(cheap.medV1) + ' за задачу. Дороже всех — ',
+      el('b', null, dear.label), ', ' + fmtUsd(dear.medV1) + ', в ' + nf0.format(dear.medV1 / cheap.medV1) + ' раз больше.']);
+
+    var claude = stats.filter(function (s) { return /^Claude/.test(s.label); });
+    if (claude.length) {
+      var parts = ['Доля выходных токенов в стоимости у Claude: '];
+      claude.forEach(function (s, i) {
+        var tot = s.comp.input + s.comp.cw + s.comp.cr + s.comp.out;
+        if (i) parts.push(i === claude.length - 1 ? ' и ' : ', ');
+        parts.push(el('b', null, s.label.replace(/^Claude /, '')));
+        parts.push(' — ' + fmtPct(s.comp.out / tot));
+      });
+      parts.push('. Остальное — работа с кешем контекста.');
+      li(parts);
+    }
+    var maxN = Math.max.apply(null, stats.map(function (s) { return s.n; }));
+    stats.filter(function (s) { return s.n < maxN / 2; }).forEach(function (s) {
+      li([el('b', null, s.label), ' решил пока ' + s.n + ' задач из ' + maxN + ', поэтому его медианы посчитаны по другому набору задач. Честнее сравнивать по строкам таблицы «По задачам».']);
+    });
+    var missing = D.models.filter(function (m) { return m.tasks_with_data === 0; });
+    if (missing.length) {
+      li(['Нет данных по ' + missing.length + ' моделям: их логи удалены до того, как появились бэкапы. Список — внизу страницы.']);
+    }
+  })();
+
+  // ---------- итоговая таблица ----------
+  (function summary() {
+    var t = document.getElementById('summary');
+    var head = el('thead');
+    var hr = el('tr');
+    ['Модель', 'Задач с данными', 'Минут до 1-й версии', '$ за задачу, 1-я версия', '$ за задачу с доработкой', 'Потрачено всего', 'Выходных токенов на задачу']
+      .forEach(function (h) { hr.appendChild(el('th', null, h)); });
+    head.appendChild(hr);
+    t.appendChild(head);
+    var body = el('tbody');
+    stats.forEach(function (s) {
+      var m = modelBySlug[s.slug];
+      var tr = el('tr');
+      var tdM = el('td', 'model', s.label);
+      if (s.sharedTasks) tdM.appendChild(el('span', 'note', s.sharedTasks + ' задачи в общей сессии не входят в медианы'));
+      tr.appendChild(tdM);
+      tr.appendChild(el('td', null, s.n + (s.sharedTasks ? ' + ' + s.sharedTasks : '') + ' из ' + m.tasks_in_manifest));
+      tr.appendChild(el('td', null, fmtMin(s.medMin)));
+      tr.appendChild(el('td', null, fmtUsd(s.medV1)));
+      tr.appendChild(el('td', null, fmtUsd(s.medWithRev)));
+      var tdT = el('td', null, fmtUsd(s.total));
+      if (s.restartsUsd > 0.005) tdT.appendChild(el('span', 'note', 'из них перезапуски ' + fmtUsd(s.restartsUsd)));
+      tr.appendChild(tdT);
+      tr.appendChild(el('td', null, fmtTok(s.medOut)));
+      body.appendChild(tr);
+    });
+    t.appendChild(body);
+  })();
+
+  // ---------- подсказка ----------
+  var tip = document.getElementById('tooltip');
+  function showTip(target, lines) {
+    tip.textContent = '';
+    tip.appendChild(el('span', 'tv', lines[0]));
+    if (lines[1]) tip.appendChild(el('span', 'tl', lines[1]));
+    if (lines[2]) tip.appendChild(el('span', 'tm', lines[2]));
+    tip.hidden = false;
+    var r = target.getBoundingClientRect();
+    var tw = tip.offsetWidth, th = tip.offsetHeight;
+    var x = Math.min(Math.max(8, r.left + r.width / 2 - tw / 2), window.innerWidth - tw - 8);
+    var y = r.top - th - 8;
+    if (y < 8) y = r.bottom + 8;
+    tip.style.left = x + 'px';
+    tip.style.top = y + 'px';
+  }
+  function hideTip() { tip.hidden = true; }
+  function bindTip(node, lines) {
+    node.setAttribute('tabindex', '0');
+    node.setAttribute('aria-label', lines.filter(Boolean).join(', '));
+    node.addEventListener('pointerenter', function () { showTip(node, lines); });
+    node.addEventListener('pointerleave', hideTip);
+    node.addEventListener('focus', function () { showTip(node, lines); });
+    node.addEventListener('blur', hideTip);
+  }
+
+  // ---------- точечная диаграмма по моделям ----------
+  function strip(host, cfg) {
+    host.textContent = '';
+    var W = Math.max(320, host.clientWidth);
+    var labelW = Math.min(150, Math.round(W * 0.26));
+    var medW = 78;
+    var x0 = labelW + 8, x1 = W - medW - 8;
+    var rowH = 44, top = 6, axisH = 26;
+    var H = top + cfg.rows.length * rowH + axisH;
+    var s = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': cfg.aria });
+    s.style.height = H + 'px';
+
+    var d0 = cfg.domain[0], d1 = cfg.domain[1];
+    function X(v) {
+      if (cfg.log) {
+        var lv = Math.log10(Math.min(Math.max(v, d0), d1));
+        return x0 + (lv - Math.log10(d0)) / (Math.log10(d1) - Math.log10(d0)) * (x1 - x0);
+      }
+      return x0 + (Math.min(Math.max(v, d0), d1) - d0) / (d1 - d0) * (x1 - x0);
+    }
+
+    var yAxis = top + cfg.rows.length * rowH;
+    cfg.ticks.forEach(function (tv) {
+      var x = X(tv);
+      svg('line', { x1: x, x2: x, y1: top, y2: yAxis, stroke: 'var(--grid)', 'stroke-width': 1 }, s);
+      var tx = svg('text', { x: x, y: yAxis + 17, 'text-anchor': 'middle', fill: 'var(--muted)', 'font-size': 11.5 }, s);
+      tx.textContent = cfg.tickFmt(tv);
+    });
+    svg('line', { x1: x0, x2: x1, y1: yAxis, y2: yAxis, stroke: 'var(--line)', 'stroke-width': 1 }, s);
+
+    cfg.rows.forEach(function (row, ri) {
+      var cy = top + ri * rowH + rowH / 2;
+      if (ri) svg('line', { x1: 0, x2: W, y1: top + ri * rowH, y2: top + ri * rowH, stroke: 'var(--line-soft)', 'stroke-width': 1 }, s);
+      var lt = svg('text', { x: 0, y: cy + 4.5, fill: 'var(--text)', 'font-size': 13, 'font-weight': 650 }, s);
+      lt.textContent = row.label;
+
+      var marks = svg('g', {}, s);
+      var hits = svg('g', {}, s);
+      row.values.forEach(function (p, i) {
+        var cx = X(p.v);
+        var cyj = cy + ((i * 7) % 5 - 2) * 3.4;
+        svg('circle', { cx: cx, cy: cyj, r: 4.5, fill: 'var(--accent)', 'fill-opacity': 0.85, stroke: 'var(--panel)', 'stroke-width': 2 }, marks);
+        var h = svg('circle', { cx: cx, cy: cyj, r: 11, class: 'hit' }, hits);
+        bindTip(h, [cfg.valFmt(p.v), taskTitle[p.task] || p.task, row.label]);
+      });
+
+      var mx = X(row.median);
+      svg('line', { x1: mx, x2: mx, y1: cy - 13, y2: cy + 13, stroke: 'var(--text)', 'stroke-width': 2, 'stroke-linecap': 'round' }, s);
+      var mt = svg('text', { x: W, y: cy + 4.5, 'text-anchor': 'end', fill: 'var(--text)', 'font-size': 13, 'font-weight': 700 }, s);
+      mt.textContent = cfg.valFmt(row.median);
+    });
+
+    host.appendChild(s);
+  }
+
+  function drawStrips() {
+    var rows = stats.map(function (s) {
+      return {
+        label: s.label,
+        median: s.medMin,
+        values: s.clean.map(function (r) { return { v: r.v1.minutes, task: r.task }; })
+      };
+    });
+    var maxMin = Math.max.apply(null, stats.map(function (s) { return Math.max.apply(null, s.clean.map(function (r) { return r.v1.minutes; })); }));
+    var dMax = Math.ceil(maxMin / 15) * 15;
+    var ticks = [];
+    for (var v = 0; v <= dMax; v += 15) ticks.push(v);
+    strip(document.getElementById('chart-time'), {
+      rows: rows, domain: [0, dMax], ticks: ticks,
+      tickFmt: function (v) { return nf0.format(v); },
+      valFmt: fmtMin,
+      aria: 'Минут до первой версии по задачам, для каждой модели'
+    });
+
+    var costRows = stats.map(function (s) {
+      return {
+        label: s.label,
+        median: s.medV1,
+        values: s.clean.map(function (r) { return { v: r.v1.cost_usd, task: r.task }; })
+      };
+    });
+    strip(document.getElementById('chart-cost'), {
+      rows: costRows, domain: [0.03, 15], ticks: [0.05, 0.1, 0.5, 1, 5, 10], log: true,
+      tickFmt: function (v) { return '$' + String(v).replace('.', ','); },
+      valFmt: fmtUsd,
+      aria: 'Стоимость первой версии по задачам, для каждой модели, логарифмическая шкала'
+    });
+  }
+
+  // ---------- состав стоимости ----------
+  var PARTS = [
+    { key: 'input', label: 'Вход без кеша', color: 'var(--s-input)' },
+    { key: 'cw', label: 'Запись в кеш', color: 'var(--s-cw)' },
+    { key: 'cr', label: 'Чтение кеша', color: 'var(--s-cr)' },
+    { key: 'out', label: 'Выход', color: 'var(--s-out)' }
+  ];
+
+  (function legend() {
+    var ul = document.getElementById('comp-legend');
+    PARTS.forEach(function (p) {
+      var li = el('li');
+      var sw = el('i');
+      sw.style.background = p.color;
+      li.appendChild(sw);
+      li.appendChild(document.createTextNode(p.label));
+      ul.appendChild(li);
+    });
+  })();
+
+  function drawComp() {
+    var host = document.getElementById('chart-comp');
+    host.textContent = '';
+    var W = Math.max(320, host.clientWidth);
+    var labelW = Math.min(150, Math.round(W * 0.26));
+    var x0 = labelW + 8, x1 = W;
+    var rowH = 38, barH = 20;
+    var H = stats.length * rowH;
+    var s = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Состав стоимости первой версии по моделям' });
+    s.style.height = H + 'px';
+    var defs = svg('defs', {}, s);
+
+    stats.forEach(function (st, ri) {
+      var cy = ri * rowH + rowH / 2;
+      var lt = svg('text', { x: 0, y: cy + 4.5, fill: 'var(--text)', 'font-size': 13, 'font-weight': 650 }, s);
+      lt.textContent = st.label;
+
+      var clipId = 'clip-' + ri;
+      var cp = svg('clipPath', { id: clipId }, defs);
+      svg('rect', { x: x0, y: cy - barH / 2, width: x1 - x0, height: barH, rx: 4 }, cp);
+      var g = svg('g', { 'clip-path': 'url(#' + clipId + ')' }, s);
+
+      var tot = st.comp.input + st.comp.cw + st.comp.cr + st.comp.out;
+      var x = x0;
+      var visible = PARTS.filter(function (p) { return st.comp[p.key] / tot >= 0.001; });
+      visible.forEach(function (p, i) {
+        var share = st.comp[p.key] / tot;
+        var w = share * (x1 - x0);
+        var gap = i < visible.length - 1 ? 2 : 0;
+        var rw = Math.max(0.5, w - gap);
+        var seg = svg('rect', { x: x, y: cy - barH / 2, width: rw, height: barH, fill: p.color }, g);
+        bindTip(seg, [fmtPct(share) + ' · ' + fmtUsd(st.comp[p.key]), p.label, st.label]);
+        if (rw >= 40) {
+          var tt = svg('text', { x: x + rw / 2, y: cy + 4.2, 'text-anchor': 'middle', fill: 'var(--ink-on-fill)', 'font-size': 11.5, 'font-weight': 700, 'pointer-events': 'none' }, s);
+          tt.textContent = fmtPct(share);
+        }
+        x += w;
+      });
+    });
+    host.appendChild(s);
+  }
+
+  // ---------- таблица по задачам ----------
+  (function tasksTable() {
+    var t = document.getElementById('tasks');
+    var head = el('thead');
+    var hr = el('tr');
+    hr.appendChild(el('th', null, 'Задача'));
+    stats.forEach(function (s) { hr.appendChild(el('th', null, s.label)); });
+    head.appendChild(hr);
+    t.appendChild(head);
+
+    var body = el('tbody');
+    TASKS.forEach(function (task) {
+      var tr = el('tr');
+      tr.appendChild(el('td', 'task', task.title));
+      var cells = stats.map(function (s) {
+        var r = s.runs.filter(function (x) { return x.task === task.id; })[0];
+        return { s: s, r: r };
+      });
+      var best = Math.min.apply(null, cells.filter(function (c) { return c.r && c.r.shared === 1; }).map(function (c) { return c.r.v1.minutes; }));
+      cells.forEach(function (c) {
+        var td = el('td');
+        if (!c.r) {
+          td.className = 'dash';
+          td.textContent = '—';
+        } else if (c.r.shared > 1) {
+          td.className = 'dash';
+          td.textContent = 'общая сессия';
+          td.title = 'Решена в одной сессии с ещё ' + (c.r.shared - 1) + ' задачами, затраты не разделить';
+        } else {
+          if (c.r.v1.minutes === best) td.className = 'best';
+          td.appendChild(el('div', 'c-min', fmtMin(c.r.v1.minutes)));
+          td.appendChild(el('div', 'c-usd', fmtUsd(c.r.v1.cost_usd)));
+          var f = c.r.flags;
+          var marks = [];
+          if (c.r.restarts.length) marks.push('был перезапуск');
+          if (f.indexOf('session_limit') !== -1) marks.push('обрыв по лимиту');
+          if (f.indexOf('idle_removed') !== -1) marks.push('простой вычтен');
+          if (marks.length) td.appendChild(el('div', 'c-flag', marks.join(', ')));
+        }
+        tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+    t.appendChild(body);
+  })();
+
+  // ---------- без данных ----------
+  (function missing() {
+    var ul = document.getElementById('missing');
+    order.forEach(function (slug) {
+      var m = modelBySlug[slug];
+      if (!m || m.tasks_with_data > 0) return;
+      var li = el('li');
+      li.appendChild(el('b', null, m.label));
+      li.appendChild(el('span', null, m.why));
+      ul.appendChild(li);
+    });
+  })();
+
+  // ---------- методика ----------
+  (function method() {
+    var ul = document.getElementById('method');
+    function li(text) { ul.appendChild(el('li', null, text)); }
+    li('Считаются только исполнители — субагенты и сессии Codex, которые писали решение. Работа оркестратора не входит, справочно она стоила ' + fmtUsd(D.orchestrator_usd) + '.');
+    li('Первая версия — от первой записи исполнителя до его последнего ответа перед сообщением критики. Служебное продолжение после упора в лимит длины ответа входит в первую версию.');
+    li('В логе Claude Code одна реплика API занимает несколько строк, и счётчик выходных токенов растёт от строки к строке. Берётся последняя строка каждой реплики, повторы не считаются.');
+    li('У Codex объём входа включает кешированную часть, а выход включает токены рассуждения. Кешированная часть считается по цене чтения кеша.');
+    li('Перезапуск — повторный запуск той же задачи после обрыва. В медианы идёт полный прогон, а затраты на оборванный входят только в «Потрачено всего».');
+    stats.forEach(function (s) {
+      var cut = s.clean.filter(function (r) { return r.flags.indexOf('session_limit') !== -1; }).length;
+      if (cut) li('У ' + s.label + ' первые версии ' + cut + ' задач оборвались на лимите аккаунта, обычно уже после записи файлов. Их время — нижняя граница, в таблице они помечены «обрыв по лимиту».');
+    });
+    li('Для GPT-5.5 Codex над велосипедом из времени вычтена пауза ожидания в 700 минут. Активная работа заняла около 8 минут.');
+    li('Стоимость — оценка по прейскуранту API, а не реальные списания по подписке. Надбавки OpenAI за запись в кеш и за контекст длиннее 272 тыс. токенов не учтены: Codex не пишет эти объёмы в лог.');
+
+    var t = document.getElementById('prices');
+    var head = el('thead');
+    var hr = el('tr');
+    ['Модель API', 'Вход', 'Чтение кеша', 'Запись в кеш, 5 мин', 'Выход', 'Источник'].forEach(function (h) { hr.appendChild(el('th', null, h)); });
+    head.appendChild(hr);
+    t.appendChild(head);
+    var body = el('tbody');
+    var used = {};
+    D.runs.forEach(function (r) { used[r.model_id] = 1; });
+    Object.keys(D.pricing).filter(function (k) { return used[k]; }).forEach(function (k) {
+      var p = D.pricing[k];
+      var tr = el('tr');
+      tr.appendChild(el('td', 'model', k));
+      tr.appendChild(el('td', null, fmtPrice(p.input)));
+      tr.appendChild(el('td', null, fmtPrice(p.cache_read)));
+      tr.appendChild(el('td', null, fmtPrice(p.cache_write_5m)));
+      tr.appendChild(el('td', null, fmtPrice(p.output)));
+      var src = el('td');
+      if (/^https?:/.test(p.source)) {
+        var a = el('a', 'src', p.source.replace(/^https?:\/\//, ''));
+        a.href = p.source;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        src.appendChild(a);
+      } else {
+        src.textContent = p.source;
+      }
+      src.style.textAlign = 'left';
+      tr.appendChild(src);
+      body.appendChild(tr);
+    });
+    t.appendChild(body);
+    var cap = el('caption', null, 'Цены в долларах за миллион токенов');
+    cap.style.cssText = 'caption-side: top; text-align: left; color: var(--muted); font-size: 12px; padding: 0 0 6px;';
+    t.insertBefore(cap, t.firstChild);
+  })();
+
+  function drawCharts() { hideTip(); drawStrips(); drawComp(); }
+  drawCharts();
+  var raf = 0;
+  window.addEventListener('resize', function () {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(drawCharts);
+  });
+  window.addEventListener('scroll', hideTip, { passive: true });
+})();
+</script>
+</body>
+</html>
