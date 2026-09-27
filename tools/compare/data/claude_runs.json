@@ -1,0 +1,1625 @@
+[
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/44e0126f-d33c-4d6a-95ed-396ee8fc451a/subagents/agent-a82458c07065715e2.jsonl",
+  "agent_id": "agent-a82458c07065715e2",
+  "description": "Opus 5.5: SVG шахматный конь",
+  "task": "svg-chess-knight",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-23T10:26:59.743000+00:00",
+  "cutoff_ts": "2026-09-23T10:40:39.422000+00:00",
+  "v1": {
+   "minutes": 13.7,
+   "tool_calls": 14,
+   "api_calls": 10,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 20,
+    "output": 84068,
+    "cache_write_5m": 207018,
+    "cache_write_1h": 0,
+    "cache_read": 1004165
+   }
+  },
+  "flags": [],
+  "revision": {
+   "kind": "revision",
+   "minutes": 7.2,
+   "tool_calls": 22,
+   "api_calls": 15,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 32,
+    "output": 34318,
+    "cache_write_5m": 64730,
+    "cache_write_1h": 0,
+    "cache_read": 2870343
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/44e0126f-d33c-4d6a-95ed-396ee8fc451a/subagents/agent-ae7a4e76680b18be4.jsonl",
+  "agent_id": "agent-ae7a4e76680b18be4",
+  "description": "Opus 5.5: SVG велосипед",
+  "task": "svg-bicycle",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-23T10:27:06.780000+00:00",
+  "cutoff_ts": "2026-09-23T11:00:59.238000+00:00",
+  "v1": {
+   "minutes": 33.9,
+   "tool_calls": 13,
+   "api_calls": 14,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 28,
+    "output": 207660,
+    "cache_write_5m": 144017,
+    "cache_write_1h": 0,
+    "cache_read": 1423489
+   }
+  },
+  "flags": [
+   "max_tokens",
+   "auto_continue_x1"
+  ],
+  "revision": null,
+  "session_label": "opus-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/9076c8f3-b929-4c43-8885-65c23f80f7dd/subagents/agent-a30a5283541a9526e.jsonl",
+  "agent_id": "agent-a30a5283541a9526e",
+  "description": "Opus 5.5: analog-clock",
+  "task": "analog-clock",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-23T13:17:51.844000+00:00",
+  "cutoff_ts": "2026-09-23T13:41:00.455000+00:00",
+  "v1": {
+   "minutes": 23.1,
+   "tool_calls": 17,
+   "api_calls": 14,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 28,
+    "output": 148646,
+    "cache_write_5m": 264459,
+    "cache_write_1h": 0,
+    "cache_read": 2385334
+   }
+  },
+  "flags": [],
+  "revision": {
+   "kind": "revision",
+   "minutes": 1.1,
+   "tool_calls": 9,
+   "api_calls": 3,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 8,
+    "output": 5290,
+    "cache_write_5m": 7440,
+    "cache_write_1h": 0,
+    "cache_read": 703066
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5.5-sessB"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/9076c8f3-b929-4c43-8885-65c23f80f7dd/subagents/agent-a422c54e08cfd46ef.jsonl",
+  "agent_id": "agent-a422c54e08cfd46ef",
+  "description": "Opus 5.5: procedural-walker",
+  "task": "procedural-walker",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-23T13:17:43.230000+00:00",
+  "cutoff_ts": "2026-09-23T13:56:20.506000+00:00",
+  "v1": {
+   "minutes": 38.6,
+   "tool_calls": 20,
+   "api_calls": 16,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 32,
+    "output": 238481,
+    "cache_write_5m": 240718,
+    "cache_write_1h": 0,
+    "cache_read": 1830126
+   }
+  },
+  "flags": [
+   "max_tokens",
+   "auto_continue_x1"
+  ],
+  "revision": {
+   "kind": "revision",
+   "minutes": 3.6,
+   "tool_calls": 10,
+   "api_calls": 6,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 14,
+    "output": 20352,
+    "cache_write_5m": 172296,
+    "cache_write_1h": 0,
+    "cache_read": 970030
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5.5-sessB"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/9076c8f3-b929-4c43-8885-65c23f80f7dd/subagents/agent-a6f13d63dcd2a112c.jsonl",
+  "agent_id": "agent-a6f13d63dcd2a112c",
+  "description": "Opus 5.5: earth-globe",
+  "task": "earth-globe",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-23T13:18:00.039000+00:00",
+  "cutoff_ts": "2026-09-23T14:44:22.744000+00:00",
+  "v1": {
+   "minutes": 86.4,
+   "tool_calls": 46,
+   "api_calls": 31,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 62,
+    "output": 379903,
+    "cache_write_5m": 400946,
+    "cache_write_1h": 0,
+    "cache_read": 7593841
+   }
+  },
+  "flags": [
+   "max_tokens",
+   "auto_continue_x1"
+  ],
+  "revision": {
+   "kind": "revision",
+   "minutes": 1.6,
+   "tool_calls": 6,
+   "api_calls": 3,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 8,
+    "output": 7860,
+    "cache_write_5m": 344248,
+    "cache_write_1h": 0,
+    "cache_read": 680443
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5.5-sessB"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/9076c8f3-b929-4c43-8885-65c23f80f7dd/subagents/agent-aa7516b554084fce5.jsonl",
+  "agent_id": "agent-aa7516b554084fce5",
+  "description": "Opus 5.5: voxel-terrain",
+  "task": "voxel-terrain",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-23T13:19:52.883000+00:00",
+  "cutoff_ts": "2026-09-23T13:59:19.223000+00:00",
+  "v1": {
+   "minutes": 39.4,
+   "tool_calls": 14,
+   "api_calls": 12,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 24,
+    "output": 218179,
+    "cache_write_5m": 105218,
+    "cache_write_1h": 0,
+    "cache_read": 1242313
+   }
+  },
+  "flags": [
+   "max_tokens",
+   "auto_continue_x1"
+  ],
+  "revision": {
+   "kind": "revision",
+   "minutes": 5.4,
+   "tool_calls": 22,
+   "api_calls": 11,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 24,
+    "output": 28720,
+    "cache_write_5m": 161718,
+    "cache_write_1h": 0,
+    "cache_read": 1737314
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5.5-sessB"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/8fba026f-f739-4a0d-98ad-a0ee7fe7f0c3/subagents/agent-a476d2e4c5fff050a.jsonl",
+  "agent_id": "agent-a476d2e4c5fff050a",
+  "description": "Opus 5.5: Полярное сияние",
+  "task": "aurora",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-26T09:58:35.523000+00:00",
+  "cutoff_ts": "2026-09-26T10:55:39.896000+00:00",
+  "v1": {
+   "minutes": 57.1,
+   "tool_calls": 132,
+   "api_calls": 69,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 138,
+    "output": 250645,
+    "cache_write_5m": 406632,
+    "cache_write_1h": 0,
+    "cache_read": 19655699
+   }
+  },
+  "flags": [],
+  "revision": {
+   "kind": "revision",
+   "minutes": 18.5,
+   "tool_calls": 48,
+   "api_calls": 24,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 50,
+    "output": 32431,
+    "cache_write_5m": 415505,
+    "cache_write_1h": 0,
+    "cache_read": 9566245
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5.5-sessC"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/8fba026f-f739-4a0d-98ad-a0ee7fe7f0c3/subagents/agent-a63af61f3e98952ec.jsonl",
+  "agent_id": "agent-a63af61f3e98952ec",
+  "description": "Opus 5.5: Аквариум с рыбами",
+  "task": "aquarium",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-26T09:58:43.675000+00:00",
+  "cutoff_ts": "2026-09-26T10:46:21.174000+00:00",
+  "v1": {
+   "minutes": 47.6,
+   "tool_calls": 39,
+   "api_calls": 33,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 66,
+    "output": 280002,
+    "cache_write_5m": 263444,
+    "cache_write_1h": 0,
+    "cache_read": 5367767
+   }
+  },
+  "flags": [
+   "max_tokens",
+   "auto_continue_x1"
+  ],
+  "revision": {
+   "kind": "revision",
+   "minutes": 3.7,
+   "tool_calls": 26,
+   "api_calls": 12,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 26,
+    "output": 19246,
+    "cache_write_5m": 24323,
+    "cache_write_1h": 0,
+    "cache_read": 2785959
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5.5-sessC"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/8fba026f-f739-4a0d-98ad-a0ee7fe7f0c3/subagents/agent-aebc0cb13cd83d52d.jsonl",
+  "agent_id": "agent-aebc0cb13cd83d52d",
+  "description": "Opus 5.5: 3D-аквариум",
+  "task": "aquarium-3d",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-26T09:58:53.161000+00:00",
+  "cutoff_ts": "2026-09-26T10:55:05.646000+00:00",
+  "v1": {
+   "minutes": 56.2,
+   "tool_calls": 26,
+   "api_calls": 21,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 42,
+    "output": 347329,
+    "cache_write_5m": 328581,
+    "cache_write_1h": 0,
+    "cache_read": 4345349
+   }
+  },
+  "flags": [
+   "max_tokens",
+   "auto_continue_x1"
+  ],
+  "revision": {
+   "kind": "revision",
+   "minutes": 1.1,
+   "tool_calls": 10,
+   "api_calls": 7,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 16,
+    "output": 4966,
+    "cache_write_5m": 9172,
+    "cache_write_1h": 0,
+    "cache_read": 2012805
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5.5-sessC"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/8fba026f-f739-4a0d-98ad-a0ee7fe7f0c3/subagents/agent-afc887777346745b0.jsonl",
+  "agent_id": "agent-afc887777346745b0",
+  "description": "Opus 5.5: Солнечная система",
+  "task": "solar-system",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-26T09:58:27.873000+00:00",
+  "cutoff_ts": "2026-09-26T11:23:33.810000+00:00",
+  "v1": {
+   "minutes": 85.1,
+   "tool_calls": 117,
+   "api_calls": 73,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 146,
+    "output": 329860,
+    "cache_write_5m": 700859,
+    "cache_write_1h": 0,
+    "cache_read": 25954173
+   }
+  },
+  "flags": [],
+  "revision": {
+   "kind": "revision",
+   "minutes": 25.6,
+   "tool_calls": 20,
+   "api_calls": 18,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 38,
+    "output": 36592,
+    "cache_write_5m": 522045,
+    "cache_write_1h": 0,
+    "cache_read": 8622540
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5.5-sessC"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/4f72b4d0-6a55-466f-b928-366fd7d55dc0/subagents/agent-a1e3ff95b779d8738.jsonl",
+  "agent_id": "agent-a1e3ff95b779d8738",
+  "description": "Opus 5.5: Двойной маятник",
+  "task": "double-pendulum",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-27T07:17:06.540000+00:00",
+  "cutoff_ts": "2026-09-27T07:30:34.154000+00:00",
+  "v1": {
+   "minutes": 13.5,
+   "tool_calls": 12,
+   "api_calls": 13,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 26,
+    "output": 88017,
+    "cache_write_5m": 168239,
+    "cache_write_1h": 0,
+    "cache_read": 1553650
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5.5-sessD"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/4f72b4d0-6a55-466f-b928-366fd7d55dc0/subagents/agent-a4333d5aa51175471.jsonl",
+  "agent_id": "agent-a4333d5aa51175471",
+  "description": "Opus 5.5: Стая boids",
+  "task": "boids",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-27T06:46:48.365000+00:00",
+  "cutoff_ts": "2026-09-27T06:58:27.770000+00:00",
+  "v1": {
+   "minutes": 11.7,
+   "tool_calls": 16,
+   "api_calls": 14,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 28,
+    "output": 74643,
+    "cache_write_5m": 150585,
+    "cache_write_1h": 0,
+    "cache_read": 1456268
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5.5-sessD"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/4f72b4d0-6a55-466f-b928-366fd7d55dc0/subagents/agent-a6cf61ccea76d0560.jsonl",
+  "agent_id": "agent-a6cf61ccea76d0560",
+  "description": "Opus 5.5: Газетная полоса",
+  "task": "css-newspaper",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-27T07:21:28.788000+00:00",
+  "cutoff_ts": "2026-09-27T07:51:49.409000+00:00",
+  "v1": {
+   "minutes": 30.3,
+   "tool_calls": 15,
+   "api_calls": 15,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 30,
+    "output": 183111,
+    "cache_write_5m": 124859,
+    "cache_write_1h": 0,
+    "cache_read": 1179385
+   }
+  },
+  "flags": [
+   "max_tokens",
+   "auto_continue_x1"
+  ],
+  "revision": {
+   "kind": "revision",
+   "minutes": 1.9,
+   "tool_calls": 8,
+   "api_calls": 7,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 16,
+    "output": 10128,
+    "cache_write_5m": 13943,
+    "cache_write_1h": 0,
+    "cache_read": 809612
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5.5-sessD"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/4f72b4d0-6a55-466f-b928-366fd7d55dc0/subagents/agent-a994d46529c654322.jsonl",
+  "agent_id": "agent-a994d46529c654322",
+  "description": "Opus 5.5: 2D-свет и тени",
+  "task": "light-2d",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-27T07:05:35.451000+00:00",
+  "cutoff_ts": "2026-09-27T07:15:44.089000+00:00",
+  "v1": {
+   "minutes": 10.1,
+   "tool_calls": 8,
+   "api_calls": 9,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 18,
+    "output": 67676,
+    "cache_write_5m": 136792,
+    "cache_write_1h": 0,
+    "cache_read": 824573
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5.5-sessD"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/4f72b4d0-6a55-466f-b928-366fd7d55dc0/subagents/agent-aa9a3cd65f7d7149c.jsonl",
+  "agent_id": "agent-aa9a3cd65f7d7149c",
+  "description": "Opus 5.5: 3D-поверхность функции",
+  "task": "surface-plot",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-27T07:44:59.039000+00:00",
+  "cutoff_ts": "2026-09-27T08:01:12.825000+00:00",
+  "v1": {
+   "minutes": 16.2,
+   "tool_calls": 11,
+   "api_calls": 11,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 22,
+    "output": 103283,
+    "cache_write_5m": 172512,
+    "cache_write_1h": 0,
+    "cache_read": 1361393
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5.5-sessD"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/4f72b4d0-6a55-466f-b928-366fd7d55dc0/subagents/agent-ac90eee0a3a4f03d6.jsonl",
+  "agent_id": "agent-ac90eee0a3a4f03d6",
+  "description": "Opus 5.5: 3D-тело (софт-рендер)",
+  "task": "solid-3d",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-27T07:40:44.318000+00:00",
+  "cutoff_ts": "2026-09-27T07:58:51.536000+00:00",
+  "v1": {
+   "minutes": 18.1,
+   "tool_calls": 24,
+   "api_calls": 13,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 26,
+    "output": 113304,
+    "cache_write_5m": 200635,
+    "cache_write_1h": 0,
+    "cache_read": 1820880
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5.5-sessD"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/4f72b4d0-6a55-466f-b928-366fd7d55dc0/subagents/agent-ad74b05d3ef9d7183.jsonl",
+  "agent_id": "agent-ad74b05d3ef9d7183",
+  "description": "Opus 5.5: Ткань (верлет)",
+  "task": "verlet-cloth",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-27T06:46:55.592000+00:00",
+  "cutoff_ts": "2026-09-27T07:02:08.306000+00:00",
+  "v1": {
+   "minutes": 15.2,
+   "tool_calls": 12,
+   "api_calls": 12,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 24,
+    "output": 96879,
+    "cache_write_5m": 167225,
+    "cache_write_1h": 0,
+    "cache_read": 1415706
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5.5-sessD"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/4f72b4d0-6a55-466f-b928-366fd7d55dc0/subagents/agent-ad96f9d2aaf968bc0.jsonl",
+  "agent_id": "agent-ad96f9d2aaf968bc0",
+  "description": "Opus 5.5: Мандельброт",
+  "task": "mandelbrot",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-27T06:46:33.956000+00:00",
+  "cutoff_ts": "2026-09-27T07:16:11.527000+00:00",
+  "v1": {
+   "minutes": 29.6,
+   "tool_calls": 7,
+   "api_calls": 8,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 16,
+    "output": 184083,
+    "cache_write_5m": 126082,
+    "cache_write_1h": 0,
+    "cache_read": 518701
+   }
+  },
+  "flags": [
+   "max_tokens",
+   "auto_continue_x1"
+  ],
+  "revision": null,
+  "session_label": "opus-5.5-sessD"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/4f72b4d0-6a55-466f-b928-366fd7d55dc0/subagents/agent-add3da034d2e4df12.jsonl",
+  "agent_id": "agent-add3da034d2e4df12",
+  "description": "Opus 5.5: Система Лоренца",
+  "task": "lorenz",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-27T06:46:41.051000+00:00",
+  "cutoff_ts": "2026-09-27T06:59:27.300000+00:00",
+  "v1": {
+   "minutes": 12.8,
+   "tool_calls": 12,
+   "api_calls": 11,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 22,
+    "output": 79291,
+    "cache_write_5m": 149322,
+    "cache_write_1h": 0,
+    "cache_read": 1146424
+   }
+  },
+  "flags": [],
+  "revision": {
+   "kind": "revision",
+   "minutes": 2.5,
+   "tool_calls": 8,
+   "api_calls": 4,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 8,
+    "output": 15237,
+    "cache_write_5m": 17131,
+    "cache_write_1h": 0,
+    "cache_read": 563303
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5.5-sessD"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/4f72b4d0-6a55-466f-b928-366fd7d55dc0/subagents/agent-aed5f55cdc719103a.jsonl",
+  "agent_id": "agent-aed5f55cdc719103a",
+  "description": "Opus 5.5: Поток частиц 3D",
+  "task": "particle-flow",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-27T07:52:33.967000+00:00",
+  "cutoff_ts": "2026-09-27T08:23:53.448000+00:00",
+  "v1": {
+   "minutes": 31.3,
+   "tool_calls": 40,
+   "api_calls": 38,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 76,
+    "output": 172726,
+    "cache_write_5m": 289710,
+    "cache_write_1h": 0,
+    "cache_read": 7869441
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5.5-sessD"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/4f72b4d0-6a55-466f-b928-366fd7d55dc0/subagents/agent-af5bbe47b9abca3e9.jsonl",
+  "agent_id": "agent-af5bbe47b9abca3e9",
+  "description": "Opus 5.5: Падающий песок",
+  "task": "falling-sand",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-27T06:59:47.034000+00:00",
+  "cutoff_ts": "2026-09-27T07:17:58.529000+00:00",
+  "v1": {
+   "minutes": 18.2,
+   "tool_calls": 18,
+   "api_calls": 11,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 22,
+    "output": 110058,
+    "cache_write_5m": 181793,
+    "cache_write_1h": 0,
+    "cache_read": 1410032
+   }
+  },
+  "flags": [],
+  "revision": {
+   "kind": "revision",
+   "minutes": 6.8,
+   "tool_calls": 27,
+   "api_calls": 12,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 24,
+    "output": 36015,
+    "cache_write_5m": 182804,
+    "cache_write_1h": 0,
+    "cache_read": 2194050
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5.5-sessD"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/4f72b4d0-6a55-466f-b928-366fd7d55dc0/subagents/agent-aff0104561625b54f.jsonl",
+  "agent_id": "agent-aff0104561625b54f",
+  "description": "Opus 5.5: Рейкастер-лабиринт",
+  "task": "raycaster-maze",
+  "slug": "opus-5.5",
+  "start_ts": "2026-09-27T07:03:16.279000+00:00",
+  "cutoff_ts": "2026-09-27T07:23:21.346000+00:00",
+  "v1": {
+   "minutes": 20.1,
+   "tool_calls": 35,
+   "api_calls": 30,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 60,
+    "output": 117668,
+    "cache_write_5m": 199645,
+    "cache_write_1h": 0,
+    "cache_read": 4564529
+   }
+  },
+  "flags": [],
+  "revision": {
+   "kind": "revision",
+   "minutes": 19.3,
+   "tool_calls": 33,
+   "api_calls": 28,
+   "model": "claude-opus-5-5",
+   "tokens": {
+    "input": 58,
+    "output": 36775,
+    "cache_write_5m": 224158,
+    "cache_write_1h": 0,
+    "cache_read": 5875349
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5.5-sessD"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a049d6ca5db71c9ac.jsonl",
+  "agent_id": "agent-a049d6ca5db71c9ac",
+  "description": "Решение lorenz",
+  "task": "lorenz",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T06:55:02.338000+00:00",
+  "cutoff_ts": "2026-08-16T07:06:13.410000+00:00",
+  "v1": {
+   "minutes": 11.2,
+   "tool_calls": 23,
+   "api_calls": 19,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 38,
+    "output": 43811,
+    "cache_write_5m": 76781,
+    "cache_write_1h": 0,
+    "cache_read": 1353770
+   }
+  },
+  "flags": [
+   "session_limit"
+  ],
+  "revision": {
+   "kind": "revision",
+   "minutes": 1.5,
+   "tool_calls": 2,
+   "api_calls": 1,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 2,
+    "output": 7088,
+    "cache_write_5m": 76756,
+    "cache_write_1h": 0,
+    "cache_read": 12823
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a0d9ac483e8e24df0.jsonl",
+  "agent_id": "agent-a0d9ac483e8e24df0",
+  "description": "Решение verlet-cloth",
+  "task": "verlet-cloth",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T10:49:31.316000+00:00",
+  "cutoff_ts": "2026-08-16T11:34:45.405000+00:00",
+  "v1": {
+   "minutes": 45.2,
+   "tool_calls": 68,
+   "api_calls": 69,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 138,
+    "output": 145373,
+    "cache_write_5m": 261353,
+    "cache_write_1h": 0,
+    "cache_read": 10474515
+   }
+  },
+  "flags": [
+   "session_limit"
+  ],
+  "revision": {
+   "kind": "revision",
+   "minutes": 8.1,
+   "tool_calls": 10,
+   "api_calls": 10,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 20,
+    "output": 30170,
+    "cache_write_5m": 261505,
+    "cache_write_1h": 0,
+    "cache_read": 2274222
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a13c41a1bd5afe1cd.jsonl",
+  "agent_id": "agent-a13c41a1bd5afe1cd",
+  "description": "Решение svg-bicycle",
+  "task": "svg-bicycle",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T14:30:10.865000+00:00",
+  "cutoff_ts": "2026-08-16T15:04:11.906000+00:00",
+  "v1": {
+   "minutes": 34.0,
+   "tool_calls": 42,
+   "api_calls": 43,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 86,
+    "output": 120466,
+    "cache_write_5m": 191687,
+    "cache_write_1h": 0,
+    "cache_read": 5956326
+   }
+  },
+  "flags": [],
+  "revision": {
+   "kind": "revision",
+   "minutes": 15.7,
+   "tool_calls": 25,
+   "api_calls": 26,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 52,
+    "output": 40524,
+    "cache_write_5m": 215287,
+    "cache_write_1h": 0,
+    "cache_read": 5232105
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a2233023bc3e377d1.jsonl",
+  "agent_id": "agent-a2233023bc3e377d1",
+  "description": "Доработка aquarium",
+  "task": "aquarium",
+  "slug": "opus-5",
+  "start_ts": "2026-08-17T13:32:04.938000+00:00",
+  "cutoff_ts": "2026-08-17T13:52:29.147000+00:00",
+  "v1": {
+   "minutes": 20.4,
+   "tool_calls": 36,
+   "api_calls": 36,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 72,
+    "output": 49553,
+    "cache_write_5m": 206780,
+    "cache_write_1h": 0,
+    "cache_read": 3874874
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a31db995fcae53ca7.jsonl",
+  "agent_id": "agent-a31db995fcae53ca7",
+  "description": "Решение surface-plot",
+  "task": "surface-plot",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T15:06:42.813000+00:00",
+  "cutoff_ts": "2026-08-16T15:42:06.909000+00:00",
+  "v1": {
+   "minutes": 35.4,
+   "tool_calls": 68,
+   "api_calls": 69,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 138,
+    "output": 132683,
+    "cache_write_5m": 219908,
+    "cache_write_1h": 0,
+    "cache_read": 10177191
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a40b8c01dff91967d.jsonl",
+  "agent_id": "agent-a40b8c01dff91967d",
+  "description": "Решение voxel-terrain",
+  "task": "voxel-terrain",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T15:07:00.604000+00:00",
+  "cutoff_ts": "2026-08-16T15:50:24.113000+00:00",
+  "v1": {
+   "minutes": 43.4,
+   "tool_calls": 61,
+   "api_calls": 63,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 126,
+    "output": 167761,
+    "cache_write_5m": 191712,
+    "cache_write_1h": 0,
+    "cache_read": 7639948
+   }
+  },
+  "flags": [
+   "max_tokens"
+  ],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a41fbca50416935f3.jsonl",
+  "agent_id": "agent-a41fbca50416935f3",
+  "description": "Решение mandelbrot",
+  "task": "mandelbrot",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T06:54:51.410000+00:00",
+  "cutoff_ts": "2026-08-16T07:09:41.202000+00:00",
+  "v1": {
+   "minutes": 14.8,
+   "tool_calls": 14,
+   "api_calls": 10,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 20,
+    "output": 69580,
+    "cache_write_5m": 126135,
+    "cache_write_1h": 0,
+    "cache_read": 775835
+   }
+  },
+  "flags": [
+   "session_limit"
+  ],
+  "revision": {
+   "kind": "revision",
+   "minutes": 11.5,
+   "tool_calls": 41,
+   "api_calls": 32,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 64,
+    "output": 42804,
+    "cache_write_5m": 156610,
+    "cache_write_1h": 0,
+    "cache_read": 4499492
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a55e9c0683a2cac88.jsonl",
+  "agent_id": "agent-a55e9c0683a2cac88",
+  "description": "Решение light-2d",
+  "task": "light-2d",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T14:29:36.305000+00:00",
+  "cutoff_ts": "2026-08-16T14:41:39.641000+00:00",
+  "v1": {
+   "minutes": 12.1,
+   "tool_calls": 19,
+   "api_calls": 20,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 40,
+    "output": 53299,
+    "cache_write_5m": 88627,
+    "cache_write_1h": 0,
+    "cache_read": 1547349
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a5af889e02d6144c1.jsonl",
+  "agent_id": "agent-a5af889e02d6144c1",
+  "description": "Доработка voxel-terrain",
+  "task": "voxel-terrain",
+  "slug": "opus-5",
+  "start_ts": "2026-08-17T13:29:11.633000+00:00",
+  "cutoff_ts": "2026-08-17T13:33:12.142000+00:00",
+  "v1": {
+   "minutes": 4.0,
+   "tool_calls": 16,
+   "api_calls": 16,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 32,
+    "output": 15610,
+    "cache_write_5m": 77649,
+    "cache_write_1h": 0,
+    "cache_read": 993177
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a682e322b029a62e9.jsonl",
+  "agent_id": "agent-a682e322b029a62e9",
+  "description": "Решение particle-flow",
+  "task": "particle-flow",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T15:27:47.829000+00:00",
+  "cutoff_ts": "2026-08-16T15:51:15.412000+00:00",
+  "v1": {
+   "minutes": 23.5,
+   "tool_calls": 29,
+   "api_calls": 20,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 40,
+    "output": 104151,
+    "cache_write_5m": 167094,
+    "cache_write_1h": 0,
+    "cache_read": 2495036
+   }
+  },
+  "flags": [
+   "session_limit"
+  ],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a6f4ae3837715706f.jsonl",
+  "agent_id": "agent-a6f4ae3837715706f",
+  "description": "Доработка aurora",
+  "task": "aurora",
+  "slug": "opus-5",
+  "start_ts": "2026-08-17T13:29:56.929000+00:00",
+  "cutoff_ts": "2026-08-17T13:44:01.944000+00:00",
+  "v1": {
+   "minutes": 14.1,
+   "tool_calls": 33,
+   "api_calls": 32,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 64,
+    "output": 56291,
+    "cache_write_5m": 164435,
+    "cache_write_1h": 0,
+    "cache_read": 3127113
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a79653e6283171649.jsonl",
+  "agent_id": "agent-a79653e6283171649",
+  "description": "Решение raycaster-maze",
+  "task": "raycaster-maze",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T11:18:24.090000+00:00",
+  "cutoff_ts": "2026-08-16T11:39:51.870000+00:00",
+  "v1": {
+   "minutes": 21.5,
+   "tool_calls": 40,
+   "api_calls": 41,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 82,
+    "output": 89168,
+    "cache_write_5m": 156721,
+    "cache_write_1h": 0,
+    "cache_read": 4442030
+   }
+  },
+  "flags": [
+   "session_limit"
+  ],
+  "revision": {
+   "kind": "revision",
+   "minutes": 2.6,
+   "tool_calls": 1,
+   "api_calls": 1,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 2,
+    "output": 10820,
+    "cache_write_5m": 128704,
+    "cache_write_1h": 0,
+    "cache_read": 12823
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a7a34d704a60a9750.jsonl",
+  "agent_id": "agent-a7a34d704a60a9750",
+  "description": "Решение solar-system",
+  "task": "solar-system",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T06:54:38.654000+00:00",
+  "cutoff_ts": "2026-08-16T07:13:09.394000+00:00",
+  "v1": {
+   "minutes": 18.5,
+   "tool_calls": 5,
+   "api_calls": 5,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 10,
+    "output": 90201,
+    "cache_write_5m": 122052,
+    "cache_write_1h": 0,
+    "cache_read": 233230
+   }
+  },
+  "flags": [
+   "session_limit"
+  ],
+  "revision": {
+   "kind": "revision",
+   "minutes": 40.1,
+   "tool_calls": 63,
+   "api_calls": 64,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 128,
+    "output": 104202,
+    "cache_write_5m": 369027,
+    "cache_write_1h": 0,
+    "cache_read": 11898570
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a7ecc98ae98c38c26.jsonl",
+  "agent_id": "agent-a7ecc98ae98c38c26",
+  "description": "Решение analog-clock (повтор)",
+  "task": "analog-clock",
+  "slug": "opus-5",
+  "start_ts": "2026-08-17T12:22:14.897000+00:00",
+  "cutoff_ts": "2026-08-17T12:34:10.505000+00:00",
+  "v1": {
+   "minutes": 11.9,
+   "tool_calls": 25,
+   "api_calls": 25,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 50,
+    "output": 53091,
+    "cache_write_5m": 99302,
+    "cache_write_1h": 0,
+    "cache_read": 1990018
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a8ae7d6e40065a5ad.jsonl",
+  "agent_id": "agent-a8ae7d6e40065a5ad",
+  "description": "Решение earth-globe",
+  "task": "earth-globe",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T15:07:19.446000+00:00",
+  "cutoff_ts": "2026-08-16T15:51:26.956000+00:00",
+  "v1": {
+   "minutes": 44.1,
+   "tool_calls": 26,
+   "api_calls": 26,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 52,
+    "output": 177015,
+    "cache_write_5m": 228045,
+    "cache_write_1h": 0,
+    "cache_read": 2934633
+   }
+  },
+  "flags": [
+   "session_limit",
+   "max_tokens"
+  ],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a90814110d6dd4353.jsonl",
+  "agent_id": "agent-a90814110d6dd4353",
+  "description": "Решение css-newspaper",
+  "task": "css-newspaper",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T14:36:30.312000+00:00",
+  "cutoff_ts": "2026-08-16T14:54:16.852000+00:00",
+  "v1": {
+   "minutes": 17.8,
+   "tool_calls": 30,
+   "api_calls": 31,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 62,
+    "output": 73001,
+    "cache_write_5m": 137150,
+    "cache_write_1h": 0,
+    "cache_read": 2972247
+   }
+  },
+  "flags": [],
+  "revision": {
+   "kind": "revision",
+   "minutes": 27.0,
+   "tool_calls": 44,
+   "api_calls": 45,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 90,
+    "output": 91873,
+    "cache_write_5m": 232223,
+    "cache_write_1h": 0,
+    "cache_read": 8560592
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a94955abe1f792acf.jsonl",
+  "agent_id": "agent-a94955abe1f792acf",
+  "description": "Решение solid-3d",
+  "task": "solid-3d",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T14:36:51.147000+00:00",
+  "cutoff_ts": "2026-08-16T15:16:25.550000+00:00",
+  "v1": {
+   "minutes": 39.6,
+   "tool_calls": 56,
+   "api_calls": 57,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 114,
+    "output": 137404,
+    "cache_write_5m": 222797,
+    "cache_write_1h": 0,
+    "cache_read": 9144977
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-aa47b96b83e79a4e9.jsonl",
+  "agent_id": "agent-aa47b96b83e79a4e9",
+  "description": "Доработка earth-globe",
+  "task": "earth-globe",
+  "slug": "opus-5",
+  "start_ts": "2026-08-17T13:29:37.396000+00:00",
+  "cutoff_ts": "2026-08-17T14:01:08.573000+00:00",
+  "v1": {
+   "minutes": 31.5,
+   "tool_calls": 59,
+   "api_calls": 58,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 116,
+    "output": 112786,
+    "cache_write_5m": 285405,
+    "cache_write_1h": 0,
+    "cache_read": 9732619
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-aacd8190ae154ac9a.jsonl",
+  "agent_id": "agent-aacd8190ae154ac9a",
+  "description": "Решение falling-sand",
+  "task": "falling-sand",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T11:08:57.107000+00:00",
+  "cutoff_ts": "2026-08-16T11:33:42.837000+00:00",
+  "v1": {
+   "minutes": 24.8,
+   "tool_calls": 47,
+   "api_calls": 48,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 96,
+    "output": 98697,
+    "cache_write_5m": 179877,
+    "cache_write_1h": 0,
+    "cache_read": 5875097
+   }
+  },
+  "flags": [
+   "session_limit"
+  ],
+  "revision": {
+   "kind": "mixed",
+   "minutes": 172.4,
+   "tool_calls": 41,
+   "api_calls": 42,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 84,
+    "output": 78514,
+    "cache_write_5m": 486630,
+    "cache_write_1h": 0,
+    "cache_read": 9202138
+   },
+   "n_injections": 2
+  },
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-ab1f42426d6d2e62a.jsonl",
+  "agent_id": "agent-ab1f42426d6d2e62a",
+  "description": "Решение aquarium",
+  "task": "aquarium",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T15:33:10.533000+00:00",
+  "cutoff_ts": "2026-08-16T15:52:32.169000+00:00",
+  "v1": {
+   "minutes": 19.4,
+   "tool_calls": 4,
+   "api_calls": 3,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 6,
+    "output": 93564,
+    "cache_write_5m": 109411,
+    "cache_write_1h": 0,
+    "cache_read": 64433
+   }
+  },
+  "flags": [
+   "session_limit"
+  ],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-ab4ef5d1f9e9c34f2.jsonl",
+  "agent_id": "agent-ab4ef5d1f9e9c34f2",
+  "description": "Решение double-pendulum",
+  "task": "double-pendulum",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T14:30:26.194000+00:00",
+  "cutoff_ts": "2026-08-16T14:48:10.785000+00:00",
+  "v1": {
+   "minutes": 17.7,
+   "tool_calls": 39,
+   "api_calls": 40,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 80,
+    "output": 77347,
+    "cache_write_5m": 117767,
+    "cache_write_1h": 0,
+    "cache_read": 3977941
+   }
+  },
+  "flags": [],
+  "revision": {
+   "kind": "revision",
+   "minutes": 11.9,
+   "tool_calls": 23,
+   "api_calls": 24,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 48,
+    "output": 36453,
+    "cache_write_5m": 172062,
+    "cache_write_1h": 0,
+    "cache_read": 3632131
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-abf2410d4bddc4ce6.jsonl",
+  "agent_id": "agent-abf2410d4bddc4ce6",
+  "description": "Решение analog-clock",
+  "task": "analog-clock",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T15:48:53.070000+00:00",
+  "cutoff_ts": "2026-08-16T15:57:03.505000+00:00",
+  "v1": {
+   "minutes": 8.2,
+   "tool_calls": 1,
+   "api_calls": 1,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 2,
+    "output": 35860,
+    "cache_write_5m": 26060,
+    "cache_write_1h": 0,
+    "cache_read": 12823
+   }
+  },
+  "flags": [
+   "session_limit"
+  ],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-ac67bbf7d09ddcb9e.jsonl",
+  "agent_id": "agent-ac67bbf7d09ddcb9e",
+  "description": "Доработка aquarium-3d",
+  "task": "aquarium-3d",
+  "slug": "opus-5",
+  "start_ts": "2026-08-17T13:32:23.932000+00:00",
+  "cutoff_ts": "2026-08-17T14:00:09.146000+00:00",
+  "v1": {
+   "minutes": 27.8,
+   "tool_calls": 65,
+   "api_calls": 65,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 130,
+    "output": 103735,
+    "cache_write_5m": 278448,
+    "cache_write_1h": 0,
+    "cache_read": 10362822
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-acb73e090583612e3.jsonl",
+  "agent_id": "agent-acb73e090583612e3",
+  "description": "Доработка particle-flow",
+  "task": "particle-flow",
+  "slug": "opus-5",
+  "start_ts": "2026-08-17T13:31:44.457000+00:00",
+  "cutoff_ts": "2026-08-17T14:03:41.200000+00:00",
+  "v1": {
+   "minutes": 31.9,
+   "tool_calls": 58,
+   "api_calls": 58,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 116,
+    "output": 56997,
+    "cache_write_5m": 230274,
+    "cache_write_1h": 0,
+    "cache_read": 8586418
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-ad91cdab44936877c.jsonl",
+  "agent_id": "agent-ad91cdab44936877c",
+  "description": "Решение procedural-walker",
+  "task": "procedural-walker",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T14:29:51.134000+00:00",
+  "cutoff_ts": "2026-08-16T15:13:17.644000+00:00",
+  "v1": {
+   "minutes": 43.4,
+   "tool_calls": 58,
+   "api_calls": 59,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 118,
+    "output": 154799,
+    "cache_write_5m": 255424,
+    "cache_write_1h": 0,
+    "cache_read": 9817835
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-ad926c7e73e054a7f.jsonl",
+  "agent_id": "agent-ad926c7e73e054a7f",
+  "description": "Решение boids",
+  "task": "boids",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T10:35:25.971000+00:00",
+  "cutoff_ts": "2026-08-16T10:50:30.370000+00:00",
+  "v1": {
+   "minutes": 15.1,
+   "tool_calls": 29,
+   "api_calls": 22,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 44,
+    "output": 70961,
+    "cache_write_5m": 134632,
+    "cache_write_1h": 0,
+    "cache_read": 2080660
+   }
+  },
+  "flags": [],
+  "revision": {
+   "kind": "revision",
+   "minutes": 11.8,
+   "tool_calls": 44,
+   "api_calls": 33,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 66,
+    "output": 33997,
+    "cache_write_5m": 159763,
+    "cache_write_1h": 0,
+    "cache_read": 4808878
+   },
+   "n_injections": 1
+  },
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-adcd984dd8420f315.jsonl",
+  "agent_id": "agent-adcd984dd8420f315",
+  "description": "Решение aurora",
+  "task": "aurora",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T15:28:03.404000+00:00",
+  "cutoff_ts": "2026-08-16T15:51:13.629000+00:00",
+  "v1": {
+   "minutes": 23.2,
+   "tool_calls": 30,
+   "api_calls": 30,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 60,
+    "output": 87708,
+    "cache_write_5m": 165997,
+    "cache_write_1h": 0,
+    "cache_read": 3563295
+   }
+  },
+  "flags": [
+   "session_limit"
+  ],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ },
+ {
+  "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-af8a740fbe2bf4640.jsonl",
+  "agent_id": "agent-af8a740fbe2bf4640",
+  "description": "Решение aquarium-3d",
+  "task": "aquarium-3d",
+  "slug": "opus-5",
+  "start_ts": "2026-08-16T15:40:43.204000+00:00",
+  "cutoff_ts": "2026-08-16T15:57:29.076000+00:00",
+  "v1": {
+   "minutes": 16.8,
+   "tool_calls": 4,
+   "api_calls": 3,
+   "model": "claude-opus-5",
+   "tokens": {
+    "input": 6,
+    "output": 83670,
+    "cache_write_5m": 99705,
+    "cache_write_1h": 0,
+    "cache_read": 64656
+   }
+  },
+  "flags": [
+   "session_limit"
+  ],
+  "revision": null,
+  "session_label": "opus-5-restored"
+ }
+]

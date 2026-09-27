@@ -1,0 +1,1859 @@
+[
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/12/rollout-2026-06-12T15-30-13-019ebbcf-a483-7131-bd19-ce3a07b375e8.jsonl",
+  "id": "019ebbcf-a483-7131-bd19-ce3a07b375e8",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.2-codex"
+  ],
+  "matched_task": "double-pendulum",
+  "start_ts": "2026-06-12T12:30:18.163Z",
+  "end_ts": "2026-06-12T12:30:19.614Z",
+  "v1": {
+   "minutes": 0.0,
+   "tool_calls": 0,
+   "cumulative_usage_at_end": null
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/12/rollout-2026-06-12T15-31-03-019ebbd0-6b2c-7620-a245-5b11b2358b5a.jsonl",
+  "id": "019ebbd0-6b2c-7620-a245-5b11b2358b5a",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "double-pendulum",
+  "start_ts": "2026-06-12T12:31:09.036Z",
+  "end_ts": "2026-06-12T12:35:36.108Z",
+  "v1": {
+   "minutes": 4.5,
+   "tool_calls": 14,
+   "cumulative_usage_at_end": {
+    "input_tokens": 306651,
+    "cached_input_tokens": 270848,
+    "output_tokens": 13315,
+    "reasoning_output_tokens": 4791,
+    "total_tokens": 319966
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/12/rollout-2026-06-12T15-42-05-019ebbda-8423-7932-b3a3-ef388571f446.jsonl",
+  "id": "019ebbda-8423-7932-b3a3-ef388571f446",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "svg-chess-knight",
+  "start_ts": "2026-06-12T12:42:10.765Z",
+  "end_ts": "2026-06-12T12:49:21.614Z",
+  "v1": {
+   "minutes": 7.2,
+   "tool_calls": 18,
+   "cumulative_usage_at_end": {
+    "input_tokens": 375001,
+    "cached_input_tokens": 299904,
+    "output_tokens": 21146,
+    "reasoning_output_tokens": 8724,
+    "total_tokens": 396147
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/12/rollout-2026-06-12T20-00-50-019ebcc7-6943-7323-a645-0e346adbcd87.jsonl",
+  "id": "019ebcc7-6943-7323-a645-0e346adbcd87",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "boids",
+  "start_ts": "2026-06-12T17:00:55.911Z",
+  "end_ts": "2026-06-12T17:09:37.532Z",
+  "v1": {
+   "minutes": 8.7,
+   "tool_calls": 25,
+   "cumulative_usage_at_end": {
+    "input_tokens": 842762,
+    "cached_input_tokens": 782720,
+    "output_tokens": 25398,
+    "reasoning_output_tokens": 11540,
+    "total_tokens": 868160
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/12/rollout-2026-06-12T20-12-01-019ebcd1-a5e9-7d92-9876-21dc0abab33e.jsonl",
+  "id": "019ebcd1-a5e9-7d92-9876-21dc0abab33e",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "verlet-cloth",
+  "start_ts": "2026-06-12T17:12:06.762Z",
+  "end_ts": "2026-06-12T17:35:19.596Z",
+  "v1": {
+   "minutes": 19.8,
+   "tool_calls": 36,
+   "cumulative_usage_at_end": {
+    "input_tokens": 886029,
+    "cached_input_tokens": 840064,
+    "output_tokens": 23035,
+    "reasoning_output_tokens": 8766,
+    "total_tokens": 909064
+   }
+  },
+  "revision": {
+   "kind": "fix",
+   "minutes": 3.4,
+   "tool_calls": 14,
+   "delta_usage": {
+    "input_tokens": 592623,
+    "cached_input_tokens": 490624,
+    "output_tokens": 9103,
+    "reasoning_output_tokens": 3666,
+    "total_tokens": 601726
+   },
+   "n_rounds": 1
+  }
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/12/rollout-2026-06-12T20-19-57-019ebcd8-e6de-7632-85ac-e96850f93e99.jsonl",
+  "id": "019ebcd8-e6de-7632-85ac-e96850f93e99",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "falling-sand",
+  "start_ts": "2026-06-12T17:20:02.155Z",
+  "end_ts": "2026-06-12T17:28:44.714Z",
+  "v1": {
+   "minutes": 8.7,
+   "tool_calls": 31,
+   "cumulative_usage_at_end": {
+    "input_tokens": 904180,
+    "cached_input_tokens": 843136,
+    "output_tokens": 26273,
+    "reasoning_output_tokens": 11085,
+    "total_tokens": 930453
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/12/rollout-2026-06-12T20-36-53-019ebce8-6a0f-7af1-b030-91410b511451.jsonl",
+  "id": "019ebce8-6a0f-7af1-b030-91410b511451",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "raycaster-maze",
+  "start_ts": "2026-06-12T17:36:58.775Z",
+  "end_ts": "2026-06-12T17:44:16.526Z",
+  "v1": {
+   "minutes": 7.3,
+   "tool_calls": 12,
+   "cumulative_usage_at_end": {
+    "input_tokens": 344345,
+    "cached_input_tokens": 298368,
+    "output_tokens": 23145,
+    "reasoning_output_tokens": 12735,
+    "total_tokens": 367490
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/12/rollout-2026-06-12T20-44-21-019ebcef-4046-76d1-96d1-28c2521d5a0c.jsonl",
+  "id": "019ebcef-4046-76d1-96d1-28c2521d5a0c",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "light-2d",
+  "start_ts": "2026-06-12T17:44:26.872Z",
+  "end_ts": "2026-06-12T17:50:07.212Z",
+  "v1": {
+   "minutes": 5.7,
+   "tool_calls": 24,
+   "cumulative_usage_at_end": {
+    "input_tokens": 584701,
+    "cached_input_tokens": 546816,
+    "output_tokens": 17191,
+    "reasoning_output_tokens": 4524,
+    "total_tokens": 601892
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/12/rollout-2026-06-12T20-56-01-019ebcf9-edf8-7b01-b553-cc5923aae722.jsonl",
+  "id": "019ebcf9-edf8-7b01-b553-cc5923aae722",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "procedural-walker",
+  "start_ts": "2026-06-12T17:56:06.670Z",
+  "end_ts": "2026-06-12T18:05:42.036Z",
+  "v1": {
+   "minutes": 9.6,
+   "tool_calls": 31,
+   "cumulative_usage_at_end": {
+    "input_tokens": 1034998,
+    "cached_input_tokens": 979712,
+    "output_tokens": 29182,
+    "reasoning_output_tokens": 14338,
+    "total_tokens": 1064180
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/12/rollout-2026-06-12T21-05-47-019ebd02-dda5-79f0-b05d-c954e34fe3f9.jsonl",
+  "id": "019ebd02-dda5-79f0-b05d-c954e34fe3f9",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "svg-bicycle",
+  "start_ts": "2026-06-12T18:05:52.283Z",
+  "end_ts": "2026-06-13T05:54:30.262Z",
+  "v1": {
+   "minutes": 708.6,
+   "tool_calls": 23,
+   "cumulative_usage_at_end": {
+    "input_tokens": 648151,
+    "cached_input_tokens": 580352,
+    "output_tokens": 16217,
+    "reasoning_output_tokens": 5480,
+    "total_tokens": 664368
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/13/rollout-2026-06-13T08-54-35-019ebf8b-cb8f-7930-af07-75222997de8e.jsonl",
+  "id": "019ebf8b-cb8f-7930-af07-75222997de8e",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "css-newspaper",
+  "start_ts": "2026-06-13T05:54:40.607Z",
+  "end_ts": "2026-06-13T06:00:12.986Z",
+  "v1": {
+   "minutes": 5.5,
+   "tool_calls": 26,
+   "cumulative_usage_at_end": {
+    "input_tokens": 538940,
+    "cached_input_tokens": 489728,
+    "output_tokens": 16362,
+    "reasoning_output_tokens": 4675,
+    "total_tokens": 555302
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/13/rollout-2026-06-13T14-00-35-019ec0a3-f252-7ec0-85fd-27a697b0848a.jsonl",
+  "id": "019ec0a3-f252-7ec0-85fd-27a697b0848a",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "solid-3d",
+  "start_ts": "2026-06-13T11:00:40.619Z",
+  "end_ts": "2026-06-13T11:09:16.974Z",
+  "v1": {
+   "minutes": 8.6,
+   "tool_calls": 35,
+   "cumulative_usage_at_end": {
+    "input_tokens": 890636,
+    "cached_input_tokens": 786432,
+    "output_tokens": 25084,
+    "reasoning_output_tokens": 12526,
+    "total_tokens": 915720
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/13/rollout-2026-06-13T14-09-22-019ec0ab-fbb1-7b53-a047-7e0e9df983f9.jsonl",
+  "id": "019ec0ab-fbb1-7b53-a047-7e0e9df983f9",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "surface-plot",
+  "start_ts": "2026-06-13T11:09:27.230Z",
+  "end_ts": "2026-06-13T11:16:50.011Z",
+  "v1": {
+   "minutes": 7.4,
+   "tool_calls": 20,
+   "cumulative_usage_at_end": {
+    "input_tokens": 478923,
+    "cached_input_tokens": 419840,
+    "output_tokens": 22369,
+    "reasoning_output_tokens": 9176,
+    "total_tokens": 501292
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/13/rollout-2026-06-13T14-16-55-019ec0b2-e55d-77c2-be15-00cea45f0c34.jsonl",
+  "id": "019ec0b2-e55d-77c2-be15-00cea45f0c34",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "voxel-terrain",
+  "start_ts": "2026-06-13T11:17:00.287Z",
+  "end_ts": "2026-06-13T11:22:59.509Z",
+  "v1": {
+   "minutes": 6.0,
+   "tool_calls": 20,
+   "cumulative_usage_at_end": {
+    "input_tokens": 446368,
+    "cached_input_tokens": 378752,
+    "output_tokens": 18052,
+    "reasoning_output_tokens": 7872,
+    "total_tokens": 464420
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/13/rollout-2026-06-13T14-25-16-019ec0ba-8aee-77a3-95d9-7531bd63664e.jsonl",
+  "id": "019ec0ba-8aee-77a3-95d9-7531bd63664e",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "earth-globe",
+  "start_ts": "2026-06-13T11:25:21.412Z",
+  "end_ts": "2026-06-13T11:38:24.036Z",
+  "v1": {
+   "minutes": 13.0,
+   "tool_calls": 27,
+   "cumulative_usage_at_end": {
+    "input_tokens": 695198,
+    "cached_input_tokens": 634880,
+    "output_tokens": 19810,
+    "reasoning_output_tokens": 3977,
+    "total_tokens": 715008
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/13/rollout-2026-06-13T14-38-29-019ec0c6-a433-7153-9a6c-23159675c602.jsonl",
+  "id": "019ec0c6-a433-7153-9a6c-23159675c602",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "particle-flow",
+  "start_ts": "2026-06-13T11:38:34.313Z",
+  "end_ts": "2026-06-13T11:48:26.778Z",
+  "v1": {
+   "minutes": 9.9,
+   "tool_calls": 55,
+   "cumulative_usage_at_end": {
+    "input_tokens": 1652412,
+    "cached_input_tokens": 1592576,
+    "output_tokens": 28278,
+    "reasoning_output_tokens": 15070,
+    "total_tokens": 1680690
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/13/rollout-2026-06-13T14-48-31-019ec0cf-d683-7c61-a3e7-cb68d6932722.jsonl",
+  "id": "019ec0cf-d683-7c61-a3e7-cb68d6932722",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "aurora",
+  "start_ts": "2026-06-13T11:48:37.019Z",
+  "end_ts": "2026-06-13T11:57:32.808Z",
+  "v1": {
+   "minutes": 8.9,
+   "tool_calls": 29,
+   "cumulative_usage_at_end": {
+    "input_tokens": 813073,
+    "cached_input_tokens": 705792,
+    "output_tokens": 27522,
+    "reasoning_output_tokens": 13811,
+    "total_tokens": 840595
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/13/rollout-2026-06-13T14-57-37-019ec0d8-2b75-7f83-b2c4-b5fdacfd58e5.jsonl",
+  "id": "019ec0d8-2b75-7f83-b2c4-b5fdacfd58e5",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "solar-system",
+  "start_ts": "2026-06-13T11:57:43.042Z",
+  "end_ts": "2026-06-13T12:11:56.397Z",
+  "v1": {
+   "minutes": 14.2,
+   "tool_calls": 54,
+   "cumulative_usage_at_end": {
+    "input_tokens": 2004111,
+    "cached_input_tokens": 1855360,
+    "output_tokens": 42354,
+    "reasoning_output_tokens": 19313,
+    "total_tokens": 2046465
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/17/rollout-2026-06-17T08-41-25-019ed419-2e37-73b0-989f-adcb679c72e7.jsonl",
+  "id": "019ed419-2e37-73b0-989f-adcb679c72e7",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "aquarium",
+  "start_ts": "2026-06-17T05:41:30.715Z",
+  "end_ts": "2026-06-17T05:47:08.689Z",
+  "v1": {
+   "minutes": 5.6,
+   "tool_calls": 16,
+   "cumulative_usage_at_end": {
+    "input_tokens": 270176,
+    "cached_input_tokens": 203520,
+    "output_tokens": 16677,
+    "reasoning_output_tokens": 3189,
+    "total_tokens": 286853
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/17/rollout-2026-06-17T09-14-36-019ed437-8e64-7e02-9904-f38450a508bd.jsonl",
+  "id": "019ed437-8e64-7e02-9904-f38450a508bd",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5-codex"
+  ],
+  "matched_task": "aquarium-3d",
+  "start_ts": "2026-06-17T06:14:41.381Z",
+  "end_ts": "2026-06-17T06:14:42.242Z",
+  "v1": {
+   "minutes": 0.0,
+   "tool_calls": 0,
+   "cumulative_usage_at_end": null
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/17/rollout-2026-06-17T09-15-15-019ed438-28e6-7ad0-bd44-a70e9c219e3f.jsonl",
+  "id": "019ed438-28e6-7ad0-bd44-a70e9c219e3f",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "aquarium-3d",
+  "start_ts": "2026-06-17T06:15:20.961Z",
+  "end_ts": "2026-06-17T06:21:32.159Z",
+  "v1": {
+   "minutes": 6.2,
+   "tool_calls": 9,
+   "cumulative_usage_at_end": {
+    "input_tokens": 242335,
+    "cached_input_tokens": 153472,
+    "output_tokens": 14859,
+    "reasoning_output_tokens": 1151,
+    "total_tokens": 257194
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/06/17/rollout-2026-06-17T11-09-33-019ed4a0-cd44-7e61-a255-2e3792b60b42.jsonl",
+  "id": "019ed4a0-cd44-7e61-a255-2e3792b60b42",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests",
+  "models": [
+   "gpt-5.5"
+  ],
+  "matched_task": "analog-clock",
+  "start_ts": "2026-06-17T08:09:38.842Z",
+  "end_ts": "2026-06-17T08:15:08.735Z",
+  "v1": {
+   "minutes": 5.5,
+   "tool_calls": 15,
+   "cumulative_usage_at_end": {
+    "input_tokens": 327466,
+    "cached_input_tokens": 266240,
+    "output_tokens": 10825,
+    "reasoning_output_tokens": 2754,
+    "total_tokens": 338291
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T11-15-34-019f4b18-93aa-73d3-9f0f-f34880e8a562.jsonl",
+  "id": "019f4b18-93aa-73d3-9f0f-f34880e8a562",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "svg-chess-knight",
+  "start_ts": "2026-07-10T08:15:39.832Z",
+  "end_ts": "2026-07-10T08:21:38.813Z",
+  "v1": {
+   "minutes": 6.0,
+   "tool_calls": 11,
+   "cumulative_usage_at_end": {
+    "input_tokens": 331638,
+    "cached_input_tokens": 289792,
+    "output_tokens": 17880,
+    "reasoning_output_tokens": 3109,
+    "total_tokens": 349518
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T11-30-45-019f4b26-7b08-75e1-8e1d-8349b13a8846.jsonl",
+  "id": "019f4b26-7b08-75e1-8e1d-8349b13a8846",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "svg-chess-knight",
+  "start_ts": "2026-07-10T08:30:51.128Z",
+  "end_ts": "2026-07-10T08:36:11.813Z",
+  "v1": {
+   "minutes": 5.3,
+   "tool_calls": 11,
+   "cumulative_usage_at_end": {
+    "input_tokens": 329141,
+    "cached_input_tokens": 254464,
+    "output_tokens": 16518,
+    "reasoning_output_tokens": 4971,
+    "total_tokens": 345659
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T11-47-14-019f4b35-90f0-7c90-8104-4f14e7f30f94.jsonl",
+  "id": "019f4b35-90f0-7c90-8104-4f14e7f30f94",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "solar-system",
+  "start_ts": "2026-07-10T08:47:19.681Z",
+  "end_ts": "2026-07-10T09:01:29.929Z",
+  "v1": {
+   "minutes": 14.2,
+   "tool_calls": 27,
+   "cumulative_usage_at_end": {
+    "input_tokens": 1314536,
+    "cached_input_tokens": 1239040,
+    "output_tokens": 43372,
+    "reasoning_output_tokens": 5573,
+    "total_tokens": 1357908
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T12-09-06-019f4b49-9551-7421-bdf9-5eed77b2c97b.jsonl",
+  "id": "019f4b49-9551-7421-bdf9-5eed77b2c97b",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "mandelbrot",
+  "start_ts": "2026-07-10T09:09:11.518Z",
+  "end_ts": "2026-07-10T09:18:04.839Z",
+  "v1": {
+   "minutes": 8.9,
+   "tool_calls": 34,
+   "cumulative_usage_at_end": {
+    "input_tokens": 1363484,
+    "cached_input_tokens": 1304832,
+    "output_tokens": 24238,
+    "reasoning_output_tokens": 6259,
+    "total_tokens": 1387722
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T12-22-22-019f4b55-b9b0-77b1-8e42-d839672ed1a9.jsonl",
+  "id": "019f4b55-b9b0-77b1-8e42-d839672ed1a9",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "lorenz",
+  "start_ts": "2026-07-10T09:22:27.371Z",
+  "end_ts": "2026-07-10T09:32:06.404Z",
+  "v1": {
+   "minutes": 9.7,
+   "tool_calls": 15,
+   "cumulative_usage_at_end": {
+    "input_tokens": 566664,
+    "cached_input_tokens": 517120,
+    "output_tokens": 27416,
+    "reasoning_output_tokens": 2817,
+    "total_tokens": 594080
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T12-34-14-019f4b60-9874-7a71-a654-9fb2f19db5c7.jsonl",
+  "id": "019f4b60-9874-7a71-a654-9fb2f19db5c7",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "boids",
+  "start_ts": "2026-07-10T09:34:19.653Z",
+  "end_ts": "2026-07-10T09:44:12.023Z",
+  "v1": {
+   "minutes": 9.9,
+   "tool_calls": 26,
+   "cumulative_usage_at_end": {
+    "input_tokens": 1560198,
+    "cached_input_tokens": 1474816,
+    "output_tokens": 29349,
+    "reasoning_output_tokens": 6577,
+    "total_tokens": 1589547
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T12-46-41-019f4b6b-ff62-72d3-990d-89e60a5abeda.jsonl",
+  "id": "019f4b6b-ff62-72d3-990d-89e60a5abeda",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "verlet-cloth",
+  "start_ts": "2026-07-10T09:46:46.947Z",
+  "end_ts": "2026-07-10T09:53:58.055Z",
+  "v1": {
+   "minutes": 7.2,
+   "tool_calls": 13,
+   "cumulative_usage_at_end": {
+    "input_tokens": 445287,
+    "cached_input_tokens": 403968,
+    "output_tokens": 21945,
+    "reasoning_output_tokens": 2628,
+    "total_tokens": 467232
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T12-56-34-019f4b75-0981-7262-a492-b7c2c589a27f.jsonl",
+  "id": "019f4b75-0981-7262-a492-b7c2c589a27f",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "falling-sand",
+  "start_ts": "2026-07-10T09:56:39.462Z",
+  "end_ts": "2026-07-10T10:05:16.036Z",
+  "v1": {
+   "minutes": 8.6,
+   "tool_calls": 15,
+   "cumulative_usage_at_end": {
+    "input_tokens": 563499,
+    "cached_input_tokens": 514048,
+    "output_tokens": 25786,
+    "reasoning_output_tokens": 3974,
+    "total_tokens": 589285
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T13-19-27-019f4b89-feca-79e3-a18e-19abfb972ab8.jsonl",
+  "id": "019f4b89-feca-79e3-a18e-19abfb972ab8",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "raycaster-maze",
+  "start_ts": "2026-07-10T10:19:32.930Z",
+  "end_ts": "2026-07-10T10:29:28.709Z",
+  "v1": {
+   "minutes": 9.9,
+   "tool_calls": 19,
+   "cumulative_usage_at_end": {
+    "input_tokens": 700153,
+    "cached_input_tokens": 646144,
+    "output_tokens": 29952,
+    "reasoning_output_tokens": 2698,
+    "total_tokens": 730105
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T15-14-31-019f4bf3-54e2-7e22-8ef5-564ab5918b25.jsonl",
+  "id": "019f4bf3-54e2-7e22-8ef5-564ab5918b25",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "light-2d",
+  "start_ts": "2026-07-10T12:14:36.161Z",
+  "end_ts": "2026-07-10T12:21:01.491Z",
+  "v1": {
+   "minutes": 6.4,
+   "tool_calls": 13,
+   "cumulative_usage_at_end": {
+    "input_tokens": 406253,
+    "cached_input_tokens": 368128,
+    "output_tokens": 19164,
+    "reasoning_output_tokens": 3872,
+    "total_tokens": 425417
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T15-25-55-019f4bfd-c7d0-7302-aceb-0103858337e9.jsonl",
+  "id": "019f4bfd-c7d0-7302-aceb-0103858337e9",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "procedural-walker",
+  "start_ts": "2026-07-10T12:26:01.009Z",
+  "end_ts": "2026-07-10T12:33:53.607Z",
+  "v1": {
+   "minutes": 7.9,
+   "tool_calls": 19,
+   "cumulative_usage_at_end": {
+    "input_tokens": 631378,
+    "cached_input_tokens": 582656,
+    "output_tokens": 23242,
+    "reasoning_output_tokens": 6245,
+    "total_tokens": 654620
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T15-36-31-019f4c07-7a87-7003-9d93-8569395a8e4a.jsonl",
+  "id": "019f4c07-7a87-7003-9d93-8569395a8e4a",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "svg-bicycle",
+  "start_ts": "2026-07-10T12:36:36.516Z",
+  "end_ts": "2026-07-10T12:42:25.736Z",
+  "v1": {
+   "minutes": 5.8,
+   "tool_calls": 10,
+   "cumulative_usage_at_end": {
+    "input_tokens": 324653,
+    "cached_input_tokens": 273664,
+    "output_tokens": 18147,
+    "reasoning_output_tokens": 4737,
+    "total_tokens": 342800
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T15-44-50-019f4c0f-1962-73a0-a5b1-fc128e2b1270.jsonl",
+  "id": "019f4c0f-1962-73a0-a5b1-fc128e2b1270",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "double-pendulum",
+  "start_ts": "2026-07-10T12:44:55.955Z",
+  "end_ts": "2026-07-10T12:53:55.651Z",
+  "v1": {
+   "minutes": 9.0,
+   "tool_calls": 8,
+   "cumulative_usage_at_end": {
+    "input_tokens": 313186,
+    "cached_input_tokens": 267008,
+    "output_tokens": 28634,
+    "reasoning_output_tokens": 5605,
+    "total_tokens": 341820
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T15-56-26-019f4c19-b6d2-7ac2-9fd0-f322ab5eda9a.jsonl",
+  "id": "019f4c19-b6d2-7ac2-9fd0-f322ab5eda9a",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "css-newspaper",
+  "start_ts": "2026-07-10T12:56:31.622Z",
+  "end_ts": "2026-07-10T13:03:33.110Z",
+  "v1": {
+   "minutes": 7.0,
+   "tool_calls": 5,
+   "cumulative_usage_at_end": {
+    "input_tokens": 187210,
+    "cached_input_tokens": 143104,
+    "output_tokens": 21833,
+    "reasoning_output_tokens": 1972,
+    "total_tokens": 209043
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T16-06-07-019f4c22-95cb-7091-94e4-dc93c197c914.jsonl",
+  "id": "019f4c22-95cb-7091-94e4-dc93c197c914",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "solid-3d",
+  "start_ts": "2026-07-10T13:06:12.978Z",
+  "end_ts": "2026-07-10T13:14:07.728Z",
+  "v1": {
+   "minutes": 7.9,
+   "tool_calls": 5,
+   "cumulative_usage_at_end": {
+    "input_tokens": 204238,
+    "cached_input_tokens": 170496,
+    "output_tokens": 25461,
+    "reasoning_output_tokens": 7594,
+    "total_tokens": 229699
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T16-17-05-019f4c2c-9f39-7912-89c3-1ebc81ac368c.jsonl",
+  "id": "019f4c2c-9f39-7912-89c3-1ebc81ac368c",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "surface-plot",
+  "start_ts": "2026-07-10T13:17:10.757Z",
+  "end_ts": "2026-07-10T13:23:52.809Z",
+  "v1": {
+   "minutes": 6.7,
+   "tool_calls": 10,
+   "cumulative_usage_at_end": {
+    "input_tokens": 344361,
+    "cached_input_tokens": 301312,
+    "output_tokens": 20369,
+    "reasoning_output_tokens": 3068,
+    "total_tokens": 364730
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T16-27-11-019f4c35-dc1d-7d81-b08b-531925e7cc5d.jsonl",
+  "id": "019f4c35-dc1d-7d81-b08b-531925e7cc5d",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "voxel-terrain",
+  "start_ts": "2026-07-10T13:27:16.175Z",
+  "end_ts": "2026-07-10T13:35:17.058Z",
+  "v1": {
+   "minutes": 4.1,
+   "tool_calls": 1,
+   "cumulative_usage_at_end": {
+    "input_tokens": 45728,
+    "cached_input_tokens": 24064,
+    "output_tokens": 10538,
+    "reasoning_output_tokens": 3178,
+    "total_tokens": 56266
+   }
+  },
+  "revision": {
+   "kind": "fix",
+   "minutes": 3.9,
+   "tool_calls": 10,
+   "delta_usage": {
+    "input_tokens": 381682,
+    "cached_input_tokens": 362752,
+    "output_tokens": 11227,
+    "reasoning_output_tokens": 3637,
+    "total_tokens": 392909
+   },
+   "n_rounds": 1
+  }
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T16-36-16-019f4c3e-2e8f-7e93-a1d9-c19fd766961e.jsonl",
+  "id": "019f4c3e-2e8f-7e93-a1d9-c19fd766961e",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "voxel-terrain",
+  "start_ts": "2026-07-10T13:36:21.542Z",
+  "end_ts": "2026-07-10T13:42:27.077Z",
+  "v1": {
+   "minutes": 6.1,
+   "tool_calls": 4,
+   "cumulative_usage_at_end": {
+    "input_tokens": 149817,
+    "cached_input_tokens": 113408,
+    "output_tokens": 19701,
+    "reasoning_output_tokens": 4811,
+    "total_tokens": 169518
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T16-45-12-019f4c46-5c5a-7ec3-b420-e1e13d78af72.jsonl",
+  "id": "019f4c46-5c5a-7ec3-b420-e1e13d78af72",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\sol-voxel-terrain",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "voxel-terrain",
+  "start_ts": "2026-07-10T13:45:17.612Z",
+  "end_ts": "2026-07-10T13:56:52.432Z",
+  "v1": {
+   "minutes": 11.6,
+   "tool_calls": 16,
+   "cumulative_usage_at_end": {
+    "input_tokens": 939293,
+    "cached_input_tokens": 858880,
+    "output_tokens": 36318,
+    "reasoning_output_tokens": 10897,
+    "total_tokens": 975611
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T17-03-36-019f4c57-3382-71c2-82cc-d0d55ce28e81.jsonl",
+  "id": "019f4c57-3382-71c2-82cc-d0d55ce28e81",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\sol-earth-globe",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "earth-globe",
+  "start_ts": "2026-07-10T14:03:41.228Z",
+  "end_ts": "2026-07-10T14:11:08.801Z",
+  "v1": {
+   "minutes": 7.5,
+   "tool_calls": 11,
+   "cumulative_usage_at_end": {
+    "input_tokens": 430123,
+    "cached_input_tokens": 384000,
+    "output_tokens": 22977,
+    "reasoning_output_tokens": 5496,
+    "total_tokens": 453100
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T17-03-50-019f4c57-6a19-7c41-ae2d-6ce1c5b314f3.jsonl",
+  "id": "019f4c57-6a19-7c41-ae2d-6ce1c5b314f3",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-particle-flow",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "particle-flow",
+  "start_ts": "2026-07-10T14:03:55.189Z",
+  "end_ts": "2026-07-10T14:07:54.029Z",
+  "v1": {
+   "minutes": 4.0,
+   "tool_calls": 11,
+   "cumulative_usage_at_end": {
+    "input_tokens": 301976,
+    "cached_input_tokens": 225024,
+    "output_tokens": 10679,
+    "reasoning_output_tokens": 3584,
+    "total_tokens": 312655
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T17-08-24-019f4c5b-99c7-71f0-8dbe-64c833f0c823.jsonl",
+  "id": "019f4c5b-99c7-71f0-8dbe-64c833f0c823",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-particle-flow-2",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "particle-flow",
+  "start_ts": "2026-07-10T14:08:29.543Z",
+  "end_ts": "2026-07-10T14:22:00.230Z",
+  "v1": {
+   "minutes": 13.5,
+   "tool_calls": 15,
+   "cumulative_usage_at_end": {
+    "input_tokens": 563722,
+    "cached_input_tokens": 377856,
+    "output_tokens": 41400,
+    "reasoning_output_tokens": 5345,
+    "total_tokens": 605122
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T17-12-49-019f4c5f-a588-7d82-a00e-78673dc3bfad.jsonl",
+  "id": "019f4c5f-a588-7d82-a00e-78673dc3bfad",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\sol-eg2",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "earth-globe",
+  "start_ts": "2026-07-10T14:12:54.677Z",
+  "end_ts": "2026-07-10T14:36:09.868Z",
+  "v1": {
+   "minutes": 22.6,
+   "tool_calls": 22,
+   "cumulative_usage_at_end": {
+    "input_tokens": 1292044,
+    "cached_input_tokens": 1204480,
+    "output_tokens": 53650,
+    "reasoning_output_tokens": 5430,
+    "total_tokens": 1345694
+   }
+  },
+  "revision": {
+   "kind": "fix",
+   "minutes": 0.7,
+   "tool_calls": 2,
+   "delta_usage": {
+    "input_tokens": 229991,
+    "cached_input_tokens": 154880,
+    "output_tokens": 1812,
+    "reasoning_output_tokens": 591,
+    "total_tokens": 231803
+   },
+   "n_rounds": 1
+  }
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T17-40-17-019f4c78-cbe1-7603-993b-0f6f22a2357f.jsonl",
+  "id": "019f4c78-cbe1-7603-993b-0f6f22a2357f",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\sol-pf",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "particle-flow",
+  "start_ts": "2026-07-10T14:40:22.848Z",
+  "end_ts": "2026-07-10T14:48:10.907Z",
+  "v1": {
+   "minutes": 7.8,
+   "tool_calls": 12,
+   "cumulative_usage_at_end": {
+    "input_tokens": 465859,
+    "cached_input_tokens": 419584,
+    "output_tokens": 24293,
+    "reasoning_output_tokens": 3365,
+    "total_tokens": 490152
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T17-51-01-019f4c82-9eb6-74d2-ba14-78ce08799a9b.jsonl",
+  "id": "019f4c82-9eb6-74d2-ba14-78ce08799a9b",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\sol-pf2",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "particle-flow",
+  "start_ts": "2026-07-10T14:51:06.703Z",
+  "end_ts": "2026-07-10T14:57:46.885Z",
+  "v1": {
+   "minutes": 6.7,
+   "tool_calls": 14,
+   "cumulative_usage_at_end": {
+    "input_tokens": 489037,
+    "cached_input_tokens": 445696,
+    "output_tokens": 20552,
+    "reasoning_output_tokens": 2924,
+    "total_tokens": 509589
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T18-05-36-019f4c8f-f8c3-7603-a746-d39d46febc99.jsonl",
+  "id": "019f4c8f-f8c3-7603-a746-d39d46febc99",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\sol-pf3",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "particle-flow",
+  "start_ts": "2026-07-10T15:05:41.831Z",
+  "end_ts": "2026-07-10T15:13:29.748Z",
+  "v1": {
+   "minutes": 7.8,
+   "tool_calls": 10,
+   "cumulative_usage_at_end": {
+    "input_tokens": 386233,
+    "cached_input_tokens": 340224,
+    "output_tokens": 23833,
+    "reasoning_output_tokens": 5128,
+    "total_tokens": 410066
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T20-19-48-019f4d0a-d3aa-73e2-887f-2d2e92f21223.jsonl",
+  "id": "019f4d0a-d3aa-73e2-887f-2d2e92f21223",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\sol-particle-flow",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "particle-flow",
+  "start_ts": "2026-07-10T17:19:53.213Z",
+  "end_ts": "2026-07-10T17:37:33.730Z",
+  "v1": {
+   "minutes": 9.6,
+   "tool_calls": 20,
+   "cumulative_usage_at_end": {
+    "input_tokens": 601925,
+    "cached_input_tokens": 557824,
+    "output_tokens": 18610,
+    "reasoning_output_tokens": 3263,
+    "total_tokens": 620535
+   }
+  },
+  "revision": {
+   "kind": "mixed",
+   "minutes": 8.1,
+   "tool_calls": 17,
+   "delta_usage": {
+    "input_tokens": 981919,
+    "cached_input_tokens": 917760,
+    "output_tokens": 16422,
+    "reasoning_output_tokens": 5960,
+    "total_tokens": 998341
+   },
+   "n_rounds": 2
+  }
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T20-20-02-019f4d0b-0bef-7112-8183-78ff574a4ba2.jsonl",
+  "id": "019f4d0b-0bef-7112-8183-78ff574a4ba2",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\sol-aurora",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "aurora",
+  "start_ts": "2026-07-10T17:20:07.606Z",
+  "end_ts": "2026-07-10T17:41:42.163Z",
+  "v1": {
+   "minutes": 19.7,
+   "tool_calls": 23,
+   "cumulative_usage_at_end": {
+    "input_tokens": 866533,
+    "cached_input_tokens": 770048,
+    "output_tokens": 29728,
+    "reasoning_output_tokens": 6416,
+    "total_tokens": 896261
+   }
+  },
+  "revision": {
+   "kind": "revision",
+   "minutes": 1.8,
+   "tool_calls": 3,
+   "delta_usage": {
+    "input_tokens": 222199,
+    "cached_input_tokens": 209920,
+    "output_tokens": 5487,
+    "reasoning_output_tokens": 2441,
+    "total_tokens": 227686
+   },
+   "n_rounds": 1
+  }
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T20-20-15-019f4d0b-3de7-74d3-9e6a-ba55152ce57f.jsonl",
+  "id": "019f4d0b-3de7-74d3-9e6a-ba55152ce57f",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\sol-aquarium",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "aquarium",
+  "start_ts": "2026-07-10T17:20:20.373Z",
+  "end_ts": "2026-07-10T18:06:46.970Z",
+  "v1": {
+   "minutes": 24.0,
+   "tool_calls": 16,
+   "cumulative_usage_at_end": {
+    "input_tokens": 600011,
+    "cached_input_tokens": 548608,
+    "output_tokens": 29708,
+    "reasoning_output_tokens": 3089,
+    "total_tokens": 629719
+   }
+  },
+  "revision": {
+   "kind": "mixed",
+   "minutes": 22.4,
+   "tool_calls": 11,
+   "delta_usage": {
+    "input_tokens": 729363,
+    "cached_input_tokens": 656384,
+    "output_tokens": 11523,
+    "reasoning_output_tokens": 3904,
+    "total_tokens": 740886
+   },
+   "n_rounds": 3
+  }
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T20-20-31-019f4d0b-7ca4-7532-a4b5-da66af746a0c.jsonl",
+  "id": "019f4d0b-7ca4-7532-a4b5-da66af746a0c",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\sol-aquarium-3d",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "aquarium-3d",
+  "start_ts": "2026-07-10T17:20:36.407Z",
+  "end_ts": "2026-07-10T17:58:50.053Z",
+  "v1": {
+   "minutes": 25.3,
+   "tool_calls": 23,
+   "cumulative_usage_at_end": {
+    "input_tokens": 891571,
+    "cached_input_tokens": 833536,
+    "output_tokens": 28168,
+    "reasoning_output_tokens": 3348,
+    "total_tokens": 919739
+   }
+  },
+  "revision": {
+   "kind": "mixed",
+   "minutes": 13.0,
+   "tool_calls": 23,
+   "delta_usage": {
+    "input_tokens": 1819156,
+    "cached_input_tokens": 1764096,
+    "output_tokens": 19805,
+    "reasoning_output_tokens": 9242,
+    "total_tokens": 1838961
+   },
+   "n_rounds": 2
+  }
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T20-20-32-019f4d0b-8007-7be1-8bf6-33a2b129fc87.jsonl",
+  "id": "019f4d0b-8007-7be1-8bf6-33a2b129fc87",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\sol-analog-clock",
+  "models": [
+   "gpt-5.6-sol"
+  ],
+  "matched_task": "analog-clock",
+  "start_ts": "2026-07-10T17:20:37.311Z",
+  "end_ts": "2026-07-10T17:30:12.784Z",
+  "v1": {
+   "minutes": 9.6,
+   "tool_calls": 30,
+   "cumulative_usage_at_end": {
+    "input_tokens": 1671850,
+    "cached_input_tokens": 1590528,
+    "output_tokens": 26738,
+    "reasoning_output_tokens": 6699,
+    "total_tokens": 1698588
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T21-20-48-019f4d42-ae92-72a2-bf8f-e568dbd53b4e.jsonl",
+  "id": "019f4d42-ae92-72a2-bf8f-e568dbd53b4e",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-solar-system",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "solar-system",
+  "start_ts": "2026-07-10T18:20:53.762Z",
+  "end_ts": "2026-07-10T18:42:44.144Z",
+  "v1": {
+   "minutes": 20.2,
+   "tool_calls": 20,
+   "cumulative_usage_at_end": {
+    "input_tokens": 945705,
+    "cached_input_tokens": 811264,
+    "output_tokens": 42097,
+    "reasoning_output_tokens": 4261,
+    "total_tokens": 987802
+   }
+  },
+  "revision": {
+   "kind": "revision",
+   "minutes": 1.7,
+   "tool_calls": 6,
+   "delta_usage": {
+    "input_tokens": 475728,
+    "cached_input_tokens": 456960,
+    "output_tokens": 4968,
+    "reasoning_output_tokens": 2635,
+    "total_tokens": 480696
+   },
+   "n_rounds": 1
+  }
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T21-20-57-019f4d42-d0c7-7662-bd55-3f3bcb3eaeb6.jsonl",
+  "id": "019f4d42-d0c7-7662-bd55-3f3bcb3eaeb6",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-mandelbrot",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "mandelbrot",
+  "start_ts": "2026-07-10T18:21:02.444Z",
+  "end_ts": "2026-07-10T18:35:44.592Z",
+  "v1": {
+   "minutes": 12.8,
+   "tool_calls": 22,
+   "cumulative_usage_at_end": {
+    "input_tokens": 760239,
+    "cached_input_tokens": 628736,
+    "output_tokens": 23167,
+    "reasoning_output_tokens": 5281,
+    "total_tokens": 783406
+   }
+  },
+  "revision": {
+   "kind": "revision",
+   "minutes": 1.9,
+   "tool_calls": 11,
+   "delta_usage": {
+    "input_tokens": 575839,
+    "cached_input_tokens": 463360,
+    "output_tokens": 5126,
+    "reasoning_output_tokens": 2164,
+    "total_tokens": 580965
+   },
+   "n_rounds": 1
+  }
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T21-21-04-019f4d42-eb82-7501-a068-38dfda1157e0.jsonl",
+  "id": "019f4d42-eb82-7501-a068-38dfda1157e0",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-lorenz",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "lorenz",
+  "start_ts": "2026-07-10T18:21:09.438Z",
+  "end_ts": "2026-07-10T18:48:53.436Z",
+  "v1": {
+   "minutes": 26.9,
+   "tool_calls": 32,
+   "cumulative_usage_at_end": {
+    "input_tokens": 1305966,
+    "cached_input_tokens": 1166336,
+    "output_tokens": 27123,
+    "reasoning_output_tokens": 6317,
+    "total_tokens": 1333089
+   }
+  },
+  "revision": {
+   "kind": "fix",
+   "minutes": 0.9,
+   "tool_calls": 5,
+   "delta_usage": {
+    "input_tokens": 351751,
+    "cached_input_tokens": 288512,
+    "output_tokens": 2326,
+    "reasoning_output_tokens": 1694,
+    "total_tokens": 354077
+   },
+   "n_rounds": 1
+  }
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T21-21-27-019f4d43-4625-7552-88b5-406e90ce1af4.jsonl",
+  "id": "019f4d43-4625-7552-88b5-406e90ce1af4",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-verlet-cloth",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "verlet-cloth",
+  "start_ts": "2026-07-10T18:21:32.483Z",
+  "end_ts": "2026-07-10T19:07:15.097Z",
+  "v1": {
+   "minutes": 42.3,
+   "tool_calls": 11,
+   "cumulative_usage_at_end": {
+    "input_tokens": 385400,
+    "cached_input_tokens": 286208,
+    "output_tokens": 24265,
+    "reasoning_output_tokens": 2856,
+    "total_tokens": 409665
+   }
+  },
+  "revision": {
+   "kind": "revision",
+   "minutes": 3.4,
+   "tool_calls": 3,
+   "delta_usage": {
+    "input_tokens": 210082,
+    "cached_input_tokens": 89600,
+    "output_tokens": 10841,
+    "reasoning_output_tokens": 5088,
+    "total_tokens": 220923
+   },
+   "n_rounds": 1
+  }
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/10/rollout-2026-07-10T21-21-37-019f4d43-6bf8-7ad1-95ba-f75a43ee48a5.jsonl",
+  "id": "019f4d43-6bf8-7ad1-95ba-f75a43ee48a5",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-boids",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "boids",
+  "start_ts": "2026-07-10T18:21:42.181Z",
+  "end_ts": "2026-07-10T18:55:31.794Z",
+  "v1": {
+   "minutes": 32.8,
+   "tool_calls": 20,
+   "cumulative_usage_at_end": {
+    "input_tokens": 972507,
+    "cached_input_tokens": 822528,
+    "output_tokens": 38419,
+    "reasoning_output_tokens": 4193,
+    "total_tokens": 1010926
+   }
+  },
+  "revision": {
+   "kind": "fix",
+   "minutes": 1.0,
+   "tool_calls": 3,
+   "delta_usage": {
+    "input_tokens": 286958,
+    "cached_input_tokens": 211200,
+    "output_tokens": 2843,
+    "reasoning_output_tokens": 1062,
+    "total_tokens": 289801
+   },
+   "n_rounds": 1
+  }
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T07-28-40-019f4f6f-3295-7b41-a493-825a9fe35b2a.jsonl",
+  "id": "019f4f6f-3295-7b41-a493-825a9fe35b2a",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-mandelbrot",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "mandelbrot",
+  "start_ts": "2026-07-11T04:28:45.896Z",
+  "end_ts": "2026-07-11T04:38:43.537Z",
+  "v1": {
+   "minutes": 10.0,
+   "tool_calls": 19,
+   "cumulative_usage_at_end": {
+    "input_tokens": 829432,
+    "cached_input_tokens": 718080,
+    "output_tokens": 30909,
+    "reasoning_output_tokens": 5667,
+    "total_tokens": 860341
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T07-43-17-019f4f7c-93a8-7d02-8bd1-864253ac906f.jsonl",
+  "id": "019f4f7c-93a8-7d02-8bd1-864253ac906f",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-falling-sand",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "falling-sand",
+  "start_ts": "2026-07-11T04:43:22.293Z",
+  "end_ts": "2026-07-11T04:53:42.113Z",
+  "v1": {
+   "minutes": 10.3,
+   "tool_calls": 26,
+   "cumulative_usage_at_end": {
+    "input_tokens": 1111694,
+    "cached_input_tokens": 994048,
+    "output_tokens": 31997,
+    "reasoning_output_tokens": 5910,
+    "total_tokens": 1143691
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T07-43-38-019f4f7c-e54c-7ae3-8ad3-f56838b04e68.jsonl",
+  "id": "019f4f7c-e54c-7ae3-8ad3-f56838b04e68",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-raycaster-maze",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "raycaster-maze",
+  "start_ts": "2026-07-11T04:43:43.247Z",
+  "end_ts": "2026-07-11T04:54:49.362Z",
+  "v1": {
+   "minutes": 11.1,
+   "tool_calls": 40,
+   "cumulative_usage_at_end": {
+    "input_tokens": 2097913,
+    "cached_input_tokens": 1874176,
+    "output_tokens": 33774,
+    "reasoning_output_tokens": 5428,
+    "total_tokens": 2131687
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T07-43-50-019f4f7d-1799-7b30-af09-e2a374728422.jsonl",
+  "id": "019f4f7d-1799-7b30-af09-e2a374728422",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-light-2d",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "light-2d",
+  "start_ts": "2026-07-11T04:43:56.097Z",
+  "end_ts": "2026-07-11T04:52:53.677Z",
+  "v1": {
+   "minutes": 9.0,
+   "tool_calls": 25,
+   "cumulative_usage_at_end": {
+    "input_tokens": 922534,
+    "cached_input_tokens": 794368,
+    "output_tokens": 27839,
+    "reasoning_output_tokens": 4128,
+    "total_tokens": 950373
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T07-44-07-019f4f7d-57d2-74d0-9fec-1a760a3b7212.jsonl",
+  "id": "019f4f7d-57d2-74d0-9fec-1a760a3b7212",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-procedural-walker",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "procedural-walker",
+  "start_ts": "2026-07-11T04:44:12.530Z",
+  "end_ts": "2026-07-11T04:54:12.728Z",
+  "v1": {
+   "minutes": 10.0,
+   "tool_calls": 26,
+   "cumulative_usage_at_end": {
+    "input_tokens": 1365934,
+    "cached_input_tokens": 1283584,
+    "output_tokens": 31395,
+    "reasoning_output_tokens": 9673,
+    "total_tokens": 1397329
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T07-44-23-019f4f7d-981b-7ef0-9271-fa794ac89822.jsonl",
+  "id": "019f4f7d-981b-7ef0-9271-fa794ac89822",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-double-pendulum",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "double-pendulum",
+  "start_ts": "2026-07-11T04:44:28.994Z",
+  "end_ts": "2026-07-11T04:54:44.395Z",
+  "v1": {
+   "minutes": 10.3,
+   "tool_calls": 31,
+   "cumulative_usage_at_end": {
+    "input_tokens": 1328448,
+    "cached_input_tokens": 1249536,
+    "output_tokens": 31816,
+    "reasoning_output_tokens": 5820,
+    "total_tokens": 1360264
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T07-57-11-019f4f89-4fec-7302-845e-00b987a02a97.jsonl",
+  "id": "019f4f89-4fec-7302-845e-00b987a02a97",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-solid-3d",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "solid-3d",
+  "start_ts": "2026-07-11T04:57:16.950Z",
+  "end_ts": "2026-07-11T05:12:37.382Z",
+  "v1": {
+   "minutes": 15.3,
+   "tool_calls": 30,
+   "cumulative_usage_at_end": {
+    "input_tokens": 1851047,
+    "cached_input_tokens": 1757440,
+    "output_tokens": 45638,
+    "reasoning_output_tokens": 13890,
+    "total_tokens": 1896685
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T07-57-34-019f4f89-a7fa-7f70-afe7-86af11572e15.jsonl",
+  "id": "019f4f89-a7fa-7f70-afe7-86af11572e15",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-surface-plot",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "surface-plot",
+  "start_ts": "2026-07-11T04:57:39.512Z",
+  "end_ts": "2026-07-11T05:06:11.081Z",
+  "v1": {
+   "minutes": 8.5,
+   "tool_calls": 19,
+   "cumulative_usage_at_end": {
+    "input_tokens": 886059,
+    "cached_input_tokens": 823296,
+    "output_tokens": 26847,
+    "reasoning_output_tokens": 3156,
+    "total_tokens": 912906
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T07-57-44-019f4f89-d072-7060-a842-ffc867b2ccf4.jsonl",
+  "id": "019f4f89-d072-7060-a842-ffc867b2ccf4",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-voxel-terrain",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "voxel-terrain",
+  "start_ts": "2026-07-11T04:57:49.843Z",
+  "end_ts": "2026-07-11T05:06:51.293Z",
+  "v1": {
+   "minutes": 9.0,
+   "tool_calls": 25,
+   "cumulative_usage_at_end": {
+    "input_tokens": 1422863,
+    "cached_input_tokens": 1292032,
+    "output_tokens": 27523,
+    "reasoning_output_tokens": 3877,
+    "total_tokens": 1450386
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T07-58-06-019f4f8a-2785-7700-9dc6-e34887a84bec.jsonl",
+  "id": "019f4f8a-2785-7700-9dc6-e34887a84bec",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-earth-globe",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "earth-globe",
+  "start_ts": "2026-07-11T04:58:12.147Z",
+  "end_ts": "2026-07-11T05:07:37.329Z",
+  "v1": {
+   "minutes": 9.4,
+   "tool_calls": 18,
+   "cumulative_usage_at_end": {
+    "input_tokens": 737543,
+    "cached_input_tokens": 677120,
+    "output_tokens": 30044,
+    "reasoning_output_tokens": 5330,
+    "total_tokens": 767587
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T07-58-19-019f4f8a-5674-7191-8f26-7169317112dc.jsonl",
+  "id": "019f4f8a-5674-7191-8f26-7169317112dc",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-particle-flow",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "particle-flow",
+  "start_ts": "2026-07-11T04:58:24.141Z",
+  "end_ts": "2026-07-11T05:11:34.016Z",
+  "v1": {
+   "minutes": 13.2,
+   "tool_calls": 47,
+   "cumulative_usage_at_end": {
+    "input_tokens": 3198961,
+    "cached_input_tokens": 3026176,
+    "output_tokens": 39308,
+    "reasoning_output_tokens": 6483,
+    "total_tokens": 3238269
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T08-15-00-019f4f99-9d79-7870-b011-315de2a9300a.jsonl",
+  "id": "019f4f99-9d79-7870-b011-315de2a9300a",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-aurora",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "aurora",
+  "start_ts": "2026-07-11T05:15:05.363Z",
+  "end_ts": "2026-07-11T05:23:55.062Z",
+  "v1": {
+   "minutes": 8.8,
+   "tool_calls": 18,
+   "cumulative_usage_at_end": {
+    "input_tokens": 657897,
+    "cached_input_tokens": 520448,
+    "output_tokens": 28229,
+    "reasoning_output_tokens": 7037,
+    "total_tokens": 686126
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T08-15-15-019f4f99-daaf-7f50-b690-7b8c1472aa42.jsonl",
+  "id": "019f4f99-daaf-7f50-b690-7b8c1472aa42",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-aquarium",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "aquarium",
+  "start_ts": "2026-07-11T05:15:21.062Z",
+  "end_ts": "2026-07-11T05:26:47.738Z",
+  "v1": {
+   "minutes": 11.4,
+   "tool_calls": 22,
+   "cumulative_usage_at_end": {
+    "input_tokens": 1230347,
+    "cached_input_tokens": 1101312,
+    "output_tokens": 36429,
+    "reasoning_output_tokens": 4279,
+    "total_tokens": 1266776
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T08-15-39-019f4f9a-35a2-7da2-86bc-a2547bc922ae.jsonl",
+  "id": "019f4f9a-35a2-7da2-86bc-a2547bc922ae",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-aquarium-3d",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "aquarium-3d",
+  "start_ts": "2026-07-11T05:15:44.338Z",
+  "end_ts": "2026-07-11T05:26:20.750Z",
+  "v1": {
+   "minutes": 10.6,
+   "tool_calls": 19,
+   "cumulative_usage_at_end": {
+    "input_tokens": 801838,
+    "cached_input_tokens": 742400,
+    "output_tokens": 33914,
+    "reasoning_output_tokens": 3020,
+    "total_tokens": 835752
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T08-15-51-019f4f9a-679d-7172-a2b0-160b69983f95.jsonl",
+  "id": "019f4f9a-679d-7172-a2b0-160b69983f95",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-analog-clock",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "analog-clock",
+  "start_ts": "2026-07-11T05:15:57.111Z",
+  "end_ts": "2026-07-11T05:27:38.902Z",
+  "v1": {
+   "minutes": 11.7,
+   "tool_calls": 35,
+   "cumulative_usage_at_end": {
+    "input_tokens": 1925499,
+    "cached_input_tokens": 1835008,
+    "output_tokens": 33059,
+    "reasoning_output_tokens": 5854,
+    "total_tokens": 1958558
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T08-16-14-019f4f9a-bf43-79d3-aa71-056363958ff8.jsonl",
+  "id": "019f4f9a-bf43-79d3-aa71-056363958ff8",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-svg-bicycle",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "svg-bicycle",
+  "start_ts": "2026-07-11T05:16:19.540Z",
+  "end_ts": "2026-07-11T05:23:01.230Z",
+  "v1": {
+   "minutes": 6.7,
+   "tool_calls": 22,
+   "cumulative_usage_at_end": {
+    "input_tokens": 1128467,
+    "cached_input_tokens": 1048832,
+    "output_tokens": 20920,
+    "reasoning_output_tokens": 3830,
+    "total_tokens": 1149387
+   }
+  },
+  "revision": null
+ },
+ {
+  "path": "C:/Users/afk/.codex/sessions/2026/07/11/rollout-2026-07-11T08-16-36-019f4f9b-162b-7121-81f7-c56e89eaa5b2.jsonl",
+  "id": "019f4f9b-162b-7121-81f7-c56e89eaa5b2",
+  "cwd": "E:\\_Проекты\\pet\\visual-tests-tmp\\luna-css-newspaper",
+  "models": [
+   "gpt-5.6-luna"
+  ],
+  "matched_task": "css-newspaper",
+  "start_ts": "2026-07-11T05:16:41.807Z",
+  "end_ts": "2026-07-11T05:24:26.862Z",
+  "v1": {
+   "minutes": 7.8,
+   "tool_calls": 11,
+   "cumulative_usage_at_end": {
+    "input_tokens": 382152,
+    "cached_input_tokens": 310272,
+    "output_tokens": 25059,
+    "reasoning_output_tokens": 1707,
+    "total_tokens": 407211
+   }
+  },
+  "revision": null
+ }
+]

@@ -1,0 +1,77 @@
+[
+ {
+  "label": "opus-5.5-sessA",
+  "session": "44e0126f-d33c-4d6a-95ed-396ee8fc451a",
+  "cutoff": null,
+  "api_calls": 65,
+  "totals": {
+   "claude-opus-5-5": {
+    "input": 134,
+    "output": 26814,
+    "cache_write_5m": 0,
+    "cache_write_1h": 159915,
+    "cache_read": 7797565
+   }
+  }
+ },
+ {
+  "label": "opus-5.5-sessB",
+  "session": "9076c8f3-b929-4c43-8885-65c23f80f7dd",
+  "cutoff": null,
+  "api_calls": 123,
+  "totals": {
+   "claude-opus-5-5": {
+    "input": 256,
+    "output": 41948,
+    "cache_write_5m": 0,
+    "cache_write_1h": 226231,
+    "cache_read": 19269706
+   }
+  }
+ },
+ {
+  "label": "opus-5.5-sessC",
+  "session": "8fba026f-f739-4a0d-98ad-a0ee7fe7f0c3",
+  "cutoff": null,
+  "api_calls": 141,
+  "totals": {
+   "claude-opus-5-5": {
+    "input": 296,
+    "output": 45716,
+    "cache_write_5m": 0,
+    "cache_write_1h": 188888,
+    "cache_read": 22603110
+   }
+  }
+ },
+ {
+  "label": "opus-5.5-sessD",
+  "session": "4f72b4d0-6a55-466f-b928-366fd7d55dc0",
+  "cutoff": "2026-09-27T09:09:31.130Z",
+  "api_calls": 143,
+  "totals": {
+   "claude-opus-5-5": {
+    "input": 298,
+    "output": 65668,
+    "cache_write_5m": 0,
+    "cache_write_1h": 307464,
+    "cache_read": 30028427
+   }
+  }
+ },
+ {
+  "label": "opus-5-restored",
+  "session": "9eb3a373-1a82-4f63-b3a1-3b92440087e4",
+  "cutoff": null,
+  "api_calls": 315,
+  "totals": {
+   "claude-opus-5": {
+    "input": 630,
+    "output": 210846,
+    "cache_write_5m": 0,
+    "cache_write_1h": 1387622,
+    "cache_read": 83081923
+   }
+  }
+ }
+]
