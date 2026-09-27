@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Система Лоренца — Claude Opus 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene" aria-label="Аттрактор Лоренца: трёхмерная траектория с затухающим следом"></canvas>
+
+<header class="hud">
+  <h1>Аттрактор Лоренца</h1>
+  <p class="eq"><span>dx/dt = σ(y − x)</span><span>dy/dt = x(ρ − z) − y</span><span>dz/dt = xy − βz</span></p>
+  <p class="params">σ = 10 · ρ = 28 · β = 8/3 · интегратор RK4, шаг 0,002</p>
+  <p class="readout" id="readout">&nbsp;</p>
+  <p class="hint">Перетаскивание — поворот · колесо — масштаб · двойной клик — исходный вид</p>
+</header>
+
+<nav class="panel" aria-label="Управление">
+  <button type="button" class="btn icon" id="btnPlay" aria-label="Пауза" title="Пауза (пробел)">
+    <svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="2.5" width="3" height="11" rx="1"/><rect x="9.5" y="2.5" width="3" height="11" rx="1"/></svg>
+    <svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.6 2.9v10.2c0 .6.7 1 1.2.7l8-5.1c.5-.3.5-1.1 0-1.4l-8-5.1c-.5-.3-1.2.1-1.2.7z"/></svg>
+  </button>
+  <span class="sep" aria-hidden="true"></span>
+  <label class="ctl" title="Скорость модельного времени">
+    <span class="lbl">Скорость</span>
+    <input id="speed" type="range" min="0.1" max="3" step="0.05" value="1">
+    <output id="speedOut">1,00×</output>
+  </label>
+  <label class="ctl" title="Длина следа в единицах модельного времени">
+    <span class="lbl">След</span>
+    <input id="trail" type="range" min="2" max="80" step="1" value="24">
+    <output id="trailOut">24 ед.</output>
+  </label>
+  <span class="sep" aria-hidden="true"></span>
+  <button type="button" class="btn" id="btnPalette" title="Сменить палитру">
+    <i class="swatch" id="swatch" aria-hidden="true"></i><span id="palName">Закат</span>
+  </button>
+  <button type="button" class="btn toggle on" id="btnRotate" aria-pressed="true" title="Автоматическое вращение камеры">Вращение</button>
+  <button type="button" class="btn" id="btnReset" title="Новая траектория из случайной точки">Сброс</button>
+</nav>
+
+<script src="main.js"></script>
+</body>
+</html>
