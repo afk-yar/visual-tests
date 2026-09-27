@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3D-поверхность функции — Claude Opus 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene" aria-label="Трёхмерный график функции z = f(x, y)"></canvas>
+
+<header class="hud">
+  <h1>3D-поверхность <span class="eq">z = f(x, y, t)</span></h1>
+  <p class="sub">Canvas 2D без библиотек · освещение по Ламберту по нормалям в узлах · алгоритм художника</p>
+  <div class="formula"><b id="fName">Рябь</b><code id="fExpr"></code></div>
+  <div class="stats" id="stats">&nbsp;</div>
+  <div class="keys">Тяни — вращать · колесо — масштаб · двойной клик — сброс вида<br>1–5 — функция · W — каркас · R — вращение · Space — пауза · C — палитра</div>
+</header>
+
+<aside class="legend" aria-hidden="true">
+  <div class="legend-title">z</div>
+  <div class="legend-body">
+    <div class="legend-bar" id="legendBar"></div>
+    <div class="legend-ticks" id="legendTicks"></div>
+  </div>
+</aside>
+
+<nav class="panel" id="panel" aria-label="Управление графиком">
+  <div class="seg" id="funcs" role="radiogroup" aria-label="Функция"></div>
+  <div class="group toggles">
+    <button type="button" class="tog" id="btnWire" aria-pressed="true" title="Каркас поверх заливки (W)">Каркас</button>
+    <button type="button" class="tog" id="btnSpin" aria-pressed="true" title="Медленный облёт камеры (R)">Вращение</button>
+    <button type="button" class="tog" id="btnPause" aria-pressed="false" title="Остановить время (Space)">Пауза</button>
+    <button type="button" class="pal" id="btnPal" title="Сменить палитру (C)"><span class="chip" id="palChip"></span><span id="palName">Viridis</span></button>
+  </div>
+  <div class="group sliders">
+    <label class="slider">Сетка<input type="range" id="rngRes" min="16" max="112" step="4" value="64"><output id="outRes">64</output></label>
+    <label class="slider">Высота<input type="range" id="rngAmp" min="0.4" max="1.8" step="0.05" value="1"><output id="outAmp">×1,00</output></label>
+  </div>
+</nav>
+
+<script src="main.js"></script>
+</body>
+</html>

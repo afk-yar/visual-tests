@@ -253,6 +253,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/surface-plot/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/surface-plot/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/surface-plot/opus-5/' },
+      { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/surface-plot/opus-5.5/' },
     ],
   },
   {
