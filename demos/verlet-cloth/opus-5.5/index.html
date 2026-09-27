@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ткань (верлет) — Claude Opus 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene" aria-label="Симуляция ткани на верлет-интегрировании"></canvas>
+
+<header class="hud" id="hud">
+  <h1>Ткань <span>· верлет</span></h1>
+  <p>Тяните ткань мышью — при сильном растяжении нити рвутся.</p>
+  <p class="desk">ПКМ или Shift — резать · двойной клик по зажиму — отцепить · R — сброс · пробел — пауза</p>
+  <div class="stats">
+    <span class="chip">частиц: <b id="sParts">0</b></span>
+    <span class="chip">связей: <b id="sLinks">0</b></span>
+    <span class="chip" id="sBrokenChip">порвано: <b id="sBroken">0</b></span>
+    <span class="chip">ветер: <b id="sWind">0</b></span>
+  </div>
+</header>
+
+<div class="legend" id="legend" hidden>
+  <span>покой</span><i></i><span>разрыв</span>
+</div>
+
+<div class="badge" id="pauseBadge" hidden>Пауза</div>
+
+<div class="panel" id="panel" role="toolbar" aria-label="Управление симуляцией">
+  <div class="seg" id="toolSeg" role="group" aria-label="Инструмент">
+    <button type="button" data-tool="grab" class="on" aria-pressed="true">Тянуть</button>
+    <button type="button" data-tool="cut" aria-pressed="false">Резать</button>
+  </div>
+  <div class="seg" id="viewSeg" role="group" aria-label="Вид">
+    <button type="button" data-view="cloth" class="on" aria-pressed="true">Ткань</button>
+    <button type="button" data-view="grid" aria-pressed="false">Сетка</button>
+  </div>
+  <label class="slider">
+    <span>Ветер <b id="windVal">35%</b></span>
+    <input type="range" id="wind" min="0" max="100" value="35">
+  </label>
+  <label class="slider">
+    <span>Прочность <b id="tearVal">×1,90</b></span>
+    <input type="range" id="tear" min="140" max="300" value="190">
+  </label>
+  <button type="button" class="btn" id="reset">↺ Сброс</button>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
