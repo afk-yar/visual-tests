@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Двойной маятник — Claude Opus 5.5</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scene" aria-label="Анимация двойного маятника"></canvas>
+
+  <div class="top" id="top">
+    <header class="hud">
+      <h1>Двойной маятник</h1>
+      <p class="sub">Уравнения Лагранжа · RK4, шаг 0,2&nbsp;мс · g&nbsp;=&nbsp;9,81&nbsp;м/с²</p>
+      <div class="stats">
+        <span><i>t</i><b id="stT" class="w-t">0,00 с</b></span>
+        <span><i>θ₁</i><b id="stA">0,0°</b></span>
+        <span><i>θ₂</i><b id="stB">0,0°</b></span>
+        <span title="Относительный дрейф полной энергии — контроль точности интегратора"><i>ΔE</i><b id="stE" class="w-e">0</b></span>
+      </div>
+      <p class="hint">Тяните груз мышью — новое начальное положение · <kbd>Пробел</kbd> <kbd>R</kbd> <kbd>G</kbd></p>
+    </header>
+
+    <section class="card" id="chaos" aria-label="Расхождение маятника и призрака">
+      <div class="card-head">
+        <span class="card-title"><i class="dot"></i>Призрак</span>
+        <span class="card-eps">θ₁ + <span id="epsLbl">10⁻⁶</span> рад</span>
+      </div>
+      <canvas id="chart"></canvas>
+      <div class="card-foot">
+        <span title="Расстояние между маятником и призраком в фазовом пространстве; шкала логарифмическая">|Δ| <b id="dVal">—</b></span>
+        <span id="dSep">пока совпадают</span>
+      </div>
+    </section>
+  </div>
+
+  <div class="panel" id="panel">
+    <div class="grp">
+      <button class="btn primary" id="play" type="button" title="Пуск / пауза (Пробел)">
+        <svg class="ico-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="2.5" width="3" height="11" rx="1" fill="currentColor"/><rect x="9.5" y="2.5" width="3" height="11" rx="1" fill="currentColor"/></svg>
+        <svg class="ico-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.9v10.2a.8.8 0 0 0 1.2.7l8.1-5.1a.8.8 0 0 0 0-1.4L5.7 2.2a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
+        <span id="playLbl">Пауза</span>
+      </button>
+      <button class="btn" id="reset" type="button" title="Сброс к начальному положению (R)">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.1 8.4A5 5 0 1 0 4.6 4.3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M3.6 1.9v3h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Сброс</span>
+      </button>
+      <button class="btn toggle" id="ghostBtn" type="button" aria-pressed="true" title="Призрак — копия с крошечным отклонением начального угла θ₁ (G)">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="6" cy="9.2" r="3.7" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="6.8" r="3.7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.1 1.6"/></svg>
+        <span>Призрак</span>
+      </button>
+    </div>
+
+    <div class="grp">
+      <label class="ctl silver">
+        <span class="ctl-head"><span class="ctl-name">m₁</span><output id="m1Out">1,0 кг</output></span>
+        <input type="range" id="m1" min="0.2" max="4" step="0.1" value="1">
+      </label>
+      <label class="ctl amber">
+        <span class="ctl-head"><span class="ctl-name">m₂</span><output id="m2Out">1,0 кг</output></span>
+        <input type="range" id="m2" min="0.2" max="4" step="0.1" value="1">
+      </label>
+    </div>
+
+    <div class="grp">
+      <label class="ctl silver">
+        <span class="ctl-head"><span class="ctl-name">L₁</span><output id="L1Out">1,00 м</output></span>
+        <input type="range" id="L1" min="0.3" max="2" step="0.05" value="1">
+      </label>
+      <label class="ctl amber">
+        <span class="ctl-head"><span class="ctl-name">L₂</span><output id="L2Out">1,00 м</output></span>
+        <input type="range" id="L2" min="0.3" max="2" step="0.05" value="1">
+      </label>
+    </div>
+
+    <div class="grp">
+      <label class="ctl amber">
+        <span class="ctl-head"><span class="ctl-name">След</span><output id="trailOut">5,0 с</output></span>
+        <input type="range" id="trail" min="0.5" max="12" step="0.5" value="5">
+      </label>
+      <label class="ctl cyan">
+        <span class="ctl-head"><span class="ctl-name">ε</span><output id="epsOut">10⁻⁶ рад</output></span>
+        <input type="range" id="eps" min="-12" max="-1" step="1" value="-6">
+      </label>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
