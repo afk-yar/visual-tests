@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Фрактал Мандельброта — Claude Opus 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view" aria-label="Множество Мандельброта"></canvas>
+
+<header class="hud">
+  <h1>Множество Мандельброта</h1>
+  <p class="sub">Колесо — зум к курсору · тяни — панорама · двойной клик — ×4 (Shift — отдалить)</p>
+  <dl class="stats">
+    <div><dt>Зум</dt><dd id="s-zoom">1×</dd></div>
+    <div><dt>Центр</dt><dd id="s-center">—</dd></div>
+    <div><dt>Курсор</dt><dd id="s-cursor">—</dd></div>
+    <div><dt>Итерации</dt><dd id="s-iter">—</dd></div>
+    <div><dt>Рендер</dt><dd id="s-render">—</dd></div>
+  </dl>
+  <p class="warn" id="s-warn" hidden>Близко к пределу точности double: дальше детали начнут рассыпаться на квадраты</p>
+</header>
+
+<div class="panel" id="panel">
+  <div class="group palettes" id="palettes" role="radiogroup" aria-label="Палитра"></div>
+  <label class="group slider">
+    <span>Плотность</span>
+    <input id="density" type="range" min="-2" max="2" step="0.01" value="0">
+  </label>
+  <label class="group slider">
+    <span>Глубина</span>
+    <input id="depth" type="range" min="-1" max="2" step="0.05" value="0">
+    <output id="depth-out">×1.0</output>
+  </label>
+  <div class="group">
+    <button id="cycle" class="toggle" type="button" aria-pressed="false">Переливы</button>
+    <select id="places" aria-label="Интересные места">
+      <option value="">Места…</option>
+    </select>
+    <button id="reset" type="button">Сброс</button>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
