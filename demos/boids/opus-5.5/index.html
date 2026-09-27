@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Стая boids — Claude Opus 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="sky" aria-label="Симуляция стаи птиц на тороидальном небе"></canvas>
+
+<header class="hud">
+  <div class="kicker">Boids · Рейнольдс, 1987</div>
+  <h1>Стая птиц</h1>
+  <p class="sub">Три локальных правила и никакого вожака. Мир замкнут в тор: птица, улетевшая за край, возвращается с противоположной стороны. Щёлкните по любой птице, чтобы взять её в линзу.</p>
+  <p class="stats"><b id="s-n">800</b> агентов · <b id="s-fps">60</b> fps · шаг <b id="s-ms">0,0</b> мс · в линзе <b id="s-nb">0</b></p>
+  <ul class="legend">
+    <li style="--c:#ff8b7b">разделение</li>
+    <li style="--c:#5fe3d0">выравнивание</li>
+    <li style="--c:#b8a4ff">сцепление</li>
+    <li style="--c:#ffffff">сумма сил</li>
+  </ul>
+</header>
+
+<section class="panel" aria-label="Параметры стаи">
+  <div class="sliders">
+    <label class="ctl" style="--c:#ff8b7b">
+      <span class="name"><i></i>Разделение</span><output></output>
+      <input id="c-sep" type="range" min="0" max="4" step="0.1" value="1.6">
+    </label>
+    <label class="ctl" style="--c:#5fe3d0">
+      <span class="name"><i></i>Выравнивание</span><output></output>
+      <input id="c-ali" type="range" min="0" max="4" step="0.1" value="1">
+    </label>
+    <label class="ctl" style="--c:#b8a4ff">
+      <span class="name"><i></i>Сцепление</span><output></output>
+      <input id="c-coh" type="range" min="0" max="4" step="0.1" value="0.9">
+    </label>
+    <label class="ctl" style="--c:#f4efff">
+      <span class="name"><i class="ring"></i>Радиус восприятия</span><output></output>
+      <input id="c-rad" type="range" min="16" max="160" step="1" value="58">
+    </label>
+    <label class="ctl" style="--c:#ffd27a">
+      <span class="name"><i></i>Макс. скорость</span><output></output>
+      <input id="c-spd" type="range" min="40" max="420" step="5" value="200">
+    </label>
+    <label class="ctl" style="--c:#9fb6ff">
+      <span class="name"><i></i>Агентов</span><output></output>
+      <input id="c-cnt" type="range" min="400" max="2000" step="50" value="800">
+    </label>
+  </div>
+  <div class="actions">
+    <button id="b-pause" type="button">Пауза</button>
+    <button id="b-next" type="button">Другая птица</button>
+    <button id="b-scatter" type="button">Разбросать</button>
+  </div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>
