@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Поток частиц 3D — Claude Opus 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view" aria-label="Трёхмерный поток частиц"></canvas>
+
+<header id="hud">
+  <h1>Поток частиц 3D</h1>
+  <p class="sub">Curl-noise внутри тороидального вихря · HDR-накопление следов, свечение, дымка и глубина резкости</p>
+  <p class="stats" id="stats">— fps · — частиц</p>
+  <p class="hint">Тяни — вращение · колесо — зум · двойной клик — сброс · H — скрыть панель</p>
+</header>
+
+<div id="panel" class="panel" role="toolbar" aria-label="Управление">
+  <button id="btnPause" class="btn" type="button" title="Пауза (пробел)">Пауза</button>
+
+  <div class="group">
+    <span class="lbl">Палитра</span>
+    <div class="seg" id="segPal">
+      <button type="button" data-v="0" class="on">Туманность</button>
+      <button type="button" data-v="1">Аврора</button>
+      <button type="button" data-v="2">Лёд и пламя</button>
+    </div>
+  </div>
+
+  <div class="group">
+    <span class="lbl">Цвет по</span>
+    <div class="seg" id="segColor">
+      <button type="button" data-v="0" class="on">скорости</button>
+      <button type="button" data-v="1">глубине</button>
+    </div>
+  </div>
+
+  <label class="group slider">
+    <span class="lbl">Турбулентность</span>
+    <span class="row"><input id="rTurb" type="range" min="0" max="2" step="0.01"><output id="oTurb"></output></span>
+  </label>
+
+  <label class="group slider">
+    <span class="lbl">Следы</span>
+    <span class="row"><input id="rTrail" type="range" min="0" max="1" step="0.01"><output id="oTrail"></output></span>
+  </label>
+
+  <label class="group slider">
+    <span class="lbl">Частицы</span>
+    <span class="row"><input id="rCount" type="range" min="10000" max="160000" step="5000"><output id="oCount"></output></span>
+  </label>
+
+  <button id="btnCam" class="btn on" type="button" title="Автоматический облёт камеры">Облёт</button>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -306,6 +306,7 @@ window.TASKS = [
       { model: 'GPT-5.6 Luna', slug: 'gpt-5.6-luna', dir: 'demos/particle-flow/gpt-5.6-luna/' },
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/particle-flow/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/particle-flow/opus-5/' },
+      { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/particle-flow/opus-5.5/' },
     ],
   },
   {
