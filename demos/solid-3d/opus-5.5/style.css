@@ -1,0 +1,273 @@
+:root {
+  color-scheme: dark;
+  --fg: #e8edf6;
+  --muted: rgba(214, 224, 240, 0.62);
+  --glass: rgba(19, 24, 36, 0.58);
+  --line: rgba(255, 255, 255, 0.09);
+  --accent: #ff9a62;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 70vmax 55vmax at 50% 44%, #1b2437 0%, #121827 38%, #0a0d15 72%, #06080d 100%);
+  color: var(--fg);
+  font: 14px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#view {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  cursor: grab;
+}
+#view.dragging { cursor: grabbing; }
+
+/* ───────── HUD ───────── */
+.hud {
+  position: fixed;
+  top: 16px;
+  left: 18px;
+  max-width: min(400px, calc(100vw - 36px));
+  pointer-events: none;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.55);
+}
+.hud h1 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+.hud .sub {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+.hud .stats {
+  margin: 0 0 6px;
+  font: 11.5px/1.45 ui-monospace, "Cascadia Mono", Consolas, "SFMono-Regular", Menlo, monospace;
+  color: rgba(158, 204, 238, 0.85);
+  font-variant-numeric: tabular-nums;
+}
+.hud .hint {
+  margin: 0;
+  font-size: 11px;
+  color: rgba(214, 224, 240, 0.4);
+}
+
+/* ───────── панель ───────── */
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 10px 18px;
+  width: max-content;
+  max-width: calc(100vw - 24px);
+  padding: 10px 16px 12px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: opacity 0.2s;
+}
+.group.off {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.glabel {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding-left: 2px;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.glabel output {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+  color: rgba(232, 237, 246, 0.85);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+.seg {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+}
+
+.seg button,
+.tog,
+.icon {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 30px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: rgba(231, 236, 245, 0.72);
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+}
+.seg button:hover,
+.tog:hover,
+.icon:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+.seg button.on {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.tog {
+  position: relative;
+  height: 38px;
+  padding: 0 13px 0 32px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+}
+.tog::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 4px;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+.tog.on { color: #fff; }
+.tog.on::before {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(255, 154, 98, 0.6);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+}
+
+.icon {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+}
+.icon svg { fill: currentColor; display: block; }
+.icon .i-play { display: none; }
+.paused .icon .i-play { display: block; }
+.paused .icon .i-pause { display: none; }
+.paused .icon { color: var(--accent); }
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid rgba(255, 170, 120, 0.8);
+  outline-offset: 2px;
+}
+
+/* ───────── ползунок ───────── */
+input[type="range"] {
+  --p: 33.3%;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 20px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(to right, var(--accent) var(--p), rgba(255, 255, 255, 0.18) var(--p));
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+input[type="range"]::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.18);
+}
+input[type="range"]::-moz-range-progress {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* ───────── узкие экраны ───────── */
+@media (max-width: 640px) {
+  .hud { top: 12px; left: 12px; }
+  .hud h1 { font-size: 17px; }
+  .hud .sub { font-size: 11.5px; margin-bottom: 6px; }
+  .hud .hint { display: none; }
+  .panel { gap: 8px 10px; padding: 8px 10px 10px; bottom: 10px; }
+  .seg button { padding: 0 8px; font-size: 12px; }
+  .tog { font-size: 12px; }
+  input[type="range"] { width: 90px; }
+}
