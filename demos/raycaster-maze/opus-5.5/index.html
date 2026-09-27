@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Рейкастер-лабиринт — Claude Opus 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view" tabindex="0" aria-label="Псевдо-3D вид лабиринта"></canvas>
+<div id="fade" class="fade on"></div>
+
+<header class="hud glass">
+  <h1>Рейкастер-лабиринт</h1>
+  <p class="sub">Псевдо-3D в духе Wolfenstein 3D: DDA по сетке, перпендикулярная дистанция без «рыбьего глаза».</p>
+  <p class="keys"><kbd>W</kbd><kbd>S</kbd> ход <kbd>A</kbd><kbd>D</kbd> стрейф <kbd>←</kbd><kbd>→</kbd> поворот <kbd>Shift</kbd> бег</p>
+  <div class="stats">
+    <span id="s-fps">— к/с</span>
+    <span id="s-maze">—</span>
+    <span id="s-seed">#0000</span>
+    <span id="s-time">0:00</span>
+  </div>
+</header>
+
+<aside class="map-card glass">
+  <div class="map-head"><span>Карта</span><span>исследовано <b id="m-exp">0%</b></span></div>
+  <canvas id="map" aria-label="Мини-карта"></canvas>
+  <div class="legend">
+    <span><i class="you"></i>вы</span>
+    <span><i class="fov"></i>обзор</span>
+    <span><i class="exit"></i>выход</span>
+  </div>
+</aside>
+
+<div id="hint" class="hint glass">Автопрогулка · кликните по сцене и жмите <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> или <kbd>←</kbd><kbd>→</kbd>, чтобы взять управление</div>
+
+<div id="toast" class="toast glass">
+  <div class="t1">Выход найден</div>
+  <div class="t2" id="toast-sub"></div>
+</div>
+
+<footer id="panel" class="panel glass">
+  <div class="btns">
+    <button class="btn" id="btn-new" type="button">Новый лабиринт <span class="k">N</span></button>
+    <button class="btn" id="btn-auto" type="button" aria-pressed="true">Автопрогулка <span class="k">P</span></button>
+    <button class="btn" id="btn-tex" type="button" aria-pressed="true">Текстуры <span class="k">T</span></button>
+  </div>
+  <div class="sep"></div>
+  <label class="ctl"><span class="lab">Размер <b id="v-size"></b></span><input type="range" id="r-size" min="5" max="21" step="1" value="11"></label>
+  <label class="ctl"><span class="lab">Обзор <b id="v-fov"></b></span><input type="range" id="r-fov" min="40" max="110" step="1" value="66"></label>
+  <label class="ctl"><span class="lab">Туман <b id="v-fog"></b></span><input type="range" id="r-fog" min="0" max="100" step="1" value="45"></label>
+  <label class="ctl"><span class="lab">Чёткость <b id="v-res"></b></span><input type="range" id="r-res" min="20" max="100" step="5" value="50"></label>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
