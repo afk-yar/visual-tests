@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2D-свет и тени — Claude Opus 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene" aria-label="Сцена: источник света за курсором и многоугольники-препятствия"></canvas>
+
+<header class="hud" id="hud">
+  <h1>2D-свет и тени</h1>
+  <p class="sub">Источник следует за курсором. Лучи к каждой вершине (и ±ε), ближайшее пересечение луч–отрезок, сортировка по углу — полигон видимости.</p>
+  <p class="stats" id="stats"></p>
+  <p class="legend" id="legend">
+    <span><i class="ln ln-main"></i>луч в вершину</span>
+    <span><i class="ln ln-eps"></i>лучи ±ε</span>
+    <span><i class="ln ln-poly"></i>контур полигона</span>
+    <span><i class="mk mk-vert"></i>вершины</span>
+    <span><i class="mk mk-hit"></i>пересечения (цвет — порядок по углу)</span>
+  </p>
+</header>
+
+<div class="panel" id="panel">
+  <label class="check" title="Показать лучи и вершины (D)">
+    <input type="checkbox" id="debug"><span class="box"></span>Отладка: лучи и вершины <kbd>D</kbd>
+  </label>
+  <label class="check" title="Медленное вращение препятствий (R)">
+    <input type="checkbox" id="spin"><span class="box"></span>Вращение <kbd>R</kbd>
+  </label>
+  <span class="sep"></span>
+  <label class="range">
+    <span class="rl">Радиус <output id="radiusOut"></output></span>
+    <input type="range" id="radius" min="200" max="1600" step="10" value="800">
+  </label>
+  <label class="range">
+    <span class="rl">Мягкость тени <output id="softOut"></output></span>
+    <input type="range" id="soft" min="0" max="24" step="1" value="0">
+  </label>
+  <span class="sep"></span>
+  <div class="swatches" id="swatches" role="radiogroup" aria-label="Цвет света">
+    <button type="button" class="swatch active" role="radio" aria-checked="true" data-c="255,184,110" style="--c:rgb(255,184,110)" title="Тёплый" aria-label="Тёплый"></button>
+    <button type="button" class="swatch" role="radio" aria-checked="false" data-c="140,196,255" style="--c:rgb(140,196,255)" title="Холодный" aria-label="Холодный"></button>
+    <button type="button" class="swatch" role="radio" aria-checked="false" data-c="120,240,190" style="--c:rgb(120,240,190)" title="Мятный" aria-label="Мятный"></button>
+    <button type="button" class="swatch" role="radio" aria-checked="false" data-c="214,146,255" style="--c:rgb(214,146,255)" title="Сиреневый" aria-label="Сиреневый"></button>
+  </div>
+  <button type="button" class="btn" id="shuffle" title="Новая расстановка препятствий (N)">Новая сцена <kbd>N</kbd></button>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
