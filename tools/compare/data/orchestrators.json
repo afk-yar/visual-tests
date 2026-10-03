@@ -60,6 +60,21 @@
   }
  },
  {
+  "label": "sonnet-5.5-sessA",
+  "session": "da037008-7e7b-4b95-8925-32602fe3e0bc",
+  "cutoff": null,
+  "api_calls": 231,
+  "totals": {
+   "claude-opus-5-5": {
+    "input": 512,
+    "output": 92011,
+    "cache_write_5m": 0,
+    "cache_write_1h": 697880,
+    "cache_read": 50486334
+   }
+  }
+ },
+ {
   "label": "opus-5-restored",
   "session": "9eb3a373-1a82-4f63-b3a1-3b92440087e4",
   "cutoff": null,

@@ -21,6 +21,7 @@ PRICING = {
     'claude-opus-5-5': {'input': 4, 'output': 20, 'cache_write_5m': 5, 'cache_write_1h': 8, 'cache_read': 0.2, 'source': CLAUDE_SOURCE},
     'claude-opus-5': {'input': 5, 'output': 25, 'cache_write_5m': 6.25, 'cache_write_1h': 10, 'cache_read': 0.5, 'source': CLAUDE_SOURCE},
     'claude-opus-4-8': {'input': 5, 'output': 25, 'cache_write_5m': 6.25, 'cache_write_1h': 10, 'cache_read': 0.5, 'source': CLAUDE_SOURCE},
+    'claude-sonnet-5-5': {'input': 2, 'output': 10, 'cache_write_5m': 2.5, 'cache_write_1h': 4, 'cache_read': 0.2, 'source': 'Справочник Claude API, таблица моделей от 2026-09-25'},
     'claude-sonnet-5': {'input': 2, 'output': 10, 'cache_write_5m': 2.5, 'cache_write_1h': 4, 'cache_read': 0.2, 'source': CLAUDE_SOURCE},
     'claude-fable-5': {'input': 10, 'output': 50, 'cache_write_5m': 12.5, 'cache_write_1h': 20, 'cache_read': 1.0, 'source': CLAUDE_SOURCE},
     'gpt-5.5': {'input': 5, 'output': 30, 'cache_write_5m': 0, 'cache_write_1h': 0, 'cache_read': 0.5, 'source': 'https://developers.openai.com/api/docs/models/gpt-5.5'},
@@ -48,6 +49,7 @@ MODELS = [
     {'label': 'Claude Opus 5', 'slug': 'opus-5', 'tool': 'claude-code', 'model_ids': ['claude-opus-5'],
      'why': 'Сессия восстановлена из бэкапа от 30 августа. Шахматного коня в ней нет.'},
     {'label': 'Claude Opus 5.5', 'slug': 'opus-5.5', 'tool': 'claude-code', 'model_ids': ['claude-opus-5-5'], 'why': ''},
+    {'label': 'Claude Sonnet 5.5', 'slug': 'sonnet-5.5', 'tool': 'claude-code', 'model_ids': ['claude-sonnet-5-5'], 'why': ''},
 ]
 
 # Сессии Claude Code, в которых субагенты писали решения.
@@ -63,6 +65,7 @@ CLAUDE_SESSIONS = [
     {'label': 'opus-5.5-sessC', 'session': '8fba026f-f739-4a0d-98ad-a0ee7fe7f0c3'},
     {'label': 'opus-5.5-sessD', 'session': '4f72b4d0-6a55-466f-b928-366fd7d55dc0',
      'orchestrator_cutoff': '2026-09-27T09:09:31.130Z'},
+    {'label': 'sonnet-5.5-sessA', 'session': 'da037008-7e7b-4b95-8925-32602fe3e0bc'},
     # Восстановлена из restic-снимка 1726c119 от 2026-08-30.
     {'label': 'opus-5-restored', 'session': '9eb3a373-1a82-4f63-b3a1-3b92440087e4',
      'root': 'E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests'},

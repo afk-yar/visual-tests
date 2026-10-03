@@ -1,0 +1,278 @@
+:root {
+  color-scheme: dark;
+  --ink: #e9edff;
+  --muted: rgba(233, 237, 255, .66);
+  --amber: #ffc857;
+  --sep: #ff6f61;
+  --ali: #b6f05a;
+  --coh: #3fe0d2;
+  --glass: rgba(13, 19, 46, .58);
+  --stroke: rgba(255, 255, 255, .14);
+  font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  color: var(--ink);
+  background:
+    radial-gradient(1100px 620px at 82% 112%, rgba(255, 128, 96, .20), transparent 62%),
+    radial-gradient(900px 560px at 8% -12%, rgba(86, 120, 255, .24), transparent 62%),
+    linear-gradient(180deg, #0a1028 0%, #121a40 58%, #1d1b48 100%);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ---------- сцена ---------- */
+#stage {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  touch-action: none;
+}
+
+#stage canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#focus { pointer-events: none; }
+
+/* ---------- HUD ---------- */
+.hud {
+  position: fixed;
+  left: 18px;
+  top: 14px;
+  max-width: min(430px, calc(100% - 36px));
+  pointer-events: none;
+  text-shadow: 0 1px 10px rgba(5, 8, 30, .85);
+}
+
+.hud h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+.hud p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.hud .stats {
+  margin-top: 8px;
+  font-size: 12px;
+  color: rgba(233, 237, 255, .82);
+  font-variant-numeric: tabular-nums;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.legend i {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 8px var(--c);
+}
+
+/* ---------- стеклянная панель ---------- */
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  width: min(980px, calc(100% - 24px));
+  box-sizing: border-box;
+  padding: 12px 16px 12px;
+  border-radius: 18px;
+  background: var(--glass);
+  border: 1px solid var(--stroke);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .42), inset 0 1px 0 rgba(255, 255, 255, .08);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+}
+
+.sliders {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px 26px;
+}
+
+.panel.collapsed .sliders { display: none; }
+
+.ctl { display: block; min-width: 0; }
+
+.lab {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 1px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.name { display: inline-flex; align-items: center; white-space: nowrap; }
+
+.name i {
+  width: 8px;
+  height: 8px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 8px var(--c);
+}
+
+.lab output {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* слайдеры */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 18px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  --p: 50%;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--c) var(--p), rgba(255, 255, 255, .17) var(--p));
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--c);
+  box-sizing: border-box;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, .55);
+}
+
+input[type="range"]::-moz-range-track {
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--c) var(--p), rgba(255, 255, 255, .17) var(--p));
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--c);
+  box-sizing: border-box;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, .55);
+}
+
+input[type="range"]:focus-visible { outline: none; }
+input[type="range"]:focus-visible::-webkit-slider-thumb { outline: 2px solid #fff; outline-offset: 2px; }
+input[type="range"]:focus-visible::-moz-range-thumb { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* кнопки */
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  margin-top: 10px;
+}
+
+.panel.collapsed .bar { margin-top: 0; }
+
+.spacer { flex: 1 1 0; min-width: 0; }
+
+.btn {
+  font: inherit;
+  font-size: 12.5px;
+  line-height: 1.2;
+  color: var(--ink);
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid var(--stroke);
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+}
+
+.btn:hover { background: rgba(255, 255, 255, .17); }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+.btn[aria-pressed="true"] {
+  background: rgba(255, 200, 87, .18);
+  border-color: rgba(255, 200, 87, .55);
+  color: #ffe7b0;
+}
+
+.fold {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chev {
+  width: 7px;
+  height: 7px;
+  margin-top: -3px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform .2s;
+}
+
+.panel.collapsed .chev { margin-top: 3px; transform: rotate(-135deg); }
+
+/* ---------- адаптив ---------- */
+@media (max-width: 760px) {
+  .sliders { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 18px; }
+  .spacer { display: none; }
+}
+
+@media (max-width: 440px) {
+  .sliders { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .hud h1 { font-size: 19px; }
+  .legend { display: none; }
+}
+
+@media (max-height: 560px) {
+  .hud .cap, .legend { display: none; }
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Рейкастер-лабиринт — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body tabindex="0">
+  <canvas id="view" aria-label="Вид от первого лица"></canvas>
+  <div id="vignette"></div>
+  <canvas id="ui" aria-label="Мини-карта"></canvas>
+
+  <header id="hud">
+    <h1><span class="dot"></span>Рейкастер-лабиринт</h1>
+    <p class="caption">Псевдо-3D в духе Wolfenstein: рейкастинг по сетке (DDA), без WebGL</p>
+    <p class="stats" id="stats">&nbsp;</p>
+  </header>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <section id="panel" class="panel" aria-label="Управление">
+    <p class="status" id="status"></p>
+    <div class="row">
+      <button type="button" id="btnAuto" class="btn" aria-pressed="true">Автопилот: вкл</button>
+      <button type="button" id="btnNew" class="btn">Новый лабиринт</button>
+      <label class="ctl">Размер
+        <input type="range" id="rngSize" min="5" max="31" step="1" value="15">
+        <output id="outSize">15</output>
+      </label>
+      <label class="ctl">Обзор
+        <input type="range" id="rngFov" min="50" max="110" step="1" value="78">
+        <output id="outFov">78°</output>
+      </label>
+      <button type="button" id="btnRes" class="btn">Пиксели: средние</button>
+      <button type="button" id="btnFog" class="btn" aria-pressed="false">Карта: вся</button>
+      <button type="button" id="btnMap" class="btn" aria-pressed="false">Карта: крупно</button>
+    </div>
+  </section>
+
+  <script src="main.js"></script>
+</body>
+</html>

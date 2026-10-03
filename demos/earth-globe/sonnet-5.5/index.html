@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Вращающийся земной шар — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view" aria-label="Вращающийся земной шар"></canvas>
+<div id="vignette"></div>
+<div id="grain"></div>
+
+<header id="hud">
+  <h1>Вращающийся земной шар</h1>
+  <p class="sub">Canvas 2D · процедурная планета без текстур и библиотек</p>
+  <dl class="telem">
+    <div><dt>Подсолнечная точка</dt><dd id="tSub">&mdash;</dd></div>
+    <div><dt>Освещено диска</dt><dd id="tIll">&mdash;</dd></div>
+  </dl>
+  <p class="hint">Тяните по сцене или за значок Солнца, двойной клик &mdash; сброс</p>
+</header>
+
+<div id="perf" aria-hidden="true"></div>
+
+<div id="loader" role="status">
+  <div class="lbox">
+    <div class="lbar"><i id="loaderBar"></i></div>
+    <span id="loaderTxt">Формируем планету&hellip;</span>
+  </div>
+</div>
+
+<section id="panel" class="panel" aria-label="Управление">
+  <div class="row toggles">
+    <button id="bSpin" class="tg" type="button" aria-pressed="true">Вращение</button>
+    <button id="bOrbit" class="tg" type="button" aria-pressed="false">Облёт Солнца</button>
+    <button id="bClouds" class="tg" type="button" aria-pressed="true">Облака</button>
+    <button id="bLights" class="tg" type="button" aria-pressed="true">Огни городов</button>
+    <button id="bAurora" class="tg" type="button" aria-pressed="true">Сияния</button>
+    <button id="bReset" class="tg ghost" type="button">Сброс</button>
+  </div>
+  <div class="row sliders">
+    <label class="sl"><span>Скорость <output id="oSpeed">4.0&deg;/с</output></span>
+      <input id="rSpeed" type="range" min="0" max="20" step="0.5" value="4"></label>
+    <label class="sl"><span>Азимут Солнца <output id="oAz">-58&deg;</output></span>
+      <input id="rAz" type="range" min="-180" max="180" step="1" value="-58"></label>
+    <label class="sl"><span>Высота Солнца <output id="oEl">16&deg;</output></span>
+      <input id="rEl" type="range" min="-85" max="85" step="1" value="16"></label>
+  </div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

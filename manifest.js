@@ -14,6 +14,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/svg-chess-knight/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/svg-chess-knight/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/svg-chess-knight/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/svg-chess-knight/sonnet-5.5/' },
     ],
   },
   {
@@ -31,6 +32,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/solar-system/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/solar-system/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/solar-system/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/solar-system/sonnet-5.5/' },
     ],
   },
   {
@@ -48,6 +50,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/mandelbrot/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/mandelbrot/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/mandelbrot/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/mandelbrot/sonnet-5.5/' },
     ],
   },
   {
@@ -65,6 +68,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/lorenz/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/lorenz/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/lorenz/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/lorenz/sonnet-5.5/' },
     ],
   },
   {
@@ -82,6 +86,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/boids/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/boids/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/boids/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/boids/sonnet-5.5/' },
     ],
   },
   {
@@ -99,6 +104,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/verlet-cloth/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/verlet-cloth/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/verlet-cloth/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/verlet-cloth/sonnet-5.5/' },
     ],
   },
   {
@@ -116,6 +122,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/falling-sand/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/falling-sand/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/falling-sand/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/falling-sand/sonnet-5.5/' },
     ],
   },
   {
@@ -133,6 +140,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/raycaster-maze/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/raycaster-maze/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/raycaster-maze/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/raycaster-maze/sonnet-5.5/' },
     ],
   },
   {
@@ -150,6 +158,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/light-2d/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/light-2d/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/light-2d/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/light-2d/sonnet-5.5/' },
     ],
   },
   {
@@ -167,6 +176,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/procedural-walker/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/procedural-walker/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/procedural-walker/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/procedural-walker/sonnet-5.5/' },
     ],
   },
   {
@@ -184,6 +194,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/svg-bicycle/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/svg-bicycle/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/svg-bicycle/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/svg-bicycle/sonnet-5.5/' },
     ],
   },
   {
@@ -201,6 +212,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/double-pendulum/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/double-pendulum/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/double-pendulum/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/double-pendulum/sonnet-5.5/' },
     ],
   },
   {
@@ -218,6 +230,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/css-newspaper/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/css-newspaper/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/css-newspaper/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/css-newspaper/sonnet-5.5/' },
     ],
   },
 
@@ -237,6 +250,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/solid-3d/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/solid-3d/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/solid-3d/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/solid-3d/sonnet-5.5/' },
     ],
   },
   {
@@ -254,6 +268,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/surface-plot/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/surface-plot/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/surface-plot/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/surface-plot/sonnet-5.5/' },
     ],
   },
   {
@@ -271,6 +286,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/voxel-terrain/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/voxel-terrain/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/voxel-terrain/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/voxel-terrain/sonnet-5.5/' },
     ],
   },
 
@@ -290,6 +306,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/earth-globe/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/earth-globe/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/earth-globe/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/earth-globe/sonnet-5.5/' },
     ],
   },
   {
@@ -307,6 +324,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/particle-flow/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/particle-flow/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/particle-flow/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/particle-flow/sonnet-5.5/' },
     ],
   },
   {
@@ -324,6 +342,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/aurora/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/aurora/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/aurora/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/aurora/sonnet-5.5/' },
     ],
   },
   {
@@ -341,6 +360,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/aquarium/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/aquarium/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/aquarium/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/aquarium/sonnet-5.5/' },
     ],
   },
   {
@@ -358,6 +378,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/aquarium-3d/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/aquarium-3d/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/aquarium-3d/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/aquarium-3d/sonnet-5.5/' },
     ],
   },
 
@@ -377,6 +398,7 @@ window.TASKS = [
       { model: 'Kimi K3', slug: 'kimi-k3', dir: 'demos/analog-clock/kimi-k3/' },
       { model: 'Claude Opus 5', slug: 'opus-5', dir: 'demos/analog-clock/opus-5/' },
       { model: 'Claude Opus 5.5', slug: 'opus-5.5', dir: 'demos/analog-clock/opus-5.5/' },
+      { model: 'Claude Sonnet 5.5', slug: 'sonnet-5.5', dir: 'demos/analog-clock/sonnet-5.5/' },
     ],
   },
 ];

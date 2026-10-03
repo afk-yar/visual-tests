@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Стая boids — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="stage" aria-label="Стая птиц: симуляция boids">
+  <canvas id="flock"></canvas>
+  <canvas id="focus"></canvas>
+</div>
+
+<header class="hud">
+  <h1>Стая boids</h1>
+  <p class="cap">Мир замкнут в тор. Клик по птице выбирает агента; стрелки его сил окрашены как ползунки правил.</p>
+  <ul class="legend" aria-label="Обозначения">
+    <li style="--c:var(--amber)"><i></i>выбранный</li>
+    <li style="--c:#eef8ff"><i></i>сосед в радиусе</li>
+    <li style="--c:var(--sep)"><i></i>слишком близко</li>
+  </ul>
+  <p class="stats" id="stats" aria-live="off"></p>
+</header>
+
+<section class="panel" id="panel" aria-label="Управление стаей">
+  <div class="sliders">
+    <label class="ctl" style="--c:var(--sep)">
+      <span class="lab"><span class="name"><i></i>Разделение</span><output id="o-sep"></output></span>
+      <input id="sep" type="range" min="0" max="3" step="0.05" value="1.7">
+    </label>
+    <label class="ctl" style="--c:var(--ali)">
+      <span class="lab"><span class="name"><i></i>Выравнивание</span><output id="o-ali"></output></span>
+      <input id="ali" type="range" min="0" max="3" step="0.05" value="1">
+    </label>
+    <label class="ctl" style="--c:var(--coh)">
+      <span class="lab"><span class="name"><i></i>Сцепление</span><output id="o-coh"></output></span>
+      <input id="coh" type="range" min="0" max="3" step="0.05" value="1.2">
+    </label>
+    <label class="ctl" style="--c:var(--amber)">
+      <span class="lab"><span class="name"><i></i>Радиус восприятия</span><output id="o-radius"></output></span>
+      <input id="radius" type="range" min="20" max="200" step="1" value="70">
+    </label>
+    <label class="ctl" style="--c:#cfd6ff">
+      <span class="lab"><span class="name"><i></i>Макс. скорость</span><output id="o-maxSpeed"></output></span>
+      <input id="maxSpeed" type="range" min="40" max="400" step="5" value="190">
+    </label>
+    <label class="ctl" style="--c:#cfd6ff">
+      <span class="lab"><span class="name"><i></i>Агентов</span><output id="o-count"></output></span>
+      <input id="count" type="range" min="400" max="1500" step="50" value="600">
+    </label>
+  </div>
+
+  <div class="bar">
+    <button class="btn" id="b-pause" type="button">Пауза</button>
+    <button class="btn" id="b-pick" type="button">Другой агент</button>
+    <button class="btn" id="b-shuffle" type="button">Перемешать</button>
+    <button class="btn" id="b-reset" type="button">Сбросить параметры</button>
+    <span class="spacer"></span>
+    <button class="btn" id="t-zone" type="button" aria-pressed="true">Зона и соседи</button>
+    <button class="btn" id="t-vectors" type="button" aria-pressed="true">Силы</button>
+    <button class="btn" id="t-trails" type="button" aria-pressed="true">Следы</button>
+    <button class="btn fold" id="b-fold" type="button" aria-label="Свернуть панель" aria-expanded="true"><span class="chev"></span></button>
+  </div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

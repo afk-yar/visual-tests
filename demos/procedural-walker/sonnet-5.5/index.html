@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Идущий человечек — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene" aria-label="Процедурно анимированный идущий человечек"></canvas>
+
+<header class="hud">
+  <h1>Идущий человечек</h1>
+  <p class="sub">Процедурная походка: опора и перенос, обратная кинематика ног, стопы не скользят по земле.</p>
+  <p class="stat"><span id="statMain">…</span><small id="statSub"></small></p>
+</header>
+
+<section class="panel" id="panel" aria-label="Управление">
+  <div class="speed-row">
+    <label for="speed">Скорость</label>
+    <input id="speed" type="range" min="0.4" max="7.5" step="0.01" value="1.6">
+    <output id="speedOut" for="speed">1,6 м/с</output>
+  </div>
+  <div class="btns">
+    <button type="button" class="preset" data-v="0.7">Прогулка</button>
+    <button type="button" class="preset" data-v="1.4">Шаг</button>
+    <button type="button" class="preset" data-v="2.1">Быстрый шаг</button>
+    <button type="button" class="preset" data-v="3.2">Трусца</button>
+    <button type="button" class="preset" data-v="5">Бег</button>
+    <button type="button" class="preset" data-v="7.2">Спринт</button>
+    <span class="sp"></span>
+    <button type="button" class="toggle" id="btnAuto" aria-pressed="false" title="Скорость плавно гуляет от шага до спринта">Авто</button>
+    <button type="button" class="toggle on" id="btnMarks" aria-pressed="true" title="Отпечатки и подсветка опорных стоп (M)">Метки</button>
+    <button type="button" class="toggle" id="btnPause" aria-pressed="false" title="Пауза (пробел)">Пауза</button>
+  </div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

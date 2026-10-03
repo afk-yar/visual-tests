@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Система Лоренца — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene" role="img" aria-label="Трёхмерная траектория аттрактора Лоренца"></canvas>
+
+<header class="hud">
+  <h1>Система Лоренца</h1>
+  <p class="sub">Странный аттрактор, интегрирование RK4 в реальном времени<br>σ = 10 · ρ = 28 · β = 8/3</p>
+  <div class="eq" aria-hidden="true">
+    <div>dx/dt = σ(y − x)</div>
+    <div>dy/dt = x(ρ − z) − y</div>
+    <div>dz/dt = xy − βz</div>
+  </div>
+  <div class="read" aria-hidden="true">
+    <span>t <b id="rT">0.0</b></span>
+    <span>x <b id="rX">0.00</b></span>
+    <span>y <b id="rY">0.00</b></span>
+    <span>z <b id="rZ">0.00</b></span>
+    <span id="rDw" hidden>Δ <b id="rD">0</b></span>
+  </div>
+  <p class="hint">Тяни — повернуть · колесо — масштаб · двойной клик — вернуть вид · Пробел — пауза</p>
+</header>
+
+<section class="panel" id="panel" aria-label="Управление">
+  <div class="grp">
+    <button id="btnPause" class="btn" type="button" aria-pressed="false">Пауза</button>
+    <button id="btnReset" class="btn" type="button">Сброс</button>
+  </div>
+  <label class="ctl"><span class="lbl">Скорость</span>
+    <input id="inSpeed" type="range" min="0.1" max="4" step="0.05" value="1">
+    <output id="outSpeed">1.0×</output></label>
+  <label class="ctl"><span class="lbl">След</span>
+    <input id="inTrail" type="range" min="500" max="12000" step="250" value="4500">
+    <output id="outTrail">4500</output></label>
+  <label class="ctl"><span class="lbl">Вращение</span>
+    <input id="inRot" type="range" min="0" max="30" step="1" value="6">
+    <output id="outRot">6°/с</output></label>
+  <div class="ctl"><span class="lbl">Палитра</span>
+    <div class="swatches" id="swatches" role="radiogroup" aria-label="Палитра"></div></div>
+  <label class="chk"><input id="chkTwin" type="checkbox"><span>Эффект бабочки</span></label>
+  <label class="chk"><input id="chkGrid" type="checkbox" checked><span>Сетка</span></label>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

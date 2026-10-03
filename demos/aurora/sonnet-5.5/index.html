@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Полярное сияние — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="sky" aria-label="Полярное сияние над ночным озером"></canvas>
+
+<header class="hud">
+  <h1>Полярное сияние</h1>
+  <p>Ленты света колышутся над озером · Canvas 2D · реальное время</p>
+</header>
+
+<div class="panel" role="group" aria-label="Управление">
+  <button id="bPause" class="btn" type="button">Пауза</button>
+  <div class="seg" role="group" aria-label="Палитра">
+    <button type="button" data-pal="auto" class="on">Авто</button>
+    <button type="button" data-pal="emerald">Изумруд</button>
+    <button type="button" data-pal="violet">Пурпур</button>
+    <button type="button" data-pal="ice">Лёд</button>
+  </div>
+  <label class="sl"><span>Яркость</span><input id="rBright" type="range" min="40" max="170" value="100"></label>
+  <label class="sl"><span>Скорость</span><input id="rSpeed" type="range" min="15" max="250" value="100"></label>
+  <button id="bFlash" class="btn accent" type="button">Вспышка</button>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

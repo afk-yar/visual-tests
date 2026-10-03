@@ -1,0 +1,166 @@
+:root {
+  --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --page: #8e8878;
+  --ink: #2a2822;
+  --ink-soft: rgba(42, 40, 34, .62);
+  --glass: rgba(255, 255, 255, .34);
+  --glass-line: rgba(255, 255, 255, .55);
+  --on-bg: rgba(42, 40, 34, .9);
+  --on-ink: #fbf8ef;
+  --halo: rgba(255, 255, 255, .35);
+}
+
+html[data-theme="vintage"] {
+  --page: #1d2d29;
+  --ink: #f3e8cf;
+  --ink-soft: rgba(243, 232, 207, .66);
+  --glass: rgba(18, 30, 27, .44);
+  --glass-line: rgba(255, 236, 190, .24);
+  --on-bg: rgba(243, 232, 207, .94);
+  --on-ink: #1c2824;
+  --halo: rgba(0, 0, 0, .35);
+}
+
+html[data-theme="graphite"] {
+  --page: #121316;
+  --ink: #eceef1;
+  --ink-soft: rgba(236, 238, 241, .6);
+  --glass: rgba(18, 19, 22, .52);
+  --glass-line: rgba(255, 255, 255, .14);
+  --on-bg: rgba(236, 238, 241, .94);
+  --on-ink: #121316;
+  --halo: rgba(0, 0, 0, .4);
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+#clock {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+/* ---------- HUD ---------- */
+.hud {
+  position: fixed;
+  top: 16px;
+  left: 18px;
+  max-width: calc(100% - 36px);
+  pointer-events: none;
+  text-shadow: 0 1px 8px var(--halo);
+}
+
+.hud h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: .01em;
+}
+
+.hud p {
+  margin: 3px 0 0;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+
+.hud .time {
+  margin-top: 10px;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .04em;
+}
+
+.hud .date {
+  margin-top: 0;
+  text-transform: capitalize;
+}
+
+/* ---------- стеклянная панель ---------- */
+.panel {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 20px;
+  max-width: calc(100% - 24px);
+  box-sizing: border-box;
+  padding: 8px 14px;
+  border-radius: 18px;
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  -webkit-backdrop-filter: blur(14px) saturate(1.35);
+  backdrop-filter: blur(14px) saturate(1.35);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .22), inset 0 1px 0 rgba(255, 255, 255, .3);
+}
+
+.seg {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.seg-label {
+  margin-right: 6px;
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.seg button {
+  appearance: none;
+  border: 0;
+  margin: 0;
+  padding: 7px 12px;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--ink);
+  font: 600 13px/1 var(--ui);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .18s ease, color .18s ease;
+}
+
+.seg button:hover {
+  background: rgba(127, 127, 127, .2);
+}
+
+.seg button[aria-pressed="true"] {
+  background: var(--on-bg);
+  color: var(--on-ink);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+}
+
+.seg button:focus-visible {
+  outline: 2px solid var(--on-bg);
+  outline-offset: 2px;
+}
+
+@media (max-width: 560px) {
+  .hud { top: 12px; left: 14px; }
+  .hud h1 { font-size: 16px; }
+  .hud .time { font-size: 19px; }
+  .panel { bottom: 12px; gap: 6px 14px; padding: 7px 10px; }
+  .seg button { padding: 7px 9px; font-size: 12.5px; }
+}

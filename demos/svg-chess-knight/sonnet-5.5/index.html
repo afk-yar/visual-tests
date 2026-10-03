@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SVG шахматный конь — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="stage">
+<svg id="art" viewBox="0 0 600 800" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Шахматный конь, вид сбоку">
+  <defs>
+    <!-- силуэт коня: единственный источник контура для заливки, обрезки и подсветки -->
+    <path id="bodyShape" d="M 164 678
+C 146 654 136 624 148 594
+C 160 564 198 536 226 498
+C 250 466 274.4 414.3 282.4 370.3
+C 275.5 375.8 253.4 393.2 241.0 403.0 C 228.6 412.8 217.4 421.9 207.9 429.2 C 198.3 436.4 190.9 442.6 183.8 446.6 C 176.7 450.5 170.2 452.4 165.1 452.9 C 160.1 453.4 158.1 450.4 153.3 449.7 C 148.5 449.0 140.8 450.9 136.2 448.7 C 131.7 446.5 127.7 441.9 126.1 436.6 C 124.4 431.4 123.0 426.7 126.4 417.3 C 129.8 408.0 135.9 397.0 146.3 380.6 C 156.8 364.2 174.9 339.6 189.0 318.9 C 203.1 298.3 218.1 275.5 230.9 256.5 C 243.8 237.6 260.2 213.7 266.0 205.2
+C 262 186 256 140 262 96
+C 284 118 298 146 306 172
+C 336 164 384 176 412 226
+C 434 266 440 326 436 388
+C 432 436 420 474 426 526
+C 432 586 452 634 466 678
+L 164 678 Z"/>
+    <path id="maneShape" d="M 315.7 168.7 C 317.7 147.8 341.4 147.3 369.8 143.1 C 364.9 154.2 359.5 170.2 358.3 175.2 C 369.9 160.4 387.2 169.6 414.2 179.7 C 405.0 185.9 397.7 196.9 394.6 199.9 C 412.3 190.0 429.7 211.4 450.2 231.6 C 438.7 234.0 423.3 234.7 418.8 236.6 C 435.7 234.4 442.7 254.5 455.1 280.5 C 444.9 278.3 435.8 278.7 431.8 278.6 C 449.2 279.8 452.8 305.9 459.4 333.9 C 449.7 329.7 441.6 323.0 437.6 322.0 C 451.6 325.6 451.5 345.8 454.3 374.4 C 446.6 368.8 441.4 367.3 438.5 365.7 C 452.4 370.6 450.3 396.3 450.3 425.1 C 443.1 418.8 438.1 411.1 435.2 409.3 C 446.6 415.3 442.5 437.3 439.5 465.9 C 433.9 459.1 431.3 454.6 429.1 452.6 C 439.8 458.3 435.5 482.6 432.5 511.2 C 427.2 504.4 427.8 498.0 425.8 496.0 L 420.4 491.4 C 412.7 449.8 408.3 426.7 406.0 412.4 C 403.7 398.1 402.2 384.9 400.3 371.5 C 398.4 358.0 396.5 344.6 394.6 331.8 C 392.6 318.9 390.8 306.3 388.7 294.4 C 386.5 282.6 384.6 271.1 381.8 260.6 C 379.0 250.0 376.6 240.6 371.9 231.2 C 367.3 221.8 362.2 212.4 354.1 204.2 C 346.1 196.1 330.0 187.2 323.7 182.3 C 317.4 177.5 317.6 176.3 316.4 175.2 Z"/>
+
+    <clipPath id="bodyClip"><use href="#bodyShape"/></clipPath>
+    <clipPath id="maneClip"><use href="#maneShape"/></clipPath>
+
+    <filter id="b3" filterUnits="userSpaceOnUse" x="-100" y="-100" width="800" height="1000"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="b6" filterUnits="userSpaceOnUse" x="-100" y="-100" width="800" height="1000"><feGaussianBlur stdDeviation="6"/></filter>
+    <filter id="b12" filterUnits="userSpaceOnUse" x="-100" y="-100" width="800" height="1000"><feGaussianBlur stdDeviation="12"/></filter>
+    <filter id="b24" filterUnits="userSpaceOnUse" x="-200" y="-200" width="1000" height="1200"><feGaussianBlur stdDeviation="24"/></filter>
+
+    <linearGradient id="bodyGrad" gradientUnits="userSpaceOnUse" x1="150" y1="110" x2="440" y2="660">
+      <stop offset="0" stop-color="#fcf6e6"/>
+      <stop offset=".34" stop-color="#e9dfc5"/>
+      <stop offset=".66" stop-color="#cdc0a2"/>
+      <stop offset="1" stop-color="#9d927b"/>
+    </linearGradient>
+    <linearGradient id="sideShade" gradientUnits="userSpaceOnUse" x1="285" y1="0" x2="440" y2="0">
+      <stop offset="0" stop-color="#1b150d" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#1b150d" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#1b150d" stop-opacity=".5"/>
+    </linearGradient>
+    <linearGradient id="footShade" gradientUnits="userSpaceOnUse" x1="0" y1="560" x2="0" y2="680">
+      <stop offset="0" stop-color="#1b150d" stop-opacity="0"/>
+      <stop offset="1" stop-color="#1b150d" stop-opacity=".34"/>
+    </linearGradient>
+    <linearGradient id="maneGrad" gradientUnits="userSpaceOnUse" x1="300" y1="140" x2="470" y2="520">
+      <stop offset="0" stop-color="#cdbb8f"/>
+      <stop offset=".5" stop-color="#9c8a66"/>
+      <stop offset="1" stop-color="#65563f"/>
+    </linearGradient>
+    <linearGradient id="earGrad" gradientUnits="userSpaceOnUse" x1="260" y1="90" x2="350" y2="190">
+      <stop offset="0" stop-color="#a09478"/>
+      <stop offset="1" stop-color="#6c624d"/>
+    </linearGradient>
+    <linearGradient id="rimBack" gradientUnits="userSpaceOnUse" x1="350" y1="0" x2="470" y2="0">
+      <stop offset="0" stop-color="#9cc3e6" stop-opacity="0"/>
+      <stop offset="1" stop-color="#9cc3e6" stop-opacity=".75"/>
+    </linearGradient>
+    <linearGradient id="rimKey" gradientUnits="userSpaceOnUse" x1="120" y1="440" x2="300" y2="80">
+      <stop offset="0" stop-color="#fff6dc" stop-opacity=".0"/>
+      <stop offset=".35" stop-color="#fff6dc" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff6dc" stop-opacity=".0"/>
+    </linearGradient>
+    <linearGradient id="baseGrad" gradientUnits="userSpaceOnUse" x1="124" y1="0" x2="488" y2="0">
+      <stop offset="0" stop-color="#8d826b"/>
+      <stop offset=".16" stop-color="#f1e9d3"/>
+      <stop offset=".38" stop-color="#dcd0b4"/>
+      <stop offset=".74" stop-color="#a09479"/>
+      <stop offset="1" stop-color="#5f5745"/>
+    </linearGradient>
+    <linearGradient id="baseVert" gradientUnits="userSpaceOnUse" x1="0" y1="664" x2="0" y2="752">
+      <stop offset="0" stop-color="#fff" stop-opacity=".18"/>
+      <stop offset=".45" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".38"/>
+    </linearGradient>
+    <radialGradient id="keyLight">
+      <stop offset="0" stop-color="#fffaf0" stop-opacity=".42"/>
+      <stop offset=".5" stop-color="#fffaf0" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#fffaf0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="halo" gradientUnits="userSpaceOnUse" cx="300" cy="400" r="460">
+      <stop offset="0" stop-color="#7d95c4" stop-opacity=".30"/>
+      <stop offset=".55" stop-color="#4a5f8e" stop-opacity=".10"/>
+      <stop offset="1" stop-color="#4a5f8e" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="floorGlow">
+      <stop offset="0" stop-color="#8aa6d6" stop-opacity=".34"/>
+      <stop offset="1" stop-color="#8aa6d6" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- основание: воротник, выкружка, плинт -->
+    <path id="baseCollar" d="M 146 690 C 146 674 156 666 172 666 L 462 666 C 478 666 488 674 488 690 Z"/>
+    <path id="baseCove" d="M 160 690 C 160 702 142 708 132 718 L 482 718 C 472 708 454 702 454 690 Z"/>
+    <path id="baseFoot" d="M 124 726 C 124 720 128 718 134 718 L 482 718 C 488 718 492 720 492 726 L 492 738 C 492 746 486 751 478 751 L 138 751 C 130 751 124 746 124 738 Z"/>
+  </defs>
+
+  <!-- фон: свечение и пол -->
+  <circle cx="300" cy="400" r="460" fill="url(#halo)"/>
+  <ellipse cx="306" cy="752" rx="300" ry="50" fill="url(#floorGlow)"/>
+  <ellipse cx="312" cy="758" rx="196" ry="12" fill="#000" opacity=".65" filter="url(#b6)"/>
+
+  <!-- дальнее ухо -->
+  <path d="M 298 178 C 302 150 312 124 330 102 C 346 126 352 158 346 190 Z" fill="url(#earGrad)"/>
+  <path d="M 312 164 C 316 146 322 128 330 116 C 338 134 340 150 338 166 Z" fill="#3e372a" opacity=".55"/>
+
+  <!-- основание -->
+  <g id="base">
+    <use href="#baseFoot" fill="url(#baseGrad)"/>
+    <use href="#baseFoot" fill="url(#baseVert)"/>
+    <use href="#baseCove" fill="url(#baseGrad)"/>
+    <use href="#baseCove" fill="url(#baseVert)"/>
+    <use href="#baseCollar" fill="url(#baseGrad)"/>
+    <use href="#baseCollar" fill="url(#baseVert)"/>
+    <path d="M 134 719 L 482 719" stroke="#fff6dc" stroke-opacity=".5" stroke-width="1.2" fill="none"/>
+    <path d="M 160 691 C 160 702 143 708 134 718" stroke="#2a2418" stroke-opacity=".35" stroke-width="1.2" fill="none"/>
+    <path d="M 172 667.5 L 462 667.5" stroke="#fff6dc" stroke-opacity=".55" stroke-width="1.2" fill="none"/>
+    <path d="M 148 690 L 486 690" stroke="#2a2418" stroke-opacity=".45" stroke-width="1.2" fill="none"/>
+    <path d="M 126 738 C 130 748 138 750 146 750 L 470 750" stroke="#2a2418" stroke-opacity=".3" stroke-width="1" fill="none"/>
+  </g>
+
+  <!-- корпус -->
+  <use href="#bodyShape" fill="url(#bodyGrad)"/>
+
+  <g clip-path="url(#bodyClip)">
+    <!-- тени -->
+    <rect x="250" y="60" width="260" height="660" fill="url(#sideShade)"/>
+    <rect x="100" y="560" width="400" height="130" fill="url(#footShade)"/>
+    <path d="M 288.9 210.8 C 324.2 232.2 329.1 288.7 297.0 346.1" stroke="#1b150d" stroke-opacity=".16" stroke-width="12" stroke-linecap="round" fill="none" filter="url(#b6)"/>
+    <path d="M 274.4 362.0 C 267.6 367.6 247.5 384.6 233.7 395.5 C 219.9 406.3 202.6 419.2 191.6 427.4 C 180.5 435.6 171.5 441.9 167.5 444.8" stroke="#1b150d" stroke-opacity=".4" stroke-width="12" stroke-linecap="round" fill="none" filter="url(#b6)"/>
+    <!-- тень гривы на шее -->
+    <use href="#maneShape" fill="#1b150d" opacity=".5" filter="url(#b6)"/>
+    <!-- объём: блики -->
+    <path d="M 141.1 423.5 C 143.2 417.6 144.4 404.3 153.6 388.1 C 162.8 371.9 182.3 347.3 196.3 326.5 C 210.3 305.7 225.8 281.5 237.5 263.3 C 249.2 245.2 261.7 225.4 266.5 217.8" stroke="#fffaf0" stroke-opacity=".55" stroke-width="14" stroke-linecap="round" fill="none" filter="url(#b6)"/>
+    <path d="M 243.8 330.3 C 248.7 305.1 274.3 280.3 299.6 279.3 C 309.7 298.8 288.2 337.0 243.8 330.3 Z" fill="#fffaf0" opacity=".22" filter="url(#b12)"/>
+    <path d="M 152 600 C 168 566 200 542 232 510" stroke="#fffaf0" stroke-opacity=".34" stroke-width="16" stroke-linecap="round" fill="none" filter="url(#b6)"/>
+    <path d="M 306 412 C 290 452 262 496 226 536 C 202 562 190 590 190 630" stroke="#fffaf0" stroke-opacity=".3" stroke-width="24" stroke-linecap="round" fill="none" filter="url(#b12)"/>
+    <!-- подвижный ключевой свет -->
+    <circle id="light" cx="230" cy="250" r="230" fill="url(#keyLight)"/>
+    <!-- контровой свет сзади и кромка спереди -->
+    <path d="M 306 172 C 336 164 384 176 412 226 C 434 266 440 326 436 388 C 432 436 420 474 426 526 C 432 586 452 634 466 678" fill="none" stroke="url(#rimBack)" stroke-width="9" filter="url(#b3)"/>
+    <path d="M 136.2 448.7 C 134.6 446.7 127.7 441.9 126.1 436.6 C 124.4 431.4 123.0 426.7 126.4 417.3 C 129.8 408.0 135.9 397.0 146.3 380.6 C 156.8 364.2 174.9 339.6 189.0 318.9 C 203.1 298.3 218.1 275.5 230.9 256.5 C 243.8 237.6 260.2 213.7 266.0 205.2" fill="none" stroke="url(#rimKey)" stroke-width="5" filter="url(#b3)"/>
+  </g>
+
+  <!-- ухо: внутренность -->
+  <path d="M 268 190 C 266 160 266 132 270 112 C 284 130 292 150 296 170 C 286 180 277 187 268 190 Z" fill="#a79a7c" opacity=".7"/>
+  <path d="M 270 150 C 270 138 271 124 273 114" stroke="#fffaf0" stroke-opacity=".5" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+
+  <!-- уздечка: подносок и щёчный ремень (обрезаны по силуэту) -->
+  <g clip-path="url(#bodyClip)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 157.8 360.7 C 186.5 379.8 205.4 399.4 216.8 426.3" stroke="#8f6c36" stroke-width="3.6"/>
+    <path d="M 157.8 360.7 C 186.5 379.8 205.4 399.4 216.8 426.3" stroke="#d9b676" stroke-width="1.1" stroke-opacity=".9"/>
+    <path d="M 190.7 390.2 C 215.0 361.0 252.8 324.5 278.6 290.8 C 302.9 261.5 310.9 230.5 301.1 196.1 C 298.2 187.2 296.9 176.8 295.7 163.4" stroke="#8f6c36" stroke-width="3"/>
+    <path d="M 190.7 390.2 C 215.0 361.0 252.8 324.5 278.6 290.8 C 302.9 261.5 310.9 230.5 301.1 196.1 C 298.2 187.2 296.9 176.8 295.7 163.4" stroke="#d9b676" stroke-width="1" stroke-opacity=".85"/>
+  </g>
+  <circle cx="190.7" cy="390.2" r="4.2" fill="none" stroke="#8f6c36" stroke-width="2.4"/>
+  <circle cx="190.7" cy="390.2" r="4.2" fill="none" stroke="#e3c58a" stroke-width=".8"/>
+
+  <!-- чёлка -->
+  <g id="forelock" stroke-linejoin="round">
+    <path d="M 295.4 178.2 C 281.8 191.3 271.0 213.4 267.5 246.0 C 280.4 232.2 291.8 213.8 299.6 194.6 Z" fill="url(#maneGrad)" stroke="#3b3326" stroke-width="1"/>
+    <path d="M 294.1 167.8 C 270.8 183.0 251.0 210.9 245.3 244.2 C 264.0 233.4 284.4 215.1 296.7 191.6 C 299.8 182.7 299.2 174.6 294.1 167.8 Z" fill="url(#maneGrad)" stroke="#3b3326" stroke-width="1"/>
+    <path d="M 288.0 179.6 C 269.9 194.1 256.1 216.1 250.6 237.6 M 294.5 186.4 C 282.4 201.0 273.2 218.7 270.6 237.2" fill="none" stroke="#e6dabb" stroke-opacity=".5" stroke-width="1" stroke-linecap="round"/>
+  </g>
+
+  <!-- грива -->
+  <g id="mane">
+    <use href="#maneShape" fill="url(#maneGrad)"/>
+    <g clip-path="url(#maneClip)" fill="none" stroke-linecap="round">
+      <path d="M 307.6 175.0 C 308.4 150.9 343.2 148.2 366.6 145.6" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 313.1 177.6 C 314.1 154.5 348.0 151.9 363.6 150.1" stroke="#2a2217" stroke-opacity=".5" stroke-width="1.1"/><path d="M 318.7 180.3 C 319.8 158.1 352.8 156.0 360.6 155.1" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 347.3 180.9 C 360.3 158.5 388.5 171.1 410.2 180.1" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 349.5 189.1 C 363.7 163.9 391.1 176.2 405.6 182.2" stroke="#2a2217" stroke-opacity=".5" stroke-width="1.1"/><path d="M 351.8 197.4 C 367.2 169.3 393.6 181.6 400.8 184.6" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 380.0 202.5 C 404.2 184.4 430.2 213.3 446.3 230.4" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 377.0 212.6 C 404.9 191.0 430.3 219.2 441.0 230.6" stroke="#2a2217" stroke-opacity=".5" stroke-width="1.1"/><path d="M 374.0 222.7 C 405.6 197.5 430.0 225.4 435.4 231.1" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 402.6 234.7 C 430.3 226.3 442.7 256.5 452.2 278.0" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 395.1 243.8 C 429.3 232.5 441.3 261.8 447.7 276.2" stroke="#2a2217" stroke-opacity=".5" stroke-width="1.1"/><path d="M 387.6 252.8 C 428.3 238.6 439.7 267.3 442.9 274.5" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 415.8 273.3 C 445.5 270.7 452.3 307.8 457.0 330.8" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 406.0 280.6 C 443.2 276.5 449.8 312.8 452.9 328.1" stroke="#2a2217" stroke-opacity=".5" stroke-width="1.1"/><path d="M 396.3 288.0 C 440.8 282.4 446.9 317.8 448.5 325.5" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 422.9 314.5 C 449.5 316.1 450.9 347.6 452.6 371.0" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 412.8 320.5 C 446.9 321.6 448.4 352.1 449.4 367.8" stroke="#2a2217" stroke-opacity=".5" stroke-width="1.1"/><path d="M 402.6 326.4 C 444.4 327.0 445.5 356.7 446.0 364.5" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 426.3 356.9 C 451.2 361.0 449.5 398.1 448.9 421.6" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 417.0 361.9 C 448.1 366.1 446.5 402.3 446.1 418.0" stroke="#2a2217" stroke-opacity=".5" stroke-width="1.1"/><path d="M 407.8 366.9 C 445.0 371.3 443.1 406.6 442.9 414.5" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 426.7 399.6 C 446.5 405.6 441.6 439.0 438.7 462.3" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 419.4 403.9 C 443.3 410.5 438.5 443.0 436.6 458.5" stroke="#2a2217" stroke-opacity=".5" stroke-width="1.1"/><path d="M 412.0 408.3 C 440.1 415.3 435.2 446.9 434.2 454.7" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 424.9 443.3 C 439.8 448.7 434.7 484.3 431.7 507.6" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/><path d="M 421.0 448.0 C 436.8 453.6 431.7 488.3 429.7 503.9" stroke="#2a2217" stroke-opacity=".5" stroke-width="1.1"/><path d="M 417.2 452.8 C 433.7 458.4 428.5 492.3 427.5 500.1" stroke="#e6dabb" stroke-opacity=".55" stroke-width="1.1"/>
+      <path d="M 358.8 175.8 C 352.9 183.2 335.6 186.3 315.9 188.4" stroke="#241d14" stroke-opacity=".62" stroke-width="1.4"/><path d="M 394.7 200.6 C 384.2 207.0 364.8 205.0 343.5 201.1" stroke="#241d14" stroke-opacity=".62" stroke-width="1.4"/><path d="M 418.6 237.2 C 405.1 240.3 385.6 232.7 365.1 222.7" stroke="#241d14" stroke-opacity=".62" stroke-width="1.4"/><path d="M 431.4 279.0 C 417.0 279.3 398.9 267.9 380.3 253.9" stroke="#241d14" stroke-opacity=".62" stroke-width="1.4"/><path d="M 437.1 322.2 C 423.3 320.6 407.6 306.8 391.7 290.5" stroke="#241d14" stroke-opacity=".62" stroke-width="1.4"/><path d="M 438.0 365.9 C 426.1 363.0 413.7 347.8 401.4 330.1" stroke="#241d14" stroke-opacity=".62" stroke-width="1.4"/><path d="M 434.7 409.4 C 426.0 405.7 418.4 389.8 411.2 371.3" stroke="#241d14" stroke-opacity=".62" stroke-width="1.4"/><path d="M 428.6 452.5 C 424.1 449.3 421.5 434.1 419.2 416.2" stroke="#241d14" stroke-opacity=".62" stroke-width="1.4"/>
+    </g>
+    <path d="M 315.7 168.7 C 317.7 147.8 341.4 147.3 369.8 143.1 C 364.9 154.2 359.5 170.2 358.3 175.2 C 369.9 160.4 387.2 169.6 414.2 179.7 C 405.0 185.9 397.7 196.9 394.6 199.9 C 412.3 190.0 429.7 211.4 450.2 231.6 C 438.7 234.0 423.3 234.7 418.8 236.6 C 435.7 234.4 442.7 254.5 455.1 280.5 C 444.9 278.3 435.8 278.7 431.8 278.6 C 449.2 279.8 452.8 305.9 459.4 333.9 C 449.7 329.7 441.6 323.0 437.6 322.0 C 451.6 325.6 451.5 345.8 454.3 374.4 C 446.6 368.8 441.4 367.3 438.5 365.7 C 452.4 370.6 450.3 396.3 450.3 425.1 C 443.1 418.8 438.1 411.1 435.2 409.3 C 446.6 415.3 442.5 437.3 439.5 465.9 C 433.9 459.1 431.3 454.6 429.1 452.6 C 439.8 458.3 435.5 482.6 432.5 511.2 C 427.2 504.4 427.8 498.0 425.8 496.0" fill="none" stroke="#3b3326" stroke-width="1" stroke-linejoin="round"/>
+  </g>
+
+  <!-- детали морды -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 146.6 451.9 C 169.1 437.4 193.2 420.0 210.7 395.8 C 214.5 390.7 214.6 384.7 213.2 378.8" stroke="#3a3225" stroke-width="1.8"/>
+  </g>
+  <path d="M 135.3 420.5 C 135.4 411.6 145.2 405.0 153.3 407.4 C 147.3 411.8 143.4 419.9 135.3 420.5 Z" fill="#2c2519"/>
+  <path d="M 258.6 273.3 C 255.6 268.5 259.3 260.7 266.9 256.0 C 274.6 251.2 283.2 251.2 286.2 256.1 C 289.2 260.9 285.5 268.7 277.8 273.4 C 270.2 278.2 261.6 278.1 258.6 273.3 Z" fill="#17120c"/>
+  <circle cx="271.6" cy="266.2" r="7.4" fill="#4a3320"/>
+  <circle cx="271.6" cy="266.2" r="4.6" fill="#0c0905"/>
+  <circle cx="266.4" cy="266.1" r="2" fill="#fff"/>
+  <path d="M 258.6 273.3 C 255.6 268.5 259.3 260.7 266.9 256.0 C 274.6 251.2 283.2 251.2 286.2 256.1" fill="none" stroke="#2a2216" stroke-width="2" stroke-linecap="round"/>
+</svg>
+</main>
+<header class="hud">
+  <h1>Шахматный конь</h1>
+  <p>Векторный силуэт на кривых Безье, без растра. Свет следует за курсором.</p>
+</header>
+<script src="main.js"></script>
+</body>
+</html>

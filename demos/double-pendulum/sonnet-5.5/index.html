@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Двойной маятник — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="stage" aria-label="Двойной маятник: холст симуляции"></canvas>
+
+<header class="hud">
+  <h1>Двойной маятник</h1>
+  <p class="sub">Уравнения Лагранжа · интегратор RK4 · реальное время</p>
+  <dl class="stats">
+    <div><dt>t</dt><dd id="sT">0.0 с</dd></div>
+    <div><dt>θ<sub>1</sub></dt><dd id="sA1">0.0°</dd></div>
+    <div><dt>θ<sub>2</sub></dt><dd id="sA2">0.0°</dd></div>
+    <div title="Относительный дрейф полной энергии, нормированный на (m₁+m₂)·g·(L₁+L₂)">
+      <dt>Дрейф E</dt><dd id="sE">0.0e+0</dd>
+    </div>
+    <div id="sDrow" class="ghost-row" title="Расстояние между нижними грузами оригинала и призрака">
+      <dt>Δ призрака</dt><dd id="sD">—</dd>
+    </div>
+  </dl>
+  <p class="keys">Тяни грузы мышью — это новые начальные углы.<br>Пробел — пуск/пауза · R — сброс · G — призрак</p>
+</header>
+
+<section class="panel" id="panel" aria-label="Управление маятником">
+  <div class="actions">
+    <button id="btnPlay" class="btn primary" type="button">
+      <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+      <span id="playLabel">Пауза</span>
+    </button>
+    <button id="btnReset" class="btn" type="button">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+      <span>Сброс</span>
+    </button>
+    <button id="btnGhost" class="btn" type="button" aria-pressed="false" title="Второй маятник с крошечным отклонением угла θ₁: демонстрация хаоса">
+      <svg class="stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V11a7 7 0 0 1 14 0v10l-2.33-2-2.34 2-2.33-2-2.33 2-2.34-2z"/><circle cx="9.6" cy="11" r="1.1" stroke="none" fill="currentColor"/><circle cx="14.4" cy="11" r="1.1" stroke="none" fill="currentColor"/></svg>
+      <span>Призрак</span>
+    </button>
+    <span class="hint">призрак стартует с отклонением ε по θ<sub>1</sub></span>
+  </div>
+
+  <div class="sliders">
+    <label class="ctl">
+      <span class="lab"><b>m<sub>1</sub></b> масса</span><output id="o_m1">1.00 кг</output>
+      <input id="m1" type="range" min="0.3" max="5" step="0.05" value="1">
+    </label>
+    <label class="ctl">
+      <span class="lab"><b>m<sub>2</sub></b> масса</span><output id="o_m2">1.00 кг</output>
+      <input id="m2" type="range" min="0.3" max="5" step="0.05" value="1">
+    </label>
+    <label class="ctl">
+      <span class="lab"><b>L<sub>1</sub></b> длина</span><output id="o_L1">1.00 м</output>
+      <input id="L1" type="range" min="0.4" max="1.4" step="0.02" value="1">
+    </label>
+    <label class="ctl">
+      <span class="lab"><b>L<sub>2</sub></b> длина</span><output id="o_L2">1.00 м</output>
+      <input id="L2" type="range" min="0.4" max="1.4" step="0.02" value="1">
+    </label>
+    <label class="ctl ghost off" id="ctl_eps">
+      <span class="lab"><b>ε</b> откл. призрака</span><output id="o_eps">1.0×10⁻³ рад</output>
+      <input id="eps" type="range" min="-6" max="-1" step="0.1" value="-3">
+    </label>
+    <label class="ctl neutral">
+      <span class="lab"><b>След</b> затухание</span><output id="o_trail">6.0 с</output>
+      <input id="trail" type="range" min="0.5" max="15" step="0.5" value="6">
+    </label>
+    <label class="ctl neutral">
+      <span class="lab"><b>Скорость</b> времени</span><output id="o_speed">×1.00</output>
+      <input id="speed" type="range" min="0.1" max="2" step="0.05" value="1">
+    </label>
+  </div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D-поверхность функции — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="view" aria-label="3D-график функции z = f(x, y)"></canvas>
+
+<header class="hud">
+  <h1>3D-поверхность функции</h1>
+  <p class="formula" id="formula">z = f(x, y, t)</p>
+  <p class="stats" id="stats">&nbsp;</p>
+  <p class="hint">Перетащите — вращать, колесо или щипок — масштаб</p>
+</header>
+
+<section class="panel" id="panel" aria-label="Управление графиком">
+  <div class="row">
+    <div class="seg" id="fnSeg" role="group" aria-label="Функция"></div>
+  </div>
+  <div class="row">
+    <div class="seg" id="modeSeg" role="group" aria-label="Режим отрисовки"></div>
+    <div class="swatches" id="palSeg" role="group" aria-label="Цветовая карта"></div>
+    <label class="ctl"><span>Скорость</span>
+      <input type="range" id="speed" min="0" max="3" step="0.05" value="1">
+      <output id="speedOut">1.0×</output></label>
+    <label class="ctl"><span>Высота</span>
+      <input type="range" id="amp" min="0.4" max="1.6" step="0.05" value="1">
+      <output id="ampOut">1.0×</output></label>
+    <label class="ctl"><span>Сетка</span>
+      <input type="range" id="grid" min="24" max="96" step="4" value="60">
+      <output id="gridOut">60×60</output></label>
+    <div class="toggles">
+      <button type="button" class="tgl" id="pauseBtn" aria-pressed="false">Пауза</button>
+      <button type="button" class="tgl" id="spinBtn" aria-pressed="true">Вращение</button>
+    </div>
+  </div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

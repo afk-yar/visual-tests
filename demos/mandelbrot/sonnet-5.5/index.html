@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Фрактал Мандельброта — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view" tabindex="0" aria-label="Множество Мандельброта"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+
+<header class="hud">
+  <h1>Фрактал Мандельброта</h1>
+  <p class="sub">Колесо — зум к курсору · перетаскивание — сдвиг · двойной клик — приблизить в 3 раза</p>
+  <dl class="readout glass">
+    <div><dt>Зум</dt><dd id="zoom">×1.00</dd></div>
+    <div><dt>Центр Re</dt><dd id="re">—</dd></div>
+    <div><dt>Центр Im</dt><dd id="im">—</dd></div>
+    <div class="cur"><dt>Курсор Re</dt><dd id="curRe">—</dd></div>
+    <div class="cur"><dt>Курсор Im</dt><dd id="curIm">—</dd></div>
+    <div><dt>Итераций</dt><dd id="iters">—</dd></div>
+  </dl>
+  <div class="state">
+    <div class="bar" aria-hidden="true"><i id="barFill"></i></div>
+    <span id="status">Расчёт…</span>
+  </div>
+  <div id="place" class="place" aria-live="polite"></div>
+  <div id="limit" class="limit">Предел точности double: глубже зум не имеет смысла</div>
+</header>
+
+<div id="miniBox" class="mini glass" title="Обзор: клик или перетаскивание — перейти в точку">
+  <canvas id="mini"></canvas>
+  <div id="mmRect" class="mm-rect"></div>
+</div>
+
+<div class="panel glass" role="toolbar" aria-label="Управление">
+  <div class="grp">
+    <span class="lbl">Палитра</span>
+    <div id="swatches" class="swatches" role="group" aria-label="Палитра"></div>
+  </div>
+  <label class="slider" title="Сколько раз палитра повторяется по глубине">
+    <span class="lbl">Цвет</span>
+    <input id="density" type="range" min="0.3" max="3.5" step="0.05" value="1.3">
+    <output id="densityOut">1.30</output>
+  </label>
+  <label class="slider" title="Множитель глубины итераций (глубина и так растёт с зумом)">
+    <span class="lbl">Итерации</span>
+    <input id="iterMul" type="range" min="0.5" max="3" step="0.1" value="1">
+    <output id="iterMulOut">×1.0</output>
+  </label>
+  <div class="grp btns">
+    <button id="btnCycle" class="btn" type="button" aria-pressed="false" title="Плавное движение палитры (C)">Цикл цвета</button>
+    <button id="btnAA" class="btn on" type="button" aria-pressed="true" title="Второй проход расчёта: усреднение двух сэмплов на пиксель">Сглаживание</button>
+    <button id="btnTour" class="btn" type="button" title="Перелёт к следующему интересному месту">Места ▸</button>
+    <button id="btnReset" class="btn" type="button" title="Вернуться к целому фракталу (R)">Сброс</button>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -756,6 +756,680 @@
   "session_label": "opus-5.5-sessD"
  },
  {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-a06faa0c386c3f550.jsonl",
+  "agent_id": "agent-a06faa0c386c3f550",
+  "description": "Sonnet 5.5: 3D-аквариум",
+  "task": "aquarium-3d",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T05:15:32.645000+00:00",
+  "cutoff_ts": "2026-10-03T06:11:53.166000+00:00",
+  "v1": {
+   "minutes": 56.3,
+   "tool_calls": 112,
+   "api_calls": 79,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 158,
+    "output": 359198,
+    "cache_write_5m": 368159,
+    "cache_write_1h": 0,
+    "cache_read": 18686094
+   }
+  },
+  "flags": [
+   "max_tokens",
+   "auto_continue_x1"
+  ],
+  "revision": {
+   "kind": "revision",
+   "minutes": 33.1,
+   "tool_calls": 98,
+   "api_calls": 72,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 146,
+    "output": 147978,
+    "cache_write_5m": 210255,
+    "cache_write_1h": 0,
+    "cache_read": 32934452
+   },
+   "n_injections": 1
+  },
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-a090a8e09b9c7b28b.jsonl",
+  "agent_id": "agent-a090a8e09b9c7b28b",
+  "description": "Sonnet 5.5: 2D-свет и тени",
+  "task": "light-2d",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T06:49:50.357000+00:00",
+  "cutoff_ts": "2026-10-03T06:59:01.013000+00:00",
+  "v1": {
+   "minutes": 9.2,
+   "tool_calls": 10,
+   "api_calls": 8,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 16,
+    "output": 70021,
+    "cache_write_5m": 151888,
+    "cache_write_1h": 0,
+    "cache_read": 705517
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-a09e4d85932066910.jsonl",
+  "agent_id": "agent-a09e4d85932066910",
+  "description": "Sonnet 5.5: падающий песок",
+  "task": "falling-sand",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T10:33:34.394000+00:00",
+  "cutoff_ts": "2026-10-03T10:51:27.239000+00:00",
+  "v1": {
+   "minutes": 17.9,
+   "tool_calls": 33,
+   "api_calls": 22,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 44,
+    "output": 123560,
+    "cache_write_5m": 199993,
+    "cache_write_1h": 0,
+    "cache_read": 3176519
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-a0e37162067c4594e.jsonl",
+  "agent_id": "agent-a0e37162067c4594e",
+  "description": "Sonnet 5.5: солнечная система",
+  "task": "solar-system",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T05:15:09.096000+00:00",
+  "cutoff_ts": "2026-10-03T06:10:49.203000+00:00",
+  "v1": {
+   "minutes": 55.7,
+   "tool_calls": 98,
+   "api_calls": 59,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 118,
+    "output": 334535,
+    "cache_write_5m": 332772,
+    "cache_write_1h": 0,
+    "cache_read": 12113215
+   }
+  },
+  "flags": [
+   "max_tokens",
+   "auto_continue_x1"
+  ],
+  "revision": {
+   "kind": "revision",
+   "minutes": 6.7,
+   "tool_calls": 39,
+   "api_calls": 23,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 48,
+    "output": 41502,
+    "cache_write_5m": 56492,
+    "cache_write_1h": 0,
+    "cache_read": 7322716
+   },
+   "n_injections": 1
+  },
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-a178ba838b6531853.jsonl",
+  "agent_id": "agent-a178ba838b6531853",
+  "description": "Sonnet 5.5: газетная полоса",
+  "task": "css-newspaper",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T10:33:47.758000+00:00",
+  "cutoff_ts": "2026-10-03T10:48:40.499000+00:00",
+  "v1": {
+   "minutes": 14.9,
+   "tool_calls": 12,
+   "api_calls": 13,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 26,
+    "output": 107396,
+    "cache_write_5m": 177104,
+    "cache_write_1h": 0,
+    "cache_read": 1612867
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-a218efb60d7112820.jsonl",
+  "agent_id": "agent-a218efb60d7112820",
+  "description": "Sonnet 5.5: рейкастер-лабиринт",
+  "task": "raycaster-maze",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T06:49:43.584000+00:00",
+  "cutoff_ts": "2026-10-03T07:02:13.405000+00:00",
+  "v1": {
+   "minutes": 12.5,
+   "tool_calls": 26,
+   "api_calls": 17,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 34,
+    "output": 94844,
+    "cache_write_5m": 165090,
+    "cache_write_1h": 0,
+    "cache_read": 2067516
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-a2596f1b1ea985f1f.jsonl",
+  "agent_id": "agent-a2596f1b1ea985f1f",
+  "description": "Sonnet 5.5: фрактал Мандельброта",
+  "task": "mandelbrot",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T10:46:14.491000+00:00",
+  "cutoff_ts": "2026-10-03T11:10:26.605000+00:00",
+  "v1": {
+   "minutes": 24.2,
+   "tool_calls": 65,
+   "api_calls": 33,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 66,
+    "output": 119260,
+    "cache_write_5m": 200164,
+    "cache_write_1h": 0,
+    "cache_read": 4878037
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-a2e34d2c4ae14109f.jsonl",
+  "agent_id": "agent-a2e34d2c4ae14109f",
+  "description": "Sonnet 5.5: SVG велосипед",
+  "task": "svg-bicycle",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T05:15:39.532000+00:00",
+  "cutoff_ts": "2026-10-03T05:49:27.127000+00:00",
+  "v1": {
+   "minutes": 33.8,
+   "tool_calls": 19,
+   "api_calls": 14,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 28,
+    "output": 238141,
+    "cache_write_5m": 209427,
+    "cache_write_1h": 0,
+    "cache_read": 1575264
+   }
+  },
+  "flags": [
+   "max_tokens",
+   "auto_continue_x1"
+  ],
+  "revision": {
+   "kind": "revision",
+   "minutes": 3.7,
+   "tool_calls": 11,
+   "api_calls": 6,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 14,
+    "output": 25218,
+    "cache_write_5m": 29004,
+    "cache_write_1h": 0,
+    "cache_read": 1068186
+   },
+   "n_injections": 1
+  },
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-a3715ec24896731ca.jsonl",
+  "agent_id": "agent-a3715ec24896731ca",
+  "description": "Sonnet 5.5: аквариум",
+  "task": "aquarium",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T05:15:23.704000+00:00",
+  "cutoff_ts": "2026-10-03T06:01:22.468000+00:00",
+  "v1": {
+   "minutes": 46.0,
+   "tool_calls": 102,
+   "api_calls": 81,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 162,
+    "output": 280315,
+    "cache_write_5m": 403740,
+    "cache_write_1h": 0,
+    "cache_read": 22904225
+   }
+  },
+  "flags": [],
+  "revision": {
+   "kind": "revision",
+   "minutes": 9.3,
+   "tool_calls": 20,
+   "api_calls": 21,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 44,
+    "output": 35973,
+    "cache_write_5m": 45069,
+    "cache_write_1h": 0,
+    "cache_read": 8749973
+   },
+   "n_injections": 1
+  },
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-a4d06f8fbb92bf338.jsonl",
+  "agent_id": "agent-a4d06f8fbb92bf338",
+  "description": "Sonnet 5.5: двойной маятник",
+  "task": "double-pendulum",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T10:44:24.754000+00:00",
+  "cutoff_ts": "2026-10-03T10:53:42.779000+00:00",
+  "v1": {
+   "minutes": 9.3,
+   "tool_calls": 20,
+   "api_calls": 18,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 36,
+    "output": 72900,
+    "cache_write_5m": 141767,
+    "cache_write_1h": 0,
+    "cache_read": 1868804
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-a548bac62699ae370.jsonl",
+  "agent_id": "agent-a548bac62699ae370",
+  "description": "Sonnet 5.5: 3D-поверхность функции",
+  "task": "surface-plot",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T10:33:41.648000+00:00",
+  "cutoff_ts": "2026-10-03T10:43:36.286000+00:00",
+  "v1": {
+   "minutes": 9.9,
+   "tool_calls": 12,
+   "api_calls": 10,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 20,
+    "output": 72849,
+    "cache_write_5m": 139113,
+    "cache_write_1h": 0,
+    "cache_read": 958928
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-a5a8a9b750c959faf.jsonl",
+  "agent_id": "agent-a5a8a9b750c959faf",
+  "description": "Sonnet 5.5: система Лоренца",
+  "task": "lorenz",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T10:48:50.650000+00:00",
+  "cutoff_ts": "2026-10-03T10:58:32.817000+00:00",
+  "v1": {
+   "minutes": 9.7,
+   "tool_calls": 21,
+   "api_calls": 15,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 30,
+    "output": 63600,
+    "cache_write_5m": 100574,
+    "cache_write_1h": 0,
+    "cache_read": 1433165
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-a7817534bf07e73ca.jsonl",
+  "agent_id": "agent-a7817534bf07e73ca",
+  "description": "Sonnet 5.5: аналоговые часы",
+  "task": "analog-clock",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T10:51:38.728000+00:00",
+  "cutoff_ts": "2026-10-03T11:01:56.204000+00:00",
+  "v1": {
+   "minutes": 10.3,
+   "tool_calls": 9,
+   "api_calls": 7,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 14,
+    "output": 78990,
+    "cache_write_5m": 144336,
+    "cache_write_1h": 0,
+    "cache_read": 636405
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-a841274a15845891b.jsonl",
+  "agent_id": "agent-a841274a15845891b",
+  "description": "Sonnet 5.5: стая boids",
+  "task": "boids",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T10:33:54.377000+00:00",
+  "cutoff_ts": "2026-10-03T10:46:03.456000+00:00",
+  "v1": {
+   "minutes": 12.2,
+   "tool_calls": 28,
+   "api_calls": 26,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 52,
+    "output": 89665,
+    "cache_write_5m": 139671,
+    "cache_write_1h": 0,
+    "cache_read": 3288220
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-aa0acaf8bbd50bbad.jsonl",
+  "agent_id": "agent-aa0acaf8bbd50bbad",
+  "description": "Sonnet 5.5: ткань верлет",
+  "task": "verlet-cloth",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T07:23:50.132000+00:00",
+  "cutoff_ts": "2026-10-03T07:42:02.023000+00:00",
+  "v1": {
+   "minutes": 18.2,
+   "tool_calls": 39,
+   "api_calls": 28,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 56,
+    "output": 113638,
+    "cache_write_5m": 198099,
+    "cache_write_1h": 0,
+    "cache_read": 4096694
+   }
+  },
+  "flags": [],
+  "revision": {
+   "kind": "revision",
+   "minutes": 17.8,
+   "tool_calls": 44,
+   "api_calls": 34,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 70,
+    "output": 88486,
+    "cache_write_5m": 125089,
+    "cache_write_1h": 0,
+    "cache_read": 9121477
+   },
+   "n_injections": 1
+  },
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-ab2068fb0bf1c4015.jsonl",
+  "agent_id": "agent-ab2068fb0bf1c4015",
+  "description": "Sonnet 5.5: воксельный ландшафт",
+  "task": "voxel-terrain",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T05:15:16.094000+00:00",
+  "cutoff_ts": "2026-10-03T05:36:37.291000+00:00",
+  "v1": {
+   "minutes": 21.4,
+   "tool_calls": 38,
+   "api_calls": 34,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 68,
+    "output": 146471,
+    "cache_write_5m": 251713,
+    "cache_write_1h": 0,
+    "cache_read": 5872081
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-ab2d007a2ec03609e.jsonl",
+  "agent_id": "agent-ab2d007a2ec03609e",
+  "description": "Sonnet 5.5: поток частиц 3D",
+  "task": "particle-flow",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T10:33:27.549000+00:00",
+  "cutoff_ts": "2026-10-03T11:01:11.264000+00:00",
+  "v1": {
+   "minutes": 27.7,
+   "tool_calls": 47,
+   "api_calls": 41,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 82,
+    "output": 149566,
+    "cache_write_5m": 269545,
+    "cache_write_1h": 0,
+    "cache_read": 7226574
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-acc9f8682128b53a0.jsonl",
+  "agent_id": "agent-acc9f8682128b53a0",
+  "description": "Sonnet 5.5: полярное сияние",
+  "task": "aurora",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T07:23:43.405000+00:00",
+  "cutoff_ts": "2026-10-03T07:47:07.033000+00:00",
+  "v1": {
+   "minutes": 23.4,
+   "tool_calls": 38,
+   "api_calls": 35,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 70,
+    "output": 162493,
+    "cache_write_5m": 242311,
+    "cache_write_1h": 0,
+    "cache_read": 6231739
+   }
+  },
+  "flags": [],
+  "revision": {
+   "kind": "revision",
+   "minutes": 11.1,
+   "tool_calls": 36,
+   "api_calls": 31,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 64,
+    "output": 69944,
+    "cache_write_5m": 101087,
+    "cache_write_1h": 0,
+    "cache_read": 9012613
+   },
+   "n_injections": 1
+  },
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-acfd8db70fefef4c6.jsonl",
+  "agent_id": "agent-acfd8db70fefef4c6",
+  "description": "Sonnet 5.5: SVG шахматный конь",
+  "task": "svg-chess-knight",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T10:53:56.183000+00:00",
+  "cutoff_ts": "2026-10-03T11:19:53.656000+00:00",
+  "v1": {
+   "minutes": 26.0,
+   "tool_calls": 57,
+   "api_calls": 51,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 102,
+    "output": 127637,
+    "cache_write_5m": 193395,
+    "cache_write_1h": 0,
+    "cache_read": 7090927
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-ad19808ccd2e37960.jsonl",
+  "agent_id": "agent-ad19808ccd2e37960",
+  "description": "Sonnet 5.5: идущий человечек",
+  "task": "procedural-walker",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T06:49:21.586000+00:00",
+  "cutoff_ts": "2026-10-03T07:11:50.442000+00:00",
+  "v1": {
+   "minutes": 22.5,
+   "tool_calls": 66,
+   "api_calls": 54,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 108,
+    "output": 154506,
+    "cache_write_5m": 265337,
+    "cache_write_1h": 0,
+    "cache_read": 10333510
+   }
+  },
+  "flags": [],
+  "revision": {
+   "kind": "revision",
+   "minutes": 12.1,
+   "tool_calls": 62,
+   "api_calls": 33,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 68,
+    "output": 82038,
+    "cache_write_5m": 111075,
+    "cache_write_1h": 0,
+    "cache_read": 10511124
+   },
+   "n_injections": 1
+  },
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-add5eb63eb360f396.jsonl",
+  "agent_id": "agent-add5eb63eb360f396",
+  "description": "Sonnet 5.5: земной шар",
+  "task": "earth-globe",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T06:49:36.332000+00:00",
+  "cutoff_ts": "2026-10-03T07:49:46.311000+00:00",
+  "v1": {
+   "minutes": 60.2,
+   "tool_calls": 79,
+   "api_calls": 67,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 134,
+    "output": 404852,
+    "cache_write_5m": 416634,
+    "cache_write_1h": 0,
+    "cache_read": 18759616
+   }
+  },
+  "flags": [
+   "max_tokens",
+   "auto_continue_x1"
+  ],
+  "revision": {
+   "kind": "revision",
+   "minutes": 8.5,
+   "tool_calls": 20,
+   "api_calls": 21,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 44,
+    "output": 42036,
+    "cache_write_5m": 69017,
+    "cache_write_1h": 0,
+    "cache_read": 8717126
+   },
+   "n_injections": 1
+  },
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
+  "path": "C:/Users/afk/.claude/projects/E-----------pet-visual-tests/da037008-7e7b-4b95-8925-32602fe3e0bc/subagents/agent-af73ac3f986ae5e0d.jsonl",
+  "agent_id": "agent-af73ac3f986ae5e0d",
+  "description": "Sonnet 5.5: 3D-тело софт-рендер",
+  "task": "solid-3d",
+  "slug": "sonnet-5.5",
+  "start_ts": "2026-10-03T06:49:28.933000+00:00",
+  "cutoff_ts": "2026-10-03T07:02:24.482000+00:00",
+  "v1": {
+   "minutes": 12.9,
+   "tool_calls": 33,
+   "api_calls": 21,
+   "model": "claude-sonnet-5-5",
+   "tokens": {
+    "input": 42,
+    "output": 94387,
+    "cache_write_5m": 169316,
+    "cache_write_1h": 0,
+    "cache_read": 2651824
+   }
+  },
+  "flags": [],
+  "revision": null,
+  "session_label": "sonnet-5.5-sessA"
+ },
+ {
   "path": "E:/tmp/vt-timing/restore/C/Users/afk/.claude/projects/E-----------pet-visual-tests/9eb3a373-1a82-4f63-b3a1-3b92440087e4/subagents/agent-a049d6ca5db71c9ac.jsonl",
   "agent_id": "agent-a049d6ca5db71c9ac",
   "description": "Решение lorenz",

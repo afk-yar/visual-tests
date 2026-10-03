@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Солнечная система — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<header class="hud">
+  <h1>Солнечная система</h1>
+  <p class="sub">Кеплеровы орбиты · попиксельный свет и ночная сторона · кольца · затухающие следы</p>
+  <div class="info">
+    <div class="info-name" id="infoName"></div>
+    <div class="info-text" id="infoText"></div>
+    <div class="info-stats" id="infoStats"></div>
+  </div>
+</header>
+
+<div class="date" id="date"></div>
+<div class="loading" id="loading"></div>
+
+<section class="panel" aria-label="Управление">
+  <div class="chips" id="chips" role="group" aria-label="Фокус камеры"></div>
+  <div class="row">
+    <label class="ctl"><span class="lbl">Масштаб <output id="zoomV"></output></span>
+      <input id="zoom" type="range" min="-170" max="260" value="0" step="1">
+    </label>
+    <label class="ctl"><span class="lbl">Время <output id="speedV"></output></span>
+      <input id="speed" type="range" min="-200" max="300" value="0" step="1">
+    </label>
+    <label class="ctl"><span class="lbl">Вращение камеры <output id="camV"></output></span>
+      <input id="camspd" type="range" min="0" max="300" value="100" step="5">
+    </label>
+    <div class="tgs">
+      <button type="button" class="tg" data-t="orbits">Орбиты</button>
+      <button type="button" class="tg" data-t="trails">Следы</button>
+      <button type="button" class="tg" data-t="labels">Подписи</button>
+      <button type="button" class="tg" data-t="belts">Пояса</button>
+      <button type="button" class="tg" id="pause">❚❚ Пауза</button>
+      <button type="button" class="tg accent" id="tour">Кино-тур</button>
+    </div>
+  </div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Воксельный ландшафт — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view"></canvas>
+<div class="vignette"></div>
+
+<header class="hud">
+  <h1>Воксельный ландшафт</h1>
+  <p>Пролёт над процедурной картой высот · VoxelSpace на Canvas 2D</p>
+  <p class="stat" id="stat">—</p>
+</header>
+
+<div class="loading show" id="loading">Генерация ландшафта…</div>
+
+<section class="panel" aria-label="Управление">
+  <div class="sliders">
+    <label class="ctl">
+      <span class="row"><span class="name">Высота камеры</span><output id="o-alt"></output></span>
+      <input type="range" id="alt" min="8" max="160" step="1">
+    </label>
+    <label class="ctl">
+      <span class="row"><span class="name">Дальность</span><output id="o-dist"></output></span>
+      <input type="range" id="dist" min="250" max="1600" step="10">
+    </label>
+    <label class="ctl">
+      <span class="row"><span class="name">Линия горизонта</span><output id="o-hor"></output></span>
+      <input type="range" id="hor" min="22" max="78" step="1">
+    </label>
+    <label class="ctl">
+      <span class="row"><span class="name">Скорость</span><output id="o-speed"></output></span>
+      <input type="range" id="speed" min="0" max="3" step="0.1">
+    </label>
+    <label class="ctl">
+      <span class="row"><span class="name">Время суток</span><output id="o-hour"></output></span>
+      <input type="range" id="hour" min="0" max="23.99" step="0.01">
+    </label>
+  </div>
+  <div class="buttons">
+    <button type="button" id="btn-pause">Пауза</button>
+    <button type="button" id="btn-time">Течение времени</button>
+    <button type="button" id="btn-new">Новая карта</button>
+    <button type="button" id="btn-q">Качество: авто</button>
+  </div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D-тело (софт-рендер) — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view" aria-label="Вращающееся 3D-тело, программный рендер"></canvas>
+
+<header class="hud" id="hud">
+  <h1>3D-тело <span>софт-рендер</span></h1>
+  <p class="cap">Всё вручную на Canvas 2D: матрицы поворота, перспектива, отсечение нелицевых граней, z-буфер и точечный свет. Тяните мышью, чтобы вращать.</p>
+  <p class="stats" id="stats" aria-live="off">&nbsp;</p>
+</header>
+
+<section class="panel" id="panel" aria-label="Управление">
+  <div class="group">
+    <span class="lbl">Вид</span>
+    <div class="seg" role="group" aria-label="Режим отрисовки" data-key="mode">
+      <button type="button" data-v="fill" aria-pressed="true">Заливка</button>
+      <button type="button" data-v="wire" aria-pressed="false">Каркас</button>
+      <button type="button" data-v="both" aria-pressed="false">Заливка + сетка</button>
+    </div>
+  </div>
+
+  <div class="group">
+    <span class="lbl">Затенение</span>
+    <div class="seg" role="group" aria-label="Затенение" data-key="shading">
+      <button type="button" data-v="flat" aria-pressed="false">Плоское</button>
+      <button type="button" data-v="smooth" aria-pressed="true">Гуро</button>
+    </div>
+  </div>
+
+  <div class="group">
+    <span class="lbl">Тело</span>
+    <div class="seg" role="group" aria-label="Тело" data-key="shape">
+      <button type="button" data-v="torus" aria-pressed="true">Тор</button>
+      <button type="button" data-v="knot" aria-pressed="false">Узел</button>
+      <button type="button" data-v="ico" aria-pressed="false">Икосаэдр</button>
+    </div>
+  </div>
+
+  <div class="group">
+    <label class="lbl" for="detail">Грани</label>
+    <input id="detail" type="range" min="1" max="5" step="1" value="3">
+    <output id="detailOut" for="detail">0</output>
+  </div>
+
+  <div class="group">
+    <label class="lbl" for="speed">Скорость</label>
+    <input id="speed" type="range" min="0" max="3" step="0.1" value="1">
+  </div>
+
+  <div class="group">
+    <label class="chk" id="xrayLabel"><input id="xray" type="checkbox"> <span>Скрытые рёбра</span></label>
+    <button type="button" class="btn" id="pause">Пауза</button>
+  </div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

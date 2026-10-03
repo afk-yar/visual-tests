@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Аквариум с рыбами — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene" aria-label="Аквариум с рыбами"></canvas>
+
+<header class="hud">
+  <h1>Аквариум</h1>
+  <p>Живая подводная сцена · Canvas 2D · Claude Sonnet 5.5</p>
+  <p class="hint">Щёлкните по воде, чтобы бросить корм</p>
+</header>
+
+<section class="panel" id="panel" aria-label="Управление">
+  <button type="button" id="btn-feed">Кормить</button>
+  <button type="button" id="btn-bubbles">Пузырьки</button>
+  <button type="button" id="btn-pause">Пауза</button>
+  <label class="ctl"><span>Свет</span><input id="rng-light" type="range" min="0" max="100" value="72"></label>
+  <label class="ctl"><span>Муть</span><input id="rng-haze" type="range" min="0" max="100" value="45"></label>
+  <label class="ctl"><span>Время</span><input id="rng-speed" type="range" min="10" max="160" value="100"></label>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

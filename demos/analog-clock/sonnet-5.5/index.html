@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru" data-theme="classic">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Аналоговые часы — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="clock" role="img" aria-label="Аналоговые настенные часы, показывают текущее системное время"></canvas>
+
+<header class="hud">
+  <h1>Аналоговые часы</h1>
+  <p class="sub">Claude Sonnet 5.5 · Canvas 2D</p>
+  <p class="time" id="hud-time">--:--:--</p>
+  <p class="date" id="hud-date"></p>
+</header>
+
+<div class="panel" role="group" aria-label="Управление часами">
+  <div class="seg" data-group="second">
+    <span class="seg-label">Секундная</span>
+    <button type="button" data-value="tick" aria-pressed="true">Тик</button>
+    <button type="button" data-value="sweep" aria-pressed="false">Плавная</button>
+  </div>
+  <div class="seg" data-group="theme">
+    <span class="seg-label">Стиль</span>
+    <button type="button" data-value="classic" aria-pressed="true">Классика</button>
+    <button type="button" data-value="vintage" aria-pressed="false">Винтаж</button>
+    <button type="button" data-value="graphite" aria-pressed="false">Графит</button>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

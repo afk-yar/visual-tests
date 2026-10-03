@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2D-свет и тени — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene" aria-label="Сцена: источник света, следующий за курсором, и многоугольники-препятствия"></canvas>
+
+<header class="hud">
+  <h1>2D-свет и тени</h1>
+  <p>Источник следует за курсором. Полигон видимости: лучи к вершинам (с угловым смещением ±ε), ближайшее пересечение луч&nbsp;&ndash;&nbsp;отрезок, сортировка по углу.</p>
+  <p class="stats" id="stats" aria-live="off"></p>
+</header>
+
+<div class="panel" role="group" aria-label="Управление светом">
+  <label class="chk">
+    <input type="checkbox" id="debug">
+    <span>Отладка: лучи и вершины</span>
+  </label>
+  <label class="chk">
+    <input type="checkbox" id="spin" checked>
+    <span>Вращение</span>
+  </label>
+  <label class="rng">
+    <span>Дальность</span>
+    <input type="range" id="range" min="40" max="220" value="115">
+  </label>
+  <label class="rng">
+    <span>Мягкость теней</span>
+    <input type="range" id="soft" min="0" max="36" value="10">
+    <output id="softOut" for="soft">10</output>
+  </label>
+  <div class="swatches" role="radiogroup" aria-label="Цвет света">
+    <button type="button" class="sw" role="radio" aria-checked="true"  aria-label="Тёплый"    title="Тёплый"    data-color="#ffc27a" style="--c:#ffc27a"></button>
+    <button type="button" class="sw" role="radio" aria-checked="false" aria-label="Холодный"  title="Холодный"  data-color="#7fc4ff" style="--c:#7fc4ff"></button>
+    <button type="button" class="sw" role="radio" aria-checked="false" aria-label="Розовый"   title="Розовый"   data-color="#ff7fc8" style="--c:#ff7fc8"></button>
+    <button type="button" class="sw" role="radio" aria-checked="false" aria-label="Зелёный"   title="Зелёный"   data-color="#8dffb0" style="--c:#8dffb0"></button>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Поток частиц 3D — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view" aria-label="Поток частиц в трёхмерном поле скоростей"></canvas>
+<div class="vignette"></div>
+<div class="grain"></div>
+
+<header class="hud">
+  <h1>Поток <b>частиц</b> 3D</h1>
+  <p id="sub">Curl-поле скоростей · загрузка…</p>
+  <p class="hint">тяни мышью — камера · колесо — масштаб · пробел — пауза · H — панель</p>
+</header>
+
+<section class="panel" id="panel" aria-label="Управление">
+  <div class="pal" role="group" aria-label="Палитра">
+    <button type="button" title="Неон" style="background:linear-gradient(135deg,#0538ff,#00c7ff 35%,#6614ff 60%,#ff0a75 82%,#ff940f)"></button>
+    <button type="button" title="Закат" style="background:linear-gradient(135deg,#0f1ab8,#8c0a9e 35%,#ff0f47 62%,#ff6b05 82%,#ffcc4d)"></button>
+    <button type="button" title="Аврора" style="background:linear-gradient(135deg,#0f29e6,#00b3e6 35%,#05ff73 62%,#9eff1f 82%,#ff5cf2)"></button>
+    <button type="button" title="Лёд" style="background:linear-gradient(135deg,#0f29d9,#248cff 40%,#8cd9ff 72%,#fff0cc)"></button>
+  </div>
+
+  <label class="ctl"><span>Частицы <output data-for="count"></output></span>
+    <input type="range" data-key="count" min="10000" max="140000" step="1000" value="44000"></label>
+  <label class="ctl"><span>Скорость <output data-for="speed"></output></span>
+    <input type="range" data-key="speed" min="0.2" max="2.5" step="0.05" value="1"></label>
+  <label class="ctl"><span>Турбулентность <output data-for="turb"></output></span>
+    <input type="range" data-key="turb" min="0.3" max="2" step="0.05" value="1"></label>
+  <label class="ctl"><span>След <output data-for="trail"></output></span>
+    <input type="range" data-key="trail" min="0.12" max="1.2" step="0.02" value="0.42"></label>
+  <label class="ctl"><span>Свечение <output data-for="glow"></output></span>
+    <input type="range" data-key="glow" min="0" max="2" step="0.05" value="1"></label>
+  <label class="ctl"><span>Вращение <output data-for="spin"></output></span>
+    <input type="range" data-key="spin" min="0" max="3" step="0.05" value="1"></label>
+
+  <div class="btns">
+    <button type="button" class="btn" id="btnPause">Пауза</button>
+    <button type="button" class="btn" id="btnFlow">Новый поток</button>
+    <button type="button" class="btn ghost" id="btnHide">Скрыть</button>
+  </div>
+</section>
+<button type="button" id="panelToggle" class="btn">Панель</button>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Падающий песок — Claude Sonnet 5.5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="view" aria-label="Песочница: клеточный автомат"></canvas>
+
+<header class="hud">
+  <h1>Падающий песок</h1>
+  <p>Клеточный автомат. Песок тонет в воде, огонь поджигает дерево и гаснет дымом, вода гасит огонь.</p>
+  <p class="stat" id="stat">&nbsp;</p>
+</header>
+
+<div class="badge" id="pausedBadge" hidden>Пауза</div>
+
+<div class="panel" id="panel" role="toolbar" aria-label="Управление кистью">
+  <div class="group" id="mats" role="group" aria-label="Вещество">
+    <button type="button" class="btn" data-mat="sand" aria-pressed="true" title="Песок (1)"><span class="sw sw-sand"></span>Песок<kbd>1</kbd></button>
+    <button type="button" class="btn" data-mat="water" aria-pressed="false" title="Вода (2)"><span class="sw sw-water"></span>Вода<kbd>2</kbd></button>
+    <button type="button" class="btn" data-mat="stone" aria-pressed="false" title="Камень (3)"><span class="sw sw-stone"></span>Камень<kbd>3</kbd></button>
+    <button type="button" class="btn" data-mat="wood" aria-pressed="false" title="Дерево (4)"><span class="sw sw-wood"></span>Дерево<kbd>4</kbd></button>
+    <button type="button" class="btn" data-mat="fire" aria-pressed="false" title="Огонь (5)"><span class="sw sw-fire"></span>Огонь<kbd>5</kbd></button>
+    <button type="button" class="btn" data-mat="smoke" aria-pressed="false" title="Дым (6)"><span class="sw sw-smoke"></span>Дым<kbd>6</kbd></button>
+    <button type="button" class="btn" data-mat="eraser" aria-pressed="false" title="Ластик (7, или правая кнопка мыши)"><span class="sw sw-eraser"></span>Ластик<kbd>7</kbd></button>
+  </div>
+
+  <div class="sep" aria-hidden="true"></div>
+
+  <label class="size" title="Размер кисти ( [ и ] )">
+    <span>Кисть</span>
+    <input type="range" id="size" min="1" max="20" value="6" aria-label="Размер кисти">
+    <output id="sizeOut" for="size">6</output>
+  </label>
+
+  <div class="sep" aria-hidden="true"></div>
+
+  <div class="group">
+    <button type="button" class="btn" id="pause" aria-pressed="false" title="Пауза / продолжить (Пробел)"><span class="ico" aria-hidden="true"></span><span id="pauseLabel">Пауза</span></button>
+    <button type="button" class="btn" id="clear" title="Очистить всё (C)">Очистить</button>
+    <button type="button" class="btn" id="scene" title="Вернуть пример сцены (R)">Сцена</button>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
